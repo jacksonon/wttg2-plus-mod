@@ -36,7 +36,7 @@ namespace ZenFulcrum.EmbeddedBrowser
 			this.keyEvents.Clear();
 			Ray lookRay = this.LookRay;
 			RaycastHit raycastHit;
-			Physics.Raycast(lookRay, ref raycastHit, this.maxDistance);
+			Physics.Raycast(lookRay, out raycastHit, this.maxDistance);
 			if (raycastHit.transform != this.meshCollider.transform)
 			{
 				this.MousePosition = new Vector3(0f, 0f);
@@ -73,7 +73,7 @@ namespace ZenFulcrum.EmbeddedBrowser
 				{
 					this.keyEventsLast.Insert(0, new Event
 					{
-						type = 4,
+						type = EventType.KeyDown,
 						keyCode = ClickMeshBrowserUI.keysToCheck[i]
 					});
 				}
@@ -81,7 +81,7 @@ namespace ZenFulcrum.EmbeddedBrowser
 				{
 					this.keyEventsLast.Add(new Event
 					{
-						type = 5,
+						type = EventType.KeyUp,
 						keyCode = ClickMeshBrowserUI.keysToCheck[i]
 					});
 				}
@@ -91,7 +91,7 @@ namespace ZenFulcrum.EmbeddedBrowser
 		public void OnGUI()
 		{
 			Event current = Event.current;
-			if (current.type != 4 && current.type != 5)
+			if (current.type != EventType.KeyDown && current.type != EventType.KeyUp)
 			{
 				return;
 			}
@@ -130,17 +130,17 @@ namespace ZenFulcrum.EmbeddedBrowser
 			if (newCursor == null)
 			{
 				Cursor.visible = true;
-				Cursor.SetCursor(null, Vector2.zero, 0);
+				Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 			}
 			else if (newCursor.Texture != null)
 			{
 				Cursor.visible = true;
-				Cursor.SetCursor(newCursor.Texture, newCursor.Hotspot, 0);
+				Cursor.SetCursor(newCursor.Texture, newCursor.Hotspot, CursorMode.Auto);
 			}
 			else
 			{
 				Cursor.visible = false;
-				Cursor.SetCursor(null, Vector2.zero, 0);
+				Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 			}
 		}
 
@@ -177,8 +177,8 @@ namespace ZenFulcrum.EmbeddedBrowser
 
 		private static readonly KeyCode[] keysToCheck = new KeyCode[]
 		{
-			304,
-			303
+			KeyCode.LeftShift,
+			KeyCode.RightShift
 		};
 
 		protected bool mouseWasOver;

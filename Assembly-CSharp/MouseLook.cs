@@ -8,10 +8,10 @@ public class MouseLook : MonoBehaviour
 	{
 		if (this.axes == MouseLook.RotationAxes.MouseXAndY)
 		{
-			float num = base.transform.localEulerAngles.y + Input.GetAxis("Mouse X") * this.sensitivityX;
+			float y = base.transform.localEulerAngles.y + Input.GetAxis("Mouse X") * this.sensitivityX;
 			this.rotationY += Input.GetAxis("Mouse Y") * this.sensitivityY;
 			this.rotationY = Mathf.Clamp(this.rotationY, this.minimumY, this.maximumY);
-			base.transform.localEulerAngles = new Vector3(-this.rotationY, num, 0f);
+			base.transform.localEulerAngles = new Vector3(-this.rotationY, y, 0f);
 		}
 		else if (this.axes == MouseLook.RotationAxes.MouseX)
 		{

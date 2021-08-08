@@ -12,28 +12,28 @@ public class QualityCameraHook : MonoBehaviour
 			switch (QualitySettings.GetQualityLevel())
 			{
 			case 0:
-				this.myPPLayer.antialiasingMode = 0;
+				this.myPPLayer.antialiasingMode = PostProcessLayer.Antialiasing.None;
 				break;
 			case 1:
-				this.myPPLayer.antialiasingMode = 1;
+				this.myPPLayer.antialiasingMode = PostProcessLayer.Antialiasing.FastApproximateAntialiasing;
 				break;
 			case 2:
-				this.myPPLayer.antialiasingMode = 1;
+				this.myPPLayer.antialiasingMode = PostProcessLayer.Antialiasing.FastApproximateAntialiasing;
 				break;
 			case 3:
-				this.myPPLayer.antialiasingMode = 3;
+				this.myPPLayer.antialiasingMode = PostProcessLayer.Antialiasing.TemporalAntialiasing;
 				break;
 			case 4:
-				this.myPPLayer.antialiasingMode = 3;
+				this.myPPLayer.antialiasingMode = PostProcessLayer.Antialiasing.TemporalAntialiasing;
 				break;
 			case 5:
-				this.myPPLayer.antialiasingMode = 3;
+				this.myPPLayer.antialiasingMode = PostProcessLayer.Antialiasing.TemporalAntialiasing;
 				break;
 			case 6:
-				this.myPPLayer.antialiasingMode = 3;
+				this.myPPLayer.antialiasingMode = PostProcessLayer.Antialiasing.TemporalAntialiasing;
 				break;
 			default:
-				this.myPPLayer.antialiasingMode = 0;
+				this.myPPLayer.antialiasingMode = PostProcessLayer.Antialiasing.None;
 				break;
 			}
 		}

@@ -23,7 +23,7 @@ public class DragWindowBehaviour : MonoBehaviour, IBeginDragHandler, IEndDragHan
 		{
 			flag = true;
 		}
-		if (!flag && RectTransformUtility.ScreenPointToWorldPointInRectangle(this.dragPlane, data.position, data.pressEventCamera, ref this.tempPOS))
+		if (!flag && RectTransformUtility.ScreenPointToWorldPointInRectangle(this.dragPlane, data.position, data.pressEventCamera, out this.tempPOS))
 		{
 			this.tempPOS -= this.bufferPos;
 			this.setPOS.x = Mathf.Round(this.tempPOS.x);
@@ -48,7 +48,7 @@ public class DragWindowBehaviour : MonoBehaviour, IBeginDragHandler, IEndDragHan
 
 	public void OnBeginDrag(PointerEventData eventData)
 	{
-		if (RectTransformUtility.ScreenPointToWorldPointInRectangle(this.dragPlane, eventData.position, eventData.pressEventCamera, ref this.tempPOS))
+		if (RectTransformUtility.ScreenPointToWorldPointInRectangle(this.dragPlane, eventData.position, eventData.pressEventCamera, out this.tempPOS))
 		{
 			this.bufferPos = this.tempPOS - this.windowRT.position;
 		}

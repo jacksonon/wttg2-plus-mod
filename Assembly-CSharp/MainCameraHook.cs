@@ -14,21 +14,21 @@ public class MainCameraHook : MonoBehaviour
 		this.lensDistBlurPost.enabled = true;
 		this.myARF.enabled = true;
 		Sequence sequence = DOTween.Sequence();
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.lensDistBlurPost.Distortion, delegate(float x)
+		sequence.Insert(0f, DOTween.To(() => this.lensDistBlurPost.Distortion, delegate(float x)
 		{
 			this.lensDistBlurPost.Distortion = x;
-		}, 0f, 2.5f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.lensDistBlurPost.CubicDistortion, delegate(float x)
+		}, 0f, 2.5f).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.lensDistBlurPost.CubicDistortion, delegate(float x)
 		{
 			this.lensDistBlurPost.CubicDistortion = x;
-		}, 0f, 2.5f), 1));
-		TweenSettingsExtensions.SetDelay<Sequence>(sequence, 5f);
-		TweenExtensions.Play<Sequence>(sequence);
+		}, 0f, 2.5f).SetEase(Ease.Linear));
+		sequence.SetDelay(5f);
+		sequence.Play<Sequence>();
 	}
 
 	public void TriggerHitManJump()
 	{
-		this.myARF.reverbPreset = 5;
+		this.myARF.reverbPreset = AudioReverbPreset.Livingroom;
 		this.myARF.enabled = true;
 	}
 
@@ -50,86 +50,86 @@ public class MainCameraHook : MonoBehaviour
 	public void BlackOut(float Delay, float Fade)
 	{
 		LookUp.PlayerUI.BlackScreenCG.alpha = 1f;
-		TweenSettingsExtensions.SetDelay<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => LookUp.PlayerUI.BlackScreenCG.alpha, delegate(float x)
+		DOTween.To(() => LookUp.PlayerUI.BlackScreenCG.alpha, delegate(float x)
 		{
 			LookUp.PlayerUI.BlackScreenCG.alpha = x;
-		}, 0f, Fade), Delay);
+		}, 0f, Fade).SetDelay(Delay);
 	}
 
 	public void FadeDoubleVis(float Duration, float Value)
 	{
 		this.doubleVis.enabled = true;
 		Sequence sequence = DOTween.Sequence();
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.doubleVis.Displace.x, delegate(float x)
+		sequence.Insert(0f, DOTween.To(() => this.doubleVis.Displace.x, delegate(float x)
 		{
 			this.doubleVis.Displace.x = x;
-		}, -Value, Duration), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.doubleVis.Displace.y, delegate(float x)
+		}, -Value, Duration).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.doubleVis.Displace.y, delegate(float x)
 		{
 			this.doubleVis.Displace.y = x;
-		}, Value, Duration), 1));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, Value, Duration).SetEase(Ease.Linear));
+		sequence.Play<Sequence>();
 	}
 
 	public void ClearARF(float ClearTime = 2f)
 	{
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+		Sequence sequence = DOTween.Sequence().OnComplete(delegate
 		{
 			this.myARF.enabled = false;
 		});
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myARF.dryLevel, delegate(float x)
+		sequence.Insert(0f, DOTween.To(() => this.myARF.dryLevel, delegate(float x)
 		{
 			this.myARF.dryLevel = x;
-		}, 0f, ClearTime), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myARF.room, delegate(float x)
+		}, 0f, ClearTime).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.myARF.room, delegate(float x)
 		{
 			this.myARF.room = x;
-		}, -10000f, ClearTime), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myARF.roomHF, delegate(float x)
+		}, -10000f, ClearTime).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.myARF.roomHF, delegate(float x)
 		{
 			this.myARF.roomHF = x;
-		}, -10000f, ClearTime), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myARF.roomLF, delegate(float x)
+		}, -10000f, ClearTime).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.myARF.roomLF, delegate(float x)
 		{
 			this.myARF.roomLF = x;
-		}, 0f, ClearTime), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myARF.decayHFRatio, delegate(float x)
+		}, 0f, ClearTime).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.myARF.decayHFRatio, delegate(float x)
 		{
 			this.myARF.decayHFRatio = x;
-		}, 1f, ClearTime), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myARF.reflectionsLevel, delegate(float x)
+		}, 1f, ClearTime).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.myARF.reflectionsLevel, delegate(float x)
 		{
 			this.myARF.reflectionsLevel = x;
-		}, -2602f, ClearTime), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myARF.reflectionsDelay, delegate(float x)
+		}, -2602f, ClearTime).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.myARF.reflectionsDelay, delegate(float x)
 		{
 			this.myARF.reflectionsDelay = x;
-		}, 0f, ClearTime), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myARF.reverbLevel, delegate(float x)
+		}, 0f, ClearTime).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.myARF.reverbLevel, delegate(float x)
 		{
 			this.myARF.reverbLevel = x;
-		}, 200f, ClearTime), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myARF.reverbDelay, delegate(float x)
+		}, 200f, ClearTime).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.myARF.reverbDelay, delegate(float x)
 		{
 			this.myARF.reverbDelay = x;
-		}, 0.011f, ClearTime), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myARF.hfReference, delegate(float x)
+		}, 0.011f, ClearTime).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.myARF.hfReference, delegate(float x)
 		{
 			this.myARF.hfReference = x;
-		}, 5000f, ClearTime), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myARF.lfReference, delegate(float x)
+		}, 5000f, ClearTime).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.myARF.lfReference, delegate(float x)
 		{
 			this.myARF.lfReference = x;
-		}, 250f, ClearTime), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myARF.diffusion, delegate(float x)
+		}, 250f, ClearTime).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.myARF.diffusion, delegate(float x)
 		{
 			this.myARF.diffusion = x;
-		}, 0f, ClearTime), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myARF.density, delegate(float x)
+		}, 0f, ClearTime).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.myARF.density, delegate(float x)
 		{
 			this.myARF.density = x;
-		}, 0f, ClearTime), 1));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, 0f, ClearTime).SetEase(Ease.Linear));
+		sequence.Play<Sequence>();
 	}
 
 	public void ResetARF()
@@ -152,19 +152,19 @@ public class MainCameraHook : MonoBehaviour
 
 	public void ClearDoubleVis(float Time)
 	{
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+		Sequence sequence = DOTween.Sequence().OnComplete(delegate
 		{
 			this.doubleVis.enabled = false;
 		});
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.doubleVis.Displace.x, delegate(float x)
+		sequence.Insert(0f, DOTween.To(() => this.doubleVis.Displace.x, delegate(float x)
 		{
 			this.doubleVis.Displace.x = x;
-		}, 0f, Time), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.doubleVis.Displace.y, delegate(float x)
+		}, 0f, Time).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.doubleVis.Displace.y, delegate(float x)
 		{
 			this.doubleVis.Displace.y = x;
-		}, 0f, Time), 1));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, 0f, Time).SetEase(Ease.Linear));
+		sequence.Play<Sequence>();
 	}
 
 	public void HardClearARF()

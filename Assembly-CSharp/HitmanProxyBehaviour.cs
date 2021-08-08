@@ -8,7 +8,7 @@ public class HitmanProxyBehaviour : MonoBehaviour
 {
 	public void TriggerPath()
 	{
-		int num = Random.Range(0, this.paths.Length);
+		int num = UnityEngine.Random.Range(0, this.paths.Length);
 		this.mySplineMove.PathIsCompleted += this.triggerPathCompleteEvents;
 		this.mySplineMove.pathContainer = this.paths[num].ThePath;
 		this.mySplineMove.SetPath(this.paths[num].ThePath);

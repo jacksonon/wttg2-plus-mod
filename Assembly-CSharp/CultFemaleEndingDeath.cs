@@ -20,11 +20,11 @@ public class CultFemaleEndingDeath : MonoBehaviour
 		{
 			EndingCameraHook.Ins.transform.SetParent(this.cameraBone);
 			Sequence sequence = DOTween.Sequence();
-			TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => EndingCameraHook.Ins.transform.localPosition, delegate(Vector3 x)
+			sequence.Insert(0f, DOTween.To(() => EndingCameraHook.Ins.transform.localPosition, delegate(Vector3 x)
 			{
 				EndingCameraHook.Ins.transform.localPosition = x;
-			}, Vector3.zero, 0.75f), 1));
-			TweenExtensions.Play<Sequence>(sequence);
+			}, Vector3.zero, 0.75f).SetEase(Ease.Linear));
+			sequence.Play<Sequence>();
 		}, 0);
 	}
 

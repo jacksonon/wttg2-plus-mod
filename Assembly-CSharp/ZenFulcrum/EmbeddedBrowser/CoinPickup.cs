@@ -30,7 +30,7 @@ namespace ZenFulcrum.EmbeddedBrowser
 			{
 				component.AddCoin();
 			}
-			Object.Destroy(base.gameObject);
+			UnityEngine.Object.Destroy(base.gameObject);
 		}
 
 		private Transform coinVis;

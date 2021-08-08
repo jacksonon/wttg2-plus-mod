@@ -235,7 +235,7 @@ public class ProductsManager : MonoBehaviour
 		GameManager.ManagerSlinger.ProductsManager = this;
 		this.shippedProductPool = new PooledStack<ShippedProductObject>(delegate()
 		{
-			ShippedProductObject component = Object.Instantiate<GameObject>(this.shippedProductObject, this.shippedProductsParent).GetComponent<ShippedProductObject>();
+			ShippedProductObject component = UnityEngine.Object.Instantiate<GameObject>(this.shippedProductObject, this.shippedProductsParent).GetComponent<ShippedProductObject>();
 			component.SoftBuild();
 			return component;
 		}, this.SHIPPED_PRODUCT_POOL_COUNT);

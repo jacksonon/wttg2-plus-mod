@@ -29,7 +29,7 @@ namespace MirzaBeig.ParticleSystems
 			}
 			if (flag)
 			{
-				Object.Destroy(base.gameObject);
+				UnityEngine.Object.Destroy(base.gameObject);
 			}
 		}
 	}

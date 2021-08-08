@@ -67,8 +67,8 @@ public class MemDeFragHack : MonoBehaviour
 			this.curMemoryCellObjects.Add(memCellObject);
 		}
 		this.activeMemoryCellIndex = 0;
-		TweenExtensions.Restart(this.slideUpMemoryCellObjectHolder, true, -1f);
-		TweenExtensions.Restart(this.fadeInMemoryCellObjectHolder, true, -1f);
+		this.slideUpMemoryCellObjectHolder.Restart(true, -1f);
+		this.fadeInMemoryCellObjectHolder.Restart(true, -1f);
 	}
 
 	private void beginGame()
@@ -175,14 +175,14 @@ public class MemDeFragHack : MonoBehaviour
 
 	private void dismissMemoryCells()
 	{
-		TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.MemoryCellObjectHolder.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
+		DOTween.To(() => this.MemoryCellObjectHolder.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
 		{
 			this.MemoryCellObjectHolder.GetComponent<RectTransform>().anchoredPosition = x;
-		}, new Vector2(0f, -150f), 0.2f), 1), true);
-		TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.MemoryCellObjectHolder.GetComponent<CanvasGroup>().alpha, delegate(float x)
+		}, new Vector2(0f, -150f), 0.2f).SetEase(Ease.Linear).SetRelative(true);
+		DOTween.To(() => this.MemoryCellObjectHolder.GetComponent<CanvasGroup>().alpha, delegate(float x)
 		{
 			this.MemoryCellObjectHolder.GetComponent<CanvasGroup>().alpha = x;
-		}, 0f, 0.2f), 1), new TweenCallback(this.destroyMemoryCells));
+		}, 0f, 0.2f).SetEase(Ease.Linear).OnComplete(new TweenCallback(this.destroyMemoryCells));
 	}
 
 	private void destroyMemoryCells()
@@ -256,25 +256,25 @@ public class MemDeFragHack : MonoBehaviour
 		this.myCG = this.MemoryDefragContentHolder.GetComponent<CanvasGroup>();
 		this.memoryCellObjectHolderCG = this.MemoryCellObjectHolder.GetComponent<CanvasGroup>();
 		this.memoryCellObjectHolderRT = this.MemoryCellObjectHolder.GetComponent<RectTransform>();
-		this.slideUpMemoryCellObjectHolder = TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.memoryCellObjectHolderRT.anchoredPosition, delegate(Vector2 x)
+		this.slideUpMemoryCellObjectHolder = DOTween.To(() => this.memoryCellObjectHolderRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.memoryCellObjectHolderRT.anchoredPosition = x;
-		}, new Vector2(0f, 150f), 0.4f), 1), true);
-		TweenExtensions.Pause<Tweener>(this.slideUpMemoryCellObjectHolder);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.slideUpMemoryCellObjectHolder, false);
-		this.fadeInMemoryCellObjectHolder = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.memoryCellObjectHolderCG.alpha, delegate(float x)
+		}, new Vector2(0f, 150f), 0.4f).SetEase(Ease.Linear).SetRelative(true);
+		this.slideUpMemoryCellObjectHolder.Pause<Tweener>();
+		this.slideUpMemoryCellObjectHolder.SetAutoKill(false);
+		this.fadeInMemoryCellObjectHolder = DOTween.To(() => this.memoryCellObjectHolderCG.alpha, delegate(float x)
 		{
 			this.memoryCellObjectHolderCG.alpha = x;
-		}, 1f, 0.4f), 1);
-		TweenExtensions.Pause<Tweener>(this.fadeInMemoryCellObjectHolder);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.fadeInMemoryCellObjectHolder, false);
+		}, 1f, 0.4f).SetEase(Ease.Linear);
+		this.fadeInMemoryCellObjectHolder.Pause<Tweener>();
+		this.fadeInMemoryCellObjectHolder.SetAutoKill(false);
 		this.memoryCellObjectPool = new PooledStack<MemCellObject>(delegate()
 		{
-			MemCellObject component = Object.Instantiate<GameObject>(this.MemoryCellObject, this.memoryCellObjectHolderRT).GetComponent<MemCellObject>();
+			MemCellObject component = UnityEngine.Object.Instantiate<GameObject>(this.MemoryCellObject, this.memoryCellObjectHolderRT).GetComponent<MemCellObject>();
 			component.IWasActivated += this.triggerMemoryCell;
 			return component;
 		}, this.MEMORY_CELL_START_POOL_COUNT);
-		this.curMemoryDerfagObject = Object.Instantiate<GameObject>(this.MemoryDefragObject, this.MemoryDefragContentHolder.GetComponent<RectTransform>()).GetComponent<MemDefragmentObject>();
+		this.curMemoryDerfagObject = UnityEngine.Object.Instantiate<GameObject>(this.MemoryDefragObject, this.MemoryDefragContentHolder.GetComponent<RectTransform>()).GetComponent<MemDefragmentObject>();
 		this.curMemoryDerfagObject.PuzzleSolved += this.memoryDerfagPuzzleSolved;
 		this.curMemoryDerfagObject.PauseGameTime += this.pauseGameTime;
 		this.curMemoryDerfagObject.ResumeGameTime += this.resumeGameTime;

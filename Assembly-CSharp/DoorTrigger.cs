@@ -222,10 +222,10 @@ public class DoorTrigger : MonoBehaviour
 	{
 		if (this.DoorTransform != null)
 		{
-			TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.DoorTransform.localRotation, delegate(Quaternion x)
+			DOTween.To(() => this.DoorTransform.localRotation, delegate(Quaternion x)
 			{
 				this.DoorTransform.localRotation = x;
-			}, new Vector3(0f, 90f, 0f), 0.25f), 1);
+			}, new Vector3(0f, 90f, 0f), 0.25f).SetEase(Ease.Linear);
 		}
 	}
 
@@ -419,7 +419,7 @@ public class DoorTrigger : MonoBehaviour
 				Vector3 destination = this.CheckForPlayerFirePOS + base.transform.forward * (this.SphereCastDistance + this.SphereCastRadius * 2f);
 				ControllerManager.Get<roamController>(GAME_CONTROLLER.ROAM).MoveOutOfTheWay(this.PlayerLookAtDirection, destination, CARDINAL_DIR.BACK);
 			}
-			else if (Physics.SphereCast(this.CheckForPlayerFirePOS + base.transform.forward * this.SphereCastRadius, this.SphereCastRadius, Vector3.forward, ref raycastHit, this.SphereCastDistance, this.PlayerMask.value))
+			else if (Physics.SphereCast(this.CheckForPlayerFirePOS + base.transform.forward * this.SphereCastRadius, this.SphereCastRadius, Vector3.forward, out raycastHit, this.SphereCastDistance, this.PlayerMask.value))
 			{
 				Vector3 destination2 = this.CheckForPlayerFirePOS + base.transform.forward * (this.SphereCastDistance + this.SphereCastRadius * 2f);
 				ControllerManager.Get<roamController>(GAME_CONTROLLER.ROAM).MoveOutOfTheWay(this.PlayerLookAtDirection, destination2, CARDINAL_DIR.BACK);

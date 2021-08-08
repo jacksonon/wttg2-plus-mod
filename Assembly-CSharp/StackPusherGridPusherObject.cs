@@ -32,7 +32,7 @@ public class StackPusherGridPusherObject : MonoBehaviour
 		this.effectedCords.Clear();
 		this.oldCords.Clear();
 		this.resetCords.Clear();
-		TweenExtensions.Restart(this.clearTween, true, -1f);
+		this.clearTween.Restart(true, -1f);
 	}
 
 	public void SetMyParent(RectTransform ParentRectTrans)
@@ -44,27 +44,27 @@ public class StackPusherGridPusherObject : MonoBehaviour
 	public void PresentMe()
 	{
 		this.myCG.alpha = 1f;
-		TweenExtensions.Play<Tweener>(this.presentTween);
+		this.presentTween.Play<Tweener>();
 	}
 
 	public void PointerEnter()
 	{
-		TweenExtensions.Restart(this.hoverEnterTween, true, -1f);
+		this.hoverEnterTween.Restart(true, -1f);
 	}
 
 	public void PointerExit()
 	{
-		TweenExtensions.Restart(this.hoverExitTween, true, -1f);
+		this.hoverExitTween.Restart(true, -1f);
 	}
 
 	public void SetActive()
 	{
-		TweenExtensions.Restart(this.setActiveTween, true, -1f);
+		this.setActiveTween.Restart(true, -1f);
 	}
 
 	public void SetInActive()
 	{
-		TweenExtensions.Restart(this.setInActiveTween, true, -1f);
+		this.setInActiveTween.Restart(true, -1f);
 	}
 
 	public bool AmNextTo(MatrixStackCord CheckCord)
@@ -99,8 +99,8 @@ public class StackPusherGridPusherObject : MonoBehaviour
 			this.SetNewPushBlock(NewCord);
 		}
 		this.SetInActive();
-		TweenExtensions.Restart(this.gridScaleDownSeq, true, -1f);
-		TweenExtensions.Restart(this.gridScaleUpSeq, true, -1f);
+		this.gridScaleDownSeq.Restart(true, -1f);
+		this.gridScaleUpSeq.Restart(true, -1f);
 		GameManager.TimeSlinger.FireTimer(0.15f, delegate()
 		{
 			this.oldCords.Clear();
@@ -135,71 +135,71 @@ public class StackPusherGridPusherObject : MonoBehaviour
 		this.hoverCG = this.HoverIMG.GetComponent<CanvasGroup>();
 		this.activeCG = this.ActiveIMG.GetComponent<CanvasGroup>();
 		this.defaultParent = (RectTransform)this.myRT.parent;
-		this.presentTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.inactiveCG.alpha, delegate(float x)
+		this.presentTween = DOTween.To(() => this.inactiveCG.alpha, delegate(float x)
 		{
 			this.inactiveCG.alpha = x;
-		}, 1f, 0.15f), 1);
-		TweenExtensions.Pause<Tweener>(this.presentTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.presentTween, false);
-		this.hoverEnterTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.hoverCG.alpha, delegate(float x)
+		}, 1f, 0.15f).SetEase(Ease.Linear);
+		this.presentTween.Pause<Tweener>();
+		this.presentTween.SetAutoKill(false);
+		this.hoverEnterTween = DOTween.To(() => this.hoverCG.alpha, delegate(float x)
 		{
 			this.hoverCG.alpha = x;
-		}, 1f, 0.15f), 1);
-		TweenExtensions.Pause<Tweener>(this.hoverEnterTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hoverEnterTween, false);
-		this.hoverExitTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.hoverCG.alpha, delegate(float x)
+		}, 1f, 0.15f).SetEase(Ease.Linear);
+		this.hoverEnterTween.Pause<Tweener>();
+		this.hoverEnterTween.SetAutoKill(false);
+		this.hoverExitTween = DOTween.To(() => this.hoverCG.alpha, delegate(float x)
 		{
 			this.hoverCG.alpha = x;
-		}, 0f, 0.15f), 1);
-		TweenExtensions.Pause<Tweener>(this.hoverExitTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hoverExitTween, false);
-		this.setActiveTween = TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.activeCG.alpha, delegate(float x)
+		}, 0f, 0.15f).SetEase(Ease.Linear);
+		this.hoverExitTween.Pause<Tweener>();
+		this.hoverExitTween.SetAutoKill(false);
+		this.setActiveTween = DOTween.To(() => this.activeCG.alpha, delegate(float x)
 		{
 			this.activeCG.alpha = x;
-		}, 1f, 0.15f), 1), delegate()
+		}, 1f, 0.15f).SetEase(Ease.Linear).OnComplete(delegate
 		{
 			this.hoverCG.alpha = 0f;
 		});
-		TweenExtensions.Pause<Tweener>(this.setActiveTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.setActiveTween, false);
-		this.setInActiveTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.activeCG.alpha, delegate(float x)
+		this.setActiveTween.Pause<Tweener>();
+		this.setActiveTween.SetAutoKill(false);
+		this.setInActiveTween = DOTween.To(() => this.activeCG.alpha, delegate(float x)
 		{
 			this.activeCG.alpha = x;
-		}, 0f, 0.15f), 1);
-		TweenExtensions.Pause<Tweener>(this.setInActiveTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.setInActiveTween, false);
+		}, 0f, 0.15f).SetEase(Ease.Linear);
+		this.setInActiveTween.Pause<Tweener>();
+		this.setInActiveTween.SetAutoKill(false);
 		this.gridScaleDownSeq = DOTween.Sequence();
-		TweenSettingsExtensions.Insert(this.gridScaleDownSeq, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.myRT.localScale, delegate(Vector3 x)
+		this.gridScaleDownSeq.Insert(0f, DOTween.To(() => this.myRT.localScale, delegate(Vector3 x)
 		{
 			this.myRT.localScale = x;
-		}, this.minScale, 0.15f), 1));
-		TweenSettingsExtensions.Insert(this.gridScaleDownSeq, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		}, this.minScale, 0.15f).SetEase(Ease.Linear));
+		this.gridScaleDownSeq.Insert(0f, DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 0f, 0.15f), 1));
-		TweenExtensions.Pause<Sequence>(this.gridScaleDownSeq);
-		TweenSettingsExtensions.SetAutoKill<Sequence>(this.gridScaleDownSeq, false);
+		}, 0f, 0.15f).SetEase(Ease.Linear));
+		this.gridScaleDownSeq.Pause<Sequence>();
+		this.gridScaleDownSeq.SetAutoKill(false);
 		this.gridScaleUpSeq = DOTween.Sequence();
-		TweenSettingsExtensions.Insert(this.gridScaleUpSeq, 0.15f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.myRT.localScale, delegate(Vector3 x)
+		this.gridScaleUpSeq.Insert(0.15f, DOTween.To(() => this.myRT.localScale, delegate(Vector3 x)
 		{
 			this.myRT.localScale = x;
-		}, this.maxScale, 0.15f), 1));
-		TweenSettingsExtensions.Insert(this.gridScaleUpSeq, 0.15f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		}, this.maxScale, 0.15f).SetEase(Ease.Linear));
+		this.gridScaleUpSeq.Insert(0.15f, DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 1f, 0.15f), 1));
-		TweenExtensions.Pause<Sequence>(this.gridScaleUpSeq);
-		TweenSettingsExtensions.SetAutoKill<Sequence>(this.gridScaleUpSeq, false);
-		this.clearTween = TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		}, 1f, 0.15f).SetEase(Ease.Linear));
+		this.gridScaleUpSeq.Pause<Sequence>();
+		this.gridScaleUpSeq.SetAutoKill(false);
+		this.clearTween = DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 0f, 0.15f), 1), delegate()
+		}, 0f, 0.15f).SetEase(Ease.Linear).OnComplete(delegate
 		{
 			this.activeCG.alpha = 0f;
 			this.SetMyParent(this.defaultParent);
 		});
-		TweenExtensions.Pause<Tweener>(this.clearTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.clearTween, false);
+		this.clearTween.Pause<Tweener>();
+		this.clearTween.SetAutoKill(false);
 	}
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]

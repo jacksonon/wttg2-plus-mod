@@ -35,30 +35,30 @@ public class TutorialManager : MonoBehaviour
 		this.incomingCallLargeDeclineBTN.ClickAction.Event += this.playerDeclinedProductCall;
 		this.blackGG.interactable = true;
 		this.blackGG.blocksRaycasts = true;
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+		Sequence sequence = DOTween.Sequence().OnComplete(delegate
 		{
 			GameManager.AudioSlinger.PlaySound(LookUp.SoundLookUp.vacationRinging);
-			this.adamScaleTween = TweenSettingsExtensions.SetLoops<TweenerCore<Vector3, Vector3, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.adamLargeRT.localScale, delegate(Vector3 x)
+			this.adamScaleTween = DOTween.To(() => this.adamLargeRT.localScale, delegate(Vector3 x)
 			{
 				this.adamLargeRT.localScale = x;
-			}, new Vector3(0.9f, 0.9f, 1f), 0.75f), 1), -1, 1);
-			TweenExtensions.Play<Tweener>(this.adamScaleTween);
+			}, new Vector3(0.9f, 0.9f, 1f), 0.75f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+			this.adamScaleTween.Play<Tweener>();
 			this.incomingCallLargeAcceptBTN.SetLock(false);
 			this.incomingCallLargeDeclineBTN.SetLock(false);
 		});
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.blackGG.alpha, delegate(float x)
+		sequence.Insert(0f, DOTween.To(() => this.blackGG.alpha, delegate(float x)
 		{
 			this.blackGG.alpha = x;
-		}, 1f, 0.25f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0.3f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.incomingCallLargeRT.localScale, delegate(Vector3 x)
+		}, 1f, 0.25f).SetEase(Ease.Linear));
+		sequence.Insert(0.3f, DOTween.To(() => this.incomingCallLargeRT.localScale, delegate(Vector3 x)
 		{
 			this.incomingCallLargeRT.localScale = x;
-		}, new Vector3(1f, 1f, 1f), 0.35f), 11));
-		TweenSettingsExtensions.Insert(sequence, 0.3f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.incomingCallLargeCG.alpha, delegate(float x)
+		}, new Vector3(1f, 1f, 1f), 0.35f).SetEase(Ease.InQuart));
+		sequence.Insert(0.3f, DOTween.To(() => this.incomingCallLargeCG.alpha, delegate(float x)
 		{
 			this.incomingCallLargeCG.alpha = x;
-		}, 1f, 0.25f), 1));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, 1f, 0.25f).SetEase(Ease.Linear));
+		sequence.Play<Sequence>();
 	}
 
 	private void presentStartCall()
@@ -67,48 +67,48 @@ public class TutorialManager : MonoBehaviour
 		startController.Ins.TriggerTutorialEvents.Event -= this.presentStartCall;
 		this.blackGG.interactable = true;
 		this.blackGG.blocksRaycasts = true;
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+		Sequence sequence = DOTween.Sequence().OnComplete(delegate
 		{
 			GameManager.AudioSlinger.PlaySound(LookUp.SoundLookUp.vacationRinging);
-			this.adamScaleTween = TweenSettingsExtensions.SetLoops<TweenerCore<Vector3, Vector3, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.adamLargeRT.localScale, delegate(Vector3 x)
+			this.adamScaleTween = DOTween.To(() => this.adamLargeRT.localScale, delegate(Vector3 x)
 			{
 				this.adamLargeRT.localScale = x;
-			}, new Vector3(0.9f, 0.9f, 1f), 0.75f), 1), -1, 1);
-			TweenExtensions.Play<Tweener>(this.adamScaleTween);
+			}, new Vector3(0.9f, 0.9f, 1f), 0.75f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+			this.adamScaleTween.Play<Tweener>();
 			this.incomingCallLargeAcceptBTN.SetLock(false);
 			this.incomingCallLargeDeclineBTN.SetLock(false);
 		});
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.blackGG.alpha, delegate(float x)
+		sequence.Insert(0f, DOTween.To(() => this.blackGG.alpha, delegate(float x)
 		{
 			this.blackGG.alpha = x;
-		}, 1f, 0.25f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0.3f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.incomingCallLargeRT.localScale, delegate(Vector3 x)
+		}, 1f, 0.25f).SetEase(Ease.Linear));
+		sequence.Insert(0.3f, DOTween.To(() => this.incomingCallLargeRT.localScale, delegate(Vector3 x)
 		{
 			this.incomingCallLargeRT.localScale = x;
-		}, new Vector3(1f, 1f, 1f), 0.35f), 11));
-		TweenSettingsExtensions.Insert(sequence, 0.3f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.incomingCallLargeCG.alpha, delegate(float x)
+		}, new Vector3(1f, 1f, 1f), 0.35f).SetEase(Ease.InQuart));
+		sequence.Insert(0.3f, DOTween.To(() => this.incomingCallLargeCG.alpha, delegate(float x)
 		{
 			this.incomingCallLargeCG.alpha = x;
-		}, 1f, 0.25f), 1));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, 1f, 0.25f).SetEase(Ease.Linear));
+		sequence.Play<Sequence>();
 	}
 
 	private void dismissStartCall()
 	{
 		Sequence sequence = DOTween.Sequence();
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.incomingCallLargeRT.localScale, delegate(Vector3 x)
+		sequence.Insert(0f, DOTween.To(() => this.incomingCallLargeRT.localScale, delegate(Vector3 x)
 		{
 			this.incomingCallLargeRT.localScale = x;
-		}, new Vector3(0.1f, 0.1f, 1f), 0.25f), 6));
-		TweenSettingsExtensions.Insert(sequence, 0.1f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.incomingCallLargeCG.alpha, delegate(float x)
+		}, new Vector3(0.1f, 0.1f, 1f), 0.25f).SetEase(Ease.OutQuad));
+		sequence.Insert(0.1f, DOTween.To(() => this.incomingCallLargeCG.alpha, delegate(float x)
 		{
 			this.incomingCallLargeCG.alpha = x;
-		}, 0f, 0.15f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0.25f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.blackGG.alpha, delegate(float x)
+		}, 0f, 0.15f).SetEase(Ease.Linear));
+		sequence.Insert(0.25f, DOTween.To(() => this.blackGG.alpha, delegate(float x)
 		{
 			this.blackGG.alpha = x;
-		}, 0f, 0.2f), 1));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, 0f, 0.2f).SetEase(Ease.Linear));
+		sequence.Play<Sequence>();
 	}
 
 	private void playerAcceptedStartCall()

@@ -8,10 +8,10 @@ public class TitleLogoHook : MonoBehaviour
 {
 	private void presentLogo()
 	{
-		TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetDelay<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 1f, 2.5f), 1), 5.5f), delegate()
+		}, 1f, 2.5f).SetEase(Ease.Linear).SetDelay(5.5f).OnComplete(delegate
 		{
 			TitleManager.Ins.LogoWasPresented();
 		});
@@ -19,26 +19,26 @@ public class TitleLogoHook : MonoBehaviour
 
 	private void dismissLogo()
 	{
-		TweenSettingsExtensions.SetDelay<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 0f, 0.75f), 1), 0.75f);
+		}, 0f, 0.75f).SetEase(Ease.Linear).SetDelay(0.75f);
 	}
 
 	private void presentLogoQuick()
 	{
-		TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 1f, 0.25f), 1);
+		}, 1f, 0.25f).SetEase(Ease.Linear);
 	}
 
 	private void dismissLogoQuick()
 	{
-		TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 0f, 0.25f), 1);
+		}, 0f, 0.25f).SetEase(Ease.Linear);
 	}
 
 	private void Awake()

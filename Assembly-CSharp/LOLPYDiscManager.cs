@@ -64,7 +64,7 @@ public class LOLPYDiscManager : MonoBehaviour
 		GameManager.ManagerSlinger.LOLPYDiscManager = this;
 		GameManager.StageManager.Stage += this.stageMe;
 		GameManager.ManagerSlinger.ProductsManager.ShadowMarketProductWasActivated.Event += this.productWasPickedUp;
-		this.lolpyDiscIns = Object.Instantiate<GameObject>(this.lolpyDiscObject, this.lolpyDiscParent).GetComponent<LOLPYDiscBehaviour>();
+		this.lolpyDiscIns = UnityEngine.Object.Instantiate<GameObject>(this.lolpyDiscObject, this.lolpyDiscParent).GetComponent<LOLPYDiscBehaviour>();
 		this.lolpyDiscIns.SoftBuild();
 	}
 

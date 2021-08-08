@@ -60,13 +60,13 @@ public class WifiMenuBehaviour : MonoBehaviour, IPointerExitHandler, IEventSyste
 
 	private void Awake()
 	{
-		this.menuSepObject = Object.Instantiate<GameObject>(this.WifiMenuSeperator, base.GetComponent<RectTransform>());
-		this.menuDisObject = Object.Instantiate<GameObject>(this.WifiMenuDisconnect, base.GetComponent<RectTransform>());
+		this.menuSepObject = UnityEngine.Object.Instantiate<GameObject>(this.WifiMenuSeperator, base.GetComponent<RectTransform>());
+		this.menuDisObject = UnityEngine.Object.Instantiate<GameObject>(this.WifiMenuDisconnect, base.GetComponent<RectTransform>());
 		this.menuSepObject.GetComponent<RectTransform>().anchoredPosition = this.menuOptOffScreenPOS;
 		this.menuDisObject.GetComponent<RectTransform>().anchoredPosition = this.menuOptOffScreenPOS;
 		this.wifiMenuOptionObjectPool = new PooledStack<WifiMenuNetworkOptionObject>(delegate()
 		{
-			WifiMenuNetworkOptionObject component = Object.Instantiate<GameObject>(this.WifiMenuOption, base.GetComponent<RectTransform>()).GetComponent<WifiMenuNetworkOptionObject>();
+			WifiMenuNetworkOptionObject component = UnityEngine.Object.Instantiate<GameObject>(this.WifiMenuOption, base.GetComponent<RectTransform>()).GetComponent<WifiMenuNetworkOptionObject>();
 			component.SoftBuild();
 			return component;
 		}, 8);

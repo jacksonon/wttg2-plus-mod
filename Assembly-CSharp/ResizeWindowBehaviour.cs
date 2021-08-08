@@ -24,7 +24,7 @@ public class ResizeWindowBehaviour : MonoBehaviour, IBeginDragHandler, IDragHand
 			flag = true;
 		}
 		Vector3 vector;
-		if (!flag && RectTransformUtility.ScreenPointToWorldPointInRectangle(this.dragPlane, data.position, data.pressEventCamera, ref vector))
+		if (!flag && RectTransformUtility.ScreenPointToWorldPointInRectangle(this.dragPlane, data.position, data.pressEventCamera, out vector))
 		{
 			vector.x = this.startingSize.x + (vector.x - this.bufferPOS.x);
 			vector.y = this.startingSize.y - (vector.y - this.bufferPOS.y);
@@ -63,7 +63,7 @@ public class ResizeWindowBehaviour : MonoBehaviour, IBeginDragHandler, IDragHand
 	{
 		this.myWindow.gameObject.GetComponent<BringWindowToFrontBehaviour>().forceTap();
 		Vector3 vector;
-		if (RectTransformUtility.ScreenPointToWorldPointInRectangle(this.dragPlane, eventData.position, eventData.pressEventCamera, ref vector))
+		if (RectTransformUtility.ScreenPointToWorldPointInRectangle(this.dragPlane, eventData.position, eventData.pressEventCamera, out vector))
 		{
 			this.startingSize = this.myWindow.GetComponent<RectTransform>().sizeDelta;
 			this.bufferPOS.x = vector.x;

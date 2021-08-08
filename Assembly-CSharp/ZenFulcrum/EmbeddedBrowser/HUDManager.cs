@@ -57,7 +57,7 @@ namespace ZenFulcrum.EmbeddedBrowser
 		public void Unpause()
 		{
 			Cursor.visible = false;
-			Cursor.lockState = 1;
+			Cursor.lockState = CursorLockMode.Locked;
 			this.EnableUserControls(true);
 			Time.timeScale = 1f;
 			this.haveMouse = true;
@@ -70,7 +70,7 @@ namespace ZenFulcrum.EmbeddedBrowser
 		public void Pause()
 		{
 			Cursor.visible = true;
-			Cursor.lockState = 0;
+			Cursor.lockState = CursorLockMode.None;
 			this.haveMouse = false;
 			Time.timeScale = 0f;
 			this.EnableUserControls(false);
@@ -82,7 +82,7 @@ namespace ZenFulcrum.EmbeddedBrowser
 
 		public void Update()
 		{
-			if (Input.GetKeyDown(27))
+			if (Input.GetKeyDown(KeyCode.Escape))
 			{
 				if (this.haveMouse)
 				{

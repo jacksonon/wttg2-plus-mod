@@ -70,7 +70,7 @@ public class UBER_MouseOrbit_DynamicDistance : MonoBehaviour
 					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 					foreach (Collider collider in this.surfaceColliders)
 					{
-						if (collider.Raycast(ray, ref raycastHit, float.PositiveInfinity))
+						if (collider.Raycast(ray, out raycastHit, float.PositiveInfinity))
 						{
 							this.DraggingObject = true;
 							break;
@@ -132,7 +132,7 @@ public class UBER_MouseOrbit_DynamicDistance : MonoBehaviour
 				bool flag = false;
 				foreach (Collider collider2 in this.surfaceColliders)
 				{
-					if (collider2.Raycast(new Ray(base.transform.position - vector * this.bounds_MaxSize, vector), ref raycastHit2, float.PositiveInfinity))
+					if (collider2.Raycast(new Ray(base.transform.position - vector * this.bounds_MaxSize, vector), out raycastHit2, float.PositiveInfinity))
 					{
 						num = Mathf.Max(Vector3.Distance(raycastHit2.point, this.targetFocus.position) + this.distance, num);
 						flag = true;
@@ -143,9 +143,9 @@ public class UBER_MouseOrbit_DynamicDistance : MonoBehaviour
 					this.cur_distance += (num - this.cur_distance) * Time.deltaTime * 4f;
 				}
 			}
-			Quaternion quaternion = Quaternion.Euler(this.y, this.x, 0f);
-			Vector3 position = quaternion * new Vector3(0f, 0f, -this.cur_distance) + this.targetFocus.position;
-			base.transform.rotation = quaternion;
+			Quaternion rotation = Quaternion.Euler(this.y, this.x, 0f);
+			Vector3 position = rotation * new Vector3(0f, 0f, -this.cur_distance) + this.targetFocus.position;
+			base.transform.rotation = rotation;
 			base.transform.position = position;
 		}
 	}

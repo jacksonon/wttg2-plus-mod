@@ -11,7 +11,7 @@ namespace ZenFulcrum.EmbeddedBrowser
 			{
 				if (!FPSCursorRenderer._instance)
 				{
-					FPSCursorRenderer._instance = Object.FindObjectOfType<FPSCursorRenderer>();
+					FPSCursorRenderer._instance = UnityEngine.Object.FindObjectOfType<FPSCursorRenderer>();
 					if (!FPSCursorRenderer._instance)
 					{
 						GameObject gameObject = new GameObject("Cursor Crosshair");
@@ -56,11 +56,10 @@ namespace ZenFulcrum.EmbeddedBrowser
 			{
 				return;
 			}
-			Rect rect;
-			rect..ctor((float)Screen.width / 2f, (float)Screen.height / 2f, (float)texture.width * this.scale, (float)texture.height * this.scale);
-			rect.x -= browserCursor.Hotspot.x * this.scale;
-			rect.y -= browserCursor.Hotspot.y * this.scale;
-			GUI.DrawTexture(rect, texture);
+			Rect position = new Rect((float)Screen.width / 2f, (float)Screen.height / 2f, (float)texture.width * this.scale, (float)texture.height * this.scale);
+			position.x -= browserCursor.Hotspot.x * this.scale;
+			position.y -= browserCursor.Hotspot.y * this.scale;
+			GUI.DrawTexture(position, texture);
 		}
 
 		public void SetCursor(BrowserCursor newCursor, FPSBrowserUI ui)

@@ -22,19 +22,19 @@ namespace MirzaBeig.ParticleSystems.Demos
 
 		private void Update()
 		{
-			if (Input.GetKeyDown(102))
+			if (Input.GetKeyDown(KeyCode.F))
 			{
 				this.Add(0.25f, 1f, 2f, CameraShakeTarget.Position, CameraShakeAmplitudeCurve.FadeInOut25);
 			}
-			if (Input.GetKeyDown(103))
+			if (Input.GetKeyDown(KeyCode.G))
 			{
 				this.Add(15f, 1f, 2f, CameraShakeTarget.Rotation, CameraShakeAmplitudeCurve.FadeInOut25);
 			}
-			if (Input.GetKey(104))
+			if (Input.GetKey(KeyCode.H))
 			{
 			}
 			Vector3 vector = Vector3.zero;
-			Vector3 vector2 = Vector3.zero;
+			Vector3 a = Vector3.zero;
 			for (int i = 0; i < this.shakes.Count; i++)
 			{
 				this.shakes[i].Update();
@@ -44,15 +44,15 @@ namespace MirzaBeig.ParticleSystems.Demos
 				}
 				else
 				{
-					vector2 += this.shakes[i].noise;
+					a += this.shakes[i].noise;
 				}
 			}
 			this.shakes.RemoveAll((CameraShake.Shake x) => !x.IsAlive());
 			base.transform.localPosition = Vector3.SmoothDamp(base.transform.localPosition, vector, ref this.smoothDampPositionVelocity, this.smoothDampTime);
 			Vector3 localEulerAngles = base.transform.localEulerAngles;
-			localEulerAngles.x = Mathf.SmoothDampAngle(localEulerAngles.x, vector2.x, ref this.smoothDampRotationVelocityX, this.smoothDampTime);
-			localEulerAngles.y = Mathf.SmoothDampAngle(localEulerAngles.y, vector2.y, ref this.smoothDampRotationVelocityY, this.smoothDampTime);
-			localEulerAngles.z = Mathf.SmoothDampAngle(localEulerAngles.z, vector2.z, ref this.smoothDampRotationVelocityZ, this.smoothDampTime);
+			localEulerAngles.x = Mathf.SmoothDampAngle(localEulerAngles.x, a.x, ref this.smoothDampRotationVelocityX, this.smoothDampTime);
+			localEulerAngles.y = Mathf.SmoothDampAngle(localEulerAngles.y, a.y, ref this.smoothDampRotationVelocityY, this.smoothDampTime);
+			localEulerAngles.z = Mathf.SmoothDampAngle(localEulerAngles.z, a.z, ref this.smoothDampRotationVelocityZ, this.smoothDampTime);
 			base.transform.localEulerAngles = localEulerAngles;
 		}
 
@@ -133,12 +133,12 @@ namespace MirzaBeig.ParticleSystems.Demos
 			public void ApplyRandomSeed()
 			{
 				float num = 32f;
-				this.perlinNoiseX.x = Random.Range(-num, num);
-				this.perlinNoiseX.y = Random.Range(-num, num);
-				this.perlinNoiseY.x = Random.Range(-num, num);
-				this.perlinNoiseY.y = Random.Range(-num, num);
-				this.perlinNoiseZ.x = Random.Range(-num, num);
-				this.perlinNoiseZ.y = Random.Range(-num, num);
+				this.perlinNoiseX.x = UnityEngine.Random.Range(-num, num);
+				this.perlinNoiseX.y = UnityEngine.Random.Range(-num, num);
+				this.perlinNoiseY.x = UnityEngine.Random.Range(-num, num);
+				this.perlinNoiseY.y = UnityEngine.Random.Range(-num, num);
+				this.perlinNoiseZ.x = UnityEngine.Random.Range(-num, num);
+				this.perlinNoiseZ.y = UnityEngine.Random.Range(-num, num);
 			}
 
 			public bool IsAlive()
@@ -152,10 +152,10 @@ namespace MirzaBeig.ParticleSystems.Demos
 				{
 					return;
 				}
-				Vector2 vector = Time.deltaTime * new Vector2(this.frequency, this.frequency);
-				this.perlinNoiseX += vector;
-				this.perlinNoiseY += vector;
-				this.perlinNoiseZ += vector;
+				Vector2 b = Time.deltaTime * new Vector2(this.frequency, this.frequency);
+				this.perlinNoiseX += b;
+				this.perlinNoiseY += b;
+				this.perlinNoiseZ += b;
 				this.noise.x = Mathf.PerlinNoise(this.perlinNoiseX.x, this.perlinNoiseX.y) - 0.5f;
 				this.noise.y = Mathf.PerlinNoise(this.perlinNoiseY.x, this.perlinNoiseY.y) - 0.5f;
 				this.noise.z = Mathf.PerlinNoise(this.perlinNoiseZ.x, this.perlinNoiseZ.y) - 0.5f;

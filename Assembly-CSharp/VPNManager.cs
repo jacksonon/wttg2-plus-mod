@@ -22,12 +22,11 @@ public class VPNManager : MonoBehaviour
 			if (this.vpnMenuActive)
 			{
 				this.vpnMenuActive = false;
-				Vector2 vector;
-				vector..ctor(LookUp.DesktopUI.VPN_MENU.anchoredPosition.x, LookUp.DesktopUI.VPN_MENU.sizeDelta.y);
-				TweenSettingsExtensions.OnComplete<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => LookUp.DesktopUI.VPN_MENU.anchoredPosition, delegate(Vector2 x)
+				Vector2 endValue = new Vector2(LookUp.DesktopUI.VPN_MENU.anchoredPosition.x, LookUp.DesktopUI.VPN_MENU.sizeDelta.y);
+				DOTween.To(() => LookUp.DesktopUI.VPN_MENU.anchoredPosition, delegate(Vector2 x)
 				{
 					LookUp.DesktopUI.VPN_MENU.anchoredPosition = x;
-				}, vector, 0.25f), 5), delegate()
+				}, endValue, 0.25f).SetEase(Ease.InQuad).OnComplete(delegate
 				{
 					this.vpnMenuAniActive = false;
 				});
@@ -35,12 +34,11 @@ public class VPNManager : MonoBehaviour
 			else
 			{
 				this.vpnMenuActive = true;
-				Vector2 vector2;
-				vector2..ctor(LookUp.DesktopUI.VPN_MENU.anchoredPosition.x, -41f);
-				TweenSettingsExtensions.OnComplete<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => LookUp.DesktopUI.VPN_MENU.anchoredPosition, delegate(Vector2 x)
+				Vector2 endValue2 = new Vector2(LookUp.DesktopUI.VPN_MENU.anchoredPosition.x, -41f);
+				DOTween.To(() => LookUp.DesktopUI.VPN_MENU.anchoredPosition, delegate(Vector2 x)
 				{
 					LookUp.DesktopUI.VPN_MENU.anchoredPosition = x;
-				}, vector2, 0.25f), 6), delegate()
+				}, endValue2, 0.25f).SetEase(Ease.OutQuad).OnComplete(delegate
 				{
 					this.vpnMenuAniActive = false;
 				});

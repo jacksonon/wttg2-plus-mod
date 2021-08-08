@@ -21,18 +21,18 @@ public class crossHairBehaviour : MonoBehaviour
 
 	public void ShowActiveCrossHair()
 	{
-		TweenExtensions.Pause<Tweener>(this.deActivateCrossHairTrans);
-		TweenExtensions.Pause<Tweener>(this.deActivateCrossHairCG);
-		TweenExtensions.Restart(this.activateCrossHairTrans, true, -1f);
-		TweenExtensions.Restart(this.activateCrossHairCG, true, -1f);
+		this.deActivateCrossHairTrans.Pause<Tweener>();
+		this.deActivateCrossHairCG.Pause<Tweener>();
+		this.activateCrossHairTrans.Restart(true, -1f);
+		this.activateCrossHairCG.Restart(true, -1f);
 	}
 
 	public void HideActiveCrossHair()
 	{
-		TweenExtensions.Pause<Tweener>(this.activateCrossHairTrans);
-		TweenExtensions.Pause<Tweener>(this.activateCrossHairCG);
-		TweenExtensions.Restart(this.deActivateCrossHairTrans, true, -1f);
-		TweenExtensions.Restart(this.deActivateCrossHairCG, true, -1f);
+		this.activateCrossHairTrans.Pause<Tweener>();
+		this.activateCrossHairCG.Pause<Tweener>();
+		this.deActivateCrossHairTrans.Restart(true, -1f);
+		this.deActivateCrossHairCG.Restart(true, -1f);
 	}
 
 	private void PlayerHitPause()
@@ -56,34 +56,34 @@ public class crossHairBehaviour : MonoBehaviour
 		GameManager.BehaviourManager.CrossHairBehaviour = this;
 		GameManager.PauseManager.GamePaused += this.PlayerHitPause;
 		GameManager.PauseManager.GameUnPaused += this.PlayerHitUnPause;
-		this.activateCrossHairTrans = TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => new Vector3(0.5f, 0.5f, 1f), delegate(Vector3 x)
+		this.activateCrossHairTrans = DOTween.To(() => new Vector3(0.5f, 0.5f, 1f), delegate(Vector3 x)
 		{
 			this.CrossHairTrans.localScale = x;
-		}, Vector3.one, 0.15f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.activateCrossHairTrans, false);
-		TweenExtensions.Pause<Tweener>(this.activateCrossHairTrans);
+		}, Vector3.one, 0.15f).SetEase(Ease.Linear);
+		this.activateCrossHairTrans.SetAutoKill(false);
+		this.activateCrossHairTrans.Pause<Tweener>();
 		if (crossHairBehaviour.<>f__mg$cache0 == null)
 		{
 			crossHairBehaviour.<>f__mg$cache0 = new DOGetter<Vector3>(Vector3.get_one);
 		}
-		this.deActivateCrossHairTrans = TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(crossHairBehaviour.<>f__mg$cache0, delegate(Vector3 x)
+		this.deActivateCrossHairTrans = DOTween.To(crossHairBehaviour.<>f__mg$cache0, delegate(Vector3 x)
 		{
 			this.CrossHairTrans.localScale = x;
-		}, new Vector3(0.5f, 0.5f, 1f), 0.15f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.deActivateCrossHairTrans, false);
-		TweenExtensions.Pause<Tweener>(this.deActivateCrossHairTrans);
-		this.activateCrossHairCG = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => 0.25f, delegate(float x)
+		}, new Vector3(0.5f, 0.5f, 1f), 0.15f).SetEase(Ease.Linear);
+		this.deActivateCrossHairTrans.SetAutoKill(false);
+		this.deActivateCrossHairTrans.Pause<Tweener>();
+		this.activateCrossHairCG = DOTween.To(() => 0.25f, delegate(float x)
 		{
 			this.CrossHairCG.alpha = x;
-		}, 0.9f, 0.15f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.activateCrossHairCG, false);
-		TweenExtensions.Pause<Tweener>(this.activateCrossHairCG);
-		this.deActivateCrossHairCG = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => 0.9f, delegate(float x)
+		}, 0.9f, 0.15f).SetEase(Ease.Linear);
+		this.activateCrossHairCG.SetAutoKill(false);
+		this.activateCrossHairCG.Pause<Tweener>();
+		this.deActivateCrossHairCG = DOTween.To(() => 0.9f, delegate(float x)
 		{
 			this.CrossHairCG.alpha = x;
-		}, 0.25f, 0.15f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.deActivateCrossHairCG, false);
-		TweenExtensions.Pause<Tweener>(this.deActivateCrossHairCG);
+		}, 0.25f, 0.15f).SetEase(Ease.Linear);
+		this.deActivateCrossHairCG.SetAutoKill(false);
+		this.deActivateCrossHairCG.Pause<Tweener>();
 	}
 
 	private void OnDestroy()

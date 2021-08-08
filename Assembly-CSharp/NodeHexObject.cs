@@ -12,11 +12,11 @@ public class NodeHexObject : MonoBehaviour
 		this.SetNonPlayable();
 		if (this.CardinalConnectorsCG.alpha == 1f || this.NonCardinalConnectorsCG.alpha == 1f)
 		{
-			TweenExtensions.Restart(this.hideMeSeq, true, -1f);
+			this.hideMeSeq.Restart(true, -1f);
 		}
 		else
 		{
-			TweenExtensions.Restart(this.hideMeTween, true, -1f);
+			this.hideMeTween.Restart(true, -1f);
 		}
 		this.Type = HACK_NODE_HEXER_NODE_TYPE.DEAD;
 		this.myDirection = MATRIX_STACK_CLOCK_POSITION.NEUTRAL;
@@ -78,7 +78,7 @@ public class NodeHexObject : MonoBehaviour
 
 	public void ActivateNeedsToBeTagged(int index)
 	{
-		TweenExtensions.Restart(this.showActiveBase, true, (float)index * 0.3f);
+		this.showActiveBase.Restart(true, (float)index * 0.3f);
 		GameManager.TimeSlinger.FireTimer((float)index * 0.3f, delegate()
 		{
 			GameManager.AudioSlinger.PlaySound(this.ShowNeedsToBeTaggedSFX);
@@ -97,7 +97,7 @@ public class NodeHexObject : MonoBehaviour
 			if (this.needsToBeTagged)
 			{
 				this.needsToBeTagged = false;
-				TweenExtensions.Restart(this.hideActiveBase, true, -1f);
+				this.hideActiveBase.Restart(true, -1f);
 				if (this.myNodeHexerHack.IsGameWon())
 				{
 					flag = false;
@@ -133,28 +133,28 @@ public class NodeHexObject : MonoBehaviour
 					switch (this.myDirection)
 					{
 					case MATRIX_STACK_CLOCK_POSITION.NOON:
-						TweenExtensions.Restart(this.hand12OnTween, true, -1f);
+						this.hand12OnTween.Restart(true, -1f);
 						break;
 					case MATRIX_STACK_CLOCK_POSITION.ONE:
-						TweenExtensions.Restart(this.hand1OnTween, true, -1f);
+						this.hand1OnTween.Restart(true, -1f);
 						break;
 					case MATRIX_STACK_CLOCK_POSITION.THREE:
-						TweenExtensions.Restart(this.hand3OnTween, true, -1f);
+						this.hand3OnTween.Restart(true, -1f);
 						break;
 					case MATRIX_STACK_CLOCK_POSITION.FOUR:
-						TweenExtensions.Restart(this.hand4OnTween, true, -1f);
+						this.hand4OnTween.Restart(true, -1f);
 						break;
 					case MATRIX_STACK_CLOCK_POSITION.SIX:
-						TweenExtensions.Restart(this.hand6OnTween, true, -1f);
+						this.hand6OnTween.Restart(true, -1f);
 						break;
 					case MATRIX_STACK_CLOCK_POSITION.SEVEN:
-						TweenExtensions.Restart(this.hand7OnTween, true, -1f);
+						this.hand7OnTween.Restart(true, -1f);
 						break;
 					case MATRIX_STACK_CLOCK_POSITION.NINE:
-						TweenExtensions.Restart(this.hand9OnTween, true, -1f);
+						this.hand9OnTween.Restart(true, -1f);
 						break;
 					case MATRIX_STACK_CLOCK_POSITION.TEN:
-						TweenExtensions.Restart(this.hand10OnTween, true, -1f);
+						this.hand10OnTween.Restart(true, -1f);
 						break;
 					}
 					GameManager.AudioSlinger.PlaySound(this.ConnectSFX);
@@ -281,8 +281,8 @@ public class NodeHexObject : MonoBehaviour
 
 	public void SetPlayable()
 	{
-		TweenExtensions.Restart(this.hideNonPlayableCG, true, -1f);
-		TweenExtensions.Restart(this.showBaseCG, true, -1f);
+		this.hideNonPlayableCG.Restart(true, -1f);
+		this.showBaseCG.Restart(true, -1f);
 		for (int i = 0; i < this.InteractObjects.Length; i++)
 		{
 			this.InteractObjects[i].Playable = true;
@@ -291,8 +291,8 @@ public class NodeHexObject : MonoBehaviour
 
 	public void SetNonPlayable()
 	{
-		TweenExtensions.Restart(this.hideBaseCG, true, -1f);
-		TweenExtensions.Restart(this.showNonPlayableCG, true, -1f);
+		this.hideBaseCG.Restart(true, -1f);
+		this.showNonPlayableCG.Restart(true, -1f);
 		for (int i = 0; i < this.InteractObjects.Length; i++)
 		{
 			this.InteractObjects[i].Playable = false;
@@ -389,123 +389,123 @@ public class NodeHexObject : MonoBehaviour
 
 	private void Awake()
 	{
-		this.hand12OnTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.Hand12On.fillAmount, delegate(float x)
+		this.hand12OnTween = DOTween.To(() => this.Hand12On.fillAmount, delegate(float x)
 		{
 			this.Hand12On.fillAmount = x;
-		}, 1f, 0.15f), 1);
-		TweenExtensions.Pause<Tweener>(this.hand12OnTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hand12OnTween, false);
-		this.hand3OnTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.Hand3On.fillAmount, delegate(float x)
+		}, 1f, 0.15f).SetEase(Ease.Linear);
+		this.hand12OnTween.Pause<Tweener>();
+		this.hand12OnTween.SetAutoKill(false);
+		this.hand3OnTween = DOTween.To(() => this.Hand3On.fillAmount, delegate(float x)
 		{
 			this.Hand3On.fillAmount = x;
-		}, 1f, 0.15f), 1);
-		TweenExtensions.Pause<Tweener>(this.hand3OnTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hand3OnTween, false);
-		this.hand6OnTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.Hand6On.fillAmount, delegate(float x)
+		}, 1f, 0.15f).SetEase(Ease.Linear);
+		this.hand3OnTween.Pause<Tweener>();
+		this.hand3OnTween.SetAutoKill(false);
+		this.hand6OnTween = DOTween.To(() => this.Hand6On.fillAmount, delegate(float x)
 		{
 			this.Hand6On.fillAmount = x;
-		}, 1f, 0.15f), 1);
-		TweenExtensions.Pause<Tweener>(this.hand6OnTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hand6OnTween, false);
-		this.hand9OnTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.Hand9On.fillAmount, delegate(float x)
+		}, 1f, 0.15f).SetEase(Ease.Linear);
+		this.hand6OnTween.Pause<Tweener>();
+		this.hand6OnTween.SetAutoKill(false);
+		this.hand9OnTween = DOTween.To(() => this.Hand9On.fillAmount, delegate(float x)
 		{
 			this.Hand9On.fillAmount = x;
-		}, 1f, 0.15f), 1);
-		TweenExtensions.Pause<Tweener>(this.hand9OnTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hand9OnTween, false);
-		this.hand1OnTween = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.Hand1On.anchoredPosition, delegate(Vector2 x)
+		}, 1f, 0.15f).SetEase(Ease.Linear);
+		this.hand9OnTween.Pause<Tweener>();
+		this.hand9OnTween.SetAutoKill(false);
+		this.hand1OnTween = DOTween.To(() => this.Hand1On.anchoredPosition, delegate(Vector2 x)
 		{
 			this.Hand1On.anchoredPosition = x;
-		}, new Vector2(29f, 29f), 0.15f), 1);
-		TweenExtensions.Pause<Tweener>(this.hand1OnTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hand1OnTween, false);
-		this.hand4OnTween = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.Hand4On.anchoredPosition, delegate(Vector2 x)
+		}, new Vector2(29f, 29f), 0.15f).SetEase(Ease.Linear);
+		this.hand1OnTween.Pause<Tweener>();
+		this.hand1OnTween.SetAutoKill(false);
+		this.hand4OnTween = DOTween.To(() => this.Hand4On.anchoredPosition, delegate(Vector2 x)
 		{
 			this.Hand4On.anchoredPosition = x;
-		}, new Vector2(29f, -29f), 0.15f), 1);
-		TweenExtensions.Pause<Tweener>(this.hand4OnTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hand4OnTween, false);
-		this.hand7OnTween = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.Hand7On.anchoredPosition, delegate(Vector2 x)
+		}, new Vector2(29f, -29f), 0.15f).SetEase(Ease.Linear);
+		this.hand4OnTween.Pause<Tweener>();
+		this.hand4OnTween.SetAutoKill(false);
+		this.hand7OnTween = DOTween.To(() => this.Hand7On.anchoredPosition, delegate(Vector2 x)
 		{
 			this.Hand7On.anchoredPosition = x;
-		}, new Vector2(-29f, -29f), 0.15f), 1);
-		TweenExtensions.Pause<Tweener>(this.hand7OnTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hand7OnTween, false);
-		this.hand10OnTween = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.Hand10On.anchoredPosition, delegate(Vector2 x)
+		}, new Vector2(-29f, -29f), 0.15f).SetEase(Ease.Linear);
+		this.hand7OnTween.Pause<Tweener>();
+		this.hand7OnTween.SetAutoKill(false);
+		this.hand10OnTween = DOTween.To(() => this.Hand10On.anchoredPosition, delegate(Vector2 x)
 		{
 			this.Hand10On.anchoredPosition = x;
-		}, new Vector2(-29f, 29f), 0.15f), 1);
-		TweenExtensions.Pause<Tweener>(this.hand10OnTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hand10OnTween, false);
-		this.hideActiveBaseTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.ActiveBaseCG.alpha, delegate(float x)
+		}, new Vector2(-29f, 29f), 0.15f).SetEase(Ease.Linear);
+		this.hand10OnTween.Pause<Tweener>();
+		this.hand10OnTween.SetAutoKill(false);
+		this.hideActiveBaseTween = DOTween.To(() => this.ActiveBaseCG.alpha, delegate(float x)
 		{
 			this.ActiveBaseCG.alpha = x;
-		}, 0f, 0.15f), 1);
-		TweenExtensions.Pause<Tweener>(this.hideActiveBaseTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideActiveBaseTween, false);
-		this.presentMeTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.MyCG.alpha, delegate(float x)
+		}, 0f, 0.15f).SetEase(Ease.Linear);
+		this.hideActiveBaseTween.Pause<Tweener>();
+		this.hideActiveBaseTween.SetAutoKill(false);
+		this.presentMeTween = DOTween.To(() => this.MyCG.alpha, delegate(float x)
 		{
 			this.MyCG.alpha = x;
-		}, 1f, 0.25f), 1);
-		TweenExtensions.Pause<Tweener>(this.presentMeTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.presentMeTween, false);
-		this.hideMeTween = TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.MyCG.alpha, delegate(float x)
+		}, 1f, 0.25f).SetEase(Ease.Linear);
+		this.presentMeTween.Pause<Tweener>();
+		this.presentMeTween.SetAutoKill(false);
+		this.hideMeTween = DOTween.To(() => this.MyCG.alpha, delegate(float x)
 		{
 			this.MyCG.alpha = x;
-		}, 0f, 0.25f), 1), new TweenCallback(this.finalClear));
-		TweenExtensions.Pause<Tweener>(this.hideMeTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideMeTween, false);
-		this.showBaseCG = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.BaseCG.alpha, delegate(float x)
+		}, 0f, 0.25f).SetEase(Ease.Linear).OnComplete(new TweenCallback(this.finalClear));
+		this.hideMeTween.Pause<Tweener>();
+		this.hideMeTween.SetAutoKill(false);
+		this.showBaseCG = DOTween.To(() => this.BaseCG.alpha, delegate(float x)
 		{
 			this.BaseCG.alpha = x;
-		}, 1f, 0.15f), 1);
-		TweenExtensions.Pause<Tweener>(this.showBaseCG);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showBaseCG, false);
-		this.hideBaseCG = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.BaseCG.alpha, delegate(float x)
+		}, 1f, 0.15f).SetEase(Ease.Linear);
+		this.showBaseCG.Pause<Tweener>();
+		this.showBaseCG.SetAutoKill(false);
+		this.hideBaseCG = DOTween.To(() => this.BaseCG.alpha, delegate(float x)
 		{
 			this.BaseCG.alpha = x;
-		}, 0f, 0.15f), 1);
-		TweenExtensions.Pause<Tweener>(this.hideBaseCG);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideBaseCG, false);
-		this.showNonPlayableCG = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.NotPlayableCG.alpha, delegate(float x)
+		}, 0f, 0.15f).SetEase(Ease.Linear);
+		this.hideBaseCG.Pause<Tweener>();
+		this.hideBaseCG.SetAutoKill(false);
+		this.showNonPlayableCG = DOTween.To(() => this.NotPlayableCG.alpha, delegate(float x)
 		{
 			this.NotPlayableCG.alpha = x;
-		}, 1f, 0.15f), 1);
-		TweenExtensions.Pause<Tweener>(this.showNonPlayableCG);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showNonPlayableCG, false);
-		this.hideNonPlayableCG = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.NotPlayableCG.alpha, delegate(float x)
+		}, 1f, 0.15f).SetEase(Ease.Linear);
+		this.showNonPlayableCG.Pause<Tweener>();
+		this.showNonPlayableCG.SetAutoKill(false);
+		this.hideNonPlayableCG = DOTween.To(() => this.NotPlayableCG.alpha, delegate(float x)
 		{
 			this.NotPlayableCG.alpha = x;
-		}, 0f, 0.15f), 1);
-		TweenExtensions.Pause<Tweener>(this.hideNonPlayableCG);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideNonPlayableCG, false);
-		this.showActiveBase = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.ActiveBaseCG.alpha, delegate(float x)
+		}, 0f, 0.15f).SetEase(Ease.Linear);
+		this.hideNonPlayableCG.Pause<Tweener>();
+		this.hideNonPlayableCG.SetAutoKill(false);
+		this.showActiveBase = DOTween.To(() => this.ActiveBaseCG.alpha, delegate(float x)
 		{
 			this.ActiveBaseCG.alpha = x;
-		}, 1f, 0.5f), 1);
-		TweenExtensions.Pause<Tweener>(this.showActiveBase);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showActiveBase, false);
-		this.hideActiveBase = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.ActiveBaseCG.alpha, delegate(float x)
+		}, 1f, 0.5f).SetEase(Ease.Linear);
+		this.showActiveBase.Pause<Tweener>();
+		this.showActiveBase.SetAutoKill(false);
+		this.hideActiveBase = DOTween.To(() => this.ActiveBaseCG.alpha, delegate(float x)
 		{
 			this.ActiveBaseCG.alpha = x;
-		}, 0f, 0.35f), 1);
-		TweenExtensions.Pause<Tweener>(this.hideActiveBase);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideActiveBase, false);
-		this.hideMeSeq = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), new TweenCallback(this.finalClear));
-		TweenSettingsExtensions.Insert(this.hideMeSeq, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.CardinalConnectorsCG.alpha, delegate(float x)
+		}, 0f, 0.35f).SetEase(Ease.Linear);
+		this.hideActiveBase.Pause<Tweener>();
+		this.hideActiveBase.SetAutoKill(false);
+		this.hideMeSeq = DOTween.Sequence().OnComplete(new TweenCallback(this.finalClear));
+		this.hideMeSeq.Insert(0f, DOTween.To(() => this.CardinalConnectorsCG.alpha, delegate(float x)
 		{
 			this.CardinalConnectorsCG.alpha = x;
-		}, 0f, 0.15f), 1));
-		TweenSettingsExtensions.Insert(this.hideMeSeq, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.NonCardinalConnectorsCG.alpha, delegate(float x)
+		}, 0f, 0.15f).SetEase(Ease.Linear));
+		this.hideMeSeq.Insert(0f, DOTween.To(() => this.NonCardinalConnectorsCG.alpha, delegate(float x)
 		{
 			this.NonCardinalConnectorsCG.alpha = x;
-		}, 0f, 0.15f), 1));
-		TweenSettingsExtensions.Insert(this.hideMeSeq, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.MyCG.alpha, delegate(float x)
+		}, 0f, 0.15f).SetEase(Ease.Linear));
+		this.hideMeSeq.Insert(0f, DOTween.To(() => this.MyCG.alpha, delegate(float x)
 		{
 			this.MyCG.alpha = x;
-		}, 0f, 0.25f), 1));
-		TweenExtensions.Pause<Sequence>(this.hideMeSeq);
-		TweenSettingsExtensions.SetAutoKill<Sequence>(this.hideMeSeq, false);
+		}, 0f, 0.25f).SetEase(Ease.Linear));
+		this.hideMeSeq.Pause<Sequence>();
+		this.hideMeSeq.SetAutoKill(false);
 		for (int i = 0; i < this.InteractObjects.Length; i++)
 		{
 			this.InteractObjects[i].SetNodeHexDirection += this.setMyDirection;
@@ -527,7 +527,7 @@ public class NodeHexObject : MonoBehaviour
 		if (this.presentMeActivated && Time.time - this.presentMeTimeStamp >= this.presentMeDelay)
 		{
 			this.presentMeActivated = false;
-			TweenExtensions.Restart(this.presentMeTween, true, -1f);
+			this.presentMeTween.Restart(true, -1f);
 		}
 	}
 

@@ -23,26 +23,26 @@ public static class DebugExtensions
 		float x = bounds.extents.x;
 		float y = bounds.extents.y;
 		float z = bounds.extents.z;
-		Vector3 vector = center + new Vector3(x, y, z);
-		Vector3 vector2 = center + new Vector3(x, y, -z);
-		Vector3 vector3 = center + new Vector3(-x, y, z);
-		Vector3 vector4 = center + new Vector3(-x, y, -z);
-		Vector3 vector5 = center + new Vector3(x, -y, z);
-		Vector3 vector6 = center + new Vector3(x, -y, -z);
-		Vector3 vector7 = center + new Vector3(-x, -y, z);
-		Vector3 vector8 = center + new Vector3(-x, -y, -z);
+		Vector3 start = center + new Vector3(x, y, z);
+		Vector3 vector = center + new Vector3(x, y, -z);
+		Vector3 vector2 = center + new Vector3(-x, y, z);
+		Vector3 vector3 = center + new Vector3(-x, y, -z);
+		Vector3 vector4 = center + new Vector3(x, -y, z);
+		Vector3 end = center + new Vector3(x, -y, -z);
+		Vector3 vector5 = center + new Vector3(-x, -y, z);
+		Vector3 vector6 = center + new Vector3(-x, -y, -z);
+		Debug.DrawLine(start, vector2, color, duration, depthTest);
+		Debug.DrawLine(start, vector, color, duration, depthTest);
+		Debug.DrawLine(vector2, vector3, color, duration, depthTest);
 		Debug.DrawLine(vector, vector3, color, duration, depthTest);
-		Debug.DrawLine(vector, vector2, color, duration, depthTest);
-		Debug.DrawLine(vector3, vector4, color, duration, depthTest);
-		Debug.DrawLine(vector2, vector4, color, duration, depthTest);
-		Debug.DrawLine(vector, vector5, color, duration, depthTest);
-		Debug.DrawLine(vector2, vector6, color, duration, depthTest);
-		Debug.DrawLine(vector3, vector7, color, duration, depthTest);
-		Debug.DrawLine(vector4, vector8, color, duration, depthTest);
-		Debug.DrawLine(vector5, vector7, color, duration, depthTest);
+		Debug.DrawLine(start, vector4, color, duration, depthTest);
+		Debug.DrawLine(vector, end, color, duration, depthTest);
+		Debug.DrawLine(vector2, vector5, color, duration, depthTest);
+		Debug.DrawLine(vector3, vector6, color, duration, depthTest);
+		Debug.DrawLine(vector4, vector5, color, duration, depthTest);
+		Debug.DrawLine(vector4, end, color, duration, depthTest);
 		Debug.DrawLine(vector5, vector6, color, duration, depthTest);
-		Debug.DrawLine(vector7, vector8, color, duration, depthTest);
-		Debug.DrawLine(vector8, vector6, color, duration, depthTest);
+		Debug.DrawLine(vector6, end, color, duration, depthTest);
 	}
 
 	public static void DebugBounds(Bounds bounds, float duration = 0f, bool depthTest = true)
@@ -112,29 +112,29 @@ public static class DebugExtensions
 	public static void DebugCircle(Vector3 position, Vector3 up, Color color, float radius = 1f, float duration = 0f, bool depthTest = true)
 	{
 		Vector3 vector = up.normalized * radius;
-		Vector3 vector2 = Vector3.Slerp(vector, -vector, 0.5f);
-		Vector3 vector3 = Vector3.Cross(vector, vector2).normalized * radius;
+		Vector3 rhs = Vector3.Slerp(vector, -vector, 0.5f);
+		Vector3 vector2 = Vector3.Cross(vector, rhs).normalized * radius;
 		Matrix4x4 matrix4x = default(Matrix4x4);
-		matrix4x[0] = vector3.x;
-		matrix4x[1] = vector3.y;
-		matrix4x[2] = vector3.z;
+		matrix4x[0] = vector2.x;
+		matrix4x[1] = vector2.y;
+		matrix4x[2] = vector2.z;
 		matrix4x[4] = vector.x;
 		matrix4x[5] = vector.y;
 		matrix4x[6] = vector.z;
-		matrix4x[8] = vector2.x;
-		matrix4x[9] = vector2.y;
-		matrix4x[10] = vector2.z;
-		Vector3 vector4 = position + matrix4x.MultiplyPoint3x4(new Vector3(Mathf.Cos(0f), 0f, Mathf.Sin(0f)));
-		Vector3 vector5 = Vector3.zero;
+		matrix4x[8] = rhs.x;
+		matrix4x[9] = rhs.y;
+		matrix4x[10] = rhs.z;
+		Vector3 start = position + matrix4x.MultiplyPoint3x4(new Vector3(Mathf.Cos(0f), 0f, Mathf.Sin(0f)));
+		Vector3 vector3 = Vector3.zero;
 		color = ((!(color == default(Color))) ? color : Color.white);
 		for (int i = 0; i < 91; i++)
 		{
-			vector5.x = Mathf.Cos((float)(i * 4) * 0.0174532924f);
-			vector5.z = Mathf.Sin((float)(i * 4) * 0.0174532924f);
-			vector5.y = 0f;
-			vector5 = position + matrix4x.MultiplyPoint3x4(vector5);
-			Debug.DrawLine(vector4, vector5, color, duration, depthTest);
-			vector4 = vector5;
+			vector3.x = Mathf.Cos((float)(i * 4) * 0.0174532924f);
+			vector3.z = Mathf.Sin((float)(i * 4) * 0.0174532924f);
+			vector3.y = 0f;
+			vector3 = position + matrix4x.MultiplyPoint3x4(vector3);
+			Debug.DrawLine(start, vector3, color, duration, depthTest);
+			start = vector3;
 		}
 	}
 
@@ -156,26 +156,20 @@ public static class DebugExtensions
 	public static void DebugWireSphere(Vector3 position, Color color, float radius = 1f, float duration = 0f, bool depthTest = true)
 	{
 		float num = 10f;
-		Vector3 vector;
-		vector..ctor(position.x, position.y + radius * Mathf.Sin(0f), position.z + radius * Mathf.Cos(0f));
-		Vector3 vector2;
-		vector2..ctor(position.x + radius * Mathf.Cos(0f), position.y, position.z + radius * Mathf.Sin(0f));
-		Vector3 vector3;
-		vector3..ctor(position.x + radius * Mathf.Cos(0f), position.y + radius * Mathf.Sin(0f), position.z);
+		Vector3 start = new Vector3(position.x, position.y + radius * Mathf.Sin(0f), position.z + radius * Mathf.Cos(0f));
+		Vector3 start2 = new Vector3(position.x + radius * Mathf.Cos(0f), position.y, position.z + radius * Mathf.Sin(0f));
+		Vector3 start3 = new Vector3(position.x + radius * Mathf.Cos(0f), position.y + radius * Mathf.Sin(0f), position.z);
 		for (int i = 1; i < 37; i++)
 		{
-			Vector3 vector4;
-			vector4..ctor(position.x, position.y + radius * Mathf.Sin(num * (float)i * 0.0174532924f), position.z + radius * Mathf.Cos(num * (float)i * 0.0174532924f));
-			Vector3 vector5;
-			vector5..ctor(position.x + radius * Mathf.Cos(num * (float)i * 0.0174532924f), position.y, position.z + radius * Mathf.Sin(num * (float)i * 0.0174532924f));
-			Vector3 vector6;
-			vector6..ctor(position.x + radius * Mathf.Cos(num * (float)i * 0.0174532924f), position.y + radius * Mathf.Sin(num * (float)i * 0.0174532924f), position.z);
-			Debug.DrawLine(vector, vector4, color, duration, depthTest);
-			Debug.DrawLine(vector2, vector5, color, duration, depthTest);
-			Debug.DrawLine(vector3, vector6, color, duration, depthTest);
-			vector = vector4;
-			vector2 = vector5;
-			vector3 = vector6;
+			Vector3 vector = new Vector3(position.x, position.y + radius * Mathf.Sin(num * (float)i * 0.0174532924f), position.z + radius * Mathf.Cos(num * (float)i * 0.0174532924f));
+			Vector3 vector2 = new Vector3(position.x + radius * Mathf.Cos(num * (float)i * 0.0174532924f), position.y, position.z + radius * Mathf.Sin(num * (float)i * 0.0174532924f));
+			Vector3 vector3 = new Vector3(position.x + radius * Mathf.Cos(num * (float)i * 0.0174532924f), position.y + radius * Mathf.Sin(num * (float)i * 0.0174532924f), position.z);
+			Debug.DrawLine(start, vector, color, duration, depthTest);
+			Debug.DrawLine(start2, vector2, color, duration, depthTest);
+			Debug.DrawLine(start3, vector3, color, duration, depthTest);
+			start = vector;
+			start2 = vector2;
+			start3 = vector3;
 		}
 	}
 
@@ -188,17 +182,17 @@ public static class DebugExtensions
 	{
 		Vector3 vector = (end - start).normalized * radius;
 		Vector3 vector2 = Vector3.Slerp(vector, -vector, 0.5f);
-		Vector3 vector3 = Vector3.Cross(vector, vector2).normalized * radius;
+		Vector3 b = Vector3.Cross(vector, vector2).normalized * radius;
 		DebugExtensions.DebugCircle(start, vector, color, radius, duration, depthTest);
 		DebugExtensions.DebugCircle(end, -vector, color, radius, duration, depthTest);
 		DebugExtensions.DebugCircle((start + end) * 0.5f, vector, color, radius, duration, depthTest);
-		Debug.DrawLine(start + vector3, end + vector3, color, duration, depthTest);
-		Debug.DrawLine(start - vector3, end - vector3, color, duration, depthTest);
+		Debug.DrawLine(start + b, end + b, color, duration, depthTest);
+		Debug.DrawLine(start - b, end - b, color, duration, depthTest);
 		Debug.DrawLine(start + vector2, end + vector2, color, duration, depthTest);
 		Debug.DrawLine(start - vector2, end - vector2, color, duration, depthTest);
-		Debug.DrawLine(start - vector3, start + vector3, color, duration, depthTest);
+		Debug.DrawLine(start - b, start + b, color, duration, depthTest);
 		Debug.DrawLine(start - vector2, start + vector2, color, duration, depthTest);
-		Debug.DrawLine(end - vector3, end + vector3, color, duration, depthTest);
+		Debug.DrawLine(end - b, end + b, color, duration, depthTest);
 		Debug.DrawLine(end - vector2, end + vector2, color, duration, depthTest);
 	}
 
@@ -214,19 +208,17 @@ public static class DebugExtensions
 		Vector3 vector2 = Vector3.Slerp(vector, -vector, 0.5f);
 		Vector3 vector3 = Vector3.Cross(vector, vector2).normalized * magnitude;
 		direction = direction.normalized;
-		Vector3 vector4 = Vector3.Slerp(vector, vector2, angle / 90f);
-		Plane plane;
-		plane..ctor(-direction, position + vector);
-		Ray ray;
-		ray..ctor(position, vector4);
+		Vector3 direction2 = Vector3.Slerp(vector, vector2, angle / 90f);
+		Plane plane = new Plane(-direction, position + vector);
+		Ray ray = new Ray(position, direction2);
 		float num;
-		plane.Raycast(ray, ref num);
-		Debug.DrawRay(position, vector4.normalized * num, color);
+		plane.Raycast(ray, out num);
+		Debug.DrawRay(position, direction2.normalized * num, color);
 		Debug.DrawRay(position, Vector3.Slerp(vector, -vector2, angle / 90f).normalized * num, color, duration, depthTest);
 		Debug.DrawRay(position, Vector3.Slerp(vector, vector3, angle / 90f).normalized * num, color, duration, depthTest);
 		Debug.DrawRay(position, Vector3.Slerp(vector, -vector3, angle / 90f).normalized * num, color, duration, depthTest);
-		DebugExtensions.DebugCircle(position + vector, direction, color, (vector - vector4.normalized * num).magnitude, duration, depthTest);
-		DebugExtensions.DebugCircle(position + vector * 0.5f, direction, color, (vector * 0.5f - vector4.normalized * (num * 0.5f)).magnitude, duration, depthTest);
+		DebugExtensions.DebugCircle(position + vector, direction, color, (vector - direction2.normalized * num).magnitude, duration, depthTest);
+		DebugExtensions.DebugCircle(position + vector * 0.5f, direction, color, (vector * 0.5f - direction2.normalized * (num * 0.5f)).magnitude, duration, depthTest);
 	}
 
 	public static void DebugCone(Vector3 position, Vector3 direction, float angle = 45f, float duration = 0f, bool depthTest = true)
@@ -274,10 +266,10 @@ public static class DebugExtensions
 		Vector3 vector3 = (vector2 - start).normalized * radius;
 		Vector3 vector4 = Vector3.Slerp(vector3, -vector3, 0.5f);
 		Vector3 vector5 = Vector3.Cross(vector3, vector4).normalized * radius;
-		float num = Mathf.Max(0f, height * 0.5f - radius);
+		float d = Mathf.Max(0f, height * 0.5f - radius);
 		Vector3 vector6 = (vector2 + start) * 0.5f;
-		start = vector6 + (start - vector6).normalized * num;
-		vector2 = vector6 + (vector2 - vector6).normalized * num;
+		start = vector6 + (start - vector6).normalized * d;
+		vector2 = vector6 + (vector2 - vector6).normalized * d;
 		DebugExtensions.DebugCircle(start, vector3, color, radius, duration, depthTest);
 		DebugExtensions.DebugCircle(vector2, -vector3, color, radius, duration, depthTest);
 		Debug.DrawLine(start + vector5, vector2 + vector5, color, duration, depthTest);
@@ -323,28 +315,28 @@ public static class DebugExtensions
 		float x = bounds.extents.x;
 		float y = bounds.extents.y;
 		float z = bounds.extents.z;
-		Vector3 vector = center + new Vector3(x, y, z);
-		Vector3 vector2 = center + new Vector3(x, y, -z);
-		Vector3 vector3 = center + new Vector3(-x, y, z);
-		Vector3 vector4 = center + new Vector3(-x, y, -z);
-		Vector3 vector5 = center + new Vector3(x, -y, z);
-		Vector3 vector6 = center + new Vector3(x, -y, -z);
-		Vector3 vector7 = center + new Vector3(-x, -y, z);
-		Vector3 vector8 = center + new Vector3(-x, -y, -z);
+		Vector3 from = center + new Vector3(x, y, z);
+		Vector3 vector = center + new Vector3(x, y, -z);
+		Vector3 vector2 = center + new Vector3(-x, y, z);
+		Vector3 vector3 = center + new Vector3(-x, y, -z);
+		Vector3 vector4 = center + new Vector3(x, -y, z);
+		Vector3 to = center + new Vector3(x, -y, -z);
+		Vector3 vector5 = center + new Vector3(-x, -y, z);
+		Vector3 vector6 = center + new Vector3(-x, -y, -z);
 		Color color2 = Gizmos.color;
 		Gizmos.color = color;
+		Gizmos.DrawLine(from, vector2);
+		Gizmos.DrawLine(from, vector);
+		Gizmos.DrawLine(vector2, vector3);
 		Gizmos.DrawLine(vector, vector3);
-		Gizmos.DrawLine(vector, vector2);
-		Gizmos.DrawLine(vector3, vector4);
-		Gizmos.DrawLine(vector2, vector4);
-		Gizmos.DrawLine(vector, vector5);
-		Gizmos.DrawLine(vector2, vector6);
-		Gizmos.DrawLine(vector3, vector7);
-		Gizmos.DrawLine(vector4, vector8);
-		Gizmos.DrawLine(vector5, vector7);
+		Gizmos.DrawLine(from, vector4);
+		Gizmos.DrawLine(vector, to);
+		Gizmos.DrawLine(vector2, vector5);
+		Gizmos.DrawLine(vector3, vector6);
+		Gizmos.DrawLine(vector4, vector5);
+		Gizmos.DrawLine(vector4, to);
 		Gizmos.DrawLine(vector5, vector6);
-		Gizmos.DrawLine(vector7, vector8);
-		Gizmos.DrawLine(vector8, vector6);
+		Gizmos.DrawLine(vector6, to);
 		Gizmos.color = color2;
 	}
 
@@ -420,30 +412,30 @@ public static class DebugExtensions
 	public static void DrawCircle(Vector3 position, Vector3 up, Color color, float radius = 1f)
 	{
 		up = ((!(up == Vector3.zero)) ? up : Vector3.up).normalized * radius;
-		Vector3 vector = Vector3.Slerp(up, -up, 0.5f);
-		Vector3 vector2 = Vector3.Cross(up, vector).normalized * radius;
+		Vector3 rhs = Vector3.Slerp(up, -up, 0.5f);
+		Vector3 vector = Vector3.Cross(up, rhs).normalized * radius;
 		Matrix4x4 matrix4x = default(Matrix4x4);
-		matrix4x[0] = vector2.x;
-		matrix4x[1] = vector2.y;
-		matrix4x[2] = vector2.z;
+		matrix4x[0] = vector.x;
+		matrix4x[1] = vector.y;
+		matrix4x[2] = vector.z;
 		matrix4x[4] = up.x;
 		matrix4x[5] = up.y;
 		matrix4x[6] = up.z;
-		matrix4x[8] = vector.x;
-		matrix4x[9] = vector.y;
-		matrix4x[10] = vector.z;
-		Vector3 vector3 = position + matrix4x.MultiplyPoint3x4(new Vector3(Mathf.Cos(0f), 0f, Mathf.Sin(0f)));
-		Vector3 vector4 = Vector3.zero;
+		matrix4x[8] = rhs.x;
+		matrix4x[9] = rhs.y;
+		matrix4x[10] = rhs.z;
+		Vector3 from = position + matrix4x.MultiplyPoint3x4(new Vector3(Mathf.Cos(0f), 0f, Mathf.Sin(0f)));
+		Vector3 vector2 = Vector3.zero;
 		Color color2 = Gizmos.color;
 		Gizmos.color = ((!(color == default(Color))) ? color : Color.white);
 		for (int i = 0; i < 91; i++)
 		{
-			vector4.x = Mathf.Cos((float)(i * 4) * 0.0174532924f);
-			vector4.z = Mathf.Sin((float)(i * 4) * 0.0174532924f);
-			vector4.y = 0f;
-			vector4 = position + matrix4x.MultiplyPoint3x4(vector4);
-			Gizmos.DrawLine(vector3, vector4);
-			vector3 = vector4;
+			vector2.x = Mathf.Cos((float)(i * 4) * 0.0174532924f);
+			vector2.z = Mathf.Sin((float)(i * 4) * 0.0174532924f);
+			vector2.y = 0f;
+			vector2 = position + matrix4x.MultiplyPoint3x4(vector2);
+			Gizmos.DrawLine(from, vector2);
+			from = vector2;
 		}
 		Gizmos.color = color2;
 	}
@@ -467,19 +459,19 @@ public static class DebugExtensions
 	{
 		Vector3 vector = (end - start).normalized * radius;
 		Vector3 vector2 = Vector3.Slerp(vector, -vector, 0.5f);
-		Vector3 vector3 = Vector3.Cross(vector, vector2).normalized * radius;
+		Vector3 b = Vector3.Cross(vector, vector2).normalized * radius;
 		DebugExtensions.DrawCircle(start, vector, color, radius);
 		DebugExtensions.DrawCircle(end, -vector, color, radius);
 		DebugExtensions.DrawCircle((start + end) * 0.5f, vector, color, radius);
 		Color color2 = Gizmos.color;
 		Gizmos.color = color;
-		Gizmos.DrawLine(start + vector3, end + vector3);
-		Gizmos.DrawLine(start - vector3, end - vector3);
+		Gizmos.DrawLine(start + b, end + b);
+		Gizmos.DrawLine(start - b, end - b);
 		Gizmos.DrawLine(start + vector2, end + vector2);
 		Gizmos.DrawLine(start - vector2, end - vector2);
-		Gizmos.DrawLine(start - vector3, start + vector3);
+		Gizmos.DrawLine(start - b, start + b);
 		Gizmos.DrawLine(start - vector2, start + vector2);
-		Gizmos.DrawLine(end - vector3, end + vector3);
+		Gizmos.DrawLine(end - b, end + b);
 		Gizmos.DrawLine(end - vector2, end + vector2);
 		Gizmos.color = color2;
 	}
@@ -496,21 +488,19 @@ public static class DebugExtensions
 		Vector3 vector2 = Vector3.Slerp(vector, -vector, 0.5f);
 		Vector3 vector3 = Vector3.Cross(vector, vector2).normalized * magnitude;
 		direction = direction.normalized;
-		Vector3 vector4 = Vector3.Slerp(vector, vector2, angle / 90f);
-		Plane plane;
-		plane..ctor(-direction, position + vector);
-		Ray ray;
-		ray..ctor(position, vector4);
+		Vector3 direction2 = Vector3.Slerp(vector, vector2, angle / 90f);
+		Plane plane = new Plane(-direction, position + vector);
+		Ray ray = new Ray(position, direction2);
 		float num;
-		plane.Raycast(ray, ref num);
+		plane.Raycast(ray, out num);
 		Color color2 = Gizmos.color;
 		Gizmos.color = color;
-		Gizmos.DrawRay(position, vector4.normalized * num);
+		Gizmos.DrawRay(position, direction2.normalized * num);
 		Gizmos.DrawRay(position, Vector3.Slerp(vector, -vector2, angle / 90f).normalized * num);
 		Gizmos.DrawRay(position, Vector3.Slerp(vector, vector3, angle / 90f).normalized * num);
 		Gizmos.DrawRay(position, Vector3.Slerp(vector, -vector3, angle / 90f).normalized * num);
-		DebugExtensions.DrawCircle(position + vector, direction, color, (vector - vector4.normalized * num).magnitude);
-		DebugExtensions.DrawCircle(position + vector * 0.5f, direction, color, (vector * 0.5f - vector4.normalized * (num * 0.5f)).magnitude);
+		DebugExtensions.DrawCircle(position + vector, direction, color, (vector - direction2.normalized * num).magnitude);
+		DebugExtensions.DrawCircle(position + vector * 0.5f, direction, color, (vector * 0.5f - direction2.normalized * (num * 0.5f)).magnitude);
 		Gizmos.color = color2;
 	}
 
@@ -564,10 +554,10 @@ public static class DebugExtensions
 		Vector3 vector5 = Vector3.Cross(vector3, vector4).normalized * radius;
 		Color color2 = Gizmos.color;
 		Gizmos.color = color;
-		float num = Mathf.Max(0f, height * 0.5f - radius);
+		float d = Mathf.Max(0f, height * 0.5f - radius);
 		Vector3 vector6 = (vector2 + start) * 0.5f;
-		start = vector6 + (start - vector6).normalized * num;
-		vector2 = vector6 + (vector2 - vector6).normalized * num;
+		start = vector6 + (start - vector6).normalized * d;
+		vector2 = vector6 + (vector2 - vector6).normalized * d;
 		DebugExtensions.DrawCircle(start, vector3, color, radius);
 		DebugExtensions.DrawCircle(vector2, -vector3, color, radius);
 		Gizmos.DrawLine(start + vector5, vector2 + vector5);

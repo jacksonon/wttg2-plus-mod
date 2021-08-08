@@ -27,9 +27,9 @@ namespace MirzaBeig.Demos
 			Vector3 localEulerAngles = base.transform.localEulerAngles;
 			localEulerAngles.y = num3 * -this.maxRotation;
 			localEulerAngles.x = num4 * this.maxRotation;
-			float num5 = (this.unscaledTime ? Time.unscaledDeltaTime : Time.deltaTime) * this.speed;
-			localEulerAngles.x = Mathf.LerpAngle(base.transform.localEulerAngles.x, localEulerAngles.x, num5);
-			localEulerAngles.y = Mathf.LerpAngle(base.transform.localEulerAngles.y, localEulerAngles.y, num5);
+			float t = (this.unscaledTime ? Time.unscaledDeltaTime : Time.deltaTime) * this.speed;
+			localEulerAngles.x = Mathf.LerpAngle(base.transform.localEulerAngles.x, localEulerAngles.x, t);
+			localEulerAngles.y = Mathf.LerpAngle(base.transform.localEulerAngles.y, localEulerAngles.y, t);
 			base.transform.localEulerAngles = localEulerAngles;
 		}
 

@@ -11,28 +11,28 @@ public class EvilSkullBehavior : MonoBehaviour
 		GameManager.AudioSlinger.PlaySound(this.SkullInSFX);
 		BlueWhisperManager.Ins.ProcessSound(this.SkullInSFX);
 		this.skullObjectCG.alpha = 1f;
-		TweenExtensions.Restart(this.presentSkullTween, true, -1f);
+		this.presentSkullTween.Restart(true, -1f);
 	}
 
 	public void HackedLaugh()
 	{
 		this.skullObjectCG.alpha = 1f;
-		TweenExtensions.Restart(this.skullLaughSeq, true, -1f);
-		TweenExtensions.Restart(this.hackedLaughSeq, true, -1f);
+		this.skullLaughSeq.Restart(true, -1f);
+		this.hackedLaughSeq.Restart(true, -1f);
 	}
 
 	private void haHaHa()
 	{
 		GameManager.AudioSlinger.PlaySound(this.EvilLaugh);
 		BlueWhisperManager.Ins.ProcessSound(this.EvilLaugh);
-		TweenExtensions.Restart(this.haHaHaSeq, true, -1f);
+		this.haHaHaSeq.Restart(true, -1f);
 	}
 
 	private void dismissMe()
 	{
 		GameManager.AudioSlinger.PlaySound(this.SkullOutSFX);
 		BlueWhisperManager.Ins.ProcessSound(this.SkullOutSFX);
-		TweenExtensions.Restart(this.dismissTween, true, -1f);
+		this.dismissTween.Restart(true, -1f);
 	}
 
 	private void killMe()
@@ -47,129 +47,129 @@ public class EvilSkullBehavior : MonoBehaviour
 		this.skullBotRT = this.SkullBot.GetComponent<RectTransform>();
 		this.skullObjectRT = this.SkullObject.GetComponent<RectTransform>();
 		this.defaultSkullBotPOS = this.SkullBot.GetComponent<RectTransform>().anchoredPosition;
-		this.presentSkullTween = TweenSettingsExtensions.OnComplete<TweenerCore<Vector3, Vector3, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.skullObjectRT.localScale, delegate(Vector3 x)
+		this.presentSkullTween = DOTween.To(() => this.skullObjectRT.localScale, delegate(Vector3 x)
 		{
 			this.skullObjectRT.localScale = x;
-		}, this.presentSkullScale, 0.75f), 27), new TweenCallback(this.haHaHa));
-		TweenExtensions.Pause<Tweener>(this.presentSkullTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.presentSkullTween, false);
-		this.dismissTween = TweenSettingsExtensions.OnComplete<TweenerCore<Vector3, Vector3, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.skullObjectRT.localScale, delegate(Vector3 x)
+		}, this.presentSkullScale, 0.75f).SetEase(Ease.OutBack).OnComplete(new TweenCallback(this.haHaHa));
+		this.presentSkullTween.Pause<Tweener>();
+		this.presentSkullTween.SetAutoKill(false);
+		this.dismissTween = DOTween.To(() => this.skullObjectRT.localScale, delegate(Vector3 x)
 		{
 			this.skullObjectRT.localScale = x;
-		}, this.defaultSkullScale, 0.4f), 26), new TweenCallback(this.killMe));
-		TweenExtensions.Pause<Tweener>(this.dismissTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.dismissTween, false);
-		this.haHaHaSeq = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), new TweenCallback(this.dismissMe));
-		TweenSettingsExtensions.Insert(this.haHaHaSeq, 0f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		}, this.defaultSkullScale, 0.4f).SetEase(Ease.InBack).OnComplete(new TweenCallback(this.killMe));
+		this.dismissTween.Pause<Tweener>();
+		this.dismissTween.SetAutoKill(false);
+		this.haHaHaSeq = DOTween.Sequence().OnComplete(new TweenCallback(this.dismissMe));
+		this.haHaHaSeq.Insert(0f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotOpen, 0.1f), 1), true));
-		TweenSettingsExtensions.Insert(this.haHaHaSeq, 0.32f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		}, this.laughSkullBotOpen, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.haHaHaSeq.Insert(0.32f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotClose, 0.1f), 1), true));
-		TweenSettingsExtensions.Insert(this.haHaHaSeq, 0.46f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		}, this.laughSkullBotClose, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.haHaHaSeq.Insert(0.46f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotOpen, 0.1f), 1), true));
-		TweenSettingsExtensions.Insert(this.haHaHaSeq, 0.66f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		}, this.laughSkullBotOpen, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.haHaHaSeq.Insert(0.66f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotClose, 0.1f), 1), true));
-		TweenSettingsExtensions.Insert(this.haHaHaSeq, 0.81f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		}, this.laughSkullBotClose, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.haHaHaSeq.Insert(0.81f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotOpen, 0.1f), 1), true));
-		TweenSettingsExtensions.Insert(this.haHaHaSeq, 1.02f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		}, this.laughSkullBotOpen, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.haHaHaSeq.Insert(1.02f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotClose, 0.1f), 1), true));
-		TweenSettingsExtensions.Insert(this.haHaHaSeq, 1.17f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		}, this.laughSkullBotClose, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.haHaHaSeq.Insert(1.17f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotOpen, 0.1f), 1), true));
-		TweenSettingsExtensions.Insert(this.haHaHaSeq, 1.32f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		}, this.laughSkullBotOpen, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.haHaHaSeq.Insert(1.32f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotClose, 0.1f), 1), true));
-		TweenSettingsExtensions.Insert(this.haHaHaSeq, 1.44f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		}, this.laughSkullBotClose, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.haHaHaSeq.Insert(1.44f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotOpen, 0.1f), 1), true));
-		TweenSettingsExtensions.Insert(this.haHaHaSeq, 1.67f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		}, this.laughSkullBotOpen, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.haHaHaSeq.Insert(1.67f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotClose, 0.1f), 1), true));
-		TweenSettingsExtensions.Insert(this.haHaHaSeq, 1.81f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		}, this.laughSkullBotClose, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.haHaHaSeq.Insert(1.81f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotOpen, 0.1f), 1), true));
-		TweenSettingsExtensions.Insert(this.haHaHaSeq, 2.02f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		}, this.laughSkullBotOpen, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.haHaHaSeq.Insert(2.02f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotClose, 0.1f), 1), true));
-		TweenSettingsExtensions.Insert(this.haHaHaSeq, 2.12f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		}, this.laughSkullBotClose, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.haHaHaSeq.Insert(2.12f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotOpen, 0.1f), 1), true));
-		TweenSettingsExtensions.Insert(this.haHaHaSeq, 2.33f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		}, this.laughSkullBotOpen, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.haHaHaSeq.Insert(2.33f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotClose, 0.1f), 1), true));
-		TweenSettingsExtensions.Insert(this.haHaHaSeq, 2.47f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		}, this.laughSkullBotClose, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.haHaHaSeq.Insert(2.47f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotOpen, 0.1f), 1), true));
-		TweenSettingsExtensions.Insert(this.haHaHaSeq, 2.67f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		}, this.laughSkullBotOpen, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.haHaHaSeq.Insert(2.67f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotClose, 0.1f), 1), true));
-		TweenSettingsExtensions.Insert(this.haHaHaSeq, 2.82f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		}, this.laughSkullBotClose, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.haHaHaSeq.Insert(2.82f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotOpen, 0.1f), 1), true));
-		TweenSettingsExtensions.Insert(this.haHaHaSeq, 3.06f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		}, this.laughSkullBotOpen, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.haHaHaSeq.Insert(3.06f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotClose, 0.1f), 1), true));
-		TweenSettingsExtensions.Insert(this.haHaHaSeq, 3.18f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		}, this.laughSkullBotClose, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.haHaHaSeq.Insert(3.18f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotOpen, 0.1f), 1), true));
-		TweenSettingsExtensions.Insert(this.haHaHaSeq, 3.72f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		}, this.laughSkullBotOpen, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.haHaHaSeq.Insert(3.72f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotClose, 0.1f), 1), true));
-		TweenExtensions.Pause<Sequence>(this.haHaHaSeq);
-		TweenSettingsExtensions.SetAutoKill<Sequence>(this.haHaHaSeq, false);
+		}, this.laughSkullBotClose, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.haHaHaSeq.Pause<Sequence>();
+		this.haHaHaSeq.SetAutoKill(false);
 		this.skullLaughSeq = DOTween.Sequence();
-		TweenSettingsExtensions.Insert(this.skullLaughSeq, 0f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		this.skullLaughSeq.Insert(0f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotOpen2, 0.1f), 1), true));
-		TweenSettingsExtensions.Insert(this.skullLaughSeq, 0.1f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
+		}, this.laughSkullBotOpen2, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.skullLaughSeq.Insert(0.1f, DOTween.To(() => this.skullBotRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.skullBotRT.anchoredPosition = x;
-		}, this.laughSkullBotClose2, 0.1f), 1), true));
-		TweenSettingsExtensions.SetLoops<Sequence>(this.skullLaughSeq, -1);
-		TweenExtensions.Pause<Sequence>(this.skullLaughSeq);
-		TweenSettingsExtensions.SetAutoKill<Sequence>(this.skullLaughSeq, false);
-		this.hackedLaughSeq = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+		}, this.laughSkullBotClose2, 0.1f).SetEase(Ease.Linear).SetRelative(true));
+		this.skullLaughSeq.SetLoops(-1);
+		this.skullLaughSeq.Pause<Sequence>();
+		this.skullLaughSeq.SetAutoKill(false);
+		this.hackedLaughSeq = DOTween.Sequence().OnComplete(delegate
 		{
-			TweenExtensions.Pause<Sequence>(this.skullLaughSeq);
+			this.skullLaughSeq.Pause<Sequence>();
 			this.skullBotRT.anchoredPosition = this.defaultSkullBotPOS;
 			this.skullObjectRT.localScale = this.defaultSkullScale;
 		});
-		TweenSettingsExtensions.Insert(this.hackedLaughSeq, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.skullObjectRT.localScale, delegate(Vector3 x)
+		this.hackedLaughSeq.Insert(0f, DOTween.To(() => this.skullObjectRT.localScale, delegate(Vector3 x)
 		{
 			this.skullObjectRT.localScale = x;
-		}, this.hackedSkullSmallScale, 0.75f), 21));
-		TweenSettingsExtensions.Insert(this.hackedLaughSeq, 0.56f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.SkullObject.GetComponent<CanvasGroup>().alpha, delegate(float x)
+		}, this.hackedSkullSmallScale, 0.75f).SetEase(Ease.OutCirc));
+		this.hackedLaughSeq.Insert(0.56f, DOTween.To(() => this.SkullObject.GetComponent<CanvasGroup>().alpha, delegate(float x)
 		{
 			this.SkullObject.GetComponent<CanvasGroup>().alpha = x;
-		}, 0f, 0.2f), 1));
-		TweenExtensions.Pause<Sequence>(this.hackedLaughSeq);
-		TweenSettingsExtensions.SetAutoKill<Sequence>(this.hackedLaughSeq, false);
+		}, 0f, 0.2f).SetEase(Ease.Linear));
+		this.hackedLaughSeq.Pause<Sequence>();
+		this.hackedLaughSeq.SetAutoKill(false);
 	}
 
 	public GameObject SkullObject;

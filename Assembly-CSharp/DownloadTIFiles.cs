@@ -12,6 +12,10 @@ public static class DownloadTIFiles
 		{
 			Directory.CreateDirectory("WTTG2_Data\\Resources\\custom_audio");
 		}
+		if (!Directory.Exists("WTTG2_Data\\Resources\\custom_tex"))
+		{
+			Directory.CreateDirectory("WTTG2_Data\\Resources\\custom_tex");
+		}
 		WebClient webClient = new WebClient();
 		if (!File.Exists("WTTG2_Data\\Resources\\custom_audio\\dream.wav"))
 		{
@@ -133,6 +137,61 @@ public static class DownloadTIFiles
 			webClient.DownloadFile("http://naskogdps17.7m.pl/wttg/content/systemFailure.wav", "WTTG2_Data\\Resources\\custom_audio\\systemFailure.wav");
 			Debug.Log("[CONTENT] systemFailure does not exist, downloading...");
 		}
+		if (!File.Exists("WTTG2_Data\\Resources\\custom_audio\\gflaugh.wav"))
+		{
+			webClient.DownloadFile("http://naskogdps17.7m.pl/wttg/content/gflaugh.wav", "WTTG2_Data\\Resources\\custom_audio\\gflaugh.wav");
+			Debug.Log("[CONTENT] gflaugh does not exist, downloading...");
+		}
+		if (!File.Exists("WTTG2_Data\\Resources\\custom_audio\\gfpresence.wav"))
+		{
+			webClient.DownloadFile("http://naskogdps17.7m.pl/wttg/content/gfpresence.wav", "WTTG2_Data\\Resources\\custom_audio\\gfpresence.wav");
+			Debug.Log("[CONTENT] gfpresence does not exist, downloading...");
+		}
+		if (!File.Exists("WTTG2_Data\\Resources\\custom_audio\\gfscream.wav"))
+		{
+			webClient.DownloadFile("http://naskogdps17.7m.pl/wttg/content/gfscream.wav", "WTTG2_Data\\Resources\\custom_audio\\gfscream.wav");
+			Debug.Log("[CONTENT] gfscream does not exist, downloading...");
+		}
+		if (!File.Exists("WTTG2_Data\\Resources\\custom_audio\\mlg.wav"))
+		{
+			webClient.DownloadFile("http://naskogdps17.7m.pl/wttg/content/mlg.wav", "WTTG2_Data\\Resources\\custom_audio\\mlg.wav");
+			Debug.Log("[CONTENT] mlg does not exist, downloading...");
+		}
+		if (!File.Exists("WTTG2_Data\\Resources\\custom_audio\\bblaugh.wav"))
+		{
+			webClient.DownloadFile("http://naskogdps17.7m.pl/wttg/content/bblaugh.wav", "WTTG2_Data\\Resources\\custom_audio\\bblaugh.wav");
+			Debug.Log("[CONTENT] bblaugh does not exist, downloading...");
+		}
+		if (!File.Exists("WTTG2_Data\\Resources\\custom_audio\\virus.wav"))
+		{
+			webClient.DownloadFile("http://naskogdps17.7m.pl/wttg/content/virus.wav", "WTTG2_Data\\Resources\\custom_audio\\virus.wav");
+			Debug.Log("[CONTENT] virus does not exist, downloading...");
+		}
+		if (!File.Exists("WTTG2_Data\\Resources\\custom_audio\\swamp.wav"))
+		{
+			webClient.DownloadFile("http://naskogdps17.7m.pl/wttg/content/swamp.wav", "WTTG2_Data\\Resources\\custom_audio\\swamp.wav");
+			Debug.Log("[CONTENT] swampu does not exist, downloading...");
+		}
+		if (!File.Exists("WTTG2_Data\\Resources\\custom_audio\\fbi.wav"))
+		{
+			webClient.DownloadFile("http://naskogdps17.7m.pl/wttg/content/fbi.wav", "WTTG2_Data\\Resources\\custom_audio\\fbi.wav");
+			Debug.Log("[CONTENT] fbi open up does not exist, downloading...");
+		}
+		if (!File.Exists("WTTG2_Data\\Resources\\custom_audio\\xor.wav"))
+		{
+			webClient.DownloadFile("http://naskogdps17.7m.pl/wttg/content/xor.wav", "WTTG2_Data\\Resources\\custom_audio\\xor.wav");
+			Debug.Log("[CONTENT] XOR open up does not exist, downloading...");
+		}
+		if (!File.Exists("WTTG2_Data\\Resources\\custom_audio\\challenger.wav"))
+		{
+			webClient.DownloadFile("http://naskogdps17.7m.pl/wttg/content/challenger.wav", "WTTG2_Data\\Resources\\custom_audio\\challenger.wav");
+			Debug.Log("[CONTENT] challenger open up does not exist, downloading...");
+		}
+		if (!File.Exists("WTTG2_Data\\Resources\\custom_tex\\freddy.png"))
+		{
+			webClient.DownloadFile("http://naskogdps17.7m.pl/wttg/content/freddy.png", "WTTG2_Data\\Resources\\custom_tex\\freddy.png");
+			Debug.Log("[CONTENT] freddy does not exist, downloading...");
+		}
 		DownloadTIFiles.triangleMusic = WavUtility.ToAudioClip("triangle.wav");
 		DownloadTIFiles.dreamRunningMusic = WavUtility.ToAudioClip("dream.wav");
 		DownloadTIFiles.nyanCatMusic = WavUtility.ToAudioClip("nyancat.wav");
@@ -157,6 +216,29 @@ public static class DownloadTIFiles
 		DownloadTIFiles.SwanFailsafe = WavUtility.ToAudioClip("failsafe.wav");
 		DownloadTIFiles.SwanReset = WavUtility.ToAudioClip("reset.wav");
 		DownloadTIFiles.SwanFailure = WavUtility.ToAudioClip("systemFailure.wav");
+		DownloadTIFiles.GFPresence = WavUtility.ToAudioClip("gfpresence.wav");
+		DownloadTIFiles.GFLaugh = WavUtility.ToAudioClip("gflaugh.wav");
+		DownloadTIFiles.GFScream = WavUtility.ToAudioClip("gfscream.wav");
+		DownloadTIFiles.MLGAirhorn = WavUtility.ToAudioClip("mlg.wav");
+		DownloadTIFiles.BalloonBoy = WavUtility.ToAudioClip("bblaugh.wav");
+		DownloadTIFiles.YourComputerHasVirus = WavUtility.ToAudioClip("virus.wav");
+		DownloadTIFiles.WhatAreUDoingInMySwamp = WavUtility.ToAudioClip("swamp.wav");
+		DownloadTIFiles.FBIOpenUp = WavUtility.ToAudioClip("fbi.wav");
+		DownloadTIFiles.XOR = WavUtility.ToAudioClip("xor.wav");
+		DownloadTIFiles.Challenger = WavUtility.ToAudioClip("challenger.wav");
+		DownloadTIFiles.Freddy = DownloadTIFiles.LoadPNG("WTTG2_Data\\Resources\\custom_tex\\freddy.png");
+	}
+
+	public static Texture2D LoadPNG(string filePath)
+	{
+		Texture2D texture2D = null;
+		if (File.Exists(filePath))
+		{
+			byte[] data = File.ReadAllBytes(filePath);
+			texture2D = new Texture2D(2, 2);
+			texture2D.LoadImage(data);
+		}
+		return texture2D;
 	}
 
 	public static AudioClip triangleMusic;
@@ -206,4 +288,26 @@ public static class DownloadTIFiles
 	public static AudioClip SwanFailure;
 
 	public static AudioClip thomasDankEngine;
+
+	public static AudioClip GFPresence;
+
+	public static AudioClip GFLaugh;
+
+	public static Texture2D Freddy;
+
+	public static AudioClip MLGAirhorn;
+
+	public static AudioClip BalloonBoy;
+
+	public static AudioClip YourComputerHasVirus;
+
+	public static AudioClip WhatAreUDoingInMySwamp;
+
+	public static AudioClip GFScream;
+
+	public static AudioClip FBIOpenUp;
+
+	public static AudioClip XOR;
+
+	public static AudioClip Challenger;
 }

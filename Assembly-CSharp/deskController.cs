@@ -36,16 +36,16 @@ public class deskController : mouseableController
 			this.MyMouseCapture.setRotatingObjectRotation(this.DefaultCameraHolderRotation);
 		}
 		CameraManager.GetCameraHook(this.CameraIControl).SetMyParent(this.MouseRotatingObject.transform);
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), new TweenCallback(this.TakeControl));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.MyCamera.transform.localPosition, delegate(Vector3 x)
+		Sequence sequence = DOTween.Sequence().OnComplete(new TweenCallback(this.TakeControl));
+		sequence.Insert(0f, DOTween.To(() => this.MyCamera.transform.localPosition, delegate(Vector3 x)
 		{
 			this.MyCamera.transform.localPosition = x;
-		}, Vector3.zero, 0.75f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.MyCamera.transform.localRotation, delegate(Quaternion x)
+		}, Vector3.zero, 0.75f).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.MyCamera.transform.localRotation, delegate(Quaternion x)
 		{
 			this.MyCamera.transform.localRotation = x;
-		}, Vector3.zero, 0.5f), 1), true));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, Vector3.zero, 0.5f).SetEase(Ease.Linear).SetOptions(true));
+		sequence.Play<Sequence>();
 	}
 
 	public void TakeOverFromStart()
@@ -57,16 +57,16 @@ public class deskController : mouseableController
 			this.MyMouseCapture.setRotatingObjectRotation(this.DefaultCameraHolderRotation);
 		}
 		CameraManager.GetCameraHook(this.CameraIControl).SetMyParent(this.MouseRotatingObject.transform);
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), new TweenCallback(this.TakeControl));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.MyCamera.transform.localPosition, delegate(Vector3 x)
+		Sequence sequence = DOTween.Sequence().OnComplete(new TweenCallback(this.TakeControl));
+		sequence.Insert(0f, DOTween.To(() => this.MyCamera.transform.localPosition, delegate(Vector3 x)
 		{
 			this.MyCamera.transform.localPosition = x;
-		}, Vector3.zero, 1f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.MyCamera.transform.localRotation, delegate(Quaternion x)
+		}, Vector3.zero, 1f).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.MyCamera.transform.localRotation, delegate(Quaternion x)
 		{
 			this.MyCamera.transform.localRotation = x;
-		}, Vector3.zero, 0.75f), 1), true));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, Vector3.zero, 0.75f).SetEase(Ease.Linear).SetOptions(true));
+		sequence.Play<Sequence>();
 	}
 
 	public void SwitchToComputerController()
@@ -74,30 +74,30 @@ public class deskController : mouseableController
 		this.LoseControl();
 		GameManager.BehaviourManager.CrossHairBehaviour.HideCrossHairGroup();
 		GameManager.AudioSlinger.UnMuffleAudioHub(AUDIO_HUB.COMPUTER_HUB, 0.3f);
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), new TweenCallback(ControllerManager.Get<computerController>(GAME_CONTROLLER.COMPUTER).TakeControl));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.MyCamera.transform.localRotation, delegate(Quaternion x)
+		Sequence sequence = DOTween.Sequence().OnComplete(new TweenCallback(ControllerManager.Get<computerController>(GAME_CONTROLLER.COMPUTER).TakeControl));
+		sequence.Insert(0f, DOTween.To(() => this.MyCamera.transform.localRotation, delegate(Quaternion x)
 		{
 			this.MyCamera.transform.localRotation = x;
-		}, Vector3.zero, 0.3f), 3), true));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.MouseRotatingObject.transform.localRotation, delegate(Quaternion x)
+		}, Vector3.zero, 0.3f).SetEase(Ease.OutSine).SetOptions(true));
+		sequence.Insert(0f, DOTween.To(() => this.MouseRotatingObject.transform.localRotation, delegate(Quaternion x)
 		{
 			this.MouseRotatingObject.transform.localRotation = x;
-		}, new Vector3(0f, 90f, 0f), 0.3f), 3), true));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.MyCamera.transform.localPosition, delegate(Vector3 x)
+		}, new Vector3(0f, 90f, 0f), 0.3f).SetEase(Ease.OutSine).SetOptions(true));
+		sequence.Insert(0f, DOTween.To(() => this.MyCamera.transform.localPosition, delegate(Vector3 x)
 		{
 			this.MyCamera.transform.localPosition = x;
-		}, new Vector3(-0.03f, -0.13f, 0.014f), 0.3f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.MyCamera.fieldOfView, delegate(float x)
+		}, new Vector3(-0.03f, -0.13f, 0.014f), 0.3f).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.MyCamera.fieldOfView, delegate(float x)
 		{
 			this.MyCamera.fieldOfView = x;
-		}, 30.9f, 0.3f), 2));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, 30.9f, 0.3f).SetEase(Ease.InSine));
+		sequence.Play<Sequence>();
 	}
 
 	public void LeaveComputerMode()
 	{
 		GameManager.AudioSlinger.MuffleAudioHub(AUDIO_HUB.COMPUTER_HUB, 0.6f, 0.3f);
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+		Sequence sequence = DOTween.Sequence().OnComplete(delegate
 		{
 			if (!this.lockOutFromRecovery)
 			{
@@ -109,15 +109,15 @@ public class deskController : mouseableController
 				GameManager.BehaviourManager.CrossHairBehaviour.ShowCrossHairGroup();
 			}
 		});
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.MyCamera.transform.localPosition, delegate(Vector3 x)
+		sequence.Insert(0f, DOTween.To(() => this.MyCamera.transform.localPosition, delegate(Vector3 x)
 		{
 			this.MyCamera.transform.localPosition = x;
-		}, Vector3.zero, 0.3f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.MyCamera.fieldOfView, delegate(float x)
+		}, Vector3.zero, 0.3f).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.MyCamera.fieldOfView, delegate(float x)
 		{
 			this.MyCamera.fieldOfView = x;
-		}, 60f, 0.3f), 2));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, 60f, 0.3f).SetEase(Ease.InSine));
+		sequence.Play<Sequence>();
 	}
 
 	public void LockRecovery()

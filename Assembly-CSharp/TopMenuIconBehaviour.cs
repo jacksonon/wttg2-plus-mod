@@ -11,37 +11,37 @@ public class TopMenuIconBehaviour : MonoBehaviour, IPointerEnterHandler, IPointe
 	private void Awake()
 	{
 		this.showHoverSeq = DOTween.Sequence();
-		TweenSettingsExtensions.Insert(this.showHoverSeq, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.smallScale, delegate(Vector3 x)
+		this.showHoverSeq.Insert(0f, DOTween.To(() => this.smallScale, delegate(Vector3 x)
 		{
 			this.hoverIMGRT.localScale = x;
-		}, this.fullScale, 0.3f), 1));
-		TweenSettingsExtensions.Insert(this.showHoverSeq, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => 0f, delegate(float x)
+		}, this.fullScale, 0.3f).SetEase(Ease.Linear));
+		this.showHoverSeq.Insert(0f, DOTween.To(() => 0f, delegate(float x)
 		{
 			this.hoverIMGCG.alpha = x;
-		}, 1f, 0.2f), 1));
-		TweenExtensions.Pause<Sequence>(this.showHoverSeq);
-		TweenSettingsExtensions.SetAutoKill<Sequence>(this.showHoverSeq, false);
+		}, 1f, 0.2f).SetEase(Ease.Linear));
+		this.showHoverSeq.Pause<Sequence>();
+		this.showHoverSeq.SetAutoKill(false);
 		this.hideOverSeq = DOTween.Sequence();
-		TweenSettingsExtensions.Insert(this.hideOverSeq, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.fullScale, delegate(Vector3 x)
+		this.hideOverSeq.Insert(0f, DOTween.To(() => this.fullScale, delegate(Vector3 x)
 		{
 			this.hoverIMGRT.localScale = x;
-		}, this.smallScale, 0.2f), 1));
-		TweenSettingsExtensions.Insert(this.hideOverSeq, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => 1f, delegate(float x)
+		}, this.smallScale, 0.2f).SetEase(Ease.Linear));
+		this.hideOverSeq.Insert(0f, DOTween.To(() => 1f, delegate(float x)
 		{
 			this.hoverIMGCG.alpha = x;
-		}, 0f, 0.2f), 1));
-		TweenExtensions.Pause<Sequence>(this.hideOverSeq);
-		TweenSettingsExtensions.SetAutoKill<Sequence>(this.hideOverSeq, false);
+		}, 0f, 0.2f).SetEase(Ease.Linear));
+		this.hideOverSeq.Pause<Sequence>();
+		this.hideOverSeq.SetAutoKill(false);
 	}
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
-		TweenExtensions.Restart(this.showHoverSeq, true, -1f);
+		this.showHoverSeq.Restart(true, -1f);
 	}
 
 	public void OnPointerExit(PointerEventData eventData)
 	{
-		TweenExtensions.Restart(this.hideOverSeq, true, -1f);
+		this.hideOverSeq.Restart(true, -1f);
 	}
 
 	public void OnPointerDown(PointerEventData eventData)

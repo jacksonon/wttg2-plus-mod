@@ -42,7 +42,7 @@ public class AudioPodObject : MonoBehaviour
 
 	private void generateMagicFire()
 	{
-		this.magicFireWindow = Random.Range(this.magicFireWindowMin, this.magicFireWindowMax);
+		this.magicFireWindow = UnityEngine.Random.Range(this.magicFireWindowMin, this.magicFireWindowMax);
 		this.magicFireTimeStamp = Time.time;
 		this.magicFireActive = true;
 	}
@@ -87,11 +87,11 @@ public class AudioPodObject : MonoBehaviour
 			this.freezeAddTime = 0f;
 			if (this.isUniversal)
 			{
-				this.myAudioHubObject.PlaySound(this.magicFireSFXS[Random.Range(0, this.magicFireSFXS.Length)]);
+				this.myAudioHubObject.PlaySound(this.magicFireSFXS[UnityEngine.Random.Range(0, this.magicFireSFXS.Length)]);
 			}
 			else
 			{
-				GameManager.AudioSlinger.PlaySound(this.magicFireSFXS[Random.Range(0, this.magicFireSFXS.Length)]);
+				GameManager.AudioSlinger.PlaySound(this.magicFireSFXS[UnityEngine.Random.Range(0, this.magicFireSFXS.Length)]);
 			}
 			this.generateMagicFire();
 		}

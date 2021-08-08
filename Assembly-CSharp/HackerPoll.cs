@@ -61,7 +61,7 @@ public class HackerPoll
 			{
 				this.myDOSTwitch.myTwitchIRC.SendMsg("Whitehats won! The player does not have a backdoor hack, no DOS Coins earned.");
 			}
-			else if (Random.Range(0, 100) > 90)
+			else if (UnityEngine.Random.Range(0, 100) > 90)
 			{
 				InventoryManager.RemoveProduct(SOFTWARE_PRODUCTS.BACKDOOR);
 				if (!ProductsManager.ownsWhitehatScanner && !PoliceScannerBehaviour.Ins.ownPoliceScanner)
@@ -96,17 +96,17 @@ public class HackerPoll
 			{
 				InventoryManager.RemoveProduct(SOFTWARE_PRODUCTS.BACKDOOR);
 				float setAMT;
-				if (Random.Range(0, 10) > 7)
+				if (UnityEngine.Random.Range(0, 10) > 7)
 				{
-					setAMT = Random.Range(3.5f, 133.7f);
+					setAMT = UnityEngine.Random.Range(3.5f, 133.7f);
 				}
-				else if (Random.Range(0, 100) > 90)
+				else if (UnityEngine.Random.Range(0, 100) > 90)
 				{
 					setAMT = 3.5f;
 				}
 				else
 				{
-					setAMT = Random.Range(3.5f, 33.7f);
+					setAMT = UnityEngine.Random.Range(3.5f, 33.7f);
 				}
 				this.myDOSTwitch.myTwitchIRC.SendMsg("Whitehats won! The player got " + setAMT.ToString() + " DOS Coins from that hack.");
 				GameManager.HackerManager.WhiteHatSound();

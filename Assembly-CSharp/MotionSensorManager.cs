@@ -57,12 +57,11 @@ public class MotionSensorManager : MonoBehaviour
 			if (this.motionSensorMenuActive)
 			{
 				this.motionSensorMenuActive = false;
-				Vector2 vector;
-				vector..ctor(LookUp.DesktopUI.MOTION_SENSOR_MENU.anchoredPosition.x, LookUp.DesktopUI.MOTION_SENSOR_MENU.sizeDelta.y);
-				TweenSettingsExtensions.OnComplete<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => LookUp.DesktopUI.MOTION_SENSOR_MENU.anchoredPosition, delegate(Vector2 x)
+				Vector2 endValue = new Vector2(LookUp.DesktopUI.MOTION_SENSOR_MENU.anchoredPosition.x, LookUp.DesktopUI.MOTION_SENSOR_MENU.sizeDelta.y);
+				DOTween.To(() => LookUp.DesktopUI.MOTION_SENSOR_MENU.anchoredPosition, delegate(Vector2 x)
 				{
 					LookUp.DesktopUI.MOTION_SENSOR_MENU.anchoredPosition = x;
-				}, vector, 0.25f), 5), delegate()
+				}, endValue, 0.25f).SetEase(Ease.InQuad).OnComplete(delegate
 				{
 					this.motionSensorMenuAniActive = false;
 				});
@@ -70,12 +69,11 @@ public class MotionSensorManager : MonoBehaviour
 			else
 			{
 				this.motionSensorMenuActive = true;
-				Vector2 vector2;
-				vector2..ctor(LookUp.DesktopUI.MOTION_SENSOR_MENU.anchoredPosition.x, -41f);
-				TweenSettingsExtensions.OnComplete<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => LookUp.DesktopUI.MOTION_SENSOR_MENU.anchoredPosition, delegate(Vector2 x)
+				Vector2 endValue2 = new Vector2(LookUp.DesktopUI.MOTION_SENSOR_MENU.anchoredPosition.x, -41f);
+				DOTween.To(() => LookUp.DesktopUI.MOTION_SENSOR_MENU.anchoredPosition, delegate(Vector2 x)
 				{
 					LookUp.DesktopUI.MOTION_SENSOR_MENU.anchoredPosition = x;
-				}, vector2, 0.25f), 6), delegate()
+				}, endValue2, 0.25f).SetEase(Ease.OutQuad).OnComplete(delegate
 				{
 					this.motionSensorMenuAniActive = false;
 				});
@@ -207,7 +205,7 @@ public class MotionSensorManager : MonoBehaviour
 		GameManager.ManagerSlinger.ProductsManager.ShadowMarketProductWasActivated.Event += this.productWasPickedUp;
 		this.motionSensorPool = new PooledStack<MotionSensorObject>(delegate()
 		{
-			MotionSensorObject component = Object.Instantiate<GameObject>(this.motionSensorObject, this.motionSensorParent).GetComponent<MotionSensorObject>();
+			MotionSensorObject component = UnityEngine.Object.Instantiate<GameObject>(this.motionSensorObject, this.motionSensorParent).GetComponent<MotionSensorObject>();
 			component.EnteredPlacementMode += this.motionSensorWasPickedUp;
 			component.IWasPlaced += this.motionSensorWasPlaced;
 			component.IWasTripped += this.motionSensorWasTripped;

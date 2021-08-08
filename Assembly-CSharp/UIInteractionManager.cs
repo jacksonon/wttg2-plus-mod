@@ -9,451 +9,451 @@ public class UIInteractionManager : MonoBehaviour
 {
 	public void ShowLeftMouseButtonAction()
 	{
-		TweenExtensions.Restart(this.showLeftMouseClick, true, -1f);
+		this.showLeftMouseClick.Restart(true, -1f);
 	}
 
 	public void HideLeftMouseButtonAction()
 	{
-		TweenExtensions.Restart(this.hideLeftMouseClick, true, -1f);
+		this.hideLeftMouseClick.Restart(true, -1f);
 	}
 
 	public void ShowRightMouseButtonAction()
 	{
-		TweenExtensions.Restart(this.showRightMouseClick, true, -1f);
+		this.showRightMouseClick.Restart(true, -1f);
 	}
 
 	public void HideRightMouseButtonAction()
 	{
-		TweenExtensions.Restart(this.hideRightMouseClick, true, -1f);
+		this.hideRightMouseClick.Restart(true, -1f);
 	}
 
 	public void ShowOpenDoor()
 	{
-		TweenExtensions.Restart(this.showOpenDoor, true, -1f);
+		this.showOpenDoor.Restart(true, -1f);
 	}
 
 	public void HideOpenDoor()
 	{
-		TweenExtensions.Restart(this.hideOpenDoor, true, -1f);
+		this.hideOpenDoor.Restart(true, -1f);
 	}
 
 	public void ShowLock()
 	{
-		TweenExtensions.Restart(this.showLock, true, -1f);
+		this.showLock.Restart(true, -1f);
 	}
 
 	public void HideLock()
 	{
-		TweenExtensions.Restart(this.hideLock, true, -1f);
+		this.hideLock.Restart(true, -1f);
 	}
 
 	public void ShowUnLock()
 	{
-		TweenExtensions.Restart(this.showUnLock, true, -1f);
+		this.showUnLock.Restart(true, -1f);
 	}
 
 	public void HideUnLock()
 	{
-		TweenExtensions.Restart(this.hideUnLock, true, -1f);
+		this.hideUnLock.Restart(true, -1f);
 	}
 
 	public void ShowLightOn()
 	{
-		TweenExtensions.Restart(this.showLightOn, true, -1f);
+		this.showLightOn.Restart(true, -1f);
 	}
 
 	public void HideLightOn()
 	{
-		TweenExtensions.Restart(this.hideLightOn, true, -1f);
+		this.hideLightOn.Restart(true, -1f);
 	}
 
 	public void ShowLightOff()
 	{
-		TweenExtensions.Restart(this.showLightOff, true, -1f);
+		this.showLightOff.Restart(true, -1f);
 	}
 
 	public void HideLightOff()
 	{
-		TweenExtensions.Restart(this.hideLightOff, true, -1f);
+		this.hideLightOff.Restart(true, -1f);
 	}
 
 	public void ShowPeep()
 	{
-		TweenExtensions.Restart(this.showPeep, true, -1f);
+		this.showPeep.Restart(true, -1f);
 	}
 
 	public void HidePeep()
 	{
-		TweenExtensions.Restart(this.hidePeep, true, -1f);
+		this.hidePeep.Restart(true, -1f);
 	}
 
 	public void ShowLeap()
 	{
-		TweenExtensions.Restart(this.showLeap, true, -1f);
+		this.showLeap.Restart(true, -1f);
 	}
 
 	public void HideLeap()
 	{
-		TweenExtensions.Restart(this.hideLeap, true, -1f);
+		this.hideLeap.Restart(true, -1f);
 	}
 
 	public void ShowHand()
 	{
-		TweenExtensions.Restart(this.showHand, true, -1f);
+		this.showHand.Restart(true, -1f);
 	}
 
 	public void HideHand()
 	{
-		TweenExtensions.Restart(this.hideHand, true, -1f);
+		this.hideHand.Restart(true, -1f);
 	}
 
 	public void ShowHide()
 	{
-		TweenExtensions.Restart(this.showHide, true, -1f);
+		this.showHide.Restart(true, -1f);
 	}
 
 	public void HideHide()
 	{
-		TweenExtensions.Restart(this.hideHide, true, -1f);
+		this.hideHide.Restart(true, -1f);
 	}
 
 	public void ShowSit()
 	{
-		TweenExtensions.Restart(this.showSit, true, -1f);
+		this.showSit.Restart(true, -1f);
 	}
 
 	public void HideSit()
 	{
-		TweenExtensions.Restart(this.hideSit, true, -1f);
+		this.hideSit.Restart(true, -1f);
 	}
 
 	public void ShowComputer()
 	{
-		TweenExtensions.Restart(this.showComputer, true, -1f);
+		this.showComputer.Restart(true, -1f);
 	}
 
 	public void HideComputer()
 	{
-		TweenExtensions.Restart(this.hideComputer, true, -1f);
+		this.hideComputer.Restart(true, -1f);
 	}
 
 	public void ShowPower()
 	{
-		TweenExtensions.Restart(this.showPower, true, -1f);
+		this.showPower.Restart(true, -1f);
 	}
 
 	public void HidePower()
 	{
-		TweenExtensions.Restart(this.hidePower, true, -1f);
+		this.hidePower.Restart(true, -1f);
 	}
 
 	public void ShowComputerOn()
 	{
-		TweenExtensions.Restart(this.showComputerOn, true, -1f);
+		this.showComputerOn.Restart(true, -1f);
 	}
 
 	public void HideComputerOn()
 	{
-		TweenExtensions.Restart(this.hideComputerOn, true, -1f);
+		this.hideComputerOn.Restart(true, -1f);
 	}
 
 	public void ShowKnob()
 	{
-		TweenExtensions.Restart(this.showKnob, true, -1f);
+		this.showKnob.Restart(true, -1f);
 	}
 
 	public void HideKnob()
 	{
-		TweenExtensions.Restart(this.hideKnob, true, -1f);
+		this.hideKnob.Restart(true, -1f);
 	}
 
 	public void ShowDollMakerMarker()
 	{
-		TweenExtensions.Restart(this.showDollMakerMarker, true, -1f);
+		this.showDollMakerMarker.Restart(true, -1f);
 	}
 
 	public void HideDollMakerMarker()
 	{
-		TweenExtensions.Restart(this.hideDollMakerMarker, true, -1f);
+		this.hideDollMakerMarker.Restart(true, -1f);
 	}
 
 	public void ShowEnterBraceMode()
 	{
-		TweenExtensions.Restart(this.showEnterBraceMode, true, -1f);
+		this.showEnterBraceMode.Restart(true, -1f);
 	}
 
 	public void HideEnterBraceMode()
 	{
-		TweenExtensions.Restart(this.hideEnterBraceMode, true, -1f);
+		this.hideEnterBraceMode.Restart(true, -1f);
 	}
 
 	public void ShowHoldMode()
 	{
-		TweenExtensions.Restart(this.showHoldMode, true, -1f);
+		this.showHoldMode.Restart(true, -1f);
 	}
 
 	public void HideHoldMode()
 	{
-		TweenExtensions.Restart(this.hideHoldMode, true, -1f);
+		this.hideHoldMode.Restart(true, -1f);
 	}
 
 	public void ShowEBar()
 	{
-		TweenExtensions.Restart(this.showEBar, true, -1f);
+		this.showEBar.Restart(true, -1f);
 	}
 
 	public void HideEBar()
 	{
-		TweenExtensions.Restart(this.hideEBar, true, -1f);
+		this.hideEBar.Restart(true, -1f);
 	}
 
 	private void Awake()
 	{
 		UIInteractionManager.Ins = this;
-		this.showLeftMouseClick = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-40f, 66f), delegate(Vector2 x)
+		this.showLeftMouseClick = DOTween.To(() => new Vector2(-40f, 66f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.LeftMouseClickTransform.anchoredPosition = x;
-		}, new Vector2(-40f, -30f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showLeftMouseClick, false);
-		TweenExtensions.Pause<Tweener>(this.showLeftMouseClick);
-		this.hideLeftMouseClick = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-40f, -30f), delegate(Vector2 x)
+		}, new Vector2(-40f, -30f), 0.2f).SetEase(Ease.Linear);
+		this.showLeftMouseClick.SetAutoKill(false);
+		this.showLeftMouseClick.Pause<Tweener>();
+		this.hideLeftMouseClick = DOTween.To(() => new Vector2(-40f, -30f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.LeftMouseClickTransform.anchoredPosition = x;
-		}, new Vector2(-40f, 66f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideLeftMouseClick, false);
-		TweenExtensions.Pause<Tweener>(this.hideLeftMouseClick);
-		this.showRightMouseClick = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(40f, 66f), delegate(Vector2 x)
+		}, new Vector2(-40f, 66f), 0.2f).SetEase(Ease.Linear);
+		this.hideLeftMouseClick.SetAutoKill(false);
+		this.hideLeftMouseClick.Pause<Tweener>();
+		this.showRightMouseClick = DOTween.To(() => new Vector2(40f, 66f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.RightMouseClickTransform.anchoredPosition = x;
-		}, new Vector2(40f, -30f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showRightMouseClick, false);
-		TweenExtensions.Pause<Tweener>(this.showRightMouseClick);
-		this.hideRightMouseClick = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(40f, -30f), delegate(Vector2 x)
+		}, new Vector2(40f, -30f), 0.2f).SetEase(Ease.Linear);
+		this.showRightMouseClick.SetAutoKill(false);
+		this.showRightMouseClick.Pause<Tweener>();
+		this.hideRightMouseClick = DOTween.To(() => new Vector2(40f, -30f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.RightMouseClickTransform.anchoredPosition = x;
-		}, new Vector2(40f, 66f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideRightMouseClick, false);
-		TweenExtensions.Pause<Tweener>(this.hideRightMouseClick);
-		this.showOpenDoor = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-80f, 66f), delegate(Vector2 x)
+		}, new Vector2(40f, 66f), 0.2f).SetEase(Ease.Linear);
+		this.hideRightMouseClick.SetAutoKill(false);
+		this.hideRightMouseClick.Pause<Tweener>();
+		this.showOpenDoor = DOTween.To(() => new Vector2(-80f, 66f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.OpenDoorTransform.anchoredPosition = x;
-		}, new Vector2(-80f, -30f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showOpenDoor, false);
-		TweenExtensions.Pause<Tweener>(this.showOpenDoor);
-		this.hideOpenDoor = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-80f, -30f), delegate(Vector2 x)
+		}, new Vector2(-80f, -30f), 0.2f).SetEase(Ease.Linear);
+		this.showOpenDoor.SetAutoKill(false);
+		this.showOpenDoor.Pause<Tweener>();
+		this.hideOpenDoor = DOTween.To(() => new Vector2(-80f, -30f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.OpenDoorTransform.anchoredPosition = x;
-		}, new Vector2(-80f, 66f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideOpenDoor, false);
-		TweenExtensions.Pause<Tweener>(this.hideOpenDoor);
-		this.showLock = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(80f, 66f), delegate(Vector2 x)
+		}, new Vector2(-80f, 66f), 0.2f).SetEase(Ease.Linear);
+		this.hideOpenDoor.SetAutoKill(false);
+		this.hideOpenDoor.Pause<Tweener>();
+		this.showLock = DOTween.To(() => new Vector2(80f, 66f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.LockTransform.anchoredPosition = x;
-		}, new Vector2(80f, -30f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showLock, false);
-		TweenExtensions.Pause<Tweener>(this.showLock);
-		this.hideLock = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(80f, -30f), delegate(Vector2 x)
+		}, new Vector2(80f, -30f), 0.2f).SetEase(Ease.Linear);
+		this.showLock.SetAutoKill(false);
+		this.showLock.Pause<Tweener>();
+		this.hideLock = DOTween.To(() => new Vector2(80f, -30f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.LockTransform.anchoredPosition = x;
-		}, new Vector2(80f, 66f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideLock, false);
-		TweenExtensions.Pause<Tweener>(this.hideLock);
-		this.showUnLock = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(80f, 66f), delegate(Vector2 x)
+		}, new Vector2(80f, 66f), 0.2f).SetEase(Ease.Linear);
+		this.hideLock.SetAutoKill(false);
+		this.hideLock.Pause<Tweener>();
+		this.showUnLock = DOTween.To(() => new Vector2(80f, 66f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.UnLockTransform.anchoredPosition = x;
-		}, new Vector2(80f, -30f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showUnLock, false);
-		TweenExtensions.Pause<Tweener>(this.showUnLock);
-		this.hideUnLock = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(80f, -30f), delegate(Vector2 x)
+		}, new Vector2(80f, -30f), 0.2f).SetEase(Ease.Linear);
+		this.showUnLock.SetAutoKill(false);
+		this.showUnLock.Pause<Tweener>();
+		this.hideUnLock = DOTween.To(() => new Vector2(80f, -30f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.UnLockTransform.anchoredPosition = x;
-		}, new Vector2(80f, 66f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideUnLock, false);
-		TweenExtensions.Pause<Tweener>(this.hideUnLock);
-		this.showLightOn = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-80f, 66f), delegate(Vector2 x)
+		}, new Vector2(80f, 66f), 0.2f).SetEase(Ease.Linear);
+		this.hideUnLock.SetAutoKill(false);
+		this.hideUnLock.Pause<Tweener>();
+		this.showLightOn = DOTween.To(() => new Vector2(-80f, 66f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.LightOnTransform.anchoredPosition = x;
-		}, new Vector2(-80f, -30f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showLightOn, false);
-		TweenExtensions.Pause<Tweener>(this.showLightOn);
-		this.hideLightOn = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-80f, -30f), delegate(Vector2 x)
+		}, new Vector2(-80f, -30f), 0.2f).SetEase(Ease.Linear);
+		this.showLightOn.SetAutoKill(false);
+		this.showLightOn.Pause<Tweener>();
+		this.hideLightOn = DOTween.To(() => new Vector2(-80f, -30f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.LightOnTransform.anchoredPosition = x;
-		}, new Vector2(-80f, 66f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideLightOn, false);
-		TweenExtensions.Pause<Tweener>(this.hideLightOn);
-		this.showLightOff = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-80f, 66f), delegate(Vector2 x)
+		}, new Vector2(-80f, 66f), 0.2f).SetEase(Ease.Linear);
+		this.hideLightOn.SetAutoKill(false);
+		this.hideLightOn.Pause<Tweener>();
+		this.showLightOff = DOTween.To(() => new Vector2(-80f, 66f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.LightOffTransform.anchoredPosition = x;
-		}, new Vector2(-80f, -30f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showLightOff, false);
-		TweenExtensions.Pause<Tweener>(this.showLightOff);
-		this.hideLightOff = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-80f, -30f), delegate(Vector2 x)
+		}, new Vector2(-80f, -30f), 0.2f).SetEase(Ease.Linear);
+		this.showLightOff.SetAutoKill(false);
+		this.showLightOff.Pause<Tweener>();
+		this.hideLightOff = DOTween.To(() => new Vector2(-80f, -30f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.LightOffTransform.anchoredPosition = x;
-		}, new Vector2(-80f, 66f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideLightOff, false);
-		TweenExtensions.Pause<Tweener>(this.hideLightOff);
-		this.showPeep = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-86f, 66f), delegate(Vector2 x)
+		}, new Vector2(-80f, 66f), 0.2f).SetEase(Ease.Linear);
+		this.hideLightOff.SetAutoKill(false);
+		this.hideLightOff.Pause<Tweener>();
+		this.showPeep = DOTween.To(() => new Vector2(-86f, 66f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.PeepEyeTransform.anchoredPosition = x;
-		}, new Vector2(-86f, -30f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showPeep, false);
-		TweenExtensions.Pause<Tweener>(this.showPeep);
-		this.hidePeep = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-86f, -30f), delegate(Vector2 x)
+		}, new Vector2(-86f, -30f), 0.2f).SetEase(Ease.Linear);
+		this.showPeep.SetAutoKill(false);
+		this.showPeep.Pause<Tweener>();
+		this.hidePeep = DOTween.To(() => new Vector2(-86f, -30f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.PeepEyeTransform.anchoredPosition = x;
-		}, new Vector2(-86f, 66f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hidePeep, false);
-		TweenExtensions.Pause<Tweener>(this.hidePeep);
-		this.showLeap = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-86f, 66f), delegate(Vector2 x)
+		}, new Vector2(-86f, 66f), 0.2f).SetEase(Ease.Linear);
+		this.hidePeep.SetAutoKill(false);
+		this.hidePeep.Pause<Tweener>();
+		this.showLeap = DOTween.To(() => new Vector2(-86f, 66f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.LeapTransform.anchoredPosition = x;
-		}, new Vector2(-86f, -30f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showLeap, false);
-		TweenExtensions.Pause<Tweener>(this.showLeap);
-		this.hideLeap = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-86f, -30f), delegate(Vector2 x)
+		}, new Vector2(-86f, -30f), 0.2f).SetEase(Ease.Linear);
+		this.showLeap.SetAutoKill(false);
+		this.showLeap.Pause<Tweener>();
+		this.hideLeap = DOTween.To(() => new Vector2(-86f, -30f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.LeapTransform.anchoredPosition = x;
-		}, new Vector2(-86f, 66f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideLeap, false);
-		TweenExtensions.Pause<Tweener>(this.hideLeap);
-		this.showHand = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-80f, 66f), delegate(Vector2 x)
+		}, new Vector2(-86f, 66f), 0.2f).SetEase(Ease.Linear);
+		this.hideLeap.SetAutoKill(false);
+		this.hideLeap.Pause<Tweener>();
+		this.showHand = DOTween.To(() => new Vector2(-80f, 66f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.HandTransform.anchoredPosition = x;
-		}, new Vector2(-80f, -30f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showHand, false);
-		TweenExtensions.Pause<Tweener>(this.showHand);
-		this.hideHand = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-80f, -30f), delegate(Vector2 x)
+		}, new Vector2(-80f, -30f), 0.2f).SetEase(Ease.Linear);
+		this.showHand.SetAutoKill(false);
+		this.showHand.Pause<Tweener>();
+		this.hideHand = DOTween.To(() => new Vector2(-80f, -30f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.HandTransform.anchoredPosition = x;
-		}, new Vector2(-80f, 66f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideHand, false);
-		TweenExtensions.Pause<Tweener>(this.hideHand);
-		this.showHide = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-84f, 66f), delegate(Vector2 x)
+		}, new Vector2(-80f, 66f), 0.2f).SetEase(Ease.Linear);
+		this.hideHand.SetAutoKill(false);
+		this.hideHand.Pause<Tweener>();
+		this.showHide = DOTween.To(() => new Vector2(-84f, 66f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.HideTransform.anchoredPosition = x;
-		}, new Vector2(-84f, -30f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showHide, false);
-		TweenExtensions.Pause<Tweener>(this.showHide);
-		this.hideHide = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-84f, -30f), delegate(Vector2 x)
+		}, new Vector2(-84f, -30f), 0.2f).SetEase(Ease.Linear);
+		this.showHide.SetAutoKill(false);
+		this.showHide.Pause<Tweener>();
+		this.hideHide = DOTween.To(() => new Vector2(-84f, -30f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.HideTransform.anchoredPosition = x;
-		}, new Vector2(-84f, 66f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideHide, false);
-		TweenExtensions.Pause<Tweener>(this.hideHide);
-		this.showSit = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-80f, 66f), delegate(Vector2 x)
+		}, new Vector2(-84f, 66f), 0.2f).SetEase(Ease.Linear);
+		this.hideHide.SetAutoKill(false);
+		this.hideHide.Pause<Tweener>();
+		this.showSit = DOTween.To(() => new Vector2(-80f, 66f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.SitTransform.anchoredPosition = x;
-		}, new Vector2(-80f, -30f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showSit, false);
-		TweenExtensions.Pause<Tweener>(this.showSit);
-		this.hideSit = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-80f, -30f), delegate(Vector2 x)
+		}, new Vector2(-80f, -30f), 0.2f).SetEase(Ease.Linear);
+		this.showSit.SetAutoKill(false);
+		this.showSit.Pause<Tweener>();
+		this.hideSit = DOTween.To(() => new Vector2(-80f, -30f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.SitTransform.anchoredPosition = x;
-		}, new Vector2(-80f, 66f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideSit, false);
-		TweenExtensions.Pause<Tweener>(this.hideSit);
-		this.showComputer = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-92f, 66f), delegate(Vector2 x)
+		}, new Vector2(-80f, 66f), 0.2f).SetEase(Ease.Linear);
+		this.hideSit.SetAutoKill(false);
+		this.hideSit.Pause<Tweener>();
+		this.showComputer = DOTween.To(() => new Vector2(-92f, 66f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.ComputerTransform.anchoredPosition = x;
-		}, new Vector2(-92f, -30f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showComputer, false);
-		TweenExtensions.Pause<Tweener>(this.showComputer);
-		this.hideComputer = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-92f, -30f), delegate(Vector2 x)
+		}, new Vector2(-92f, -30f), 0.2f).SetEase(Ease.Linear);
+		this.showComputer.SetAutoKill(false);
+		this.showComputer.Pause<Tweener>();
+		this.hideComputer = DOTween.To(() => new Vector2(-92f, -30f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.ComputerTransform.anchoredPosition = x;
-		}, new Vector2(-92f, 66f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideComputer, false);
-		TweenExtensions.Pause<Tweener>(this.hideComputer);
-		this.showPower = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-80f, 66f), delegate(Vector2 x)
+		}, new Vector2(-92f, 66f), 0.2f).SetEase(Ease.Linear);
+		this.hideComputer.SetAutoKill(false);
+		this.hideComputer.Pause<Tweener>();
+		this.showPower = DOTween.To(() => new Vector2(-80f, 66f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.PowerTransform.anchoredPosition = x;
-		}, new Vector2(-80f, -30f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showPower, false);
-		TweenExtensions.Pause<Tweener>(this.showPower);
-		this.hidePower = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-80f, -30f), delegate(Vector2 x)
+		}, new Vector2(-80f, -30f), 0.2f).SetEase(Ease.Linear);
+		this.showPower.SetAutoKill(false);
+		this.showPower.Pause<Tweener>();
+		this.hidePower = DOTween.To(() => new Vector2(-80f, -30f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.PowerTransform.anchoredPosition = x;
-		}, new Vector2(-80f, 66f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hidePower, false);
-		TweenExtensions.Pause<Tweener>(this.hidePower);
-		this.showComputerOn = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-84f, 66f), delegate(Vector2 x)
+		}, new Vector2(-80f, 66f), 0.2f).SetEase(Ease.Linear);
+		this.hidePower.SetAutoKill(false);
+		this.hidePower.Pause<Tweener>();
+		this.showComputerOn = DOTween.To(() => new Vector2(-84f, 66f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.ComputerOnTransform.anchoredPosition = x;
-		}, new Vector2(-84f, -30f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showComputerOn, false);
-		TweenExtensions.Pause<Tweener>(this.showComputerOn);
-		this.hideComputerOn = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-84f, -30f), delegate(Vector2 x)
+		}, new Vector2(-84f, -30f), 0.2f).SetEase(Ease.Linear);
+		this.showComputerOn.SetAutoKill(false);
+		this.showComputerOn.Pause<Tweener>();
+		this.hideComputerOn = DOTween.To(() => new Vector2(-84f, -30f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.ComputerOnTransform.anchoredPosition = x;
-		}, new Vector2(-84f, 66f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideComputerOn, false);
-		TweenExtensions.Pause<Tweener>(this.hideComputerOn);
-		this.showKnob = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-92f, 66f), delegate(Vector2 x)
+		}, new Vector2(-84f, 66f), 0.2f).SetEase(Ease.Linear);
+		this.hideComputerOn.SetAutoKill(false);
+		this.hideComputerOn.Pause<Tweener>();
+		this.showKnob = DOTween.To(() => new Vector2(-92f, 66f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.KnobTransform.anchoredPosition = x;
-		}, new Vector2(-92f, -30f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showKnob, false);
-		TweenExtensions.Pause<Tweener>(this.showKnob);
-		this.hideKnob = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-92f, -30f), delegate(Vector2 x)
+		}, new Vector2(-92f, -30f), 0.2f).SetEase(Ease.Linear);
+		this.showKnob.SetAutoKill(false);
+		this.showKnob.Pause<Tweener>();
+		this.hideKnob = DOTween.To(() => new Vector2(-92f, -30f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.KnobTransform.anchoredPosition = x;
-		}, new Vector2(-92f, 66f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideKnob, false);
-		TweenExtensions.Pause<Tweener>(this.hideKnob);
-		this.showDollMakerMarker = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-80f, 66f), delegate(Vector2 x)
+		}, new Vector2(-92f, 66f), 0.2f).SetEase(Ease.Linear);
+		this.hideKnob.SetAutoKill(false);
+		this.hideKnob.Pause<Tweener>();
+		this.showDollMakerMarker = DOTween.To(() => new Vector2(-80f, 66f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.DollMakerMarkerTransform.anchoredPosition = x;
-		}, new Vector2(-80f, -30f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showDollMakerMarker, false);
-		TweenExtensions.Pause<Tweener>(this.showDollMakerMarker);
-		this.hideDollMakerMarker = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-80f, -30f), delegate(Vector2 x)
+		}, new Vector2(-80f, -30f), 0.2f).SetEase(Ease.Linear);
+		this.showDollMakerMarker.SetAutoKill(false);
+		this.showDollMakerMarker.Pause<Tweener>();
+		this.hideDollMakerMarker = DOTween.To(() => new Vector2(-80f, -30f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.DollMakerMarkerTransform.anchoredPosition = x;
-		}, new Vector2(-80f, 66f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideDollMakerMarker, false);
-		TweenExtensions.Pause<Tweener>(this.hideDollMakerMarker);
-		this.showEnterBraceMode = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(82f, 66f), delegate(Vector2 x)
+		}, new Vector2(-80f, 66f), 0.2f).SetEase(Ease.Linear);
+		this.hideDollMakerMarker.SetAutoKill(false);
+		this.hideDollMakerMarker.Pause<Tweener>();
+		this.showEnterBraceMode = DOTween.To(() => new Vector2(82f, 66f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.EnterBraceTransform.anchoredPosition = x;
-		}, new Vector2(82f, -30f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showEnterBraceMode, false);
-		TweenExtensions.Pause<Tweener>(this.showEnterBraceMode);
-		this.hideEnterBraceMode = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(82f, -30f), delegate(Vector2 x)
+		}, new Vector2(82f, -30f), 0.2f).SetEase(Ease.Linear);
+		this.showEnterBraceMode.SetAutoKill(false);
+		this.showEnterBraceMode.Pause<Tweener>();
+		this.hideEnterBraceMode = DOTween.To(() => new Vector2(82f, -30f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.EnterBraceTransform.anchoredPosition = x;
-		}, new Vector2(82f, 66f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideEnterBraceMode, false);
-		TweenExtensions.Pause<Tweener>(this.hideEnterBraceMode);
-		this.showHoldMode = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-86f, 66f), delegate(Vector2 x)
+		}, new Vector2(82f, 66f), 0.2f).SetEase(Ease.Linear);
+		this.hideEnterBraceMode.SetAutoKill(false);
+		this.hideEnterBraceMode.Pause<Tweener>();
+		this.showHoldMode = DOTween.To(() => new Vector2(-86f, 66f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.HoldTransform.anchoredPosition = x;
-		}, new Vector2(-86f, -30f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showHoldMode, false);
-		TweenExtensions.Pause<Tweener>(this.showHoldMode);
-		this.hideHoldMode = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-86f, -30f), delegate(Vector2 x)
+		}, new Vector2(-86f, -30f), 0.2f).SetEase(Ease.Linear);
+		this.showHoldMode.SetAutoKill(false);
+		this.showHoldMode.Pause<Tweener>();
+		this.hideHoldMode = DOTween.To(() => new Vector2(-86f, -30f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.HoldTransform.anchoredPosition = x;
-		}, new Vector2(-86f, 66f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideHoldMode, false);
-		TweenExtensions.Pause<Tweener>(this.hideHoldMode);
+		}, new Vector2(-86f, 66f), 0.2f).SetEase(Ease.Linear);
+		this.hideHoldMode.SetAutoKill(false);
+		this.hideHoldMode.Pause<Tweener>();
 		if (UIInteractionManager.<>f__mg$cache0 == null)
 		{
 			UIInteractionManager.<>f__mg$cache0 = new DOGetter<Vector2>(Vector2.get_zero);
 		}
-		this.showEBar = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(UIInteractionManager.<>f__mg$cache0, delegate(Vector2 x)
+		this.showEBar = DOTween.To(UIInteractionManager.<>f__mg$cache0, delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.EBarTransform.anchoredPosition = x;
-		}, new Vector2(-55f, 0f), 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showEBar, false);
-		TweenExtensions.Pause<Tweener>(this.showEBar);
-		this.hideEBar = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(-55f, 0f), delegate(Vector2 x)
+		}, new Vector2(-55f, 0f), 0.2f).SetEase(Ease.Linear);
+		this.showEBar.SetAutoKill(false);
+		this.showEBar.Pause<Tweener>();
+		this.hideEBar = DOTween.To(() => new Vector2(-55f, 0f), delegate(Vector2 x)
 		{
 			LookUp.PlayerUI.EBarTransform.anchoredPosition = x;
-		}, Vector2.zero, 0.2f), 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideEBar, false);
-		TweenExtensions.Pause<Tweener>(this.hideEBar);
+		}, Vector2.zero, 0.2f).SetEase(Ease.Linear);
+		this.hideEBar.SetAutoKill(false);
+		this.hideEBar.Pause<Tweener>();
 	}
 
 	public static UIInteractionManager Ins;

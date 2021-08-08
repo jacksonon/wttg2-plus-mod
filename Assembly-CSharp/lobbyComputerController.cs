@@ -29,19 +29,19 @@ public class lobbyComputerController : baseController
 		GameManager.InteractionManager.LockInteraction();
 		GameManager.BehaviourManager.CrossHairBehaviour.HideCrossHairGroup();
 		Sequence sequence = DOTween.Sequence();
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.MyCamera.transform.localPosition, delegate(Vector3 x)
+		sequence.Insert(0f, DOTween.To(() => this.MyCamera.transform.localPosition, delegate(Vector3 x)
 		{
 			this.MyCamera.transform.localPosition = x;
-		}, this.cameraPOS, 0.7f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.MyCamera.transform.localRotation, delegate(Quaternion x)
+		}, this.cameraPOS, 0.7f).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.MyCamera.transform.localRotation, delegate(Quaternion x)
 		{
 			this.MyCamera.transform.localRotation = x;
-		}, this.cameraROT, 0.4f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.tmpPPVol.weight, delegate(float x)
+		}, this.cameraROT, 0.4f).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.tmpPPVol.weight, delegate(float x)
 		{
 			this.tmpPPVol.weight = x;
-		}, 1f, 0.7f), 1));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, 1f, 0.7f).SetEase(Ease.Linear));
+		sequence.Play<Sequence>();
 	}
 
 	private void LooseControl()
@@ -52,10 +52,10 @@ public class lobbyComputerController : baseController
 		StateManager.PlayerState = PLAYER_STATE.BUSY;
 		GameManager.InteractionManager.UnLockInteraction();
 		GameManager.BehaviourManager.CrossHairBehaviour.ShowCrossHairGroup();
-		TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.tmpPPVol.weight, delegate(float x)
+		DOTween.To(() => this.tmpPPVol.weight, delegate(float x)
 		{
 			this.tmpPPVol.weight = x;
-		}, 0f, 0.7f), 1), delegate()
+		}, 0f, 0.7f).SetEase(Ease.Linear).OnComplete(delegate
 		{
 			DataManager.LockSave = false;
 			RuntimeUtilities.DestroyVolume(this.tmpPPVol, false, false);

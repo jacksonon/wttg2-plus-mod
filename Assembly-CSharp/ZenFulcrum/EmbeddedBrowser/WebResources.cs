@@ -56,10 +56,10 @@ namespace ZenFulcrum.EmbeddedBrowser
 						};
 					}
 				}
-				catch (Exception ex)
+				catch (Exception exception)
 				{
 					Debug.LogError("WebResources: Failed to fetch URL " + text);
-					Debug.LogException(ex);
+					Debug.LogException(exception);
 					result = this.GetError("Internal error", 500);
 				}
 				return result;

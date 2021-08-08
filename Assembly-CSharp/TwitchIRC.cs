@@ -22,7 +22,7 @@ public class TwitchIRC
 		this.oauth = setOAuth;
 		this.nickName = setNickName;
 		this.channelName = setNickName;
-		Debug.Log("[TwitchIRC] Starting IRC...");
+		UnityEngine.Debug.Log("[TwitchIRC] Starting IRC...");
 		this.StartIRC();
 	}
 
@@ -52,7 +52,7 @@ public class TwitchIRC
 		});
 		this.inProc.Start();
 		this.stopThreads = false;
-		Debug.Log("[TwitchIRC] Initialized successfully.");
+		UnityEngine.Debug.Log("[TwitchIRC] Initialized successfully.");
 	}
 
 	private void IRCInputProcedure(TextReader input, NetworkStream networkStream)
@@ -122,7 +122,7 @@ public class TwitchIRC
 		{
 			this.commandQueue.Enqueue("PRIVMSG #" + this.channelName + " :" + msg);
 		}
-		Debug.Log(msg);
+		UnityEngine.Debug.Log(msg);
 	}
 
 	public void SendMsg(string msg, float delay)

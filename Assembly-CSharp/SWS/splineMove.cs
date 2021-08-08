@@ -29,7 +29,7 @@ namespace SWS
 		{
 			if (this.pathContainer == null)
 			{
-				Debug.LogWarning(base.gameObject.name + " has no path! Please set Path Container.");
+				UnityEngine.Debug.LogWarning(base.gameObject.name + " has no path! Please set Path Container.");
 				return;
 			}
 			this.waypoints = this.pathContainer.GetPathPoints(this.local);
@@ -73,9 +73,9 @@ namespace SWS
 			}
 			if (this.loopType == splineMove.LoopType.yoyo)
 			{
-				tweenParams.SetLoops(-1, new DG.Tweening.LoopType?(1));
+				tweenParams.SetLoops(-1, new DG.Tweening.LoopType?(DG.Tweening.LoopType.Yoyo));
 			}
-			if (this.easeType == null)
+			if (this.easeType == Ease.Unset)
 			{
 				tweenParams.SetEase(this.animEaseType);
 			}
@@ -97,16 +97,16 @@ namespace SWS
 				{
 					tweenParams.OnStepComplete(new TweenCallback(this.ReachedEnd));
 				}
-				Vector3 vector = this.wpPos[0];
+				Vector3 position = this.wpPos[0];
 				if (this.local)
 				{
-					vector = this.pathContainer.transform.TransformPoint(vector);
+					position = this.pathContainer.transform.TransformPoint(position);
 				}
-				base.transform.position = vector;
+				base.transform.position = position;
 				tweenParams.OnWaypointChange(new TweenCallback<int>(this.OnWaypointChange));
 				tweenParams.OnComplete(new TweenCallback(this.ReachedEnd));
 			}
-			if (this.pathMode == null && this.waypointRotation != splineMove.RotationType.none)
+			if (this.pathMode == PathMode.Ignore && this.waypointRotation != splineMove.RotationType.none)
 			{
 				if (this.rotationTarget == null)
 				{
@@ -116,11 +116,11 @@ namespace SWS
 			}
 			if (this.local)
 			{
-				this.tween = TweenSettingsExtensions.SetLookAt(TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetAs<TweenerCore<Vector3, Path, PathOptions>>(ShortcutExtensions.DOLocalPath(base.transform, this.wpPos, this.originSpeed, this.pathType, this.pathMode, 10, null), tweenParams), this.closeLoop, this.lockPosition, this.lockRotation), this.lookAhead, null, null);
+				this.tween = base.transform.DOLocalPath(this.wpPos, this.originSpeed, this.pathType, this.pathMode, 10, null).SetAs(tweenParams).SetOptions(this.closeLoop, this.lockPosition, this.lockRotation).SetLookAt(this.lookAhead, null, null);
 			}
 			else
 			{
-				this.tween = TweenSettingsExtensions.SetLookAt(TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetAs<TweenerCore<Vector3, Path, PathOptions>>(ShortcutExtensions.DOPath(base.transform, this.wpPos, this.originSpeed, this.pathType, this.pathMode, 10, null), tweenParams), this.closeLoop, this.lockPosition, this.lockRotation), this.lookAhead, null, null);
+				this.tween = base.transform.DOPath(this.wpPos, this.originSpeed, this.pathType, this.pathMode, 10, null).SetAs(tweenParams).SetOptions(this.closeLoop, this.lockPosition, this.lockRotation).SetLookAt(this.lookAhead, null, null);
 			}
 			if (!this.moveToPath && this.startPoint > 0)
 			{
@@ -172,13 +172,13 @@ namespace SWS
 		{
 			int num = this.currentPoint;
 			num = Mathf.Clamp(this.pathContainer.GetWaypointIndex(this.currentPoint), 0, this.pathContainer.GetWaypointCount());
-			if (!TweenExtensions.IsInitialized(this.tween) || TweenExtensions.IsComplete(this.tween))
+			if (!this.tween.IsInitialized() || this.tween.IsComplete())
 			{
 				this.ApplyWaypointRotation(this.pathContainer.GetWaypoint(num).rotation);
 				return;
 			}
 			TweenerCore<Vector3, Path, PathOptions> tweenerCore = this.tween as TweenerCore<Vector3, Path, PathOptions>;
-			float num2 = TweenExtensions.PathLength(tweenerCore) * TweenExtensions.ElapsedPercentage(tweenerCore, true);
+			float num2 = tweenerCore.PathLength() * tweenerCore.ElapsedPercentage(true);
 			float num3 = 0f;
 			int num4 = this.currentPoint;
 			float num5;
@@ -341,8 +341,8 @@ namespace SWS
 			{
 				index = this.waypoints.Length - 1 - index;
 			}
-			TweenExtensions.ForceInit(this.tween);
-			TweenExtensions.GotoWaypoint(this.tween, index, true);
+			this.tween.ForceInit();
+			this.tween.GotoWaypoint(index, true);
 		}
 
 		public void Pause(float seconds = 0f)
@@ -350,7 +350,7 @@ namespace SWS
 			base.StopCoroutine(this.Wait(0f));
 			if (this.tween != null)
 			{
-				TweenExtensions.Pause<Tweener>(this.tween);
+				this.tween.Pause<Tweener>();
 			}
 			if (seconds > 0f)
 			{
@@ -370,7 +370,7 @@ namespace SWS
 			base.StopCoroutine(this.Wait(0f));
 			if (this.tween != null)
 			{
-				TweenExtensions.Play<Tweener>(this.tween);
+				this.tween.Play<Tweener>();
 			}
 		}
 
@@ -380,12 +380,12 @@ namespace SWS
 			float num = 0f;
 			if (this.tween != null)
 			{
-				num = 1f - TweenExtensions.ElapsedPercentage(this.tween, false);
+				num = 1f - this.tween.ElapsedPercentage(false);
 			}
 			this.startPoint = this.waypoints.Length - 1 - this.currentPoint;
 			this.StartMove();
-			TweenExtensions.ForceInit(this.tween);
-			this.tween.fullPosition = TweenExtensions.Duration(this.tween, false) * num;
+			this.tween.ForceInit();
+			this.tween.fullPosition = this.tween.Duration(false) * num;
 		}
 
 		public void SetPath(PathManager newPath)
@@ -400,7 +400,7 @@ namespace SWS
 			base.StopAllCoroutines();
 			if (this.tween != null)
 			{
-				TweenExtensions.Kill(this.tween, false);
+				this.tween.Kill(false);
 			}
 			this.tween = null;
 		}
@@ -468,11 +468,11 @@ namespace SWS
 		[HideInInspector]
 		public List<UnityEvent> events = new List<UnityEvent>();
 
-		public PathType pathType = 1;
+		public PathType pathType = PathType.CatmullRom;
 
-		public PathMode pathMode = 1;
+		public PathMode pathMode = PathMode.Full3D;
 
-		public Ease easeType = 1;
+		public Ease easeType = Ease.Linear;
 
 		public AxisConstraint lockPosition;
 
@@ -491,7 +491,7 @@ namespace SWS
 
 		private Quaternion originRot;
 
-		private Random rand = new Random();
+		private System.Random rand = new System.Random();
 
 		private int[] rndArray;
 

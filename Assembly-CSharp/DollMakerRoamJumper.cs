@@ -25,19 +25,19 @@ public class DollMakerRoamJumper : MonoBehaviour
 			});
 			this.ppVol.weight = 0f;
 			Sequence sequence = DOTween.Sequence();
-			TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.myCamera.transform.localPosition, delegate(Vector3 x)
+			sequence.Insert(0f, DOTween.To(() => this.myCamera.transform.localPosition, delegate(Vector3 x)
 			{
 				this.myCamera.transform.localPosition = x;
-			}, Vector3.zero, 0.5f), 21));
-			TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.myCamera.transform.localRotation, delegate(Quaternion x)
+			}, Vector3.zero, 0.5f).SetEase(Ease.OutCirc));
+			sequence.Insert(0f, DOTween.To(() => this.myCamera.transform.localRotation, delegate(Quaternion x)
 			{
 				this.myCamera.transform.localRotation = x;
-			}, Vector3.zero, 0.5f), 1), true));
-			TweenSettingsExtensions.Insert(sequence, 0.75f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.ppVol.weight, delegate(float x)
+			}, Vector3.zero, 0.5f).SetEase(Ease.Linear).SetOptions(true));
+			sequence.Insert(0.75f, DOTween.To(() => this.ppVol.weight, delegate(float x)
 			{
 				this.ppVol.weight = x;
-			}, 1f, 0.5f), 1));
-			TweenExtensions.Play<Sequence>(sequence);
+			}, 1f, 0.5f).SetEase(Ease.Linear));
+			sequence.Play<Sequence>();
 		}, 0);
 	}
 
@@ -58,10 +58,10 @@ public class DollMakerRoamJumper : MonoBehaviour
 	{
 		this.myRoamController.SetMasterLock(true);
 		this.myCamera.transform.SetParent(DollMakerBehaviour.Ins.HelperBone);
-		TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.myCamera.transform.localRotation, delegate(Quaternion x)
+		DOTween.To(() => this.myCamera.transform.localRotation, delegate(Quaternion x)
 		{
 			this.myCamera.transform.localRotation = x;
-		}, Vector3.zero, 0.5f), 1), true);
+		}, Vector3.zero, 0.5f).SetEase(Ease.Linear).SetOptions(true);
 	}
 
 	private void Awake()

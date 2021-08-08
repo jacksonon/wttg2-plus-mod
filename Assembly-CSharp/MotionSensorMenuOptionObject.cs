@@ -27,8 +27,8 @@ public class MotionSensorMenuOptionObject : MonoBehaviour
 
 	public void PutMe(int SetIndex)
 	{
-		float num = -(4f + ((float)SetIndex * 4f + (float)SetIndex * 24f));
-		this.myRT.anchoredPosition = new Vector2(4f, num);
+		float y = -(4f + ((float)SetIndex * 4f + (float)SetIndex * 24f));
+		this.myRT.anchoredPosition = new Vector2(4f, y);
 	}
 
 	private void motionTriggerWasTripped(MotionSensorObject TheMotionSensor)

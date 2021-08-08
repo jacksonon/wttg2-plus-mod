@@ -19,18 +19,18 @@ public class EndingResponseObject : MonoBehaviour
 	{
 		this.myRT.anchoredPosition = new Vector2(0f, SetY);
 		this.responseText.SetText((SetIndex + 1).ToString() + ". " + TheResponse.ResponseOption);
-		TweenSettingsExtensions.SetDelay<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 1f, 1f), 1), SetDisplayDelay);
+		}, 1f, 1f).SetEase(Ease.Linear).SetDelay(SetDisplayDelay);
 	}
 
 	public void Dismiss(float setDelay)
 	{
-		TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetDelay<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 0f, 0.5f), setDelay), delegate()
+		}, 0f, 0.5f).SetDelay(setDelay).OnComplete(delegate
 		{
 			this.myCG.alpha = 0f;
 			this.myRT.anchoredPosition = new Vector2(0f, -50f);

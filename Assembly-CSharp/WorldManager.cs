@@ -98,7 +98,7 @@ public class WorldManager : MonoBehaviour
 
 	private IEnumerator loadWorld(int worldID)
 	{
-		AsyncOperation result = SceneManager.LoadSceneAsync(worldID, 1);
+		AsyncOperation result = SceneManager.LoadSceneAsync(worldID, LoadSceneMode.Additive);
 		while (!result.isDone)
 		{
 			yield return new WaitForEndOfFrame();

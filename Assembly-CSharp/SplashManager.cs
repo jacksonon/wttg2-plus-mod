@@ -11,76 +11,76 @@ public class SplashManager : MonoBehaviour
 	private void presentRSLogo()
 	{
 		this.myAS.Play();
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), new TweenCallback(this.loadTitleScreen));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.rsLeftRT.anchoredPosition, delegate(Vector2 x)
+		Sequence sequence = DOTween.Sequence().OnComplete(new TweenCallback(this.loadTitleScreen));
+		sequence.Insert(0f, DOTween.To(() => this.rsLeftRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.rsLeftRT.anchoredPosition = x;
-		}, this.defaultLogoLeftPOS, 0.6f), 2));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.rsRightRT.anchoredPosition, delegate(Vector2 x)
+		}, this.defaultLogoLeftPOS, 0.6f).SetEase(Ease.InSine));
+		sequence.Insert(0f, DOTween.To(() => this.rsRightRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.rsRightRT.anchoredPosition = x;
-		}, this.defaultLogoRightPOS, 0.6f), 2));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.rsLeftCG.alpha, delegate(float x)
+		}, this.defaultLogoRightPOS, 0.6f).SetEase(Ease.InSine));
+		sequence.Insert(0f, DOTween.To(() => this.rsLeftCG.alpha, delegate(float x)
 		{
 			this.rsLeftCG.alpha = x;
-		}, 0.5f, 0.25f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.rsRightCG.alpha, delegate(float x)
+		}, 0.5f, 0.25f).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.rsRightCG.alpha, delegate(float x)
 		{
 			this.rsRightCG.alpha = x;
-		}, 0.5f, 0.25f), 1));
-		TweenSettingsExtensions.Insert(sequence, 1.4f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.rsLeftCG.alpha, delegate(float x)
+		}, 0.5f, 0.25f).SetEase(Ease.Linear));
+		sequence.Insert(1.4f, DOTween.To(() => this.rsLeftCG.alpha, delegate(float x)
 		{
 			this.rsLeftCG.alpha = x;
-		}, 0f, 1f), 1));
-		TweenSettingsExtensions.Insert(sequence, 1.4f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.rsRightCG.alpha, delegate(float x)
+		}, 0f, 1f).SetEase(Ease.Linear));
+		sequence.Insert(1.4f, DOTween.To(() => this.rsRightCG.alpha, delegate(float x)
 		{
 			this.rsRightCG.alpha = x;
-		}, 0f, 1f), 1));
-		TweenSettingsExtensions.Insert(sequence, 1.4f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.rsLogoCG.alpha, delegate(float x)
+		}, 0f, 1f).SetEase(Ease.Linear));
+		sequence.Insert(1.4f, DOTween.To(() => this.rsLogoCG.alpha, delegate(float x)
 		{
 			this.rsLogoCG.alpha = x;
-		}, 0.6f, 1f), 1));
-		TweenSettingsExtensions.Insert(sequence, 1.6f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.rsTextCG.alpha, delegate(float x)
+		}, 0.6f, 1f).SetEase(Ease.Linear));
+		sequence.Insert(1.6f, DOTween.To(() => this.rsTextCG.alpha, delegate(float x)
 		{
 			this.rsTextCG.alpha = x;
-		}, 0.6f, 1f), 1));
-		TweenSettingsExtensions.Insert(sequence, 3.25f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.rsWebsiteCG.alpha, delegate(float x)
+		}, 0.6f, 1f).SetEase(Ease.Linear));
+		sequence.Insert(3.25f, DOTween.To(() => this.rsWebsiteCG.alpha, delegate(float x)
 		{
 			this.rsWebsiteCG.alpha = x;
-		}, 0.6f, 1f), 1));
-		TweenSettingsExtensions.Insert(sequence, 4.75f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.rsLogoCG.alpha, delegate(float x)
+		}, 0.6f, 1f).SetEase(Ease.Linear));
+		sequence.Insert(4.75f, DOTween.To(() => this.rsLogoCG.alpha, delegate(float x)
 		{
 			this.rsLogoCG.alpha = x;
-		}, 1f, 0.75f), 1));
-		TweenSettingsExtensions.Insert(sequence, 4.75f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.rsTextCG.alpha, delegate(float x)
+		}, 1f, 0.75f).SetEase(Ease.Linear));
+		sequence.Insert(4.75f, DOTween.To(() => this.rsTextCG.alpha, delegate(float x)
 		{
 			this.rsTextCG.alpha = x;
-		}, 1f, 0.75f), 1));
-		TweenSettingsExtensions.Insert(sequence, 4.75f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.rsWebsiteCG.alpha, delegate(float x)
+		}, 1f, 0.75f).SetEase(Ease.Linear));
+		sequence.Insert(4.75f, DOTween.To(() => this.rsWebsiteCG.alpha, delegate(float x)
 		{
 			this.rsWebsiteCG.alpha = x;
-		}, 1f, 0.75f), 1));
-		TweenSettingsExtensions.Insert(sequence, 4.75f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.camBloom.bloomIntensity, delegate(float x)
+		}, 1f, 0.75f).SetEase(Ease.Linear));
+		sequence.Insert(4.75f, DOTween.To(() => this.camBloom.bloomIntensity, delegate(float x)
 		{
 			this.camBloom.bloomIntensity = x;
-		}, 0.25f, 2.5f), 1));
-		TweenSettingsExtensions.Insert(sequence, 7.25f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.rsLogoCG.alpha, delegate(float x)
+		}, 0.25f, 2.5f).SetEase(Ease.Linear));
+		sequence.Insert(7.25f, DOTween.To(() => this.rsLogoCG.alpha, delegate(float x)
 		{
 			this.rsLogoCG.alpha = x;
-		}, 0f, 0.25f), 1));
-		TweenSettingsExtensions.Insert(sequence, 7.25f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.rsTextCG.alpha, delegate(float x)
+		}, 0f, 0.25f).SetEase(Ease.Linear));
+		sequence.Insert(7.25f, DOTween.To(() => this.rsTextCG.alpha, delegate(float x)
 		{
 			this.rsTextCG.alpha = x;
-		}, 0f, 0.25f), 1));
-		TweenSettingsExtensions.Insert(sequence, 7.25f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.rsWebsiteCG.alpha, delegate(float x)
+		}, 0f, 0.25f).SetEase(Ease.Linear));
+		sequence.Insert(7.25f, DOTween.To(() => this.rsWebsiteCG.alpha, delegate(float x)
 		{
 			this.rsWebsiteCG.alpha = x;
-		}, 0f, 0.25f), 1));
-		TweenSettingsExtensions.Insert(sequence, 7.25f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.camBloom.bloomIntensity, delegate(float x)
+		}, 0f, 0.25f).SetEase(Ease.Linear));
+		sequence.Insert(7.25f, DOTween.To(() => this.camBloom.bloomIntensity, delegate(float x)
 		{
 			this.camBloom.bloomIntensity = x;
-		}, 0f, 0.25f), 1));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, 0f, 0.25f).SetEase(Ease.Linear));
+		sequence.Play<Sequence>();
 	}
 
 	private void loadTitleScreen()

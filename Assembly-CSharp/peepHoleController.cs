@@ -53,10 +53,10 @@ public class peepHoleController : mouseableController
 		base.SetMasterLock(false);
 		this.MyState = GAME_CONTROLLER_STATE.IDLE;
 		StateManager.PlayerState = PLAYER_STATE.PEEPING;
-		TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.tmpPPVol.weight, delegate(float x)
+		DOTween.To(() => this.tmpPPVol.weight, delegate(float x)
 		{
 			this.tmpPPVol.weight = x;
-		}, 0f, 0.75f), 1), delegate()
+		}, 0f, 0.75f).SetEase(Ease.Linear).OnComplete(delegate
 		{
 			RuntimeUtilities.DestroyVolume(this.tmpPPVol, false, false);
 		});

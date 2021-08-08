@@ -7,7 +7,7 @@ namespace MirzaBeig.ParticleSystems
 	{
 		private void Start()
 		{
-			Object.Destroy(base.gameObject, this.time);
+			UnityEngine.Object.Destroy(base.gameObject, this.time);
 		}
 
 		public float time = 2f;

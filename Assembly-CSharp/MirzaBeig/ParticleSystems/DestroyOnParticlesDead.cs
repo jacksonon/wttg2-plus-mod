@@ -18,7 +18,7 @@ namespace MirzaBeig.ParticleSystems
 
 		private void onParticleSystemsDead()
 		{
-			Object.Destroy(base.gameObject);
+			UnityEngine.Object.Destroy(base.gameObject);
 		}
 
 		protected override void Update()

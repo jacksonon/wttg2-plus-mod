@@ -14,9 +14,9 @@ namespace MirzaBeig.Scripting.Effects
 		private void Start()
 		{
 			this.particleSystem = base.GetComponent<ParticleSystem>();
-			this.randomX = Random.Range(-32f, 32f);
-			this.randomY = Random.Range(-32f, 32f);
-			this.randomZ = Random.Range(-32f, 32f);
+			this.randomX = UnityEngine.Random.Range(-32f, 32f);
+			this.randomY = UnityEngine.Random.Range(-32f, 32f);
+			this.randomZ = UnityEngine.Random.Range(-32f, 32f);
 			this.t = new Thread(new ThreadStart(this.process));
 			this.t.Start();
 			this.isDoneAssigning = true;

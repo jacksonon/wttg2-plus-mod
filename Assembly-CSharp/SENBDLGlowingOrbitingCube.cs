@@ -11,8 +11,8 @@ public class SENBDLGlowingOrbitingCube : MonoBehaviour
 	private void Start()
 	{
 		base.transform.localScale = this.Vec3(1.5f);
-		this.pulseSpeed = Random.Range(4f, 8f);
-		this.phase = Random.Range(0f, 6.28318548f);
+		this.pulseSpeed = UnityEngine.Random.Range(4f, 8f);
+		this.phase = UnityEngine.Random.Range(0f, 6.28318548f);
 	}
 
 	private void Update()

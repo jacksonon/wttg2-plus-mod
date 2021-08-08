@@ -29,7 +29,7 @@ public class ShadowMarketProductsBTNBehaviour : MonoBehaviour, IPointerEnterHand
 		this.isDisabled = false;
 		this.myImage.sprite = this.defaultSprite;
 		this.btnText.text = "BUY";
-		this.btnText.fontStyle = 0;
+		this.btnText.fontStyle = FontStyle.Normal;
 	}
 
 	public void SetToOwned()
@@ -37,14 +37,14 @@ public class ShadowMarketProductsBTNBehaviour : MonoBehaviour, IPointerEnterHand
 		this.isDisabled = true;
 		this.myImage.sprite = this.disabledSprite;
 		this.btnText.text = "OWNED";
-		this.btnText.fontStyle = 2;
+		this.btnText.fontStyle = FontStyle.Italic;
 	}
 
 	public void SetToDisabled()
 	{
 		this.isDisabled = true;
 		this.myImage.sprite = this.disabledSprite;
-		this.btnText.fontStyle = 2;
+		this.btnText.fontStyle = FontStyle.Italic;
 	}
 
 	public void SetToShipped()
@@ -52,7 +52,7 @@ public class ShadowMarketProductsBTNBehaviour : MonoBehaviour, IPointerEnterHand
 		this.isDisabled = true;
 		this.myImage.sprite = this.disabledSprite;
 		this.btnText.text = "SHIPPED!";
-		this.btnText.fontStyle = 1;
+		this.btnText.fontStyle = FontStyle.Bold;
 		this.btnText.fontSize = 14;
 	}
 
@@ -61,20 +61,20 @@ public class ShadowMarketProductsBTNBehaviour : MonoBehaviour, IPointerEnterHand
 		this.isDisabled = true;
 		this.myImage.sprite = this.disabledSprite;
 		this.btnText.text = "Shipping...";
-		this.btnText.fontStyle = 2;
+		this.btnText.fontStyle = FontStyle.Italic;
 		this.btnText.fontSize = 14;
 		Vector2 shipIMGSize = new Vector2(this.myRT.sizeDelta.x, 0f);
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+		Sequence sequence = DOTween.Sequence().OnComplete(delegate
 		{
 			shipIMGSize.x = 0f;
 			shipIMGSize.y = this.shippingIMGRT.sizeDelta.y;
 			this.shippingIMGRT.sizeDelta = shipIMGSize;
 		});
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.shippingIMGRT.sizeDelta, delegate(Vector2 x)
+		sequence.Insert(0f, DOTween.To(() => this.shippingIMGRT.sizeDelta, delegate(Vector2 x)
 		{
 			this.shippingIMGRT.sizeDelta = x;
-		}, shipIMGSize, setTime), 1), true));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, shipIMGSize, setTime).SetEase(Ease.Linear).SetRelative(true));
+		sequence.Play<Sequence>();
 	}
 
 	private void Awake()

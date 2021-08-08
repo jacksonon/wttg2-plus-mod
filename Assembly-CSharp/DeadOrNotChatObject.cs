@@ -28,7 +28,7 @@ public class DeadOrNotChatObject : MonoBehaviour
 
 	public void Build(string ChatText)
 	{
-		string text = "User" + Random.Range(101, 999).ToString() + ":";
+		string text = "User" + UnityEngine.Random.Range(101, 999).ToString() + ":";
 		string text2 = "        " + ChatText;
 		this.myHeight = MagicSlinger.GetStringHeight(text2, this.chatFont, 14, this.chatRT.sizeDelta);
 		this.chatRT.sizeDelta = new Vector2(this.chatRT.sizeDelta.x, this.myHeight);

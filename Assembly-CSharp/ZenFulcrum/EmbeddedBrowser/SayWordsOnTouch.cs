@@ -48,7 +48,7 @@ namespace ZenFulcrum.EmbeddedBrowser
 				idx++;
 			}
 			SayWordsOnTouch.ActiveSpeakers--;
-			Object.Destroy(base.gameObject);
+			UnityEngine.Object.Destroy(base.gameObject);
 			yield break;
 		}
 

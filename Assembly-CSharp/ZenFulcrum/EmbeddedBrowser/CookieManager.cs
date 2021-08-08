@@ -37,9 +37,9 @@ namespace ZenFulcrum.EmbeddedBrowser
 						ret.Add(new Cookie(this, cookie));
 					}
 				}
-				catch (Exception ex)
+				catch (Exception exception)
 				{
-					Debug.LogException(ex);
+					Debug.LogException(exception);
 				}
 			};
 			BrowserNative.zfb_getCookies(this.browser.browserId, getCookieFunc);

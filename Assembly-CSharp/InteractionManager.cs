@@ -44,7 +44,7 @@ public class InteractionManager : MonoBehaviour
 	{
 		if (!this.lockInteraction)
 		{
-			if (Physics.Raycast(this.myCamera.ViewportPointToRay(this.aimFrom), ref this.interactionHit, this.Distance, this.Layer.value))
+			if (Physics.Raycast(this.myCamera.ViewportPointToRay(this.aimFrom), out this.interactionHit, this.Distance, this.Layer.value))
 			{
 				this.interactionHit.collider.SendMessageUpwards("Receive");
 			}

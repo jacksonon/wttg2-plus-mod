@@ -63,14 +63,14 @@ public class CultMaleBehaviour : MonoBehaviour
 
 	private void generateHeadAction()
 	{
-		this.headActionTimeWindow = Random.Range(this.headActionWindowMin, this.headActionWindowMax);
+		this.headActionTimeWindow = UnityEngine.Random.Range(this.headActionWindowMin, this.headActionWindowMax);
 		this.headActionTimeStamp = Time.time;
 		this.headActionActive = true;
 	}
 
 	private void performHeadAction()
 	{
-		int num = Random.Range(0, 2);
+		int num = UnityEngine.Random.Range(0, 2);
 		if (num != 0)
 		{
 			if (num == 1)
@@ -87,7 +87,7 @@ public class CultMaleBehaviour : MonoBehaviour
 
 	private void pickIdleAnim()
 	{
-		switch (Random.Range(0, 4))
+		switch (UnityEngine.Random.Range(0, 4))
 		{
 		case 0:
 			this.TriggerAnim("idle1");

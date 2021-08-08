@@ -14,13 +14,13 @@ public class TextDocObject : MonoBehaviour
 
 	public void Build(string SetTitle, string SetText)
 	{
-		float num = MagicSlinger.GetStringHeight(SetText, this.docFont, this.fontSize, this.myRT.sizeDelta) + 60f;
-		this.myRT.sizeDelta = new Vector2(this.myRT.sizeDelta.x, num);
-		float num2 = Mathf.Round(Random.Range(15f, (float)Screen.width - this.myRT.sizeDelta.x - 15f));
-		float num3 = -Mathf.Round(Random.Range(56f, (float)Screen.height - 40f - this.myRT.sizeDelta.y - 15f));
+		float y = MagicSlinger.GetStringHeight(SetText, this.docFont, this.fontSize, this.myRT.sizeDelta) + 60f;
+		this.myRT.sizeDelta = new Vector2(this.myRT.sizeDelta.x, y);
+		float x = Mathf.Round(UnityEngine.Random.Range(15f, (float)Screen.width - this.myRT.sizeDelta.x - 15f));
+		float y2 = -Mathf.Round(UnityEngine.Random.Range(56f, (float)Screen.height - 40f - this.myRT.sizeDelta.y - 15f));
 		this.titleText.SetText(SetTitle);
 		this.docText.text = SetText;
-		this.myRT.anchoredPosition = new Vector2(num2, num3);
+		this.myRT.anchoredPosition = new Vector2(x, y2);
 	}
 
 	public void BumpMe()

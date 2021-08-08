@@ -128,10 +128,10 @@ public class HitmanBehaviour : MonoBehaviour
 	public void LeaveMainRoom()
 	{
 		this.WildCardEvents.Event += this.openMainDoorFromInside;
-		TweenSettingsExtensions.OnComplete<Tweener>(TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => base.transform.rotation, delegate(Quaternion x)
+		DOTween.To(() => base.transform.rotation, delegate(Quaternion x)
 		{
 			base.transform.rotation = x;
-		}, new Vector3(0f, 160.688f, 0f), 0.35f), 1), true), delegate()
+		}, new Vector3(0f, 160.688f, 0f), 0.35f).SetEase(Ease.Linear).SetOptions(true).OnComplete(delegate
 		{
 			this.TriggerAnim("mainDoorOpenInside");
 		});
@@ -144,10 +144,10 @@ public class HitmanBehaviour : MonoBehaviour
 
 	public void WalkAwayFromMainDoor()
 	{
-		this.turnTween = TweenSettingsExtensions.OnComplete<Tweener>(TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => base.transform.rotation, delegate(Quaternion x)
+		this.turnTween = DOTween.To(() => base.transform.rotation, delegate(Quaternion x)
 		{
 			base.transform.rotation = x;
-		}, new Vector3(0f, 90f, 0f), 0.75f), 1), true), delegate()
+		}, new Vector3(0f, 90f, 0f), 0.75f).SetEase(Ease.Linear).SetOptions(true).OnComplete(delegate
 		{
 			this.FollowPath(this.walkFromMainDoorPath);
 		});
@@ -157,7 +157,7 @@ public class HitmanBehaviour : MonoBehaviour
 	{
 		this.killWalking = true;
 		this.myAC.SetFloat("walking", 0f);
-		TweenExtensions.Kill(this.turnTween, false);
+		this.turnTween.Kill(false);
 		this.mySplineMove.Stop();
 	}
 
@@ -232,7 +232,7 @@ public class HitmanBehaviour : MonoBehaviour
 	{
 		if (this.footStepSoundsEnabled)
 		{
-			int num = Random.Range(1, this.footStepSFXs.Length);
+			int num = UnityEngine.Random.Range(1, this.footStepSFXs.Length);
 			AudioFileDefinition audioFileDefinition = this.footStepSFXs[num];
 			this.footHub.PlaySoundWithWildPitch(this.footStepSFXs[num], 0.85f, 1.1f);
 			this.footStepSFXs[num] = this.footStepSFXs[0];

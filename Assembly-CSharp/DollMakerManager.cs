@@ -111,7 +111,7 @@ public class DollMakerManager : MonoBehaviour
 
 	private void generateReleaseWindow()
 	{
-		this.delayWindow = Random.Range(this.myData.DelayTimeMin, this.myData.DelayTimeMax);
+		this.delayWindow = UnityEngine.Random.Range(this.myData.DelayTimeMin, this.myData.DelayTimeMax);
 		this.delayTimeStamp = Time.time;
 		this.delayActive = true;
 	}
@@ -152,7 +152,7 @@ public class DollMakerManager : MonoBehaviour
 
 	private void activateMarkerTime()
 	{
-		this.markerWindow = Random.Range(this.myData.MarkerCoolTimeMin, this.myData.MarkerCoolTimeMax);
+		this.markerWindow = UnityEngine.Random.Range(this.myData.MarkerCoolTimeMin, this.myData.MarkerCoolTimeMax);
 		this.markerTimeStamp = Time.time;
 		this.markerActive = true;
 	}
@@ -269,8 +269,11 @@ public class DollMakerManager : MonoBehaviour
 			this.myDollMakerData.PlayedHelpMeSound = true;
 		}
 		EnemyManager.State = ENEMY_STATE.IDLE;
-		this.myDollMakerData.CurrentVictims++;
+		DollMakerData dollMakerData = this.myDollMakerData;
+		int currentVictims = dollMakerData.CurrentVictims;
+		dollMakerData.CurrentVictims = currentVictims + 1;
 		this.myDollMakerData.UsedUnitNumbers.Add(this.activeUnitNumber);
+		this.PriceUnit = this.activeUnitNumber;
 		for (int i = 0; i < this.markerTriggers.Length; i++)
 		{
 			if (this.markerTriggers[i].UnitNumber == this.activeUnitNumber)
@@ -281,11 +284,11 @@ public class DollMakerManager : MonoBehaviour
 		}
 		this.activeUnitNumber = 0;
 		this.myDollMakerData.ActiveUnitNumber = 0;
-		if (this.myDollMakerData.CurrentVictims < this.myData.TargetVictimCount)
+		if (this.myDollMakerData.CurrentVictims < this.myData.TargetVictimCount || ModsManager.Nightmare)
 		{
-			float duration = Random.Range(this.myData.MarkerResetTimeMin, this.myData.MarkerResetTimeMax);
+			float duration = UnityEngine.Random.Range(this.myData.MarkerResetTimeMin / 2f, this.myData.MarkerResetTimeMax / 2f);
 			GameManager.TimeSlinger.FireTimer(duration, new Action(this.rePlaceMarker), 0);
-			CurrencyManager.AddCurrency(60f);
+			CurrencyManager.AddCurrency(GameManager.ManagerSlinger.TenantTrackManager.CheckDollMakerPrice(this.PriceUnit));
 		}
 		else
 		{
@@ -293,7 +296,7 @@ public class DollMakerManager : MonoBehaviour
 			{
 				SteamSlinger.Ins.UnlockSteamAchievement(STEAM_ACHIEVEMENT.DOLLMAKERPET);
 			}
-			CurrencyManager.AddCurrency(235f);
+			CurrencyManager.AddCurrency(ModsManager.EasyModeActive ? 100f : 200f);
 			this.myDollMakerData.IsSatisfied = true;
 		}
 		DataManager.Save<DollMakerData>(this.myDollMakerData);
@@ -302,18 +305,16 @@ public class DollMakerManager : MonoBehaviour
 	private void rePlaceMarker()
 	{
 		StateManager.PlayerStateChangeEvents.Event -= this.rePlaceMarker;
-		if (StateManager.PlayerState == PLAYER_STATE.COMPUTER)
-		{
-			LookUp.Doors.MainDoor.AudioHub.PlaySound(this.makerQueSFX);
-			LookUp.Doors.MainDoor.DisableDoor();
-			this.theMaker.MarkerWasPickedUp.Event += this.markerWasPickedUpForTheFirstTime;
-			this.theMaker.SpawnMeTo(new Vector3(-2.5611f, 40.6517f, -5.0414f), Vector3.zero);
-			this.activateMarkerTime();
-		}
-		else
+		if (StateManager.PlayerState != PLAYER_STATE.COMPUTER)
 		{
 			StateManager.PlayerStateChangeEvents.Event += this.rePlaceMarker;
+			return;
 		}
+		LookUp.Doors.MainDoor.AudioHub.PlaySound(this.makerQueSFX);
+		LookUp.Doors.MainDoor.DisableDoor();
+		this.theMaker.MarkerWasPickedUp.Event += this.markerWasPickedUpForTheFirstTime;
+		this.theMaker.SpawnMeTo(new Vector3(-2.5611f, 40.6517f, -5.0414f), Vector3.zero);
+		this.activateMarkerTime();
 	}
 
 	private void playerIsEnteringPeepHole()
@@ -419,7 +420,10 @@ public class DollMakerManager : MonoBehaviour
 		if (this.delayActive && Time.time - this.delayTimeStamp >= this.delayWindow)
 		{
 			this.delayActive = false;
-			this.triggerDollMakerSpawn();
+			if (!this.forced)
+			{
+				this.triggerDollMakerSpawn();
+			}
 		}
 		if (this.markerActive && Time.time - this.markerTimeStamp >= this.markerWindow)
 		{
@@ -437,11 +441,11 @@ public class DollMakerManager : MonoBehaviour
 	{
 		if (instantly)
 		{
-			this.delayWindow = (float)Random.Range(5, 10);
+			this.delayWindow = (float)UnityEngine.Random.Range(5, 10);
 		}
 		else
 		{
-			this.delayWindow = Random.Range(this.myData.DelayTimeMin, this.myData.DelayTimeMax);
+			this.delayWindow = UnityEngine.Random.Range(this.myData.DelayTimeMin, this.myData.DelayTimeMax);
 		}
 		this.delayTimeStamp = Time.time;
 		this.delayActive = true;
@@ -457,6 +461,34 @@ public class DollMakerManager : MonoBehaviour
 			DataManager.Save<DollMakerData>(this.myDollMakerData);
 			this.generateReleaseWindow(true);
 		}
+	}
+
+	public void ForceMarker()
+	{
+		if (this.forced)
+		{
+			return;
+		}
+		this.dollMakerActivated = true;
+		this.forced = true;
+		StateManager.PlayerStateChangeEvents.Event -= this.rePlaceMarker;
+		if (StateManager.PlayerState == PLAYER_STATE.COMPUTER)
+		{
+			LookUp.Doors.MainDoor.AudioHub.PlaySound(this.makerQueSFX);
+			LookUp.Doors.MainDoor.DisableDoor();
+			this.theMaker.MarkerWasPickedUp.Event += this.markerWasPickedUpForTheFirstTime;
+			this.theMaker.SpawnMeTo(new Vector3(-2.5611f, 40.6517f, -5.0414f), Vector3.zero);
+			this.activateMarkerTime();
+			return;
+		}
+		StateManager.PlayerStateChangeEvents.Event += this.rePlaceMarker;
+	}
+
+	private void activateQuickMarkerTime()
+	{
+		this.markerWindow = UnityEngine.Random.Range(this.myData.MarkerCoolTimeMin / 2f, this.myData.MarkerCoolTimeMax / 2f);
+		this.markerTimeStamp = Time.time;
+		this.markerActive = true;
 	}
 
 	private const float DOLLMAKER_Y_OFFSET = 0.93429f;
@@ -517,4 +549,8 @@ public class DollMakerManager : MonoBehaviour
 	private DollMakerData myDollMakerData;
 
 	private Timer forcePowerTripTimer;
+
+	private int PriceUnit;
+
+	private bool forced;
 }

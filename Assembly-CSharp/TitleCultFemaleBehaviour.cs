@@ -11,7 +11,7 @@ public class TitleCultFemaleBehaviour : MonoBehaviour
 
 	private void generateHeadTiltFire()
 	{
-		this.headTiltWindow = Random.Range(this.fireMin, this.fireMax);
+		this.headTiltWindow = UnityEngine.Random.Range(this.fireMin, this.fireMax);
 		this.headTiltTimeStamp = Time.time;
 		this.headTiltActive = true;
 	}

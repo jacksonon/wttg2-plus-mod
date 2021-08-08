@@ -12,10 +12,10 @@ public class TitleOptionsMenuHook : MonoBehaviour
 {
 	private void presentMe()
 	{
-		TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 1f, 0.5f), 1), delegate()
+		}, 1f, 0.5f).SetEase(Ease.Linear).OnComplete(delegate
 		{
 			this.myCG.interactable = true;
 			this.myCG.blocksRaycasts = true;
@@ -26,10 +26,10 @@ public class TitleOptionsMenuHook : MonoBehaviour
 	{
 		this.myCG.interactable = false;
 		this.myCG.blocksRaycasts = false;
-		TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 0f, 0.5f), 1), delegate()
+		}, 0f, 0.5f).SetEase(Ease.Linear).OnComplete(delegate
 		{
 			TitleManager.Ins.OptionsDismissing.Execute();
 		});
@@ -53,7 +53,7 @@ public class TitleOptionsMenuHook : MonoBehaviour
 	{
 		int index = Mathf.RoundToInt(this.resoultionSlider.value);
 		int key = this.screenSizeLookUp[index];
-		bool flag = !this.windowModeOnBTN.Active;
+		bool fullscreen = !this.windowModeOnBTN.Active;
 		int vSyncCount = (!this.vSyncOnBTN.Active) ? 0 : 1;
 		int num = Mathf.RoundToInt(this.qualitySlider.value);
 		this.myOptionData.ScreenWidth = this.screenSizes[key].width;
@@ -66,7 +66,7 @@ public class TitleOptionsMenuHook : MonoBehaviour
 		DataManager.SaveOption<Options>(this.myOptionData);
 		DataManager.WriteOptionData();
 		QualitySettings.SetQualityLevel(num, true);
-		Screen.SetResolution(this.screenSizes[key].width, this.screenSizes[key].height, flag);
+		Screen.SetResolution(this.screenSizes[key].width, this.screenSizes[key].height, fullscreen);
 		QualitySettings.vSyncCount = vSyncCount;
 		TitleOptionsMenuHook.SettingsApplied.Execute();
 	}

@@ -16,7 +16,7 @@ public class SSAOPro : MonoBehaviour
 			{
 				this.m_Material = new Material(this.ShaderSSAO)
 				{
-					hideFlags = 61
+					hideFlags = HideFlags.HideAndDontSave
 				};
 			}
 			return this.m_Material;
@@ -56,7 +56,7 @@ public class SSAOPro : MonoBehaviour
 			base.enabled = false;
 			return;
 		}
-		if (!SystemInfo.SupportsRenderTextureFormat(1))
+		if (!SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.Depth))
 		{
 			Debug.LogWarning("Depth textures aren't supported on this device.");
 			base.enabled = false;
@@ -66,14 +66,14 @@ public class SSAOPro : MonoBehaviour
 
 	private void OnPreRender()
 	{
-		this.m_Camera.depthTextureMode |= 3;
+		this.m_Camera.depthTextureMode |= (DepthTextureMode.Depth | DepthTextureMode.DepthNormals);
 	}
 
 	private void OnDisable()
 	{
 		if (this.m_Material != null)
 		{
-			Object.DestroyImmediate(this.m_Material);
+			UnityEngine.Object.DestroyImmediate(this.m_Material);
 		}
 		this.m_Material = null;
 	}
@@ -120,7 +120,7 @@ public class SSAOPro : MonoBehaviour
 		this.Material.SetColor("_OcclusionColor", this.OcclusionColor);
 		if (this.Blur == SSAOPro.BlurMode.None)
 		{
-			RenderTexture temporary = RenderTexture.GetTemporary(source.width / this.Downsampling, source.height / this.Downsampling, 0, 0);
+			RenderTexture temporary = RenderTexture.GetTemporary(source.width / this.Downsampling, source.height / this.Downsampling, 0, RenderTextureFormat.ARGB32);
 			Graphics.Blit(temporary, temporary, this.Material, 0);
 			if (this.DebugAO)
 			{
@@ -138,8 +138,8 @@ public class SSAOPro : MonoBehaviour
 		{
 			SSAOPro.Pass pass = (this.Blur != SSAOPro.BlurMode.HighQualityBilateral) ? SSAOPro.Pass.GaussianBlur : SSAOPro.Pass.HighQualityBilateralBlur;
 			int num2 = (!this.BlurDownsampling) ? 1 : this.Downsampling;
-			RenderTexture temporary2 = RenderTexture.GetTemporary(source.width / num2, source.height / num2, 0, 0);
-			RenderTexture temporary3 = RenderTexture.GetTemporary(source.width / this.Downsampling, source.height / this.Downsampling, 0, 0);
+			RenderTexture temporary2 = RenderTexture.GetTemporary(source.width / num2, source.height / num2, 0, RenderTextureFormat.ARGB32);
+			RenderTexture temporary3 = RenderTexture.GetTemporary(source.width / this.Downsampling, source.height / this.Downsampling, 0, RenderTextureFormat.ARGB32);
 			Graphics.Blit(temporary2, temporary2, this.Material, 0);
 			Graphics.Blit(source, temporary2, this.Material, num);
 			this.Material.SetFloat("_BilateralThreshold", this.BlurBilateralThreshold * 5f);

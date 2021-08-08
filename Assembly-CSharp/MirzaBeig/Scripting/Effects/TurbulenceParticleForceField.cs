@@ -14,9 +14,9 @@ namespace MirzaBeig.Scripting.Effects
 		protected override void Start()
 		{
 			base.Start();
-			this.randomX = Random.Range(-32f, 32f);
-			this.randomY = Random.Range(-32f, 32f);
-			this.randomZ = Random.Range(-32f, 32f);
+			this.randomX = UnityEngine.Random.Range(-32f, 32f);
+			this.randomY = UnityEngine.Random.Range(-32f, 32f);
+			this.randomZ = UnityEngine.Random.Range(-32f, 32f);
 		}
 
 		protected override void Update()
@@ -55,10 +55,10 @@ namespace MirzaBeig.Scripting.Effects
 				num10 = Mathf.Lerp(-1f, 1f, num10);
 				num11 = Mathf.Lerp(-1f, 1f, num11);
 				num12 = Mathf.Lerp(-1f, 1f, num12);
-				Vector3 vector = Vector3.right * num10;
-				Vector3 vector2 = Vector3.up * num11;
-				Vector3 vector3 = Vector3.forward * num12;
-				return vector + vector2 + vector3;
+				Vector3 a = Vector3.right * num10;
+				Vector3 b = Vector3.up * num11;
+				Vector3 b2 = Vector3.forward * num12;
+				return a + b + b2;
 			}
 			case TurbulenceParticleForceField.NoiseType.Simplex:
 				result.x = Noise2.simplex(num * this.frequency, num2 * this.frequency, num3 * this.frequency);

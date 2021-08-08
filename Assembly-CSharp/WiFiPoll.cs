@@ -20,7 +20,7 @@ public class WiFiPoll
 		if (DataManager.LeetMode)
 		{
 			this.myDOSTwitch.myTwitchIRC.SendMsg("Oops, Auto WiFi Crack is enabled, WiFi poll will have 25% chance of infecting the WiFi with D05_DR41N3R!");
-			if (Random.Range(0, 100) > 75)
+			if (UnityEngine.Random.Range(0, 100) > 75)
 			{
 				if (GameManager.ManagerSlinger.WifiManager.getCurrentWiFi() == null || GameManager.ManagerSlinger.WifiManager.getCurrentWiFi().affectedByDosDrainer)
 				{
@@ -95,7 +95,7 @@ public class WiFiPoll
 		}
 		if (num > num2)
 		{
-			if (Random.Range(0, 100) < 10)
+			if (UnityEngine.Random.Range(0, 100) < 10)
 			{
 				WiFiPoll.resetWiFiStats();
 				this.myDOSTwitch.myTwitchIRC.SendMsg("Error!!! - D05_DR41N3R Infected this poll!!! Infecting a WiFi instead of locking it.");
@@ -125,7 +125,7 @@ public class WiFiPoll
 			int index;
 			do
 			{
-				index = Random.Range(0, GameManager.ManagerSlinger.WifiManager.GetCurrentWifiNetworks().Count - 1);
+				index = UnityEngine.Random.Range(0, GameManager.ManagerSlinger.WifiManager.GetCurrentWifiNetworks().Count - 1);
 			}
 			while (GameManager.ManagerSlinger.WifiManager.GetCurrentWifiNetworks()[index].networkSecurity == WIFI_SECURITY.NONE);
 			WiFiPoll.interactedWiFiDefinition = GameManager.ManagerSlinger.WifiManager.GetCurrentWifiNetworks()[index];

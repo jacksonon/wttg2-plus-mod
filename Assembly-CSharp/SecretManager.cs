@@ -10,7 +10,7 @@ public class SecretManager : MonoBehaviour
 		{
 			this.currentHypeAni.DORewind();
 			this.currentHypeAni.gameObject.SetActive(false);
-			float duration = Random.Range(0.5f, 8f);
+			float duration = UnityEngine.Random.Range(0.5f, 8f);
 			GameManager.TimeSlinger.FireTimer(duration, new Action(this.rollHypeText), 0);
 		}
 	}
@@ -19,7 +19,7 @@ public class SecretManager : MonoBehaviour
 	{
 		if (DevTools.Ins == null)
 		{
-			int num = Random.Range(0, this.HypeAnis.Length);
+			int num = UnityEngine.Random.Range(0, this.HypeAnis.Length);
 			this.currentHypeAni = this.HypeAnis[num];
 			this.currentHypeAni.gameObject.SetActive(true);
 			this.currentHypeAni.DOPlay();

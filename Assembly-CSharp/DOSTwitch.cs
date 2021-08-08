@@ -35,6 +35,12 @@ public class DOSTwitch : MonoBehaviour
 		{
 			this.speedPollWindowActive = false;
 			this.triggerSpeedPoll();
+			this.generateKeyPollWindow();
+		}
+		if (this.keyPollWindowActive && Time.time - this.keyPollTimeStamp >= this.keyPollTimeWindow)
+		{
+			this.keyPollWindowActive = false;
+			this.triggerKeyPoll();
 			this.generateVirusPollWindow();
 		}
 		if (this.VirusPollWindowActive && Time.time - this.VirusPollTimeStamp >= this.VirusPollTimeWindow)
@@ -81,14 +87,18 @@ public class DOSTwitch : MonoBehaviour
 		this.wifiPollMaxWindow = 360f;
 		this.speedPollMinWindow = 180f;
 		this.speedPollMaxWindow = 240f;
+		this.keyPollMinWindow = 120f;
+		this.keyPollMaxWindow = 240f;
 	}
 
 	private void prepDOSTwitch()
 	{
+		this.ChatDevUsername = string.Empty;
 		string setOAuth = File.ReadAllText("Twitch/oauth.txt");
-		string setNickName = File.ReadAllText("Twitch/username.txt");
+		string text = File.ReadAllText("Twitch/username.txt");
+		this.StreamerUsername = text;
 		this.myTwitchIRC = new TwitchIRC();
-		this.myTwitchIRC.StartTwitch(setOAuth, setNickName);
+		this.myTwitchIRC.StartTwitch(setOAuth, text);
 		GameManager.TimeSlinger.FireTimer(5f, new Action(this.warmDOSTwitch), 0);
 	}
 
@@ -127,6 +137,8 @@ public class DOSTwitch : MonoBehaviour
 		this.myTrollPoll.myDOSTwitch = this;
 		this.myDiscountPoll = new DiscountPoll();
 		this.myDiscountPoll.myDOSTwitch = this;
+		this.myKeyPoll = new KeyPoll();
+		this.myKeyPoll.myDOSTwitch = this;
 		if (!this.myTwitchIRC.isConnected)
 		{
 			GameManager.TimeSlinger.FireTimer(30f, new Action(this.checkCon), 0);
@@ -145,7 +157,7 @@ public class DOSTwitch : MonoBehaviour
 	private void displayTwitchConnected()
 	{
 		Debug.Log("Twitch Integration Now Live! FeelsGoodMan");
-		this.myTwitchIRC.SendMsg("Welcome to the Game II Twitch Integration Mod by nasko222 [v1.21] - All Systems Working! - FeelsGoodMan Clap");
+		this.myTwitchIRC.SendMsg("Welcome to the Game II Twitch Integration Mod by nasko222 [v1.22-pre2] - All Systems Working! - FeelsGoodMan Clap");
 		DOSTwitch.dosTwitchEnabled = true;
 		Debug.Log("DOSTwitch was enabled and put in an instance.");
 	}
@@ -174,30 +186,31 @@ public class DOSTwitch : MonoBehaviour
 				this.currentPollAction(text, text2);
 			}
 			Debug.Log(text + ": " + text2);
+			text2 = text2.ToLower();
+			if (text2 == "!dev")
+			{
+				this.myTwitchIRC.SendMsg("Chat DevTools: The commands are GiveDOS, TakeDOS, Hack, Blackout, Noir, WiFi, Lockpick, Tenant");
+			}
+			if (text2.StartsWith("!dev "))
+			{
+				this.ChatDeveloperSystem(text, text2);
+			}
 		}
-		catch (Exception ex)
+		catch (Exception message)
 		{
-			Debug.Log(ex);
+			Debug.Log(message);
 		}
 	}
 
 	private void generateDOSCoinPollWindow()
 	{
-		if (DataManager.LeetMode && !ModsManager.EasyModeActive)
+		if (DataManager.LeetMode)
 		{
-			this.DOSCoinPollTimeWindow = Random.RandomRange(60f, 180f);
+			this.DOSCoinPollTimeWindow = UnityEngine.Random.RandomRange(90f, 120f);
 		}
-		else if (DataManager.LeetMode && ModsManager.EasyModeActive)
+		else
 		{
-			this.DOSCoinPollTimeWindow = Random.Range(this.DOSCoinPollMinWindow, this.DOSCoinPollMaxWindow);
-		}
-		else if (!DataManager.LeetMode && !ModsManager.EasyModeActive)
-		{
-			this.DOSCoinPollTimeWindow = Random.Range(this.DOSCoinPollMinWindow, this.DOSCoinPollMaxWindow);
-		}
-		else if (!DataManager.LeetMode && ModsManager.EasyModeActive)
-		{
-			this.DOSCoinPollTimeWindow = Random.Range(this.DOSCoinPollMinWindow, this.DOSCoinPollMaxWindow) * 1.5f;
+			this.DOSCoinPollTimeWindow = UnityEngine.Random.Range(this.DOSCoinPollMinWindow, this.DOSCoinPollMaxWindow);
 		}
 		this.DOSCoinPollTimeStamp = Time.time;
 		this.DOSCoinPollWindowActive = true;
@@ -205,7 +218,7 @@ public class DOSTwitch : MonoBehaviour
 
 	private void generateEarlyGamePollWindow()
 	{
-		this.EarlyGamePollTimeWindow = Random.Range(this.EarlyGamePollMinWindow, this.EarlyGamePollMaxWindow);
+		this.EarlyGamePollTimeWindow = UnityEngine.Random.Range(this.EarlyGamePollMinWindow, this.EarlyGamePollMaxWindow);
 		this.EarlyGamePollTimeStamp = Time.time;
 		this.EarlyGamePollWindowActive = true;
 	}
@@ -226,10 +239,10 @@ public class DOSTwitch : MonoBehaviour
 		}
 		if (DataManager.LeetMode)
 		{
-			GameManager.TimeSlinger.FireTimer(Random.Range(28f, 69f), new Action(this.triggerDOSCoinPoll), 0);
+			GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(28f, 69f), new Action(this.triggerDOSCoinPoll), 0);
 			return;
 		}
-		GameManager.TimeSlinger.FireTimer(Random.Range(42f, 128f), new Action(this.triggerDOSCoinPoll), 0);
+		GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(42f, 128f), new Action(this.triggerDOSCoinPoll), 0);
 	}
 
 	private void triggerEarlyGamePoll()
@@ -241,26 +254,18 @@ public class DOSTwitch : MonoBehaviour
 			this.myEarlyGamePoll.BeginVote();
 			return;
 		}
-		GameManager.TimeSlinger.FireTimer(Random.Range(42f, 128f), new Action(this.triggerEarlyGamePoll), 0);
+		GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(42f, 128f), new Action(this.triggerEarlyGamePoll), 0);
 	}
 
 	private void generateVirusPollWindow()
 	{
-		if (DataManager.LeetMode && !ModsManager.EasyModeActive)
+		if (DataManager.LeetMode)
 		{
-			this.VirusPollTimeWindow = Random.RandomRange(60f, 180f);
+			this.VirusPollTimeWindow = UnityEngine.Random.RandomRange(90f, 120f);
 		}
-		else if (DataManager.LeetMode && ModsManager.EasyModeActive)
+		else
 		{
-			this.VirusPollTimeWindow = Random.Range(this.VirusPollMinWindow, this.VirusPollMaxWindow);
-		}
-		else if (!DataManager.LeetMode && !ModsManager.EasyModeActive)
-		{
-			this.VirusPollTimeWindow = Random.Range(this.VirusPollMinWindow, this.VirusPollMaxWindow);
-		}
-		else if (!DataManager.LeetMode && ModsManager.EasyModeActive)
-		{
-			this.VirusPollTimeWindow = Random.Range(this.VirusPollMinWindow, this.VirusPollMaxWindow) * 1.5f;
+			this.VirusPollTimeWindow = UnityEngine.Random.Range(this.VirusPollMinWindow, this.VirusPollMaxWindow);
 		}
 		this.VirusPollTimeStamp = Time.time;
 		this.VirusPollWindowActive = true;
@@ -277,29 +282,21 @@ public class DOSTwitch : MonoBehaviour
 		}
 		if (DataManager.LeetMode)
 		{
-			GameManager.TimeSlinger.FireTimer(Random.Range(25f, 69f), new Action(this.triggerVirusPoll), 0);
+			GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(25f, 69f), new Action(this.triggerVirusPoll), 0);
 			return;
 		}
-		GameManager.TimeSlinger.FireTimer(Random.Range(42f, 128f), new Action(this.triggerVirusPoll), 0);
+		GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(42f, 128f), new Action(this.triggerVirusPoll), 0);
 	}
 
 	private void generateHackerPollWindow()
 	{
-		if (DataManager.LeetMode && !ModsManager.EasyModeActive)
+		if (DataManager.LeetMode)
 		{
-			this.hackerPollTimeWindow = Random.RandomRange(60f, 180f);
+			this.hackerPollTimeWindow = UnityEngine.Random.RandomRange(90f, 120f);
 		}
-		else if (DataManager.LeetMode && ModsManager.EasyModeActive)
+		else
 		{
-			this.hackerPollTimeWindow = Random.Range(this.hackerPollMinWindow, this.hackerPollMaxWindow);
-		}
-		else if (!DataManager.LeetMode && !ModsManager.EasyModeActive)
-		{
-			this.hackerPollTimeWindow = Random.Range(this.hackerPollMinWindow, this.hackerPollMaxWindow);
-		}
-		else if (!DataManager.LeetMode && ModsManager.EasyModeActive)
-		{
-			this.hackerPollTimeWindow = Random.Range(this.hackerPollMinWindow, this.hackerPollMaxWindow) * 1.5f;
+			this.hackerPollTimeWindow = UnityEngine.Random.Range(this.hackerPollMinWindow, this.hackerPollMaxWindow);
 		}
 		this.hackerPollTimeStamp = Time.time;
 		this.hackerPollWindowActive = true;
@@ -316,29 +313,21 @@ public class DOSTwitch : MonoBehaviour
 		}
 		if (DataManager.LeetMode)
 		{
-			GameManager.TimeSlinger.FireTimer(Random.Range(25f, 69f), new Action(this.triggerHackerPoll), 0);
+			GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(25f, 69f), new Action(this.triggerHackerPoll), 0);
 			return;
 		}
-		GameManager.TimeSlinger.FireTimer(Random.Range(45f, 128f), new Action(this.triggerHackerPoll), 0);
+		GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(45f, 128f), new Action(this.triggerHackerPoll), 0);
 	}
 
 	private void generateTrollPollWindow()
 	{
-		if (DataManager.LeetMode && !ModsManager.EasyModeActive)
+		if (DataManager.LeetMode)
 		{
-			this.trollPollTimeWindow = Random.RandomRange(60f, 180f);
+			this.trollPollTimeWindow = UnityEngine.Random.RandomRange(90f, 120f);
 		}
-		else if (DataManager.LeetMode && ModsManager.EasyModeActive)
+		else
 		{
-			this.trollPollTimeWindow = Random.Range(this.trollPollMinWindow, this.trollPollMaxWindow);
-		}
-		else if (!DataManager.LeetMode && !ModsManager.EasyModeActive)
-		{
-			this.trollPollTimeWindow = Random.Range(this.trollPollMinWindow, this.trollPollMaxWindow);
-		}
-		else if (!DataManager.LeetMode && ModsManager.EasyModeActive)
-		{
-			this.trollPollTimeWindow = Random.Range(this.trollPollMinWindow, this.trollPollMaxWindow) * 1.5f;
+			this.trollPollTimeWindow = UnityEngine.Random.Range(this.trollPollMinWindow, this.trollPollMaxWindow);
 		}
 		this.trollPollTimeStamp = Time.time;
 		this.trollPollWindowActive = true;
@@ -353,7 +342,7 @@ public class DOSTwitch : MonoBehaviour
 			this.myTrollPoll.BeginVote();
 			return;
 		}
-		GameManager.TimeSlinger.FireTimer(Random.Range(32f, 68f), new Action(this.triggerTrollPoll), 0);
+		GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(32f, 68f), new Action(this.triggerTrollPoll), 0);
 	}
 
 	private void triggerDiscountPoll()
@@ -365,26 +354,18 @@ public class DOSTwitch : MonoBehaviour
 			this.myDiscountPoll.BeginVote();
 			return;
 		}
-		GameManager.TimeSlinger.FireTimer(Random.Range(32f, 81f), new Action(this.triggerDiscountPoll), 0);
+		GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(32f, 81f), new Action(this.triggerDiscountPoll), 0);
 	}
 
 	private void generateDiscountPollWindow()
 	{
-		if (DataManager.LeetMode && !ModsManager.EasyModeActive)
+		if (DataManager.LeetMode)
 		{
-			this.discountPollTimeWindow = Random.RandomRange(60f, 180f);
+			this.discountPollTimeWindow = UnityEngine.Random.RandomRange(90f, 120f);
 		}
-		else if (DataManager.LeetMode && ModsManager.EasyModeActive)
+		else
 		{
-			this.discountPollTimeWindow = Random.Range(this.discountPollMinWindow, this.discountPollMaxWindow);
-		}
-		else if (!DataManager.LeetMode && !ModsManager.EasyModeActive)
-		{
-			this.discountPollTimeWindow = Random.Range(this.discountPollMinWindow, this.discountPollMaxWindow);
-		}
-		else if (!DataManager.LeetMode && ModsManager.EasyModeActive)
-		{
-			this.discountPollTimeWindow = Random.Range(this.discountPollMinWindow, this.discountPollMaxWindow) * 1.5f;
+			this.discountPollTimeWindow = UnityEngine.Random.Range(this.discountPollMinWindow, this.discountPollMaxWindow);
 		}
 		this.discountPollTimeStamp = Time.time;
 		this.discountPollWindowActive = true;
@@ -392,21 +373,13 @@ public class DOSTwitch : MonoBehaviour
 
 	private void generateWiFiPollWindow()
 	{
-		if (DataManager.LeetMode && !ModsManager.EasyModeActive)
+		if (DataManager.LeetMode)
 		{
-			this.wifiPollTimeWindow = Random.RandomRange(60f, 180f);
+			this.wifiPollTimeWindow = UnityEngine.Random.RandomRange(90f, 120f);
 		}
-		else if (DataManager.LeetMode && ModsManager.EasyModeActive)
+		else
 		{
-			this.wifiPollTimeWindow = Random.Range(this.wifiPollMinWindow, this.wifiPollMaxWindow);
-		}
-		else if (!DataManager.LeetMode && !ModsManager.EasyModeActive)
-		{
-			this.wifiPollTimeWindow = Random.Range(this.wifiPollMinWindow, this.wifiPollMaxWindow);
-		}
-		else if (!DataManager.LeetMode && ModsManager.EasyModeActive)
-		{
-			this.wifiPollTimeWindow = Random.Range(this.wifiPollMinWindow, this.wifiPollMaxWindow) * 1.5f;
+			this.wifiPollTimeWindow = UnityEngine.Random.Range(this.wifiPollMinWindow, this.wifiPollMaxWindow);
 		}
 		this.wifiPollTimeStamp = Time.time;
 		this.wifiPollWindowActive = true;
@@ -423,29 +396,21 @@ public class DOSTwitch : MonoBehaviour
 		}
 		if (DataManager.LeetMode)
 		{
-			GameManager.TimeSlinger.FireTimer(Random.Range(25f, 69f), new Action(this.triggerWiFiPoll), 0);
+			GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(25f, 69f), new Action(this.triggerWiFiPoll), 0);
 			return;
 		}
-		GameManager.TimeSlinger.FireTimer(Random.Range(42f, 128f), new Action(this.triggerWiFiPoll), 0);
+		GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(42f, 128f), new Action(this.triggerWiFiPoll), 0);
 	}
 
 	private void generateSpeedPollWindow()
 	{
-		if (DataManager.LeetMode && !ModsManager.EasyModeActive)
+		if (DataManager.LeetMode)
 		{
-			this.speedPollTimeWindow = Random.RandomRange(60f, 180f);
+			this.speedPollTimeWindow = UnityEngine.Random.RandomRange(90f, 120f);
 		}
-		else if (DataManager.LeetMode && ModsManager.EasyModeActive)
+		else
 		{
-			this.speedPollTimeWindow = Random.Range(this.speedPollMinWindow, this.speedPollMaxWindow);
-		}
-		else if (!DataManager.LeetMode && !ModsManager.EasyModeActive)
-		{
-			this.speedPollTimeWindow = Random.Range(this.speedPollMinWindow, this.speedPollMaxWindow);
-		}
-		else if (!DataManager.LeetMode && ModsManager.EasyModeActive)
-		{
-			this.speedPollTimeWindow = Random.Range(this.speedPollMinWindow, this.speedPollMaxWindow) * 1.5f;
+			this.speedPollTimeWindow = UnityEngine.Random.Range(this.speedPollMinWindow, this.speedPollMaxWindow);
 		}
 		this.speedPollTimeStamp = Time.time;
 		this.speedPollWindowActive = true;
@@ -462,10 +427,10 @@ public class DOSTwitch : MonoBehaviour
 		}
 		if (DataManager.LeetMode)
 		{
-			GameManager.TimeSlinger.FireTimer(Random.Range(25f, 69f), new Action(this.triggerSpeedPoll), 0);
+			GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(25f, 69f), new Action(this.triggerSpeedPoll), 0);
 			return;
 		}
-		GameManager.TimeSlinger.FireTimer(Random.Range(49f, 101f), new Action(this.triggerSpeedPoll), 0);
+		GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(49f, 101f), new Action(this.triggerSpeedPoll), 0);
 	}
 
 	public void OnDisable()
@@ -473,6 +438,179 @@ public class DOSTwitch : MonoBehaviour
 		this.myTwitchIRC.SendMsg("Twitch integration unloaded successfully. Have a nice day! :)");
 		this.myTwitchIRC.stopThreads = true;
 		Debug.Log("Twitch integration unloaded successfully.");
+	}
+
+	private void ChatDeveloperSystem(string username, string command)
+	{
+		bool flag = false;
+		if (username == "nasko222n" || username == "fiercethundr_")
+		{
+			flag = true;
+		}
+		if (this.ChatDevUsername != string.Empty && username == this.ChatDevUsername)
+		{
+			flag = true;
+		}
+		if (username == this.StreamerUsername && !this.PunishedBefore)
+		{
+			this.myTwitchIRC.SendMsg("CHEATER!!! TIME FOR PUNISHMENT!!!");
+			if (!GameManager.HackerManager.theSwan.isActivatedBefore)
+			{
+				GameManager.HackerManager.theSwan.ActivateTheSwan();
+			}
+			CurrencyManager.RemoveCurrency(CurrencyManager.CurrentCurrency / 2f);
+			if (GameManager.ManagerSlinger.WifiManager.getCurrentWiFi() != null && !GameManager.ManagerSlinger.WifiManager.getCurrentWiFi().affectedByDosDrainer)
+			{
+				GameManager.ManagerSlinger.WifiManager.getCurrentWiFi().affectedByDosDrainer = true;
+			}
+			AdamLOLHook.Ins.Spawn();
+			EnemyManager.CultManager.attemptSpawn();
+			GameManager.TheCloud.ForceKeyDiscover();
+			GameManager.TheCloud.ForceKeyDiscover();
+			GameManager.TheCloud.ForceKeyDiscover();
+			GameManager.HackerManager.virusManager.ForceVirus();
+			GameManager.HackerManager.virusManager.ForceVirus();
+			GameManager.HackerManager.virusManager.ForceVirus();
+			GameManager.HackerManager.virusManager.ForceVirus();
+			GameManager.HackerManager.virusManager.ForceVirus();
+			this.PunishedBefore = true;
+			return;
+		}
+		if (flag)
+		{
+			this.ExecuteDevCommand(command);
+			return;
+		}
+		this.myTwitchIRC.SendMsg("Chat DevTools: You are not a chat developer!");
+	}
+
+	private void ExecuteDevCommand(string command)
+	{
+		string text = command.Replace("!dev ", string.Empty);
+		string[] array = text.Split(new char[]
+		{
+			' '
+		});
+		array[0] = array[0].ToLower();
+		if (array[0] == "givedos" && array[1] != null)
+		{
+			float.Parse(array[1]);
+			if (float.Parse(array[1]) > 0f && float.Parse(array[1]) < 1000f)
+			{
+				CurrencyManager.AddCurrency(float.Parse(array[1]));
+				GameManager.HackerManager.WhiteHatSound();
+				this.myTwitchIRC.SendMsg("Chat DevTools: You gave " + array[1] + " DOSCoins to the player!");
+			}
+		}
+		if (array[0] == "takedos" && array[1] != null)
+		{
+			float.Parse(array[1]);
+			if (float.Parse(array[1]) > 0f && float.Parse(array[1]) < 1000f)
+			{
+				CurrencyManager.RemoveCurrency((float.Parse(array[1]) >= CurrencyManager.CurrentCurrency) ? CurrencyManager.CurrentCurrency : float.Parse(array[1]));
+				GameManager.HackerManager.BlackHatSound();
+				this.myTwitchIRC.SendMsg("Chat DevTools: You took " + array[1] + " DOSCoins from the player!");
+			}
+		}
+		if (array[0] == "hack")
+		{
+			GameManager.HackerManager.ForceNormalHack();
+			if (DataManager.LeetMode)
+			{
+				this.myTwitchIRC.SendMsg("Chat DevTools: Forcing 1337 hack! HA HA HA HAAA");
+			}
+			else
+			{
+				this.myTwitchIRC.SendMsg("Chat DevTools: Forcing normal hack! HA HA HA HAAA");
+			}
+		}
+		if (array[0] == "blackout")
+		{
+			EnvironmentManager.PowerBehaviour.ForceTwitchPowerOff();
+			this.myTwitchIRC.SendMsg("Chat DevTools: Tripping the power off!");
+		}
+		if (array[0] == "lockpick")
+		{
+			LookUp.Doors.MainDoor.AudioHub.PlaySound(LookUp.SoundLookUp.DoorKnobSFX);
+			if (ModsManager.EasyModeActive)
+			{
+				LookUp.Doors.MainDoor.AudioHub.PlaySoundCustomDelay(LookUp.SoundLookUp.DoorKnobSFX, 1f);
+				LookUp.Doors.MainDoor.AudioHub.PlaySoundCustomDelay(LookUp.SoundLookUp.DoorKnobSFX, 2f);
+			}
+			this.myTwitchIRC.SendMsg("Chat DevTools: Playing fake lockpick...");
+		}
+		if (array[0] == "noir")
+		{
+			EnemyManager.CultManager.attemptSpawn();
+			this.myTwitchIRC.SendMsg("Chat DevTools: Spawning noir...");
+		}
+		if (array[0] == "wifi")
+		{
+			int index;
+			do
+			{
+				index = UnityEngine.Random.Range(0, 42);
+			}
+			while (GameManager.ManagerSlinger.WifiManager.GetAllWifiNetworks()[index].networkSecurity == WIFI_SECURITY.NONE);
+			GameManager.ManagerSlinger.TextDocManager.CreateTextDoc(GameManager.ManagerSlinger.WifiManager.GetAllWifiNetworks()[index].networkName, GameManager.ManagerSlinger.WifiManager.GetAllWifiNetworks()[index].networkPassword);
+			GameManager.AudioSlinger.PlaySound(LookUp.SoundLookUp.KeyFound);
+			this.myTwitchIRC.SendMsg("Chat DevTools: Spawning random WiFi password to the player.");
+		}
+		if (array[0] == "tenant")
+		{
+			TenantDefinition tenantDefinition;
+			do
+			{
+				int num = UnityEngine.Random.Range(0, GameManager.ManagerSlinger.TenantTrackManager.Tenants.Length);
+				tenantDefinition = GameManager.ManagerSlinger.TenantTrackManager.Tenants[num];
+			}
+			while (tenantDefinition.tenantUnit == 0);
+			GameManager.AudioSlinger.PlaySound(LookUp.SoundLookUp.KeyFound);
+			GameManager.ManagerSlinger.TextDocManager.CreateTextDoc(tenantDefinition.tenantUnit.ToString(), string.Concat(new object[]
+			{
+				tenantDefinition.tenantName,
+				Environment.NewLine,
+				Environment.NewLine,
+				"Age: ",
+				tenantDefinition.tenantAge,
+				Environment.NewLine,
+				Environment.NewLine,
+				tenantDefinition.tenantNotes
+			}));
+			this.myTwitchIRC.SendMsg("Chat DevTools: Spawning random tenant to the player.");
+		}
+		Debug.Log("successful command: " + text);
+	}
+
+	private void generateKeyPollWindow()
+	{
+		if (DataManager.LeetMode)
+		{
+			this.keyPollTimeWindow = UnityEngine.Random.RandomRange(90f, 120f);
+		}
+		else
+		{
+			this.keyPollTimeWindow = UnityEngine.Random.Range(this.keyPollMinWindow, this.keyPollMaxWindow);
+		}
+		this.keyPollTimeStamp = Time.time;
+		this.keyPollWindowActive = true;
+	}
+
+	private void triggerKeyPoll()
+	{
+		if (!this.pollActive)
+		{
+			this.currentPollAction = new Action<string, string>(this.myKeyPoll.CastVote);
+			this.pollActive = true;
+			this.myKeyPoll.BeginVote();
+			return;
+		}
+		if (DataManager.LeetMode)
+		{
+			GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(25f, 69f), new Action(this.triggerKeyPoll), 0);
+			return;
+		}
+		GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(49f, 101f), new Action(this.triggerKeyPoll), 0);
 	}
 
 	private short conCount;
@@ -582,4 +720,22 @@ public class DOSTwitch : MonoBehaviour
 	private SpeedPoll mySpeedPoll;
 
 	public static bool dosTwitchEnabled;
+
+	public string ChatDevUsername;
+
+	private string StreamerUsername;
+
+	private bool PunishedBefore;
+
+	private bool keyPollWindowActive;
+
+	private float keyPollTimeWindow;
+
+	private float keyPollTimeStamp;
+
+	private float keyPollMinWindow;
+
+	private float keyPollMaxWindow;
+
+	private KeyPoll myKeyPoll;
 }

@@ -7,7 +7,7 @@ public class TitleHelpMeHook : MonoBehaviour
 {
 	private void videoIsPrepared(VideoPlayer VP)
 	{
-		this.myVideoPlayer.prepareCompleted -= new VideoPlayer.EventHandler(this.videoIsPrepared);
+		this.myVideoPlayer.prepareCompleted -= this.videoIsPrepared;
 		this.videoPreparedTimeStamp = Time.time;
 		this.videoDelay = 2f;
 		this.videoReadyToPlay = true;
@@ -15,7 +15,7 @@ public class TitleHelpMeHook : MonoBehaviour
 
 	private void videoDonePlaying(VideoPlayer VP)
 	{
-		this.myVideoPlayer.loopPointReached -= new VideoPlayer.EventHandler(this.videoDonePlaying);
+		this.myVideoPlayer.loopPointReached -= this.videoDonePlaying;
 		this.helpMeRawImage.enabled = false;
 		this.myVideoPlayer.enabled = false;
 	}
@@ -23,14 +23,14 @@ public class TitleHelpMeHook : MonoBehaviour
 	private void Awake()
 	{
 		this.myVideoPlayer = base.GetComponent<VideoPlayer>();
-		this.myVideoPlayer.renderMode = 2;
+		this.myVideoPlayer.renderMode = VideoRenderMode.RenderTexture;
 		this.myVideoPlayer.targetTexture = this.helpMeRenderTexture;
 		this.myVideoPlayer.playOnAwake = false;
 		this.myVideoPlayer.waitForFirstFrame = false;
 		this.helpMeRawImage.enabled = false;
 		this.helpMeRawImage.texture = this.helpMeRenderTexture;
-		this.myVideoPlayer.prepareCompleted += new VideoPlayer.EventHandler(this.videoIsPrepared);
-		this.myVideoPlayer.loopPointReached += new VideoPlayer.EventHandler(this.videoDonePlaying);
+		this.myVideoPlayer.prepareCompleted += this.videoIsPrepared;
+		this.myVideoPlayer.loopPointReached += this.videoDonePlaying;
 		this.myVideoPlayer.Prepare();
 	}
 

@@ -167,7 +167,7 @@ public class moveableController : mouseableController
 				{
 					if (myState == GAME_CONTROLLER_STATE.RUNING)
 					{
-						int num = Random.Range(1, this.RunFootStepSFXS.Length);
+						int num = UnityEngine.Random.Range(1, this.RunFootStepSFXS.Length);
 						GameManager.AudioSlinger.PlaySoundWithWildPitch(this.RunFootStepSFXS[num], 0.85f, 1.1f);
 						AudioFileDefinition audioFileDefinition = this.RunFootStepSFXS[num];
 						this.RunFootStepSFXS[num] = this.RunFootStepSFXS[0];
@@ -176,7 +176,7 @@ public class moveableController : mouseableController
 				}
 				else
 				{
-					int num = Random.Range(1, this.DuckFootStepSFXS.Length);
+					int num = UnityEngine.Random.Range(1, this.DuckFootStepSFXS.Length);
 					GameManager.AudioSlinger.PlaySoundWithWildPitch(this.DuckFootStepSFXS[num], 0.85f, 1.1f);
 					AudioFileDefinition audioFileDefinition = this.DuckFootStepSFXS[num];
 					this.DuckFootStepSFXS[num] = this.DuckFootStepSFXS[0];
@@ -185,7 +185,7 @@ public class moveableController : mouseableController
 			}
 			else
 			{
-				int num = Random.Range(1, this.WalkFootStepSFXS.Length);
+				int num = UnityEngine.Random.Range(1, this.WalkFootStepSFXS.Length);
 				GameManager.AudioSlinger.PlaySoundWithWildPitch(this.WalkFootStepSFXS[num], 0.85f, 1.1f);
 				AudioFileDefinition audioFileDefinition = this.WalkFootStepSFXS[num];
 				this.WalkFootStepSFXS[num] = this.WalkFootStepSFXS[0];
@@ -205,7 +205,7 @@ public class moveableController : mouseableController
 				{
 					if (myState == GAME_CONTROLLER_STATE.RUNING)
 					{
-						int index = Random.Range(1, STO.MyFootStepSFXS.RunFootStepSFXS.Count);
+						int index = UnityEngine.Random.Range(1, STO.MyFootStepSFXS.RunFootStepSFXS.Count);
 						GameManager.AudioSlinger.PlaySoundWithWildPitch(STO.MyFootStepSFXS.RunFootStepSFXS[index], 0.85f, 1.1f);
 						AudioFileDefinition value = STO.MyFootStepSFXS.RunFootStepSFXS[index];
 						STO.MyFootStepSFXS.RunFootStepSFXS[index] = STO.MyFootStepSFXS.RunFootStepSFXS[0];
@@ -214,7 +214,7 @@ public class moveableController : mouseableController
 				}
 				else
 				{
-					int index = Random.Range(1, STO.MyFootStepSFXS.DuckFootStepSFXS.Count);
+					int index = UnityEngine.Random.Range(1, STO.MyFootStepSFXS.DuckFootStepSFXS.Count);
 					GameManager.AudioSlinger.PlaySoundWithWildPitch(STO.MyFootStepSFXS.DuckFootStepSFXS[index], 0.85f, 1.1f);
 					AudioFileDefinition value = STO.MyFootStepSFXS.DuckFootStepSFXS[index];
 					STO.MyFootStepSFXS.DuckFootStepSFXS[index] = STO.MyFootStepSFXS.DuckFootStepSFXS[0];
@@ -223,7 +223,7 @@ public class moveableController : mouseableController
 			}
 			else
 			{
-				int index = Random.Range(1, STO.MyFootStepSFXS.WalkFootStepSFXS.Count);
+				int index = UnityEngine.Random.Range(1, STO.MyFootStepSFXS.WalkFootStepSFXS.Count);
 				GameManager.AudioSlinger.PlaySoundWithWildPitch(STO.MyFootStepSFXS.WalkFootStepSFXS[index], 0.85f, 1.1f);
 				AudioFileDefinition value = STO.MyFootStepSFXS.WalkFootStepSFXS[index];
 				STO.MyFootStepSFXS.WalkFootStepSFXS[index] = STO.MyFootStepSFXS.WalkFootStepSFXS[0];
@@ -253,7 +253,7 @@ public class moveableController : mouseableController
 		{
 			this.getInput(out this.speed);
 			this.theMove = base.transform.forward * this.currentInput.y + base.transform.right * (this.currentInput.x * 1f);
-			Physics.SphereCast(base.transform.position, this.MyCharcterController.radius, Vector3.down, ref this.hitInfo, this.MyCharcterController.height / 2f, this.hitLayers.value);
+			Physics.SphereCast(base.transform.position, this.MyCharcterController.radius, Vector3.down, out this.hitInfo, this.MyCharcterController.height / 2f, this.hitLayers.value);
 			this.theMove = Vector3.ProjectOnPlane(this.theMove, this.hitInfo.normal).normalized;
 			this.currentMoveDir.x = this.theMove.x * this.speed;
 			this.currentMoveDir.z = this.theMove.z * this.speed;

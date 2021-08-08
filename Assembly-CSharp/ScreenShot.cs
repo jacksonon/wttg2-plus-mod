@@ -9,7 +9,7 @@ public class ScreenShot : MonoBehaviour
 
 	private void Update()
 	{
-		if (Input.GetKeyDown(115))
+		if (Input.GetKeyDown(KeyCode.S))
 		{
 			ScreenCapture.CaptureScreenshot("ScreenShot.png");
 		}

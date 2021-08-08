@@ -8,10 +8,10 @@ public static class UIManager
 {
 	public static void FadeScreen(float ToValue, float Duration)
 	{
-		TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => LookUp.PlayerUI.BlackScreenCG.alpha, delegate(float x)
+		DOTween.To(() => LookUp.PlayerUI.BlackScreenCG.alpha, delegate(float x)
 		{
 			LookUp.PlayerUI.BlackScreenCG.alpha = x;
-		}, ToValue, Duration), 1);
+		}, ToValue, Duration).SetEase(Ease.Linear);
 	}
 
 	public static void TriggerGameOver(string Reason)
@@ -29,14 +29,14 @@ public static class UIManager
 		GameManager.AudioSlinger.PlaySound(LookUp.SoundLookUp.GameOverHit);
 		LookUp.PlayerUI.GameOverReasonText.SetText(Reason);
 		UIManager.FadeScreen(1f, 0.5f);
-		TweenSettingsExtensions.SetDelay<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => LookUp.PlayerUI.GameOverGC.alpha, delegate(float x)
+		DOTween.To(() => LookUp.PlayerUI.GameOverGC.alpha, delegate(float x)
 		{
 			LookUp.PlayerUI.GameOverGC.alpha = x;
-		}, 1f, 1f), 1), 0.75f);
-		TweenSettingsExtensions.SetDelay<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => LookUp.PlayerUI.GameOverReasonCG.alpha, delegate(float x)
+		}, 1f, 1f).SetEase(Ease.Linear).SetDelay(0.75f);
+		DOTween.To(() => LookUp.PlayerUI.GameOverReasonCG.alpha, delegate(float x)
 		{
 			LookUp.PlayerUI.GameOverReasonCG.alpha = x;
-		}, 1f, 1f), 1), 2.4f);
+		}, 1f, 1f).SetEase(Ease.Linear).SetDelay(2.4f);
 		GameManager.TimeSlinger.FireTimer(6f, delegate()
 		{
 			SceneManager.LoadScene(1);
@@ -58,14 +58,14 @@ public static class UIManager
 		GameManager.AudioSlinger.PlaySound(LookUp.SoundLookUp.GameOverHit);
 		LookUp.PlayerUI.GameOverReasonText.SetText(Reason);
 		LookUp.PlayerUI.BlackScreenCG.alpha = 1f;
-		TweenSettingsExtensions.SetDelay<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => LookUp.PlayerUI.GameOverGC.alpha, delegate(float x)
+		DOTween.To(() => LookUp.PlayerUI.GameOverGC.alpha, delegate(float x)
 		{
 			LookUp.PlayerUI.GameOverGC.alpha = x;
-		}, 1f, 1f), 1), 0.25f);
-		TweenSettingsExtensions.SetDelay<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => LookUp.PlayerUI.GameOverReasonCG.alpha, delegate(float x)
+		}, 1f, 1f).SetEase(Ease.Linear).SetDelay(0.25f);
+		DOTween.To(() => LookUp.PlayerUI.GameOverReasonCG.alpha, delegate(float x)
 		{
 			LookUp.PlayerUI.GameOverReasonCG.alpha = x;
-		}, 1f, 1f), 1), 1.9f);
+		}, 1f, 1f).SetEase(Ease.Linear).SetDelay(1.9f);
 		GameManager.TimeSlinger.FireTimer(6f, delegate()
 		{
 			SceneManager.LoadScene(0);
@@ -101,9 +101,9 @@ public static class UIManager
 	public static void FlashPlayer()
 	{
 		LookUp.PlayerUI.FlashScreenCG.alpha = 1f;
-		TweenSettingsExtensions.SetDelay<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => LookUp.PlayerUI.FlashScreenCG.alpha, delegate(float x)
+		DOTween.To(() => LookUp.PlayerUI.FlashScreenCG.alpha, delegate(float x)
 		{
 			LookUp.PlayerUI.FlashScreenCG.alpha = x;
-		}, 0f, 1.2f), 1), 3.5f);
+		}, 0f, 1.2f).SetEase(Ease.Linear).SetDelay(3.5f);
 	}
 }

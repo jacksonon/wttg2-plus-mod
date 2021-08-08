@@ -87,4 +87,6 @@ public static class ModsManager
 	public static bool SBGlitch;
 
 	public static bool Trolling;
+
+	public static bool Nightmare;
 }

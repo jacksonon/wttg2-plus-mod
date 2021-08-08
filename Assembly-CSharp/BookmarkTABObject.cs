@@ -20,18 +20,18 @@ public class BookmarkTABObject : MonoBehaviour, IPointerEnterHandler, IPointerEx
 		this.myPageURL = SetBookMarkData.MyURL;
 		this.myCurrentPOS.y = SetY;
 		base.GetComponent<RectTransform>().anchoredPosition = this.myCurrentPOS;
-		TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => base.GetComponent<RectTransform>().sizeDelta, delegate(Vector2 x)
+		DOTween.To(() => base.GetComponent<RectTransform>().sizeDelta, delegate(Vector2 x)
 		{
 			base.GetComponent<RectTransform>().sizeDelta = x;
-		}, BookmarkTABObject.EndSize, 0.2f), 6);
+		}, BookmarkTABObject.EndSize, 0.2f).SetEase(Ease.OutQuad);
 	}
 
 	public void KillMe()
 	{
-		TweenSettingsExtensions.OnComplete<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => base.GetComponent<RectTransform>().sizeDelta, delegate(Vector2 x)
+		DOTween.To(() => base.GetComponent<RectTransform>().sizeDelta, delegate(Vector2 x)
 		{
 			base.GetComponent<RectTransform>().sizeDelta = x;
-		}, BookmarkTABObject.StartSize, 0.2f), 6), delegate()
+		}, BookmarkTABObject.StartSize, 0.2f).SetEase(Ease.OutQuad).OnComplete(delegate
 		{
 			base.GetComponent<RectTransform>().anchoredPosition = BookmarkTABObject.StartPOS;
 		});
@@ -40,10 +40,10 @@ public class BookmarkTABObject : MonoBehaviour, IPointerEnterHandler, IPointerEx
 	public void RePOSMe(float setY)
 	{
 		this.myCurrentPOS.y = setY;
-		TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => base.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
+		DOTween.To(() => base.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
 		{
 			base.GetComponent<RectTransform>().anchoredPosition = x;
-		}, this.myCurrentPOS, 0.2f), 1);
+		}, this.myCurrentPOS, 0.2f).SetEase(Ease.Linear);
 	}
 
 	public void OnPointerEnter(PointerEventData eventData)

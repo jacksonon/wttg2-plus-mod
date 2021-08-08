@@ -19,7 +19,7 @@ public class MemCoreObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		this.isLocked = true;
 		this.curKey = setKey;
 		this.PresentMe();
-		TweenExtensions.Restart(this.refreshRotateTween, true, -1f);
+		this.refreshRotateTween.Restart(true, -1f);
 	}
 
 	public void PresentKey()
@@ -46,8 +46,8 @@ public class MemCoreObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		GameManager.AudioSlinger.PlaySound(this.MemCoreHideSFX);
 		GameManager.TimeSlinger.KillTimer(this.flashKeysTimer);
 		this.flashKeysTimer = null;
-		TweenExtensions.Restart(this.fadeMeOutTween, true, -1f);
-		TweenExtensions.Restart(this.scaleMeDownTween, true, -1f);
+		this.fadeMeOutTween.Restart(true, -1f);
+		this.scaleMeDownTween.Restart(true, -1f);
 	}
 
 	public void UpdateKey(List<string> newKey)
@@ -57,7 +57,7 @@ public class MemCoreObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
 	public void DismissRefreshIcon()
 	{
-		TweenExtensions.Restart(this.dismissRefreshIconTween, true, -1f);
+		this.dismissRefreshIconTween.Restart(true, -1f);
 		this.isLocked = true;
 	}
 
@@ -89,8 +89,8 @@ public class MemCoreObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 	private void PresentMe()
 	{
 		GameManager.AudioSlinger.PlaySound(this.MemCoreShowSFX);
-		TweenExtensions.Restart(this.fadeMeInTween, true, -1f);
-		TweenExtensions.Restart(this.scaleMeUpTween, true, -1f);
+		this.fadeMeInTween.Restart(true, -1f);
+		this.scaleMeUpTween.Restart(true, -1f);
 	}
 
 	private void IWasPresented()
@@ -118,50 +118,50 @@ public class MemCoreObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		this.refreshIMGCG = this.RefreshIMG.GetComponent<CanvasGroup>();
 		this.myRT = base.GetComponent<RectTransform>();
 		this.refreshIMGRT = this.RefreshIMG.GetComponent<RectTransform>();
-		this.refreshRotateTween = TweenSettingsExtensions.SetEase<Tweener>(TweenSettingsExtensions.SetLoops<Tweener>(ShortcutExtensions.DORotate(this.refreshIMGRT, new Vector3(0f, 0f, -360f), 2f, 1), -1, 2), 1);
-		TweenExtensions.Pause<Tweener>(this.refreshRotateTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.refreshRotateTween, false);
-		this.fadeMeInTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => base.GetComponent<CanvasGroup>().alpha, delegate(float x)
+		this.refreshRotateTween = this.refreshIMGRT.DORotate(new Vector3(0f, 0f, -360f), 2f, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
+		this.refreshRotateTween.Pause<Tweener>();
+		this.refreshRotateTween.SetAutoKill(false);
+		this.fadeMeInTween = DOTween.To(() => base.GetComponent<CanvasGroup>().alpha, delegate(float x)
 		{
 			base.GetComponent<CanvasGroup>().alpha = x;
-		}, 1f, 0.3f), 1);
-		TweenExtensions.Pause<Tweener>(this.fadeMeInTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.fadeMeInTween, false);
-		this.scaleMeUpTween = TweenSettingsExtensions.OnComplete<TweenerCore<Vector3, Vector3, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => base.GetComponent<RectTransform>().localScale, delegate(Vector3 x)
+		}, 1f, 0.3f).SetEase(Ease.Linear);
+		this.fadeMeInTween.Pause<Tweener>();
+		this.fadeMeInTween.SetAutoKill(false);
+		this.scaleMeUpTween = DOTween.To(() => base.GetComponent<RectTransform>().localScale, delegate(Vector3 x)
 		{
 			base.GetComponent<RectTransform>().localScale = x;
-		}, Vector3.one, 0.3f), 21), new TweenCallback(this.IWasPresented));
-		TweenExtensions.Pause<Tweener>(this.scaleMeUpTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.scaleMeUpTween, false);
-		this.fadeMeOutTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => base.GetComponent<CanvasGroup>().alpha, delegate(float x)
+		}, Vector3.one, 0.3f).SetEase(Ease.OutCirc).OnComplete(new TweenCallback(this.IWasPresented));
+		this.scaleMeUpTween.Pause<Tweener>();
+		this.scaleMeUpTween.SetAutoKill(false);
+		this.fadeMeOutTween = DOTween.To(() => base.GetComponent<CanvasGroup>().alpha, delegate(float x)
 		{
 			base.GetComponent<CanvasGroup>().alpha = x;
-		}, 0f, 0.3f), 1);
-		TweenExtensions.Pause<Tweener>(this.fadeMeOutTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.fadeMeOutTween, false);
-		this.scaleMeDownTween = TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => base.GetComponent<RectTransform>().localScale, delegate(Vector3 x)
+		}, 0f, 0.3f).SetEase(Ease.Linear);
+		this.fadeMeOutTween.Pause<Tweener>();
+		this.fadeMeOutTween.SetAutoKill(false);
+		this.scaleMeDownTween = DOTween.To(() => base.GetComponent<RectTransform>().localScale, delegate(Vector3 x)
 		{
 			base.GetComponent<RectTransform>().localScale = x;
-		}, new Vector3(0.1f, 0.1f, 0.1f), 0.3f), 21);
-		TweenExtensions.Pause<Tweener>(this.scaleMeDownTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.scaleMeDownTween, false);
-		this.dismissRefreshIconTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.RefreshIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
+		}, new Vector3(0.1f, 0.1f, 0.1f), 0.3f).SetEase(Ease.OutCirc);
+		this.scaleMeDownTween.Pause<Tweener>();
+		this.scaleMeDownTween.SetAutoKill(false);
+		this.dismissRefreshIconTween = DOTween.To(() => this.RefreshIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
 		{
 			this.RefreshIMG.GetComponent<CanvasGroup>().alpha = x;
-		}, 0f, 0.2f), 1);
-		TweenExtensions.Pause<Tweener>(this.dismissRefreshIconTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.dismissRefreshIconTween, false);
+		}, 0f, 0.2f).SetEase(Ease.Linear);
+		this.dismissRefreshIconTween.Pause<Tweener>();
+		this.dismissRefreshIconTween.SetAutoKill(false);
 	}
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
 		if (!this.isLocked)
 		{
-			TweenExtensions.Kill(this.refreshFadeTween, false);
-			this.refreshFadeTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.refreshIMGCG.alpha, delegate(float x)
+			this.refreshFadeTween.Kill(false);
+			this.refreshFadeTween = DOTween.To(() => this.refreshIMGCG.alpha, delegate(float x)
 			{
 				this.refreshIMGCG.alpha = x;
-			}, 1f, 0.2f), 1);
+			}, 1f, 0.2f).SetEase(Ease.Linear);
 		}
 	}
 
@@ -169,11 +169,11 @@ public class MemCoreObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 	{
 		if (!this.isLocked)
 		{
-			TweenExtensions.Kill(this.refreshFadeTween, false);
-			this.refreshFadeTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.refreshIMGCG.alpha, delegate(float x)
+			this.refreshFadeTween.Kill(false);
+			this.refreshFadeTween = DOTween.To(() => this.refreshIMGCG.alpha, delegate(float x)
 			{
 				this.refreshIMGCG.alpha = x;
-			}, 0f, 0.2f), 1);
+			}, 0f, 0.2f).SetEase(Ease.Linear);
 		}
 	}
 
@@ -182,7 +182,7 @@ public class MemCoreObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		if (!this.isLocked)
 		{
 			this.isLocked = true;
-			TweenExtensions.Kill(this.refreshFadeTween, false);
+			this.refreshFadeTween.Kill(false);
 			this.refreshIMGCG.alpha = 0f;
 			this.FlashKeys();
 		}

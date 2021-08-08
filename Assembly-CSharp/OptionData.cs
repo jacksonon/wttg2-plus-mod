@@ -8,10 +8,10 @@ public class OptionData : MonoBehaviour
 		Options options = DataManager.LoadOption<Options>(12);
 		if (options != null)
 		{
-			bool flag = !options.WindowMode;
+			bool fullscreen = !options.WindowMode;
 			int vSyncCount = (!options.VSync) ? 0 : 1;
 			QualitySettings.SetQualityLevel(options.QualitySettingIndex, true);
-			Screen.SetResolution(options.ScreenWidth, options.ScreenHeight, flag);
+			Screen.SetResolution(options.ScreenWidth, options.ScreenHeight, fullscreen);
 			QualitySettings.vSyncCount = vSyncCount;
 		}
 	}

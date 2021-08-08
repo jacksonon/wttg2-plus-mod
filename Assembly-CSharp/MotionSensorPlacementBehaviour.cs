@@ -69,7 +69,7 @@ public class MotionSensorPlacementBehaviour : MonoBehaviour
 			if (StateManager.PlayerState == PLAYER_STATE.MOTION_SENSOR_PLACEMENT)
 			{
 				RaycastHit raycastHit;
-				if (Physics.Raycast(base.transform.position, base.transform.forward, ref raycastHit, 1f))
+				if (Physics.Raycast(base.transform.position, base.transform.forward, out raycastHit, 1f))
 				{
 					bool flag = false;
 					if (raycastHit.collider != null)

@@ -82,8 +82,8 @@ public class DistanceLOD : MonoBehaviour
 		}
 		else
 		{
-			Vector3 vector = this.bounds.ClosestPoint(position);
-			this.distance = (vector - position).magnitude;
+			Vector3 a = this.bounds.ClosestPoint(position);
+			this.distance = (a - position).magnitude;
 		}
 	}
 
@@ -153,8 +153,8 @@ public class DistanceLOD : MonoBehaviour
 			if (this.mainCamera != null)
 			{
 				Vector3 position = this.mainCamera.transform.position;
-				Vector3 vector = this.bounds.ClosestPoint(position);
-				Gizmos.DrawLine(position, vector);
+				Vector3 to = this.bounds.ClosestPoint(position);
+				Gizmos.DrawLine(position, to);
 			}
 		}
 	}

@@ -116,7 +116,7 @@ public class EarlyGamePoll
 		TenantDefinition tenantDefinition;
 		do
 		{
-			int num = Random.Range(0, GameManager.ManagerSlinger.TenantTrackManager.Tenants.Length);
+			int num = UnityEngine.Random.Range(0, GameManager.ManagerSlinger.TenantTrackManager.Tenants.Length);
 			tenantDefinition = GameManager.ManagerSlinger.TenantTrackManager.Tenants[num];
 		}
 		while (tenantDefinition.tenantUnit == 0);

@@ -129,7 +129,7 @@ public class RemoteVPNManager : MonoBehaviour
 			this.myData.CurrentlyPlacedRemoteVPNs = new Dictionary<int, SerTrans>(5);
 			for (int i = 0; i < GameManager.WorldManager.CurrentVPNVolumes.Count; i++)
 			{
-				int index = Random.Range(0, this.currentAvaibleVPNCurrencies.Count);
+				int index = UnityEngine.Random.Range(0, this.currentAvaibleVPNCurrencies.Count);
 				VPNCurrencyData item = new VPNCurrencyData(this.currentAvaibleVPNCurrencies[index].GenerateTime, this.currentAvaibleVPNCurrencies[index].GenerateDOSCoinValue);
 				this.currentAvaibleVPNCurrencies.RemoveAt(index);
 				this.myData.CurrentVPNVolumesCurrencyData.Add(item);
@@ -170,7 +170,7 @@ public class RemoteVPNManager : MonoBehaviour
 		GameManager.ManagerSlinger.ProductsManager.ShadowMarketProductWasActivated.Event += this.productWasPickedUp;
 		this.remoteVPNPool = new PooledStack<RemoteVPNObject>(delegate()
 		{
-			RemoteVPNObject component = Object.Instantiate<GameObject>(this.remoteVPNObject, this.remoteVPNParent).GetComponent<RemoteVPNObject>();
+			RemoteVPNObject component = UnityEngine.Object.Instantiate<GameObject>(this.remoteVPNObject, this.remoteVPNParent).GetComponent<RemoteVPNObject>();
 			component.SoftBuild();
 			component.EnteredPlacementMode += this.remoteVPNWasPickedUp;
 			component.IWasPlaced += this.remoteVPNWasPlaced;

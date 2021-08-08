@@ -13,7 +13,7 @@ public class ParticleForceFieldsDemo_CameraRig : MonoBehaviour
 	{
 		float num = Input.GetAxis("Horizontal");
 		float num2 = Input.GetAxis("Vertical");
-		if (Input.GetKeyDown(114))
+		if (Input.GetKeyDown(KeyCode.R))
 		{
 			this.targetRotation = this.startRotation;
 		}

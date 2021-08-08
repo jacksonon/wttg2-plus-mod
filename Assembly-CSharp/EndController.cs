@@ -18,37 +18,37 @@ public class EndController : mouseableController
 	public void PrepareForDeath()
 	{
 		base.SetMasterLock(true);
-		TweenSettingsExtensions.OnComplete<Tweener>(TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => base.transform.localRotation, delegate(Quaternion x)
+		DOTween.To(() => base.transform.localRotation, delegate(Quaternion x)
 		{
 			base.transform.localRotation = x;
-		}, new Vector3(0f, -180f, 0f), 0.5f), 1), true), delegate()
+		}, new Vector3(0f, -180f, 0f), 0.5f).SetEase(Ease.Linear).SetOptions(true).OnComplete(delegate
 		{
-			Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+			Sequence sequence = DOTween.Sequence().OnComplete(delegate
 			{
 				CultFemaleEndingDeath.Ins.TriggerDeath();
 			});
 			GameManager.TimeSlinger.FireTimer(3.5f, new Action(AdamBehaviour.Ins.LetHerGo), 0);
-			TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.MyCamera.transform.localRotation, delegate(Quaternion x)
+			sequence.Insert(0f, DOTween.To(() => this.MyCamera.transform.localRotation, delegate(Quaternion x)
 			{
 				this.MyCamera.transform.localRotation = x;
-			}, Vector3.zero, 0.25f), 1), true));
-			TweenSettingsExtensions.Insert(sequence, 0.25f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.MyCamera.transform.localRotation, delegate(Quaternion x)
+			}, Vector3.zero, 0.25f).SetEase(Ease.Linear).SetOptions(true));
+			sequence.Insert(0.25f, DOTween.To(() => this.MyCamera.transform.localRotation, delegate(Quaternion x)
 			{
 				this.MyCamera.transform.localRotation = x;
-			}, new Vector3(-15f, 0f, 0f), 1f), 1), true));
-			TweenSettingsExtensions.Insert(sequence, 1.25f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => base.transform.localRotation, delegate(Quaternion x)
+			}, new Vector3(-15f, 0f, 0f), 1f).SetEase(Ease.Linear).SetOptions(true));
+			sequence.Insert(1.25f, DOTween.To(() => base.transform.localRotation, delegate(Quaternion x)
 			{
 				base.transform.localRotation = x;
-			}, Vector3.zero, 4f), 1), true));
-			TweenSettingsExtensions.Insert(sequence, 1.25f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.chairTrans.localRotation, delegate(Quaternion x)
+			}, Vector3.zero, 4f).SetEase(Ease.Linear).SetOptions(true));
+			sequence.Insert(1.25f, DOTween.To(() => this.chairTrans.localRotation, delegate(Quaternion x)
 			{
 				this.chairTrans.localRotation = x;
-			}, new Vector3(0f, -180f, 0f), 4f), 1), true));
-			TweenSettingsExtensions.Insert(sequence, 5.25f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.MyCamera.transform.localRotation, delegate(Quaternion x)
+			}, new Vector3(0f, -180f, 0f), 4f).SetEase(Ease.Linear).SetOptions(true));
+			sequence.Insert(5.25f, DOTween.To(() => this.MyCamera.transform.localRotation, delegate(Quaternion x)
 			{
 				this.MyCamera.transform.localRotation = x;
-			}, Vector3.zero, 1f), 1), true));
-			TweenExtensions.Play<Sequence>(sequence);
+			}, Vector3.zero, 1f).SetEase(Ease.Linear).SetOptions(true));
+			sequence.Play<Sequence>();
 		});
 	}
 
@@ -68,10 +68,9 @@ public class EndController : mouseableController
 				this.achAlreadySent = true;
 				SteamSlinger.Ins.UnlockSteamAchievement(STEAM_ACHIEVEMENT.WHOSTHATLADY);
 			}
-			float num = -180f + axis * 75f;
-			Vector3 vector;
-			vector..ctor(0f, num, 0f);
-			base.transform.rotation = Quaternion.Euler(vector);
+			float y = -180f + axis * 75f;
+			Vector3 euler = new Vector3(0f, y, 0f);
+			base.transform.rotation = Quaternion.Euler(euler);
 			if (this.allowPlayerResponseSelection)
 			{
 				if (CrossPlatformInputManager.GetButtonDown("AlphaOne"))

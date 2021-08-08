@@ -18,7 +18,7 @@ public class BreatherEnding : MonoBehaviour
 	{
 		if (Time.time - this.aniTimeStamp >= 20f)
 		{
-			int num = Random.Range(0, 10);
+			int num = UnityEngine.Random.Range(0, 10);
 			this.aniTimeStamp = Time.time;
 			if (num < 4)
 			{

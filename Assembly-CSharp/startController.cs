@@ -32,7 +32,7 @@ public class startController : baseController
 		{
 			this.MyCamera.transform.localPosition = this.startingCameraPOS;
 			this.MyCamera.transform.localRotation = Quaternion.Euler(this.startingCameraROT);
-			Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+			Sequence sequence = DOTween.Sequence().OnComplete(delegate
 			{
 				this.loseControl();
 				deskController.Ins.TakeOverFromStart();
@@ -44,19 +44,19 @@ public class startController : baseController
 				}
 				TutorialStartBehaviour.Ins.ShowNoirIcon();
 			});
-			TweenSettingsExtensions.Insert(sequence, 1.75f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => LookUp.PlayerUI.BlackScreenCG.alpha, delegate(float x)
+			sequence.Insert(1.75f, DOTween.To(() => LookUp.PlayerUI.BlackScreenCG.alpha, delegate(float x)
 			{
 				LookUp.PlayerUI.BlackScreenCG.alpha = x;
-			}, 0f, 3f), 1));
-			TweenSettingsExtensions.Insert(sequence, 4.75f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.MyCamera.transform.localPosition, delegate(Vector3 x)
+			}, 0f, 3f).SetEase(Ease.Linear));
+			sequence.Insert(4.75f, DOTween.To(() => this.MyCamera.transform.localPosition, delegate(Vector3 x)
 			{
 				this.MyCamera.transform.localPosition = x;
-			}, new Vector3(-0.2071f, 0.035f, 0f), 2f), 1));
-			TweenSettingsExtensions.Insert(sequence, 5f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.MyCamera.transform.localRotation, delegate(Quaternion x)
+			}, new Vector3(-0.2071f, 0.035f, 0f), 2f).SetEase(Ease.Linear));
+			sequence.Insert(5f, DOTween.To(() => this.MyCamera.transform.localRotation, delegate(Quaternion x)
 			{
 				this.MyCamera.transform.localRotation = x;
-			}, new Vector3(15f, 90f, 0f), 1f), 1), true));
-			TweenExtensions.Play<Sequence>(sequence);
+			}, new Vector3(15f, 90f, 0f), 1f).SetEase(Ease.Linear).SetOptions(true));
+			sequence.Play<Sequence>();
 		}
 	}
 

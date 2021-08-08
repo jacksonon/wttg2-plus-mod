@@ -19,27 +19,27 @@ public class CursorManager : MonoBehaviour
 	public void EnableCursor()
 	{
 		Cursor.visible = true;
-		Cursor.lockState = 0;
+		Cursor.lockState = CursorLockMode.None;
 		this.cursorIsDisabled = false;
 	}
 
 	public void DisableCursor()
 	{
 		Cursor.visible = false;
-		Cursor.lockState = 1;
+		Cursor.lockState = CursorLockMode.Locked;
 		this.cursorIsDisabled = true;
 	}
 
 	public void SwitchToDefaultCursor()
 	{
-		Cursor.SetCursor(null, Vector2.zero, 0);
+		Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 	}
 
 	public void SwitchToCustomCursor()
 	{
 		if (!this.hackerCursorActive)
 		{
-			Cursor.SetCursor(this.defaultCursor, new Vector2(12f, 12f), 0);
+			Cursor.SetCursor(this.defaultCursor, new Vector2(12f, 12f), CursorMode.Auto);
 		}
 		else
 		{
@@ -50,7 +50,7 @@ public class CursorManager : MonoBehaviour
 	public void SwitchToHackerCursor()
 	{
 		this.hackerCursorActive = true;
-		Cursor.SetCursor(this.hackerCursor, new Vector2(16f, 16f), 0);
+		Cursor.SetCursor(this.hackerCursor, new Vector2(16f, 16f), CursorMode.Auto);
 	}
 
 	public void ClearHackerCursor()
@@ -63,7 +63,7 @@ public class CursorManager : MonoBehaviour
 	{
 		if (active)
 		{
-			Cursor.SetCursor(this.resizeCursor, new Vector2(12f, 12f), 0);
+			Cursor.SetCursor(this.resizeCursor, new Vector2(12f, 12f), CursorMode.Auto);
 		}
 		else
 		{
@@ -75,7 +75,7 @@ public class CursorManager : MonoBehaviour
 	{
 		if (active)
 		{
-			Cursor.SetCursor(this.pointerCursor, new Vector2(12f, 12f), 0);
+			Cursor.SetCursor(this.pointerCursor, new Vector2(12f, 12f), CursorMode.Auto);
 		}
 		else
 		{
@@ -93,7 +93,7 @@ public class CursorManager : MonoBehaviour
 		if (this.hideCursorOnStart)
 		{
 			Cursor.visible = false;
-			Cursor.lockState = 1;
+			Cursor.lockState = CursorLockMode.Locked;
 			this.cursorIsDisabled = true;
 			this.overwrite = false;
 		}

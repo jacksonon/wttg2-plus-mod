@@ -23,7 +23,7 @@ public class ZeroDayProductBTNBehaviour : MonoBehaviour, IPointerEnterHandler, I
 		this.isDisabled = false;
 		base.GetComponent<Image>().sprite = this.DefaultSprite;
 		this.btnText.text = "BUY";
-		this.btnText.fontStyle = 0;
+		this.btnText.fontStyle = FontStyle.Normal;
 	}
 
 	public void SetToOwned()
@@ -31,14 +31,14 @@ public class ZeroDayProductBTNBehaviour : MonoBehaviour, IPointerEnterHandler, I
 		this.isDisabled = true;
 		base.GetComponent<Image>().sprite = this.DisabledSprite;
 		this.btnText.text = "OWNED";
-		this.btnText.fontStyle = 2;
+		this.btnText.fontStyle = FontStyle.Italic;
 	}
 
 	public void SetToDisabled()
 	{
 		this.isDisabled = true;
 		base.GetComponent<Image>().sprite = this.DisabledSprite;
-		this.btnText.fontStyle = 2;
+		this.btnText.fontStyle = FontStyle.Italic;
 	}
 
 	public void InstallAni(float setTime)
@@ -46,21 +46,21 @@ public class ZeroDayProductBTNBehaviour : MonoBehaviour, IPointerEnterHandler, I
 		this.isDisabled = true;
 		base.GetComponent<Image>().sprite = this.DisabledSprite;
 		this.btnText.text = "Installing...";
-		this.btnText.fontStyle = 2;
+		this.btnText.fontStyle = FontStyle.Italic;
 		this.btnText.fontSize = 14;
 		this.installIMGSize.x = base.GetComponent<RectTransform>().sizeDelta.x;
 		this.installIMGSize.y = 0f;
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+		Sequence sequence = DOTween.Sequence().OnComplete(delegate
 		{
 			this.installIMGSize.x = 0f;
 			this.installIMGSize.y = this.InstallingIMG.GetComponent<RectTransform>().sizeDelta.y;
 			this.InstallingIMG.GetComponent<RectTransform>().sizeDelta = this.installIMGSize;
 		});
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.InstallingIMG.GetComponent<RectTransform>().sizeDelta, delegate(Vector2 x)
+		sequence.Insert(0f, DOTween.To(() => this.InstallingIMG.GetComponent<RectTransform>().sizeDelta, delegate(Vector2 x)
 		{
 			this.InstallingIMG.GetComponent<RectTransform>().sizeDelta = x;
-		}, this.installIMGSize, setTime), 1), true));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, this.installIMGSize, setTime).SetEase(Ease.Linear).SetRelative(true));
+		sequence.Play<Sequence>();
 	}
 
 	public void OnPointerEnter(PointerEventData eventData)

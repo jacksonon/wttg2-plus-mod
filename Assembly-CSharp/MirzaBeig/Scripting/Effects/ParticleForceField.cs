@@ -82,7 +82,7 @@ namespace MirzaBeig.Scripting.Effects
 			else
 			{
 				this.particleSystems.Clear();
-				this.particleSystems.AddRange(Object.FindObjectsOfType<ParticleSystem>());
+				this.particleSystems.AddRange(UnityEngine.Object.FindObjectsOfType<ParticleSystem>());
 			}
 			this.parameters = default(ParticleForceField.GetForceParameters);
 			this.particleSystemsCount = this.particleSystems.Count;
@@ -115,7 +115,7 @@ namespace MirzaBeig.Scripting.Effects
 					ParticleSystemScalingMode scalingMode = this.particleSystemMainModules[k].scalingMode;
 					Transform transform = this.currentParticleSystem.transform;
 					Transform customSimulationSpace = this.particleSystemMainModules[k].customSimulationSpace;
-					if (simulationSpace == 1)
+					if (simulationSpace == ParticleSystemSimulationSpace.World)
 					{
 						for (int l = 0; l < particles; l++)
 						{
@@ -126,13 +126,13 @@ namespace MirzaBeig.Scripting.Effects
 							this.parameters.distanceToForceFieldCenterSqr = this.parameters.scaledDirectionToForceFieldCenter.sqrMagnitude;
 							if (this.parameters.distanceToForceFieldCenterSqr < this.radiusSqr)
 							{
-								float num = this.parameters.distanceToForceFieldCenterSqr / this.radiusSqr;
-								float num2 = this.forceOverDistance.Evaluate(num);
+								float time = this.parameters.distanceToForceFieldCenterSqr / this.radiusSqr;
+								float num = this.forceOverDistance.Evaluate(time);
 								Vector3 vector = this.GetForce();
-								float num3 = this.forceDeltaTime * num2 * this.particleSystemExternalForcesMultipliers[k];
-								vector.x *= num3;
-								vector.y *= num3;
-								vector.z *= num3;
+								float num2 = this.forceDeltaTime * num * this.particleSystemExternalForcesMultipliers[k];
+								vector.x *= num2;
+								vector.y *= num2;
+								vector.z *= num2;
 								Vector3 velocity = this.particleSystemParticles[k][l].velocity;
 								velocity.x += vector.x;
 								velocity.y += vector.y;
@@ -143,45 +143,45 @@ namespace MirzaBeig.Scripting.Effects
 					}
 					else
 					{
-						Vector3 vector2 = Vector3.zero;
-						Quaternion quaternion = Quaternion.identity;
-						Vector3 vector3 = Vector3.one;
+						Vector3 b = Vector3.zero;
+						Quaternion rotation = Quaternion.identity;
+						Vector3 b2 = Vector3.one;
 						Transform transform2 = transform;
-						if (simulationSpace != null)
+						if (simulationSpace != ParticleSystemSimulationSpace.Local)
 						{
-							if (simulationSpace != 2)
+							if (simulationSpace != ParticleSystemSimulationSpace.Custom)
 							{
 								throw new NotSupportedException(string.Format("Unsupported scaling mode '{0}'.", simulationSpace));
 							}
 							transform2 = customSimulationSpace;
-							vector2 = transform2.position;
-							quaternion = transform2.rotation;
-							vector3 = transform2.localScale;
+							b = transform2.position;
+							rotation = transform2.rotation;
+							b2 = transform2.localScale;
 						}
 						else
 						{
-							vector2 = transform2.position;
-							quaternion = transform2.rotation;
-							vector3 = transform2.localScale;
+							b = transform2.position;
+							rotation = transform2.rotation;
+							b2 = transform2.localScale;
 						}
 						for (int m = 0; m < particles; m++)
 						{
 							this.parameters.particlePosition = this.particleSystemParticles[k][m].position;
-							if (simulationSpace == null || simulationSpace == 2)
+							if (simulationSpace == ParticleSystemSimulationSpace.Local || simulationSpace == ParticleSystemSimulationSpace.Custom)
 							{
 								switch (scalingMode)
 								{
-								case 0:
+								case ParticleSystemScalingMode.Hierarchy:
 									this.parameters.particlePosition = transform2.TransformPoint(this.particleSystemParticles[k][m].position);
 									break;
-								case 1:
-									this.parameters.particlePosition = Vector3.Scale(this.parameters.particlePosition, vector3);
-									this.parameters.particlePosition = quaternion * this.parameters.particlePosition;
-									this.parameters.particlePosition = this.parameters.particlePosition + vector2;
+								case ParticleSystemScalingMode.Local:
+									this.parameters.particlePosition = Vector3.Scale(this.parameters.particlePosition, b2);
+									this.parameters.particlePosition = rotation * this.parameters.particlePosition;
+									this.parameters.particlePosition = this.parameters.particlePosition + b;
 									break;
-								case 2:
-									this.parameters.particlePosition = quaternion * this.parameters.particlePosition;
-									this.parameters.particlePosition = this.parameters.particlePosition + vector2;
+								case ParticleSystemScalingMode.Shape:
+									this.parameters.particlePosition = rotation * this.parameters.particlePosition;
+									this.parameters.particlePosition = this.parameters.particlePosition + b;
 									break;
 								default:
 									throw new NotSupportedException(string.Format("Unsupported scaling mode '{0}'.", scalingMode));
@@ -193,35 +193,35 @@ namespace MirzaBeig.Scripting.Effects
 							this.parameters.distanceToForceFieldCenterSqr = this.parameters.scaledDirectionToForceFieldCenter.sqrMagnitude;
 							if (this.parameters.distanceToForceFieldCenterSqr < this.radiusSqr)
 							{
-								float num4 = this.parameters.distanceToForceFieldCenterSqr / this.radiusSqr;
-								float num5 = this.forceOverDistance.Evaluate(num4);
-								Vector3 vector4 = this.GetForce();
-								float num6 = this.forceDeltaTime * num5 * this.particleSystemExternalForcesMultipliers[k];
-								vector4.x *= num6;
-								vector4.y *= num6;
-								vector4.z *= num6;
-								if (simulationSpace == null || simulationSpace == 2)
+								float time2 = this.parameters.distanceToForceFieldCenterSqr / this.radiusSqr;
+								float num3 = this.forceOverDistance.Evaluate(time2);
+								Vector3 vector2 = this.GetForce();
+								float num4 = this.forceDeltaTime * num3 * this.particleSystemExternalForcesMultipliers[k];
+								vector2.x *= num4;
+								vector2.y *= num4;
+								vector2.z *= num4;
+								if (simulationSpace == ParticleSystemSimulationSpace.Local || simulationSpace == ParticleSystemSimulationSpace.Custom)
 								{
 									switch (scalingMode)
 									{
-									case 0:
-										vector4 = transform2.InverseTransformVector(vector4);
+									case ParticleSystemScalingMode.Hierarchy:
+										vector2 = transform2.InverseTransformVector(vector2);
 										break;
-									case 1:
-										vector4 = Quaternion.Inverse(quaternion) * vector4;
-										vector4 = Vector3.Scale(vector4, new Vector3(1f / vector3.x, 1f / vector3.y, 1f / vector3.z));
+									case ParticleSystemScalingMode.Local:
+										vector2 = Quaternion.Inverse(rotation) * vector2;
+										vector2 = Vector3.Scale(vector2, new Vector3(1f / b2.x, 1f / b2.y, 1f / b2.z));
 										break;
-									case 2:
-										vector4 = Quaternion.Inverse(quaternion) * vector4;
+									case ParticleSystemScalingMode.Shape:
+										vector2 = Quaternion.Inverse(rotation) * vector2;
 										break;
 									default:
 										throw new NotSupportedException(string.Format("Unsupported scaling mode '{0}'.", scalingMode));
 									}
 								}
 								Vector3 velocity2 = this.particleSystemParticles[k][m].velocity;
-								velocity2.x += vector4.x;
-								velocity2.y += vector4.y;
-								velocity2.z += vector4.z;
+								velocity2.x += vector2.x;
+								velocity2.y += vector2.y;
+								velocity2.z += vector2.z;
 								this.particleSystemParticles[k][m].velocity = velocity2;
 							}
 						}

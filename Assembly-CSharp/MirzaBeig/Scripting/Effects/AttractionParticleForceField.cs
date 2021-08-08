@@ -40,8 +40,8 @@ namespace MirzaBeig.Scripting.Effects
 			}
 			else if (this.parameters.distanceToForceFieldCenterSqr < this.arrivalRadiusSqr)
 			{
-				float num = 1f - this.parameters.distanceToForceFieldCenterSqr / this.arrivalRadiusSqr;
-				result = Vector3.Normalize(this.parameters.scaledDirectionToForceFieldCenter) * num;
+				float d = 1f - this.parameters.distanceToForceFieldCenterSqr / this.arrivalRadiusSqr;
+				result = Vector3.Normalize(this.parameters.scaledDirectionToForceFieldCenter) * d;
 			}
 			else
 			{
@@ -56,13 +56,13 @@ namespace MirzaBeig.Scripting.Effects
 			{
 				base.OnDrawGizmosSelected();
 				float x = base.transform.lossyScale.x;
-				float num = this.arrivalRadius * x;
-				float num2 = this.arrivedRadius * x;
-				Vector3 vector = base.transform.position + this.center;
+				float radius = this.arrivalRadius * x;
+				float radius2 = this.arrivedRadius * x;
+				Vector3 center = base.transform.position + this.center;
 				Gizmos.color = Color.yellow;
-				Gizmos.DrawWireSphere(vector, num);
+				Gizmos.DrawWireSphere(center, radius);
 				Gizmos.color = Color.red;
-				Gizmos.DrawWireSphere(vector, num2);
+				Gizmos.DrawWireSphere(center, radius2);
 			}
 		}
 

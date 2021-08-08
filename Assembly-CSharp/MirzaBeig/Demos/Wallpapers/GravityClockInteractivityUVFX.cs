@@ -23,7 +23,7 @@ namespace MirzaBeig.Demos.Wallpapers
 			{
 				if (this.enableGravityClockVisualEffects)
 				{
-					this.gravityClock = Object.Instantiate<ParticleSystem>(this.gravityClockPrefab, base.transform);
+					this.gravityClock = UnityEngine.Object.Instantiate<ParticleSystem>(this.gravityClockPrefab, base.transform);
 					this.gravityClock.transform.localPosition = Vector3.zero;
 				}
 			}

@@ -66,16 +66,16 @@ public abstract class WindowBehaviour : MonoBehaviour
 		this.IAmMaxxed = true;
 		this.preMaxPOS = this.Window.GetComponent<RectTransform>().anchoredPosition;
 		this.preMaxSize = this.Window.GetComponent<RectTransform>().sizeDelta;
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), new TweenCallback(this.OnMax));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.Window.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
+		Sequence sequence = DOTween.Sequence().OnComplete(new TweenCallback(this.OnMax));
+		sequence.Insert(0f, DOTween.To(() => this.Window.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
 		{
 			this.Window.GetComponent<RectTransform>().anchoredPosition = x;
-		}, this.maxedPOS, 0.2f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.Window.GetComponent<RectTransform>().sizeDelta, delegate(Vector2 x)
+		}, this.maxedPOS, 0.2f).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.Window.GetComponent<RectTransform>().sizeDelta, delegate(Vector2 x)
 		{
 			this.Window.GetComponent<RectTransform>().sizeDelta = x;
-		}, this.maxedSize, 0.2f), 1));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, this.maxedSize, 0.2f).SetEase(Ease.Linear));
+		sequence.Play<Sequence>();
 		if (this.myData != null)
 		{
 			this.myData.Maxed = true;
@@ -87,16 +87,16 @@ public abstract class WindowBehaviour : MonoBehaviour
 	{
 		this.Window.GetComponent<BringWindowToFrontBehaviour>().forceTap();
 		this.IAmMaxxed = false;
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), new TweenCallback(this.OnUnMax));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.Window.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
+		Sequence sequence = DOTween.Sequence().OnComplete(new TweenCallback(this.OnUnMax));
+		sequence.Insert(0f, DOTween.To(() => this.Window.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
 		{
 			this.Window.GetComponent<RectTransform>().anchoredPosition = x;
-		}, this.preMaxPOS, 0.2f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.Window.GetComponent<RectTransform>().sizeDelta, delegate(Vector2 x)
+		}, this.preMaxPOS, 0.2f).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.Window.GetComponent<RectTransform>().sizeDelta, delegate(Vector2 x)
 		{
 			this.Window.GetComponent<RectTransform>().sizeDelta = x;
-		}, this.preMaxSize, 0.2f), 1));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, this.preMaxSize, 0.2f).SetEase(Ease.Linear));
+		sequence.Play<Sequence>();
 		if (this.myData != null)
 		{
 			this.myData.Maxed = false;
@@ -111,7 +111,7 @@ public abstract class WindowBehaviour : MonoBehaviour
 		this.Window.GetComponent<BringWindowToFrontBehaviour>().forceTap();
 		this.preMinWindowPOS = this.Window.GetComponent<RectTransform>().anchoredPosition;
 		this.preMinWindowSize = this.Window.GetComponent<RectTransform>().sizeDelta;
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+		Sequence sequence = DOTween.Sequence().OnComplete(delegate
 		{
 			if (this.Product == SOFTWARE_PRODUCTS.UNIVERSAL)
 			{
@@ -122,15 +122,15 @@ public abstract class WindowBehaviour : MonoBehaviour
 				GameManager.ManagerSlinger.AppManager.DoMinApp(this.Product);
 			}
 		});
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.Window.GetComponent<RectTransform>().sizeDelta, delegate(Vector2 x)
+		sequence.Insert(0f, DOTween.To(() => this.Window.GetComponent<RectTransform>().sizeDelta, delegate(Vector2 x)
 		{
 			this.Window.GetComponent<RectTransform>().sizeDelta = x;
-		}, this.minAppWindowSize, 0.15f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0.15f, TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.Window.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
+		}, this.minAppWindowSize, 0.15f).SetEase(Ease.Linear));
+		sequence.Insert(0.15f, DOTween.To(() => this.Window.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
 		{
 			this.Window.GetComponent<RectTransform>().anchoredPosition = x;
-		}, new Vector2(this.Window.GetComponent<RectTransform>().localPosition.x, (float)(-(float)Screen.height)), 0.25f), 1));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, new Vector2(this.Window.GetComponent<RectTransform>().localPosition.x, (float)(-(float)Screen.height)), 0.25f).SetEase(Ease.Linear));
+		sequence.Play<Sequence>();
 		if (this.myData != null)
 		{
 			this.myData.Minned = true;
@@ -143,15 +143,15 @@ public abstract class WindowBehaviour : MonoBehaviour
 		this.OnUnMin();
 		this.IAmMinned = false;
 		Sequence sequence = DOTween.Sequence();
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.Window.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
+		sequence.Insert(0f, DOTween.To(() => this.Window.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
 		{
 			this.Window.GetComponent<RectTransform>().anchoredPosition = x;
-		}, this.preMinWindowPOS, 0.25f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.Window.GetComponent<RectTransform>().sizeDelta, delegate(Vector2 x)
+		}, this.preMinWindowPOS, 0.25f).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.Window.GetComponent<RectTransform>().sizeDelta, delegate(Vector2 x)
 		{
 			this.Window.GetComponent<RectTransform>().sizeDelta = x;
-		}, this.preMinWindowSize, 0.15f), 1));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, this.preMinWindowSize, 0.15f).SetEase(Ease.Linear));
+		sequence.Play<Sequence>();
 		if (this.myData != null)
 		{
 			this.myData.Minned = false;

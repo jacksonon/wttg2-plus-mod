@@ -16,12 +16,12 @@ public class SweeperObject : MonoBehaviour
 		this.myDeff = SetDef;
 		if (myIndex == 0)
 		{
-			TweenExtensions.Restart(this.warmTween, false, -1f);
+			this.warmTween.Restart(false, -1f);
 			this.BuildMe();
 		}
 		else
 		{
-			TweenExtensions.Restart(this.warmTween, true, (float)myIndex * 0.2f);
+			this.warmTween.Restart(true, (float)myIndex * 0.2f);
 			this.buildMeDelay = (float)myIndex * 0.2f;
 			this.buildMeTimeStamp = Time.time;
 			this.activateBuildMe = true;
@@ -30,11 +30,10 @@ public class SweeperObject : MonoBehaviour
 
 	public void BuildMe()
 	{
-		Vector2 sizeDelta;
-		sizeDelta..ctor((float)this.myDeff.NumOfDotsPerSweeper * 11f - 4f, base.GetComponent<RectTransform>().sizeDelta.y);
+		Vector2 sizeDelta = new Vector2((float)this.myDeff.NumOfDotsPerSweeper * 11f - 4f, base.GetComponent<RectTransform>().sizeDelta.y);
 		Vector2 zero = Vector2.zero;
-		int num = Random.Range(this.myDeff.HotZoneDotSizeMin, this.myDeff.HotZoneDotSizeMax);
-		int num2 = Random.Range(0, this.myDeff.NumOfDotsPerSweeper - num);
+		int num = UnityEngine.Random.Range(this.myDeff.HotZoneDotSizeMin, this.myDeff.HotZoneDotSizeMax);
+		int num2 = UnityEngine.Random.Range(0, this.myDeff.NumOfDotsPerSweeper - num);
 		this.myRT.sizeDelta = sizeDelta;
 		this.dotHolderRT.sizeDelta = sizeDelta;
 		this.hotZoneStartIndex = num2;
@@ -52,25 +51,25 @@ public class SweeperObject : MonoBehaviour
 			zero.x += 11f;
 			this.curDotObjects.Add(sweeperDotObject);
 		}
-		this.hotBarWidth = (float)Random.Range(this.myDeff.HotBarWidthMin, this.myDeff.HotBarWidthMax);
+		this.hotBarWidth = (float)UnityEngine.Random.Range(this.myDeff.HotBarWidthMin, this.myDeff.HotBarWidthMax);
 		this.hotBarRT.sizeDelta = new Vector2(this.hotBarWidth, this.hotBarRT.sizeDelta.y);
 		this.hotBarRT.anchoredPosition = Vector2.zero;
 		this.curHotBarPOS = Vector2.zero;
 		this.hotBarMaxX = this.myRT.sizeDelta.x - this.hotBarWidth;
-		this.scrollSpeed = Random.Range(this.myDeff.ScrollSpeedMin, this.myDeff.ScrollSpeedMax);
+		this.scrollSpeed = UnityEngine.Random.Range(this.myDeff.ScrollSpeedMin, this.myDeff.ScrollSpeedMax);
 	}
 
 	public void FireMe()
 	{
 		this.hotBarCG.alpha = 1f;
-		TweenExtensions.Restart(this.fullShowMeTween, true, -1f);
+		this.fullShowMeTween.Restart(true, -1f);
 		this.scrollIsActive = true;
 		this.sweeperHotBarScroll = GameManager.TweenSlinger.PlayDOSTweenLiner(0f, this.hotBarMaxX, this.scrollSpeed, this.updateHotBarPOSAction, this.updateHotBarDirAction);
 	}
 
 	public void PlayerHasDecided()
 	{
-		TweenExtensions.Pause<Tweener>(this.fullShowMeTween);
+		this.fullShowMeTween.Pause<Tweener>();
 		this.scrollIsActive = false;
 		GameManager.TweenSlinger.KillTween(this.sweeperHotBarScroll);
 		this.sweeperHotBarScroll = null;
@@ -122,10 +121,10 @@ public class SweeperObject : MonoBehaviour
 
 	public void MoveMeUp()
 	{
-		TweenSettingsExtensions.SetDelay<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.myRT.anchoredPosition, delegate(Vector2 x)
+		DOTween.To(() => this.myRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.myRT.anchoredPosition = x;
-		}, new Vector2(0f, this.myRT.sizeDelta.y + 10f), 0.15f), true), 0.15f);
+		}, new Vector2(0f, this.myRT.sizeDelta.y + 10f), 0.15f).SetRelative(true).SetDelay(0.15f);
 	}
 
 	public void ForceEnd()
@@ -139,8 +138,8 @@ public class SweeperObject : MonoBehaviour
 			this.curDotObjects[i].Destroy();
 			this.sweeperDotObjectPool.Push(this.curDotObjects[i]);
 		}
-		TweenExtensions.Restart(this.fadeMeOutTween, true, -1f);
-		TweenExtensions.Restart(this.scaleMeDownTween, true, -1f);
+		this.fadeMeOutTween.Restart(true, -1f);
+		this.scaleMeDownTween.Restart(true, -1f);
 	}
 
 	public void DestroyMe()
@@ -209,14 +208,14 @@ public class SweeperObject : MonoBehaviour
 
 	private void DismissMe()
 	{
-		TweenExtensions.Restart(this.fadeMeOutTween, true, -1f);
+		this.fadeMeOutTween.Restart(true, -1f);
 		if (this.MyScore == 5)
 		{
-			TweenExtensions.Restart(this.scaleMeUpTween, true, -1f);
+			this.scaleMeUpTween.Restart(true, -1f);
 		}
 		else
 		{
-			TweenExtensions.Restart(this.scaleMeDownTween, true, -1f);
+			this.scaleMeDownTween.Restart(true, -1f);
 		}
 		if (this.IWasDismissed != null)
 		{
@@ -231,43 +230,43 @@ public class SweeperObject : MonoBehaviour
 		this.myRT = base.GetComponent<RectTransform>();
 		this.dotHolderRT = this.DotHolder.GetComponent<RectTransform>();
 		this.hotBarRT = this.HotBar.GetComponent<RectTransform>();
-		this.warmTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		this.warmTween = DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 0.25f, 0.2f), 1);
-		TweenExtensions.Pause<Tweener>(this.warmTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.warmTween, false);
-		this.fullShowMeTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		}, 0.25f, 0.2f).SetEase(Ease.Linear);
+		this.warmTween.Pause<Tweener>();
+		this.warmTween.SetAutoKill(false);
+		this.fullShowMeTween = DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 1f, 0.2f), 2);
-		TweenExtensions.Pause<Tweener>(this.fullShowMeTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.fullShowMeTween, false);
-		this.fadeMeOutTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		}, 1f, 0.2f).SetEase(Ease.InSine);
+		this.fullShowMeTween.Pause<Tweener>();
+		this.fullShowMeTween.SetAutoKill(false);
+		this.fadeMeOutTween = DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 0f, 0.15f), 1);
-		TweenExtensions.Pause<Tweener>(this.fadeMeOutTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.fadeMeOutTween, false);
-		this.scaleMeDownTween = TweenSettingsExtensions.OnComplete<TweenerCore<Vector3, Vector3, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.myRT.localScale, delegate(Vector3 x)
+		}, 0f, 0.15f).SetEase(Ease.Linear);
+		this.fadeMeOutTween.Pause<Tweener>();
+		this.fadeMeOutTween.SetAutoKill(false);
+		this.scaleMeDownTween = DOTween.To(() => this.myRT.localScale, delegate(Vector3 x)
 		{
 			this.myRT.localScale = x;
-		}, Vector3.zero, 0.15f), 21), delegate()
+		}, Vector3.zero, 0.15f).SetEase(Ease.OutCirc).OnComplete(delegate
 		{
 			this.myRT.localScale = Vector3.one;
 		});
-		TweenExtensions.Pause<Tweener>(this.scaleMeDownTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.scaleMeDownTween, false);
-		this.scaleMeUpTween = TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.myRT.localScale, delegate(Vector3 x)
+		this.scaleMeDownTween.Pause<Tweener>();
+		this.scaleMeDownTween.SetAutoKill(false);
+		this.scaleMeUpTween = DOTween.To(() => this.myRT.localScale, delegate(Vector3 x)
 		{
 			this.myRT.localScale = x;
-		}, new Vector3(1.1f, 1.1f, 1f), 0.15f), 21);
-		TweenExtensions.Pause<Tweener>(this.scaleMeUpTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.scaleMeUpTween, false);
+		}, new Vector3(1.1f, 1.1f, 1f), 0.15f).SetEase(Ease.OutCirc);
+		this.scaleMeUpTween.Pause<Tweener>();
+		this.scaleMeUpTween.SetAutoKill(false);
 		this.activateTheHotSpotsAction = new SweeperDotObject.UpdateHotSpotActions(this.ActivateTheHotSpots);
 		this.updateHotBarPOSAction = new Action<float>(this.updateHotBarPOS);
 		this.updateHotBarDirAction = new Action<float>(this.updateHotBarDir);
-		this.sweeperDotObjectPool = new PooledStack<SweeperDotObject>(() => Object.Instantiate<GameObject>(this.DotObject, this.dotHolderRT).GetComponent<SweeperDotObject>(), 30);
+		this.sweeperDotObjectPool = new PooledStack<SweeperDotObject>(() => UnityEngine.Object.Instantiate<GameObject>(this.DotObject, this.dotHolderRT).GetComponent<SweeperDotObject>(), 30);
 	}
 
 	private void Update()

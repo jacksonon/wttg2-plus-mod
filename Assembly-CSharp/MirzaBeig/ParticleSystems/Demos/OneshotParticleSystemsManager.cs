@@ -32,7 +32,7 @@ namespace MirzaBeig.ParticleSystems.Demos
 				{
 					if (this.spawnedPrefabs[i])
 					{
-						Object.Destroy(this.spawnedPrefabs[i].gameObject);
+						UnityEngine.Object.Destroy(this.spawnedPrefabs[i].gameObject);
 					}
 				}
 				this.spawnedPrefabs.Clear();
@@ -48,23 +48,23 @@ namespace MirzaBeig.ParticleSystems.Demos
 		{
 			if (this.spawnedPrefabs != null && !this.disableSpawn)
 			{
-				Vector3 vector = mousePosition;
-				vector.z = maxDistance;
-				Vector3 vector2 = Camera.main.ScreenToWorldPoint(vector);
-				Vector3 vector3 = vector2 - Camera.main.transform.position;
+				Vector3 position = mousePosition;
+				position.z = maxDistance;
+				Vector3 vector = Camera.main.ScreenToWorldPoint(position);
+				Vector3 direction = vector - Camera.main.transform.position;
 				RaycastHit raycastHit;
-				Physics.Raycast(Camera.main.transform.position + Camera.main.transform.forward * 0.01f, vector3, ref raycastHit, maxDistance);
-				Vector3 vector4;
+				Physics.Raycast(Camera.main.transform.position + Camera.main.transform.forward * 0.01f, direction, out raycastHit, maxDistance);
+				Vector3 position2;
 				if (raycastHit.collider)
 				{
-					vector4 = raycastHit.point;
+					position2 = raycastHit.point;
 				}
 				else
 				{
-					vector4 = vector2;
+					position2 = vector;
 				}
 				ParticleSystems particleSystems = this.particlePrefabs[this.currentParticlePrefabIndex];
-				ParticleSystems particleSystems2 = Object.Instantiate<ParticleSystems>(particleSystems, vector4, particleSystems.transform.rotation);
+				ParticleSystems particleSystems2 = UnityEngine.Object.Instantiate<ParticleSystems>(particleSystems, position2, particleSystems.transform.rotation);
 				particleSystems2.gameObject.SetActive(true);
 				particleSystems2.transform.parent = base.transform;
 				this.spawnedPrefabs.Add(particleSystems2);
@@ -73,7 +73,7 @@ namespace MirzaBeig.ParticleSystems.Demos
 
 		public void Randomize()
 		{
-			this.currentParticlePrefabIndex = Random.Range(0, this.particlePrefabs.Count);
+			this.currentParticlePrefabIndex = UnityEngine.Random.Range(0, this.particlePrefabs.Count);
 		}
 
 		public override int GetParticleCount()

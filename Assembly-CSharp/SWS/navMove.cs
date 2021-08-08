@@ -125,7 +125,7 @@ namespace SWS
 			}
 			yield return new WaitForEndOfFrame();
 			float remain = this.agent.remainingDistance;
-			while (remain == float.PositiveInfinity || remain - this.agent.stoppingDistance > 1.401298E-45f || this.agent.pathStatus != null)
+			while (remain == float.PositiveInfinity || remain - this.agent.stoppingDistance > 1.401298E-45f || this.agent.pathStatus != NavMeshPathStatus.PathComplete)
 			{
 				remain = this.agent.remainingDistance;
 				yield return null;
@@ -188,14 +188,14 @@ namespace SWS
 				this.waypoints[i] = this.waypoints[num];
 				this.waypoints[num] = transform;
 			}
-			Transform transform2 = this.pathContainer.waypoints[this.currentPoint];
+			Transform y = this.pathContainer.waypoints[this.currentPoint];
 			for (int j = 0; j < this.waypoints.Length; j++)
 			{
-				if (this.waypoints[j] == transform2)
+				if (this.waypoints[j] == y)
 				{
-					Transform transform3 = this.waypoints[0];
+					Transform transform2 = this.waypoints[0];
 					this.waypoints[0] = this.waypoints[j];
-					this.waypoints[j] = transform3;
+					this.waypoints[j] = transform2;
 					break;
 				}
 			}
@@ -315,7 +315,7 @@ namespace SWS
 
 		private NavMeshAgent agent;
 
-		private Random rand = new Random();
+		private System.Random rand = new System.Random();
 
 		private int rndIndex;
 

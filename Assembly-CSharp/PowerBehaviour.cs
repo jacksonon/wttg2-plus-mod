@@ -19,7 +19,7 @@ public class PowerBehaviour : MonoBehaviour
 		this.generateFireWindow();
 		this.breakerBoxHub.PlaySound(this.breakerSwitchOnSFX);
 		this.powerOutageHub.PlaySound(this.powerOnSFX);
-		TweenExtensions.Restart(this.switchOnTween, true, -1f);
+		this.switchOnTween.Restart(true, -1f);
 		this.PowerOnEvent.Execute();
 		this.powerOn();
 	}
@@ -36,7 +36,7 @@ public class PowerBehaviour : MonoBehaviour
 
 	public void ResetPowerTripTime()
 	{
-		this.fireWindow = Random.Range(this.fireWindowMin, this.fireWindowMax);
+		this.fireWindow = UnityEngine.Random.Range(this.fireWindowMin, this.fireWindowMax);
 		this.fireWindowTimeStamp = Time.time;
 		this.fireWindowActive = true;
 	}
@@ -50,7 +50,7 @@ public class PowerBehaviour : MonoBehaviour
 		}
 		switchToComputerController.Ins.Lock();
 		EnvironmentManager.PowerState = POWER_STATE.OFF;
-		TweenExtensions.Restart(this.switchOffTween, true, -1f);
+		this.switchOffTween.Restart(true, -1f);
 		this.PowerOffEvent.Execute();
 		if (StateManager.PlayerState == PLAYER_STATE.COMPUTER)
 		{
@@ -101,7 +101,7 @@ public class PowerBehaviour : MonoBehaviour
 
 	private void generateFireWindow()
 	{
-		this.fireWindow = Random.Range(this.fireWindowMin, this.fireWindowMax);
+		this.fireWindow = UnityEngine.Random.Range(this.fireWindowMin, this.fireWindowMax);
 		if (DataManager.LeetMode)
 		{
 			this.fireWindow *= 0.4f;
@@ -147,18 +147,18 @@ public class PowerBehaviour : MonoBehaviour
 	{
 		this.myID = base.transform.position.GetHashCode();
 		EnvironmentManager.PowerBehaviour = this;
-		this.switchOnTween = TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.SwitchOffPOS, delegate(Vector3 x)
+		this.switchOnTween = DOTween.To(() => this.SwitchOffPOS, delegate(Vector3 x)
 		{
 			this.BreakerSwitchTransform.transform.localPosition = x;
-		}, this.SwitchOnPOS, 0.3f), 20);
-		TweenExtensions.Pause<Tweener>(this.switchOnTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.switchOnTween, false);
-		this.switchOffTween = TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.SwitchOnPOS, delegate(Vector3 x)
+		}, this.SwitchOnPOS, 0.3f).SetEase(Ease.InCirc);
+		this.switchOnTween.Pause<Tweener>();
+		this.switchOnTween.SetAutoKill(false);
+		this.switchOffTween = DOTween.To(() => this.SwitchOnPOS, delegate(Vector3 x)
 		{
 			this.BreakerSwitchTransform.transform.localPosition = x;
-		}, this.SwitchOffPOS, 0.15f), 1);
-		TweenExtensions.Pause<Tweener>(this.switchOffTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.switchOffTween, false);
+		}, this.SwitchOffPOS, 0.15f).SetEase(Ease.Linear);
+		this.switchOffTween.Pause<Tweener>();
+		this.switchOffTween.SetAutoKill(false);
 		GameManager.StageManager.Stage += this.stageMe;
 		GameManager.StageManager.TheGameIsLive += this.gameLive;
 		GameManager.StageManager.ThreatsNowActivated += this.threatsActivated;
@@ -187,9 +187,10 @@ public class PowerBehaviour : MonoBehaviour
 		if (!this.LockedOut && !StateManager.BeingHacked && EnvironmentManager.PowerState == POWER_STATE.ON)
 		{
 			this.powerOff(true);
+			this.ResetPowerTripTime();
 			return;
 		}
-		this.ResetPowerTripTime();
+		GameManager.TimeSlinger.FireTimer(30f, new Action(this.ForceTwitchPowerOff), 0);
 	}
 
 	public void ForceSwanPowerOff()

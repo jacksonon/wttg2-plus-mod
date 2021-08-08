@@ -6,11 +6,11 @@ public class TrollPoll
 {
 	public void BeginVote()
 	{
-		int num = Random.Range(0, 17);
-		int num2 = Random.Range(0, 17);
+		int num = UnityEngine.Random.Range(0, 17);
+		int num2 = UnityEngine.Random.Range(0, 17);
 		do
 		{
-			num2 = Random.Range(0, 17);
+			num2 = UnityEngine.Random.Range(0, 17);
 		}
 		while (num == num2);
 		TrollPoll.firstTrollSound = (TrollPoll.TROLL_SOUNDS)num;

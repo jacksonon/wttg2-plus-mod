@@ -22,10 +22,10 @@ public class braceController : mouseableController
 		base.SetMasterLock(true);
 		this.MyState = GAME_CONTROLLER_STATE.LOCKED;
 		StateManager.PlayerState = PLAYER_STATE.BUSY;
-		TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.ppVol.weight, delegate(float x)
+		DOTween.To(() => this.ppVol.weight, delegate(float x)
 		{
 			this.ppVol.weight = x;
-		}, 0f, 0.75f), 1), delegate()
+		}, 0f, 0.75f).SetEase(Ease.Linear).OnComplete(delegate
 		{
 			base.transform.position = this.defaultPOS;
 			base.transform.rotation = Quaternion.Euler(Vector3.zero);
@@ -54,20 +54,20 @@ public class braceController : mouseableController
 			this.MyMouseCapture.setRotatingObjectRotation(this.defaultCameraHolderRotation);
 		}
 		CameraManager.GetCameraHook(this.CameraIControl).SetMyParent(this.MouseRotatingObject.transform);
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), new TweenCallback(this.TakeControl));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.MyCamera.transform.localPosition, delegate(Vector3 x)
+		Sequence sequence = DOTween.Sequence().OnComplete(new TweenCallback(this.TakeControl));
+		sequence.Insert(0f, DOTween.To(() => this.MyCamera.transform.localPosition, delegate(Vector3 x)
 		{
 			this.MyCamera.transform.localPosition = x;
-		}, Vector3.zero, 0.75f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.MyCamera.transform.localRotation, delegate(Quaternion x)
+		}, Vector3.zero, 0.75f).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.MyCamera.transform.localRotation, delegate(Quaternion x)
 		{
 			this.MyCamera.transform.localRotation = x;
-		}, Vector3.zero, 0.5f), 1), true));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.ppVol.weight, delegate(float x)
+		}, Vector3.zero, 0.5f).SetEase(Ease.Linear).SetOptions(true));
+		sequence.Insert(0f, DOTween.To(() => this.ppVol.weight, delegate(float x)
 		{
 			this.ppVol.weight = x;
-		}, 1f, 0.75f), 1));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, 1f, 0.75f).SetEase(Ease.Linear));
+		sequence.Play<Sequence>();
 	}
 
 	private void getInput()
@@ -75,12 +75,10 @@ public class braceController : mouseableController
 		if (!this.lockControl)
 		{
 			float axis = CrossPlatformInputManager.GetAxis("Right");
-			Vector3 vector;
-			vector..ctor(0f, axis * this.maxRotationRight, 0f);
-			Vector3 position;
-			position..ctor(this.defaultPOS.x, this.defaultPOS.y + axis * this.maxTopPeak, this.defaultPOS.z + axis * this.maxRightPeak);
+			Vector3 euler = new Vector3(0f, axis * this.maxRotationRight, 0f);
+			Vector3 position = new Vector3(this.defaultPOS.x, this.defaultPOS.y + axis * this.maxTopPeak, this.defaultPOS.z + axis * this.maxRightPeak);
 			base.transform.position = position;
-			base.transform.rotation = Quaternion.Euler(vector);
+			base.transform.rotation = Quaternion.Euler(euler);
 			if (axis <= 0.4f && CrossPlatformInputManager.GetButtonDown("RightClick"))
 			{
 				this.switchToRoamController();

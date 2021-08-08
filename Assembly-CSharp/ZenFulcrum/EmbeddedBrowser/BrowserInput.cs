@@ -87,13 +87,13 @@ namespace ZenFulcrum.EmbeddedBrowser
 				{
 					@event.character = '\r';
 				}
-				if (@event.character != '\0' && @event.type == 4)
+				if (@event.character != '\0' && @event.type == EventType.KeyDown)
 				{
 					BrowserNative.zfb_characterEvent(this.browser.browserId, (int)@event.character, windowsKeyCode);
 				}
 				else
 				{
-					BrowserNative.zfb_keyEvent(this.browser.browserId, @event.type == 4, windowsKeyCode);
+					BrowserNative.zfb_keyEvent(this.browser.browserId, @event.type == EventType.KeyDown, windowsKeyCode);
 				}
 			}
 		}
@@ -121,9 +121,9 @@ namespace ZenFulcrum.EmbeddedBrowser
 				}
 				if (this.repeatCount > 0)
 				{
-					Vector2 vector = Vector2.Scale(mousePos, browserSize);
-					Vector2 vector2 = Vector2.Scale(this.lastPosition, browserSize);
-					if (Vector2.Distance(vector, vector2) > uiHandler.InputSettings.multiclickTolerance)
+					Vector2 a = Vector2.Scale(mousePos, browserSize);
+					Vector2 b = Vector2.Scale(this.lastPosition, browserSize);
+					if (Vector2.Distance(a, b) > uiHandler.InputSettings.multiclickTolerance)
 					{
 						this.repeatCount = 0;
 					}

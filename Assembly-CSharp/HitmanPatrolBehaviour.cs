@@ -23,7 +23,7 @@ public class HitmanPatrolBehaviour : MonoBehaviour
 	public void PickNextPatrol()
 	{
 		this.patrolCount--;
-		int num = Random.Range(1, 4);
+		int num = UnityEngine.Random.Range(1, 4);
 		if (num != 1)
 		{
 			if (num != 2)
@@ -101,7 +101,7 @@ public class HitmanPatrolBehaviour : MonoBehaviour
 		{
 			GameManager.BehaviourManager.NotesBehaviour.ClearNotes();
 			float currentCurrency = CurrencyManager.CurrentCurrency;
-			float num2 = Random.Range(0.5f, 0.9f);
+			float num2 = UnityEngine.Random.Range(0.5f, 0.9f);
 			float setAMT = (float)Math.Round((double)(currentCurrency * num2), 3);
 			CurrencyManager.RemoveCurrency(setAMT);
 			num++;
@@ -182,7 +182,7 @@ public class HitmanPatrolBehaviour : MonoBehaviour
 		{
 			if (playerLocation == PLAYER_LOCATION.BATH_ROOM)
 			{
-				int num = Random.Range(1, this.bathRoomPatrolPoints.Length);
+				int num = UnityEngine.Random.Range(1, this.bathRoomPatrolPoints.Length);
 				PatrolPointDefinition patrolPointDefinition = this.bathRoomPatrolPoints[num];
 				HitmanBehaviour.Ins.PatrolTo(patrolPointDefinition);
 				this.bathRoomPatrolPoints[num] = this.bathRoomPatrolPoints[0];
@@ -191,7 +191,7 @@ public class HitmanPatrolBehaviour : MonoBehaviour
 		}
 		else
 		{
-			int num = Random.Range(1, this.mainRoomPatrolPoints.Length);
+			int num = UnityEngine.Random.Range(1, this.mainRoomPatrolPoints.Length);
 			PatrolPointDefinition patrolPointDefinition = this.mainRoomPatrolPoints[num];
 			HitmanBehaviour.Ins.PatrolTo(patrolPointDefinition);
 			this.mainRoomPatrolPoints[num] = this.mainRoomPatrolPoints[0];

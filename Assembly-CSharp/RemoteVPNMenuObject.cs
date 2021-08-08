@@ -21,8 +21,8 @@ public class RemoteVPNMenuObject : MonoBehaviour
 
 	public void PutMe(int SetIndex)
 	{
-		float num = -(4f + ((float)SetIndex * 4f + (float)SetIndex * 22f));
-		this.myRT.anchoredPosition = new Vector2(0f, num);
+		float y = -(4f + ((float)SetIndex * 4f + (float)SetIndex * 22f));
+		this.myRT.anchoredPosition = new Vector2(0f, y);
 	}
 
 	public void SoftBuild(int SetIndex)

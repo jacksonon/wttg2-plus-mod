@@ -29,10 +29,10 @@ public class TitleManager : MonoBehaviour
 
 	public void DismissTitle()
 	{
-		TweenSettingsExtensions.SetDelay<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.blackScreen.alpha, delegate(float x)
+		DOTween.To(() => this.blackScreen.alpha, delegate(float x)
 		{
 			this.blackScreen.alpha = x;
-		}, 1f, 0.5f), 1), 1.8f);
+		}, 1f, 0.5f).SetEase(Ease.Linear).SetDelay(1.8f);
 		GameManager.AudioSlinger.MuffleAudioHub(AUDIO_HUB.TITLE_HUB, 0f, 2.3f);
 		this.TitleDismissing.Execute();
 		CursorManager.Ins.DisableCursor();
@@ -48,16 +48,16 @@ public class TitleManager : MonoBehaviour
 
 	private void presentTitle()
 	{
-		TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.bgScreen.alpha, delegate(float x)
+		DOTween.To(() => this.bgScreen.alpha, delegate(float x)
 		{
 			this.bgScreen.alpha = x;
-		}, 0f, 2f), 1);
+		}, 0f, 2f).SetEase(Ease.Linear);
 		this.TitlePresent.Execute();
 	}
 
 	private void loadGame()
 	{
-		SceneManager.LoadScene(2, 0);
+		SceneManager.LoadScene(2, LoadSceneMode.Single);
 	}
 
 	private void Awake()
@@ -90,15 +90,15 @@ public class TitleManager : MonoBehaviour
 
 	private void PrepareOptionMods()
 	{
-		Object.Destroy(GameObject.Find("ApplyButton"));
+		UnityEngine.Object.Destroy(GameObject.Find("ApplyButton"));
 		OptionsUtil.BuildOptionsButton("Twitch Integration:", "[MOD]TTVInt", 1, 50f, null, null);
 		OptionsUtil.BuildOptionsButton("Troll Poll:", "[MOD]TrolloPollo", 1, 100f, null, null);
 		OptionsUtil.BuildOptionsButton("DevTools:", "[MOD]DevTools", 1, 150f, null, null);
 		OptionsUtil.BuildOptionsButton("Easy Mode:", "[MOD]EasyMode", 0, 200f, null, null);
-		OptionsUtil.BuildOptionsButton("Show God Spot:", "[MOD]GODSpot", 0, 250f, null, null);
-		OptionsUtil.BuildOptionsButton("Force Hacks:", "[MOD]ForceHack", 0, 300f, null, null);
-		OptionsUtil.BuildOptionsButton("Unlimited Stamina:", "[MOD]UnlimitedStamina", 0, 350f, null, null);
-		OptionsUtil.BuildOptionsButton("Auto WiFi Crack:", "[MOD]SkybreakGlitch", 0, 400f, null, null);
+		OptionsUtil.BuildOptionsButton2("Show God Spot:", "[MOD]GODSpot", 0, 50f, null, null);
+		OptionsUtil.BuildOptionsButton2("Force Hacks:", "[MOD]ForceHack", 0, 100f, null, null);
+		OptionsUtil.BuildOptionsButton2("Unlimited Stamina:", "[MOD]UnlimitedStamina", 0, 150f, null, null);
+		OptionsUtil.BuildOptionsButton2("Auto WiFi Crack:", "[MOD]SkybreakGlitch", 0, 200f, null, null);
 	}
 
 	public CustomEvent TitleStaging = new CustomEvent(5);

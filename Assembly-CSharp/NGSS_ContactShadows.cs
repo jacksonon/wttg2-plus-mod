@@ -23,7 +23,7 @@ public class NGSS_ContactShadows : MonoBehaviour
 				}
 				else
 				{
-					this._mCamera.depthTextureMode |= 1;
+					this._mCamera.depthTextureMode |= DepthTextureMode.Depth;
 				}
 			}
 			return this._mCamera;
@@ -62,42 +62,42 @@ public class NGSS_ContactShadows : MonoBehaviour
 		{
 			name = "NGSS ContactShadows: Mix"
 		};
-		bool flag = this.mCamera.actualRenderingPath == 1;
+		bool flag = this.mCamera.actualRenderingPath == RenderingPath.Forward;
 		if (this.mCamera)
 		{
-			foreach (CommandBuffer commandBuffer in this.mCamera.GetCommandBuffers((!flag) ? 6 : 1))
+			foreach (CommandBuffer commandBuffer in this.mCamera.GetCommandBuffers((!flag) ? CameraEvent.BeforeLighting : CameraEvent.AfterDepthTexture))
 			{
 				if (commandBuffer.name == this.computeShadowsCB.name)
 				{
 					return;
 				}
 			}
-			this.mCamera.AddCommandBuffer((!flag) ? 6 : 1, this.computeShadowsCB);
+			this.mCamera.AddCommandBuffer((!flag) ? CameraEvent.BeforeLighting : CameraEvent.AfterDepthTexture, this.computeShadowsCB);
 		}
 		if (this.mainDirectionalLight)
 		{
-			foreach (CommandBuffer commandBuffer2 in this.mainDirectionalLight.GetCommandBuffers(3))
+			foreach (CommandBuffer commandBuffer2 in this.mainDirectionalLight.GetCommandBuffers(LightEvent.AfterScreenspaceMask))
 			{
 				if (commandBuffer2.name == this.blendShadowsCB.name)
 				{
 					return;
 				}
 			}
-			this.mainDirectionalLight.AddCommandBuffer(3, this.blendShadowsCB);
+			this.mainDirectionalLight.AddCommandBuffer(LightEvent.AfterScreenspaceMask, this.blendShadowsCB);
 		}
 	}
 
 	private void RemoveCommandBuffers()
 	{
 		this._mMaterial = null;
-		bool flag = this.mCamera.actualRenderingPath == 1;
+		bool flag = this.mCamera.actualRenderingPath == RenderingPath.Forward;
 		if (this.mCamera)
 		{
-			this.mCamera.RemoveCommandBuffer((!flag) ? 6 : 1, this.computeShadowsCB);
+			this.mCamera.RemoveCommandBuffer((!flag) ? CameraEvent.BeforeLighting : CameraEvent.AfterDepthTexture, this.computeShadowsCB);
 		}
 		if (this.mainDirectionalLight)
 		{
-			this.mainDirectionalLight.RemoveCommandBuffer(3, this.blendShadowsCB);
+			this.mainDirectionalLight.RemoveCommandBuffer(LightEvent.AfterScreenspaceMask, this.blendShadowsCB);
 		}
 		this.isInitialized = false;
 	}
@@ -108,37 +108,37 @@ public class NGSS_ContactShadows : MonoBehaviour
 		{
 			return;
 		}
-		if (this.mCamera.actualRenderingPath == null)
+		if (this.mCamera.actualRenderingPath == RenderingPath.VertexLit)
 		{
 			Debug.LogWarning("Vertex Lit Rendering Path is not supported by NGSS Contact Shadows. Please set the Rendering Path in your game camera or Graphics Settings to something else than Vertex Lit.", this);
 			base.enabled = false;
 			return;
 		}
 		this.AddCommandBuffers();
-		int num = Shader.PropertyToID("NGSS_ContactShadowRT");
-		int num2 = Shader.PropertyToID("NGSS_ContactShadowRT2");
-		int num3 = Shader.PropertyToID("NGSS_DepthSourceRT");
-		this.computeShadowsCB.GetTemporaryRT(num, -1, -1, 0, 1, 16);
-		this.computeShadowsCB.GetTemporaryRT(num2, -1, -1, 0, 1, 16);
-		this.computeShadowsCB.GetTemporaryRT(num3, -1, -1, 0, 0, 14);
-		this.computeShadowsCB.Blit(num, num3, this.mMaterial, 0);
-		this.computeShadowsCB.Blit(num3, num, this.mMaterial, 1);
+		int nameID = Shader.PropertyToID("NGSS_ContactShadowRT");
+		int nameID2 = Shader.PropertyToID("NGSS_ContactShadowRT2");
+		int nameID3 = Shader.PropertyToID("NGSS_DepthSourceRT");
+		this.computeShadowsCB.GetTemporaryRT(nameID, -1, -1, 0, FilterMode.Bilinear, RenderTextureFormat.R8);
+		this.computeShadowsCB.GetTemporaryRT(nameID2, -1, -1, 0, FilterMode.Bilinear, RenderTextureFormat.R8);
+		this.computeShadowsCB.GetTemporaryRT(nameID3, -1, -1, 0, FilterMode.Point, RenderTextureFormat.RFloat);
+		this.computeShadowsCB.Blit(nameID, nameID3, this.mMaterial, 0);
+		this.computeShadowsCB.Blit(nameID3, nameID, this.mMaterial, 1);
 		this.computeShadowsCB.SetGlobalVector("ShadowsKernel", new Vector2(0f, 1f));
-		this.computeShadowsCB.Blit(num, num2, this.mMaterial, 2);
+		this.computeShadowsCB.Blit(nameID, nameID2, this.mMaterial, 2);
 		this.computeShadowsCB.SetGlobalVector("ShadowsKernel", new Vector2(1f, 0f));
-		this.computeShadowsCB.Blit(num2, num, this.mMaterial, 2);
+		this.computeShadowsCB.Blit(nameID2, nameID, this.mMaterial, 2);
 		this.computeShadowsCB.SetGlobalVector("ShadowsKernel", new Vector2(0f, 2f));
-		this.computeShadowsCB.Blit(num, num2, this.mMaterial, 2);
+		this.computeShadowsCB.Blit(nameID, nameID2, this.mMaterial, 2);
 		this.computeShadowsCB.SetGlobalVector("ShadowsKernel", new Vector2(2f, 0f));
-		this.computeShadowsCB.Blit(num2, num, this.mMaterial, 2);
-		this.computeShadowsCB.SetGlobalTexture("NGSS_ContactShadowsTexture", num);
-		this.blendShadowsCB.Blit(1, 1, this.mMaterial, 3);
+		this.computeShadowsCB.Blit(nameID2, nameID, this.mMaterial, 2);
+		this.computeShadowsCB.SetGlobalTexture("NGSS_ContactShadowsTexture", nameID);
+		this.blendShadowsCB.Blit(BuiltinRenderTextureType.CurrentActive, BuiltinRenderTextureType.CurrentActive, this.mMaterial, 3);
 		this.isInitialized = true;
 	}
 
 	private bool IsNotSupported()
 	{
-		return SystemInfo.graphicsDeviceType == 8 || SystemInfo.graphicsDeviceType == 12 || SystemInfo.graphicsDeviceType == 19;
+		return SystemInfo.graphicsDeviceType == GraphicsDeviceType.OpenGLES2 || SystemInfo.graphicsDeviceType == GraphicsDeviceType.PlayStationVita || SystemInfo.graphicsDeviceType == GraphicsDeviceType.N3DS;
 	}
 
 	private void OnEnable()

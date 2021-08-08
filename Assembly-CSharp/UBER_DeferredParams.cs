@@ -23,11 +23,11 @@ public class UBER_DeferredParams : MonoBehaviour
 	{
 		if (this.TranslucencyPropsTex == null)
 		{
-			this.TranslucencyPropsTex = new Texture2D(4, 3, 20, false, true);
+			this.TranslucencyPropsTex = new Texture2D(4, 3, TextureFormat.RGBAFloat, false, true);
 			this.TranslucencyPropsTex.anisoLevel = 0;
-			this.TranslucencyPropsTex.filterMode = 0;
-			this.TranslucencyPropsTex.wrapMode = 1;
-			this.TranslucencyPropsTex.hideFlags = 61;
+			this.TranslucencyPropsTex.filterMode = FilterMode.Point;
+			this.TranslucencyPropsTex.wrapMode = TextureWrapMode.Clamp;
+			this.TranslucencyPropsTex.hideFlags = HideFlags.HideAndDontSave;
 		}
 		Shader.SetGlobalTexture("_UBERTranslucencySetup", this.TranslucencyPropsTex);
 		byte[] array = new byte[192];
@@ -109,11 +109,11 @@ public class UBER_DeferredParams : MonoBehaviour
 		Type type = Type.GetType("UBERDecalSystem.DecalManager");
 		if (type != null)
 		{
-			bool flag = Object.FindObjectOfType(type) != null && Object.FindObjectOfType(type) is MonoBehaviour && (Object.FindObjectOfType(type) as MonoBehaviour).enabled;
+			bool flag = UnityEngine.Object.FindObjectOfType(type) != null && UnityEngine.Object.FindObjectOfType(type) is MonoBehaviour && (UnityEngine.Object.FindObjectOfType(type) as MonoBehaviour).enabled;
 			if (flag)
 			{
-				(Object.FindObjectOfType(type) as MonoBehaviour).Invoke("OnDisable", 0f);
-				(Object.FindObjectOfType(type) as MonoBehaviour).Invoke("OnEnable", 0f);
+				(UnityEngine.Object.FindObjectOfType(type) as MonoBehaviour).Invoke("OnDisable", 0f);
+				(UnityEngine.Object.FindObjectOfType(type) as MonoBehaviour).Invoke("OnEnable", 0f);
 				return true;
 			}
 		}
@@ -124,22 +124,22 @@ public class UBER_DeferredParams : MonoBehaviour
 	{
 		if (this.TranslucencyPropsTex)
 		{
-			Object.DestroyImmediate(this.TranslucencyPropsTex);
+			UnityEngine.Object.DestroyImmediate(this.TranslucencyPropsTex);
 			this.TranslucencyPropsTex = null;
 		}
 		if (this.combufPreLight != null)
 		{
 			if (this.mycam)
 			{
-				this.mycam.RemoveCommandBuffer(21, this.combufPreLight);
-				this.mycam.RemoveCommandBuffer(7, this.combufPostLight);
+				this.mycam.RemoveCommandBuffer(CameraEvent.BeforeReflections, this.combufPreLight);
+				this.mycam.RemoveCommandBuffer(CameraEvent.AfterLighting, this.combufPostLight);
 			}
 			foreach (Camera camera in this.sceneCamsWithBuffer)
 			{
 				if (camera)
 				{
-					camera.RemoveCommandBuffer(21, this.combufPreLight);
-					camera.RemoveCommandBuffer(7, this.combufPostLight);
+					camera.RemoveCommandBuffer(CameraEvent.BeforeReflections, this.combufPreLight);
+					camera.RemoveCommandBuffer(CameraEvent.AfterLighting, this.combufPostLight);
 				}
 			}
 		}
@@ -160,7 +160,7 @@ public class UBER_DeferredParams : MonoBehaviour
 	{
 		if (cam && this.combufPreLight != null && this.combufPostLight != null)
 		{
-			CommandBuffer[] commandBuffers = cam.GetCommandBuffers(21);
+			CommandBuffer[] commandBuffers = cam.GetCommandBuffers(CameraEvent.BeforeReflections);
 			bool flag = false;
 			foreach (CommandBuffer commandBuffer in commandBuffers)
 			{
@@ -172,8 +172,8 @@ public class UBER_DeferredParams : MonoBehaviour
 			}
 			if (!flag)
 			{
-				cam.AddCommandBuffer(21, this.combufPreLight);
-				cam.AddCommandBuffer(7, this.combufPostLight);
+				cam.AddCommandBuffer(CameraEvent.BeforeReflections, this.combufPreLight);
+				cam.AddCommandBuffer(CameraEvent.AfterLighting, this.combufPostLight);
 				if (isSceneCam)
 				{
 					this.sceneCamsWithBuffer.Add(cam);
@@ -186,23 +186,23 @@ public class UBER_DeferredParams : MonoBehaviour
 	{
 		if (this.combufPreLight == null)
 		{
-			int num = Shader.PropertyToID("_UBERPropsBuffer");
+			int nameID = Shader.PropertyToID("_UBERPropsBuffer");
 			if (this.CopyPropsMat == null)
 			{
 				if (this.CopyPropsMat != null)
 				{
-					Object.DestroyImmediate(this.CopyPropsMat);
+					UnityEngine.Object.DestroyImmediate(this.CopyPropsMat);
 				}
 				this.CopyPropsMat = new Material(Shader.Find("Hidden/UBER_CopyPropsTexture"));
-				this.CopyPropsMat.hideFlags = 52;
+				this.CopyPropsMat.hideFlags = HideFlags.DontSave;
 			}
 			this.combufPreLight = new CommandBuffer();
 			this.combufPreLight.name = "UBERPropsPrelight";
-			this.combufPreLight.GetTemporaryRT(num, -1, -1, 0, 0, 15);
-			this.combufPreLight.Blit(2, num, this.CopyPropsMat);
+			this.combufPreLight.GetTemporaryRT(nameID, -1, -1, 0, FilterMode.Point, RenderTextureFormat.RHalf);
+			this.combufPreLight.Blit(BuiltinRenderTextureType.CameraTarget, nameID, this.CopyPropsMat);
 			this.combufPostLight = new CommandBuffer();
 			this.combufPostLight.name = "UBERPropsPostlight";
-			this.combufPostLight.ReleaseTemporaryRT(num);
+			this.combufPostLight.ReleaseTemporaryRT(nameID);
 		}
 	}
 

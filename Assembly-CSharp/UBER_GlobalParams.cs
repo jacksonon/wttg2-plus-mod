@@ -280,15 +280,13 @@ public class UBER_GlobalParams : MonoBehaviour
 			if (this.psRain != null)
 			{
 				ParticleSystem.EmissionModule emission = this.psRain.emission;
-				ParticleSystem.MinMaxCurve rateOverTime;
-				rateOverTime..ctor(this.fallIntensity * 3000f * Mathf.Clamp01(this.temperature + 1f));
+				ParticleSystem.MinMaxCurve rateOverTime = new ParticleSystem.MinMaxCurve(this.fallIntensity * 3000f * Mathf.Clamp01(this.temperature + 1f));
 				emission.rateOverTime = rateOverTime;
 			}
 			if (this.psSnow != null)
 			{
 				ParticleSystem.EmissionModule emission2 = this.psSnow.emission;
-				ParticleSystem.MinMaxCurve rateOverTime2;
-				rateOverTime2..ctor(this.fallIntensity * 3000f * Mathf.Clamp01(1f - this.temperature));
+				ParticleSystem.MinMaxCurve rateOverTime2 = new ParticleSystem.MinMaxCurve(this.fallIntensity * 3000f * Mathf.Clamp01(1f - this.temperature));
 				emission2.rateOverTime = rateOverTime2;
 			}
 		}

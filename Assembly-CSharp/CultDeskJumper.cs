@@ -13,17 +13,17 @@ public class CultDeskJumper : MonoBehaviour
 		GameManager.InteractionManager.LockInteraction();
 		this.myDeskController.LockRecovery();
 		this.myDeskController.SetMasterLock(true);
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+		Sequence sequence = DOTween.Sequence().OnComplete(delegate
 		{
 			this.myCamera.transform.SetParent(CultFemaleBehaviour.Ins.CameraBone);
 			this.myCamera.transform.localPosition = Vector3.zero;
 			EnemyManager.CultManager.TriggerDeskJump();
 		});
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.myCamera.transform.localRotation, delegate(Quaternion x)
+		sequence.Insert(0f, DOTween.To(() => this.myCamera.transform.localRotation, delegate(Quaternion x)
 		{
 			this.myCamera.transform.localRotation = x;
-		}, new Vector3(0f, -90f, 0f), 0.25f), 1), true));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, new Vector3(0f, -90f, 0f), 0.25f).SetEase(Ease.Linear).SetOptions(true));
+		sequence.Play<Sequence>();
 	}
 
 	private void Awake()

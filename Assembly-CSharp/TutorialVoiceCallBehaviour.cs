@@ -10,10 +10,10 @@ public class TutorialVoiceCallBehaviour : MonoBehaviour
 {
 	public void PresentMe()
 	{
-		TweenSettingsExtensions.OnComplete<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.myRT.anchoredPosition, delegate(Vector2 x)
+		DOTween.To(() => this.myRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.myRT.anchoredPosition = x;
-		}, new Vector2(-25f, -62f), 0.5f), 6), delegate()
+		}, new Vector2(-25f, -62f), 0.5f).SetEase(Ease.OutQuad).OnComplete(delegate
 		{
 			this.WasPresentedEvents.Execute();
 			this.currentTime = 0f;
@@ -24,10 +24,10 @@ public class TutorialVoiceCallBehaviour : MonoBehaviour
 
 	public void DismissMe()
 	{
-		TweenSettingsExtensions.OnComplete<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.myRT.anchoredPosition, delegate(Vector2 x)
+		DOTween.To(() => this.myRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.myRT.anchoredPosition = x;
-		}, new Vector2(252f, -62f), 0.5f), 5), delegate()
+		}, new Vector2(252f, -62f), 0.5f).SetEase(Ease.InQuad).OnComplete(delegate
 		{
 			this.timeActive = false;
 			this.currentTime = 0f;

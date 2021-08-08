@@ -5,7 +5,7 @@ public class VirusManager : MonoBehaviour
 {
 	public void AddVirus()
 	{
-		if (Random.Range(0, 100) <= this.chanceOfGettingVirus)
+		if (UnityEngine.Random.Range(0, 100) <= this.chanceOfGettingVirus)
 		{
 			if (this.virusCount <= 0)
 			{
@@ -46,12 +46,12 @@ public class VirusManager : MonoBehaviour
 
 	private void triggerVirusEffects()
 	{
-		if (Random.Range(0, 100) <= this.chanceOfLosingDOSCoin)
+		if (UnityEngine.Random.Range(0, 100) <= this.chanceOfLosingDOSCoin)
 		{
 			float setAMT = (float)this.virusCount * this.dosCoinDeductPerVirus;
 			CurrencyManager.RemoveCurrency(setAMT);
 		}
-		if (Random.Range(0, 100) <= this.chanceOfShutDown && !StateManager.BeingHacked)
+		if (UnityEngine.Random.Range(0, 100) <= this.chanceOfShutDown && !StateManager.BeingHacked)
 		{
 			ComputerPowerHook.Ins.ShutDownComputer();
 		}

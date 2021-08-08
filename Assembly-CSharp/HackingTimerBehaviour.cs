@@ -55,8 +55,8 @@ public class HackingTimerBehaviour : MonoBehaviour
 	{
 		this.warmUpClockOverlayCG = this.WarmUpClockOverlay.GetComponent<CanvasGroup>();
 		this.timerOverlayCG = this.TimerOverLay.GetComponent<CanvasGroup>();
-		this.warmUpNumber = Object.Instantiate<GameObject>(this.WarmUpNumberObject, this.WarmUpClockOverlay.GetComponent<RectTransform>()).GetComponent<WarmUpNumberObject>();
-		this.curHackTimer = Object.Instantiate<GameObject>(this.HackerTimerObject, this.TimerOverLay.GetComponent<RectTransform>()).GetComponent<HackingTimerObject>();
+		this.warmUpNumber = UnityEngine.Object.Instantiate<GameObject>(this.WarmUpNumberObject, this.WarmUpClockOverlay.GetComponent<RectTransform>()).GetComponent<WarmUpNumberObject>();
+		this.curHackTimer = UnityEngine.Object.Instantiate<GameObject>(this.HackerTimerObject, this.TimerOverLay.GetComponent<RectTransform>()).GetComponent<HackingTimerObject>();
 	}
 
 	private void Update()

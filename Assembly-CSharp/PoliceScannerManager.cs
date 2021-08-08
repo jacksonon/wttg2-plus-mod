@@ -21,7 +21,7 @@ public class PoliceScannerManager : MonoBehaviour
 	{
 		GameManager.ManagerSlinger.PoliceScanerManager = this;
 		GameManager.ManagerSlinger.ProductsManager.ShadowMarketProductWasActivated.Event += this.productWasPickedUp;
-		this.policeScanerIns = Object.Instantiate<GameObject>(this.policeScannerObject, this.policeScanerParent).GetComponent<PoliceScannerBehaviour>();
+		this.policeScanerIns = UnityEngine.Object.Instantiate<GameObject>(this.policeScannerObject, this.policeScanerParent).GetComponent<PoliceScannerBehaviour>();
 		this.policeScanerIns.SoftBuild();
 	}
 

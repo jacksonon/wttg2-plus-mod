@@ -69,7 +69,7 @@ public class ZeroDayBehaviour : WindowBehaviour
 		Vector2 zero = Vector2.zero;
 		for (int i = 0; i < this.myProducts.Count; i++)
 		{
-			GameObject gameObject = Object.Instantiate<GameObject>(this.zeroDayProductObject, this.productsContentHolder.GetComponent<RectTransform>());
+			GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(this.zeroDayProductObject, this.productsContentHolder.GetComponent<RectTransform>());
 			gameObject.GetComponent<ZeroDayProductObject>().BuildMe(this.myProducts[i]);
 			gameObject.GetComponent<ZeroDayProductObject>().RefreshProducts += this.RefreshProducts;
 			zero.y = -((float)i * 126f);

@@ -14,7 +14,7 @@ namespace MirzaBeig.Shaders.ImageEffects
 				if (!this._material)
 				{
 					this._material = new Material(this.shader);
-					this._material.hideFlags = 61;
+					this._material.hideFlags = HideFlags.HideAndDontSave;
 				}
 				return this._material;
 			}
@@ -59,7 +59,7 @@ namespace MirzaBeig.Shaders.ImageEffects
 		{
 			if (this._material)
 			{
-				Object.DestroyImmediate(this._material);
+				UnityEngine.Object.DestroyImmediate(this._material);
 			}
 		}
 

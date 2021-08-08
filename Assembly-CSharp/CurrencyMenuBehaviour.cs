@@ -6,27 +6,25 @@ public class CurrencyMenuBehaviour : MonoBehaviour
 {
 	private void rebuildMenu()
 	{
-		float num = 0f;
+		float y = 0f;
 		if (this.currentActiveRemoteVPNS.Count > 0)
 		{
-			num = 4f + ((float)this.currentActiveRemoteVPNS.Count * 22f + (float)this.currentActiveRemoteVPNS.Count * 4f) + 4f;
+			y = 4f + ((float)this.currentActiveRemoteVPNS.Count * 22f + (float)this.currentActiveRemoteVPNS.Count * 4f) + 4f;
 			this.noActiveRemoteVPNSCG.alpha = 0f;
 		}
 		else
 		{
-			num = 30f;
+			y = 30f;
 			this.noActiveRemoteVPNSCG.alpha = 1f;
 		}
-		int num2 = 0;
+		int num = 0;
 		foreach (KeyValuePair<RemoteVPNObject, RemoteVPNMenuObject> keyValuePair in this.currentActiveRemoteVPNS)
 		{
-			keyValuePair.Value.PutMe(num2);
-			num2++;
+			keyValuePair.Value.PutMe(num);
+			num++;
 		}
-		Vector2 sizeDelta;
-		sizeDelta..ctor(this.myRT.sizeDelta.x, num);
-		Vector2 anchoredPosition;
-		anchoredPosition..ctor(this.myRT.anchoredPosition.x, num);
+		Vector2 sizeDelta = new Vector2(this.myRT.sizeDelta.x, y);
+		Vector2 anchoredPosition = new Vector2(this.myRT.anchoredPosition.x, y);
 		this.myRT.sizeDelta = sizeDelta;
 		this.myRT.anchoredPosition = anchoredPosition;
 	}
@@ -73,7 +71,7 @@ public class CurrencyMenuBehaviour : MonoBehaviour
 		this.remoteVPNMenuObjectPool = new PooledStack<RemoteVPNMenuObject>(delegate()
 		{
 			index--;
-			RemoteVPNMenuObject component = Object.Instantiate<GameObject>(this.remoteVPNMenuObject, this.myRT).GetComponent<RemoteVPNMenuObject>();
+			RemoteVPNMenuObject component = UnityEngine.Object.Instantiate<GameObject>(this.remoteVPNMenuObject, this.myRT).GetComponent<RemoteVPNMenuObject>();
 			component.SoftBuild(index);
 			return component;
 		}, this.REMOTE_VPN_MENU_POOL_COUNT);

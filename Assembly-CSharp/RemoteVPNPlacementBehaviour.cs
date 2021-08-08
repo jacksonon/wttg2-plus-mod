@@ -76,7 +76,7 @@ public class RemoteVPNPlacementBehaviour : MonoBehaviour
 			if (StateManager.PlayerState == PLAYER_STATE.REMOTE_VPN_PLACEMENT)
 			{
 				RaycastHit raycastHit;
-				if (!Physics.Raycast(base.transform.position, base.transform.forward, ref raycastHit, 1f))
+				if (!Physics.Raycast(base.transform.position, base.transform.forward, out raycastHit, 1f))
 				{
 					this.remoteVPNObject.transform.position = Vector3.zero;
 					this.canPlaceRemote = false;

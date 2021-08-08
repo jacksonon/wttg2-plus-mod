@@ -50,7 +50,7 @@ public class hideController : mouseableController
 			this.MyMouseCapture.setRotatingObjectRotation(this.defaultCameraHolderRotation);
 		}
 		CameraManager.GetCameraHook(this.CameraIControl).SetMyParent(this.MouseRotatingObject.transform);
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+		Sequence sequence = DOTween.Sequence().OnComplete(delegate
 		{
 			if (OptionDataHook.Ins.Options.Mic)
 			{
@@ -59,15 +59,15 @@ public class hideController : mouseableController
 			this.takeControl();
 			ReturnAction();
 		});
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.MyCamera.transform.localPosition, delegate(Vector3 x)
+		sequence.Insert(0f, DOTween.To(() => this.MyCamera.transform.localPosition, delegate(Vector3 x)
 		{
 			this.MyCamera.transform.localPosition = x;
-		}, Vector3.zero, 0.75f), 27));
-		TweenSettingsExtensions.Insert(sequence, 0.65f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.MyCamera.transform.localRotation, delegate(Quaternion x)
+		}, Vector3.zero, 0.75f).SetEase(Ease.OutBack));
+		sequence.Insert(0.65f, DOTween.To(() => this.MyCamera.transform.localRotation, delegate(Quaternion x)
 		{
 			this.MyCamera.transform.localRotation = x;
-		}, Vector3.zero, 0.35f), 1), true));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, Vector3.zero, 0.35f).SetEase(Ease.Linear).SetOptions(true));
+		sequence.Play<Sequence>();
 	}
 
 	public void LoseControlToRoam()

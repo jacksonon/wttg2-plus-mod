@@ -94,8 +94,8 @@ public class StackPusherHack : MonoBehaviour
 		this.specialBlockTypes.Add(this.currentCenterCord, HACK_STACK_PUSHER_GRID_BLOCK_STATE.POPER);
 		while (!flag)
 		{
-			this.specialPeicePicker.X = Random.Range(0, matrixSize);
-			this.specialPeicePicker.Y = Random.Range(0, matrixSize);
+			this.specialPeicePicker.X = UnityEngine.Random.Range(0, matrixSize);
+			this.specialPeicePicker.Y = UnityEngine.Random.Range(0, matrixSize);
 			if (!this.specialBlockTypes.ContainsKey(this.specialPeicePicker))
 			{
 				this.specialBlockTypes.Add(this.specialPeicePicker, HACK_STACK_PUSHER_GRID_BLOCK_STATE.PUSHER);
@@ -109,8 +109,8 @@ public class StackPusherHack : MonoBehaviour
 		}
 		while (i < stackPeices)
 		{
-			this.specialPeicePicker.X = Random.Range(0, matrixSize);
-			this.specialPeicePicker.Y = Random.Range(0, matrixSize);
+			this.specialPeicePicker.X = UnityEngine.Random.Range(0, matrixSize);
+			this.specialPeicePicker.Y = UnityEngine.Random.Range(0, matrixSize);
 			if (!this.specialBlockTypes.ContainsKey(this.specialPeicePicker))
 			{
 				if (this.GridPusher.AmNextTo(this.specialPeicePicker))
@@ -126,8 +126,8 @@ public class StackPusherHack : MonoBehaviour
 		}
 		while (j < deadPeices)
 		{
-			this.specialPeicePicker.X = Random.Range(0, matrixSize);
-			this.specialPeicePicker.Y = Random.Range(0, matrixSize);
+			this.specialPeicePicker.X = UnityEngine.Random.Range(0, matrixSize);
+			this.specialPeicePicker.Y = UnityEngine.Random.Range(0, matrixSize);
 			if (!this.specialBlockTypes.ContainsKey(this.specialPeicePicker))
 			{
 				this.specialBlockTypes.Add(this.specialPeicePicker, HACK_STACK_PUSHER_GRID_BLOCK_STATE.DEAD);
@@ -137,11 +137,11 @@ public class StackPusherHack : MonoBehaviour
 		GameManager.AudioSlinger.PlaySound(this.PresentStackSFX);
 		if (this.StackPusherContent.GetComponent<RectTransform>().sizeDelta.y >= 575f && Screen.height <= 800)
 		{
-			TweenExtensions.Restart(this.presentStackPusherSeqSmall, true, -1f);
+			this.presentStackPusherSeqSmall.Restart(true, -1f);
 		}
 		else
 		{
-			TweenExtensions.Restart(this.presentStackPusherSeq, true, -1f);
+			this.presentStackPusherSeq.Restart(true, -1f);
 		}
 		GameManager.HackerManager.HackingTimer.FireWarmUpTimer(this.StackPusherLevels[this.currentLevelIndex].WarmUpTime);
 		GameManager.TimeSlinger.FireTimer((float)this.StackPusherLevels[this.currentLevelIndex].WarmUpTime, new Action(this.beginGame), 0);
@@ -214,7 +214,7 @@ public class StackPusherHack : MonoBehaviour
 	{
 		this.gameTime = (float)(this.StackPusherLevels[this.currentLevelIndex].MatrixSize * this.StackPusherLevels[this.currentLevelIndex].MatrixSize) * this.StackPusherLevels[this.currentLevelIndex].TimePerPeice;
 		GameManager.HackerManager.HackingTimer.FireHackingTimer(this.gameTime, new Action(this.timesUp));
-		TweenExtensions.Restart(this.fadeinGridBlockHolderTween, true, -1f);
+		this.fadeinGridBlockHolderTween.Restart(true, -1f);
 		this.gridBlockHolderCG.interactable = true;
 		this.gridBlockHolderCG.ignoreParentGroups = true;
 		this.gridBlockHolderCG.blocksRaycasts = true;
@@ -250,7 +250,7 @@ public class StackPusherHack : MonoBehaviour
 		GameManager.TimeSlinger.FireTimer(0.15f, delegate()
 		{
 			GameManager.AudioSlinger.PlaySound(this.DismissStackSFX);
-			TweenExtensions.Restart(this.clearStackPusherSeq, true, -1f);
+			this.clearStackPusherSeq.Restart(true, -1f);
 			GameManager.HackerManager.HackingTimer.KillHackerTimer();
 			this.termLine1.AniHardClear(TERMINAL_LINE_TYPE.TYPE, 0.25f);
 			this.termLine2.AniHardClear(TERMINAL_LINE_TYPE.TYPE, 0.25f);
@@ -346,7 +346,7 @@ public class StackPusherHack : MonoBehaviour
 	{
 		this.gridBlockPool = new PooledStack<StackPusherGridBlockObject>(delegate()
 		{
-			StackPusherGridBlockObject component = Object.Instantiate<GameObject>(this.GridBlockObject, this.GridHolder.GetComponent<RectTransform>()).GetComponent<StackPusherGridBlockObject>();
+			StackPusherGridBlockObject component = UnityEngine.Object.Instantiate<GameObject>(this.GridBlockObject, this.GridHolder.GetComponent<RectTransform>()).GetComponent<StackPusherGridBlockObject>();
 			component.SoftBuild(this);
 			return component;
 		}, this.GRID_BLOCK_POOL_START_COUNT);
@@ -358,45 +358,45 @@ public class StackPusherHack : MonoBehaviour
 		this.GridPusher.SetNewPushBlock += this.setNewPushBlock;
 		this.GridPusher.ResetStacks += this.resetOldStacks;
 		this.GridPusher.SetNewStacks += this.setNewStacks;
-		this.fadeinGridBlockHolderTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.gridBlockHolderCG.alpha, delegate(float x)
+		this.fadeinGridBlockHolderTween = DOTween.To(() => this.gridBlockHolderCG.alpha, delegate(float x)
 		{
 			this.gridBlockHolderCG.alpha = x;
-		}, 1f, 0.25f), 1);
-		TweenExtensions.Pause<Tweener>(this.fadeinGridBlockHolderTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.fadeinGridBlockHolderTween, false);
-		this.presentStackPusherSeq = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), new TweenCallback(this.buildBlocks));
-		TweenSettingsExtensions.Insert(this.presentStackPusherSeq, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.stackPusherContentCG.alpha, delegate(float x)
+		}, 1f, 0.25f).SetEase(Ease.Linear);
+		this.fadeinGridBlockHolderTween.Pause<Tweener>();
+		this.fadeinGridBlockHolderTween.SetAutoKill(false);
+		this.presentStackPusherSeq = DOTween.Sequence().OnComplete(new TweenCallback(this.buildBlocks));
+		this.presentStackPusherSeq.Insert(0f, DOTween.To(() => this.stackPusherContentCG.alpha, delegate(float x)
 		{
 			this.stackPusherContentCG.alpha = x;
-		}, 1f, 0.25f), 1));
-		TweenSettingsExtensions.Insert(this.presentStackPusherSeq, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.stackPusherContentRT.localScale, delegate(Vector3 x)
+		}, 1f, 0.25f).SetEase(Ease.Linear));
+		this.presentStackPusherSeq.Insert(0f, DOTween.To(() => this.stackPusherContentRT.localScale, delegate(Vector3 x)
 		{
 			this.stackPusherContentRT.localScale = x;
-		}, this.stackPusherContentMaxScale, 0.25f), 20));
-		TweenExtensions.Pause<Sequence>(this.presentStackPusherSeq);
-		TweenSettingsExtensions.SetAutoKill<Sequence>(this.presentStackPusherSeq, false);
-		this.presentStackPusherSeqSmall = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), new TweenCallback(this.buildBlocks));
-		TweenSettingsExtensions.Insert(this.presentStackPusherSeqSmall, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.stackPusherContentCG.alpha, delegate(float x)
+		}, this.stackPusherContentMaxScale, 0.25f).SetEase(Ease.InCirc));
+		this.presentStackPusherSeq.Pause<Sequence>();
+		this.presentStackPusherSeq.SetAutoKill(false);
+		this.presentStackPusherSeqSmall = DOTween.Sequence().OnComplete(new TweenCallback(this.buildBlocks));
+		this.presentStackPusherSeqSmall.Insert(0f, DOTween.To(() => this.stackPusherContentCG.alpha, delegate(float x)
 		{
 			this.stackPusherContentCG.alpha = x;
-		}, 1f, 0.25f), 1));
-		TweenSettingsExtensions.Insert(this.presentStackPusherSeqSmall, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.stackPusherContentRT.localScale, delegate(Vector3 x)
+		}, 1f, 0.25f).SetEase(Ease.Linear));
+		this.presentStackPusherSeqSmall.Insert(0f, DOTween.To(() => this.stackPusherContentRT.localScale, delegate(Vector3 x)
 		{
 			this.stackPusherContentRT.localScale = x;
-		}, new Vector3(0.9f, 0.9f, 1f), 0.25f), 20));
-		TweenExtensions.Pause<Sequence>(this.presentStackPusherSeqSmall);
-		TweenSettingsExtensions.SetAutoKill<Sequence>(this.presentStackPusherSeqSmall, false);
+		}, new Vector3(0.9f, 0.9f, 1f), 0.25f).SetEase(Ease.InCirc));
+		this.presentStackPusherSeqSmall.Pause<Sequence>();
+		this.presentStackPusherSeqSmall.SetAutoKill(false);
 		this.clearStackPusherSeq = DOTween.Sequence();
-		TweenSettingsExtensions.Insert(this.clearStackPusherSeq, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.stackPusherContentCG.alpha, delegate(float x)
+		this.clearStackPusherSeq.Insert(0f, DOTween.To(() => this.stackPusherContentCG.alpha, delegate(float x)
 		{
 			this.stackPusherContentCG.alpha = x;
-		}, 0f, 0.25f), 1));
-		TweenSettingsExtensions.Insert(this.clearStackPusherSeq, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.stackPusherContentRT.localScale, delegate(Vector3 x)
+		}, 0f, 0.25f).SetEase(Ease.Linear));
+		this.clearStackPusherSeq.Insert(0f, DOTween.To(() => this.stackPusherContentRT.localScale, delegate(Vector3 x)
 		{
 			this.stackPusherContentRT.GetComponent<RectTransform>().localScale = x;
-		}, this.stackPusherContentMinScale, 0.25f), 20));
-		TweenExtensions.Pause<Sequence>(this.clearStackPusherSeq);
-		TweenSettingsExtensions.SetAutoKill<Sequence>(this.clearStackPusherSeq, false);
+		}, this.stackPusherContentMinScale, 0.25f).SetEase(Ease.InCirc));
+		this.clearStackPusherSeq.Pause<Sequence>();
+		this.clearStackPusherSeq.SetAutoKill(false);
 		GameManager.StageManager.Stage += this.stageMe;
 	}
 

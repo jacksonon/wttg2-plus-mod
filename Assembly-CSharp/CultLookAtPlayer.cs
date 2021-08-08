@@ -8,8 +8,8 @@ public class CultLookAtPlayer : MonoBehaviour
 		this.spawnData = (CultSpawnDefinition)SetSpawnData;
 		if (this.spawnData.RotateSpawnTowardsPlayer)
 		{
-			Vector3 vector = roamController.Ins.transform.position - this.spawnData.Position;
-			Vector3 eulerAngles = Quaternion.LookRotation(vector).eulerAngles;
+			Vector3 forward = roamController.Ins.transform.position - this.spawnData.Position;
+			Vector3 eulerAngles = Quaternion.LookRotation(forward).eulerAngles;
 			eulerAngles.x = 0f;
 			eulerAngles.z = 0f;
 			this.clampMin = eulerAngles.y - this.lookRange;
@@ -26,8 +26,8 @@ public class CultLookAtPlayer : MonoBehaviour
 	{
 		if (this.spawnData != null && this.spawnData.RotateSpawnTowardsPlayer)
 		{
-			Vector3 vector = roamController.Ins.transform.position - this.spawnData.Position;
-			Vector3 eulerAngles = Quaternion.LookRotation(vector).eulerAngles;
+			Vector3 forward = roamController.Ins.transform.position - this.spawnData.Position;
+			Vector3 eulerAngles = Quaternion.LookRotation(forward).eulerAngles;
 			eulerAngles.x = 0f;
 			eulerAngles.z = 0f;
 			this.clampMin = eulerAngles.y - this.lookRange;
@@ -56,8 +56,8 @@ public class CultLookAtPlayer : MonoBehaviour
 	{
 		if (this.spawnActive && this.spawnData != null && this.spawnData.LookAtPlayer)
 		{
-			Vector3 vector = this.roamControllerTransform.position - base.transform.position;
-			this.lookRotation = Quaternion.LookRotation(vector, Vector3.up).eulerAngles;
+			Vector3 forward = this.roamControllerTransform.position - base.transform.position;
+			this.lookRotation = Quaternion.LookRotation(forward, Vector3.up).eulerAngles;
 			Vector3 zero = Vector3.zero;
 			zero.x = this.neckBone.transform.rotation.x;
 			zero.z = this.neckBone.transform.rotation.z;

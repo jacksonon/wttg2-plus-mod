@@ -9,8 +9,8 @@ public class TextDocManager : MonoBehaviour
 		int hashCode = Name.GetHashCode();
 		if (!this.currentTextDocIcons.ContainsKey(hashCode))
 		{
-			float x = Random.Range(15f, (float)Screen.width * 0.9f);
-			float y = -Random.Range(56f, (float)Screen.height - 40f - 15f);
+			float x = UnityEngine.Random.Range(15f, (float)Screen.width * 0.9f);
+			float y = -UnityEngine.Random.Range(56f, (float)Screen.height - 40f - 15f);
 			TextDocIconData textDocIconData = new TextDocIconData(hashCode, Name, Text, new Vect2(x, y));
 			TextDocIconObject textDocIconObject = this.textDocIconPool.Pop();
 			textDocIconObject.Build(textDocIconData);
@@ -20,12 +20,12 @@ public class TextDocManager : MonoBehaviour
 			return;
 		}
 		string setName = Name;
-		Name = Name + "(" + Random.Range(0, 100000).ToString() + ")";
+		Name = Name + "(" + UnityEngine.Random.Range(0, 100000).ToString() + ")";
 		int hashCode2 = Name.GetHashCode();
 		if (!this.currentTextDocIcons.ContainsKey(hashCode2))
 		{
-			float x2 = Random.Range(15f, (float)Screen.width * 0.9f);
-			float y2 = -Random.Range(56f, (float)Screen.height - 40f - 15f);
+			float x2 = UnityEngine.Random.Range(15f, (float)Screen.width * 0.9f);
+			float y2 = -UnityEngine.Random.Range(56f, (float)Screen.height - 40f - 15f);
 			TextDocIconData textDocIconData2 = new TextDocIconData(hashCode2, setName, Text, new Vect2(x2, y2));
 			TextDocIconObject textDocIconObject2 = this.textDocIconPool.Pop();
 			textDocIconObject2.Build(textDocIconData2);
@@ -103,7 +103,7 @@ public class TextDocManager : MonoBehaviour
 		GameManager.StageManager.Stage += this.stageMe;
 		this.textDocIconPool = new PooledStack<TextDocIconObject>(delegate()
 		{
-			TextDocIconObject component = Object.Instantiate<GameObject>(this.TextDocIconObject, LookUp.DesktopUI.TEXT_DOC_ICONS_PARENT).GetComponent<TextDocIconObject>();
+			TextDocIconObject component = UnityEngine.Object.Instantiate<GameObject>(this.TextDocIconObject, LookUp.DesktopUI.TEXT_DOC_ICONS_PARENT).GetComponent<TextDocIconObject>();
 			component.SoftBuild();
 			component.UpdateMyData.Event += this.updateTextDocIconData;
 			component.OpenEvents.Event += this.OpenTextDoc;
@@ -111,7 +111,7 @@ public class TextDocManager : MonoBehaviour
 		}, this.TEXT_DOC_POOL_COUNT);
 		this.textDocPool = new PooledStack<TextDocObject>(delegate()
 		{
-			TextDocObject component = Object.Instantiate<GameObject>(this.TextDocObject, LookUp.DesktopUI.WINDOW_HOLDER).GetComponent<TextDocObject>();
+			TextDocObject component = UnityEngine.Object.Instantiate<GameObject>(this.TextDocObject, LookUp.DesktopUI.WINDOW_HOLDER).GetComponent<TextDocObject>();
 			component.SoftBuild();
 			component.gameObject.SetActive(false);
 			return component;

@@ -61,7 +61,7 @@ public static class MagicSlinger
 		string text = string.Empty;
 		for (int i = 0; i < hashLen; i++)
 		{
-			text += MagicSlinger._alphaNum[Random.Range(0, MagicSlinger._alphaNum.Length)];
+			text += MagicSlinger._alphaNum[UnityEngine.Random.Range(0, MagicSlinger._alphaNum.Length)];
 		}
 		return text;
 	}
@@ -82,41 +82,41 @@ public static class MagicSlinger
 
 	public static float GetStringHeight(string theString, Font setFont, int setFontSize, Vector2 extends)
 	{
-		TextGenerationSettings textGenerationSettings = default(TextGenerationSettings);
+		TextGenerationSettings settings = default(TextGenerationSettings);
 		TextGenerator textGenerator = new TextGenerator();
-		textGenerationSettings.textAnchor = 0;
-		textGenerationSettings.generateOutOfBounds = true;
-		textGenerationSettings.generationExtents = extends;
-		textGenerationSettings.pivot = Vector2.zero;
-		textGenerationSettings.richText = false;
-		textGenerationSettings.font = setFont;
-		textGenerationSettings.fontSize = setFontSize;
-		textGenerationSettings.fontStyle = 0;
-		textGenerationSettings.lineSpacing = 1f;
-		textGenerationSettings.scaleFactor = 1f;
-		textGenerationSettings.resizeTextForBestFit = false;
-		textGenerationSettings.verticalOverflow = 1;
-		textGenerationSettings.horizontalOverflow = 0;
-		return textGenerator.GetPreferredHeight(theString, textGenerationSettings);
+		settings.textAnchor = TextAnchor.UpperLeft;
+		settings.generateOutOfBounds = true;
+		settings.generationExtents = extends;
+		settings.pivot = Vector2.zero;
+		settings.richText = false;
+		settings.font = setFont;
+		settings.fontSize = setFontSize;
+		settings.fontStyle = FontStyle.Normal;
+		settings.lineSpacing = 1f;
+		settings.scaleFactor = 1f;
+		settings.resizeTextForBestFit = false;
+		settings.verticalOverflow = VerticalWrapMode.Overflow;
+		settings.horizontalOverflow = HorizontalWrapMode.Wrap;
+		return textGenerator.GetPreferredHeight(theString, settings);
 	}
 
 	public static float GetStringWidth(string theString, Font setFont, int setFontSize, Vector2 extends)
 	{
-		TextGenerationSettings textGenerationSettings = default(TextGenerationSettings);
+		TextGenerationSettings settings = default(TextGenerationSettings);
 		TextGenerator textGenerator = new TextGenerator();
-		textGenerationSettings.textAnchor = 0;
-		textGenerationSettings.generateOutOfBounds = true;
-		textGenerationSettings.generationExtents = extends;
-		textGenerationSettings.pivot = Vector2.zero;
-		textGenerationSettings.richText = false;
-		textGenerationSettings.font = setFont;
-		textGenerationSettings.fontSize = setFontSize;
-		textGenerationSettings.fontStyle = 0;
-		textGenerationSettings.lineSpacing = 1f;
-		textGenerationSettings.scaleFactor = 1f;
-		textGenerationSettings.verticalOverflow = 0;
-		textGenerationSettings.horizontalOverflow = 1;
-		return textGenerator.GetPreferredWidth(theString, textGenerationSettings);
+		settings.textAnchor = TextAnchor.UpperLeft;
+		settings.generateOutOfBounds = true;
+		settings.generationExtents = extends;
+		settings.pivot = Vector2.zero;
+		settings.richText = false;
+		settings.font = setFont;
+		settings.fontSize = setFontSize;
+		settings.fontStyle = FontStyle.Normal;
+		settings.lineSpacing = 1f;
+		settings.scaleFactor = 1f;
+		settings.verticalOverflow = VerticalWrapMode.Truncate;
+		settings.horizontalOverflow = HorizontalWrapMode.Overflow;
+		return textGenerator.GetPreferredWidth(theString, settings);
 	}
 
 	public static string GetNetworkSecurityType(WIFI_SECURITY securityLevel)

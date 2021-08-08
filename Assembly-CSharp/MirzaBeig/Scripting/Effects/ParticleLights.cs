@@ -32,17 +32,17 @@ namespace MirzaBeig.Scripting.Effects
 			{
 				for (int i = 0; i < this.lights.Count; i++)
 				{
-					Object.Destroy(this.lights[i].gameObject);
+					UnityEngine.Object.Destroy(this.lights[i].gameObject);
 				}
 				this.lights.Clear();
 				for (int j = 0; j < particles; j++)
 				{
-					GameObject gameObject = Object.Instantiate<GameObject>(this.template, base.transform);
+					GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(this.template, base.transform);
 					gameObject.name = "- " + (j + 1).ToString();
 					this.lights.Add(gameObject.AddComponent<Light>());
 				}
 			}
-			bool flag = this.ps.main.simulationSpace == 1;
+			bool flag = this.ps.main.simulationSpace == ParticleSystemSimulationSpace.World;
 			for (int k = 0; k < particles; k++)
 			{
 				ParticleSystem.Particle particle = array[k];

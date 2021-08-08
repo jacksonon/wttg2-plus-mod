@@ -28,7 +28,7 @@ public class iconBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 			flag = true;
 		}
 		Vector3 vector;
-		if (!flag && RectTransformUtility.ScreenPointToWorldPointInRectangle(this.DragPlane, data.position, data.pressEventCamera, ref vector))
+		if (!flag && RectTransformUtility.ScreenPointToWorldPointInRectangle(this.DragPlane, data.position, data.pressEventCamera, out vector))
 		{
 			vector -= this.bufferPos;
 			this.myRT.position = vector;
@@ -114,10 +114,10 @@ public class iconBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
 	public void OnBeginDrag(PointerEventData eventData)
 	{
-		Vector3 vector;
-		if (RectTransformUtility.ScreenPointToWorldPointInRectangle(this.DragPlane, eventData.position, eventData.pressEventCamera, ref vector))
+		Vector3 a;
+		if (RectTransformUtility.ScreenPointToWorldPointInRectangle(this.DragPlane, eventData.position, eventData.pressEventCamera, out a))
 		{
-			this.bufferPos = vector - this.myRT.position;
+			this.bufferPos = a - this.myRT.position;
 		}
 		this.SetDragPos(eventData);
 	}

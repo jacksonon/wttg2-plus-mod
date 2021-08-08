@@ -43,15 +43,15 @@ public class SweeperHack : MonoBehaviour
 		GameManager.TimeSlinger.FireTimer(0.6f, delegate()
 		{
 			GameManager.AudioSlinger.PlaySound(this.TermBlockShowSFX);
-			TweenExtensions.Restart(this.termBlockPresent1, true, -1f);
-			TweenSettingsExtensions.SetDelay<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.termBlockRT.sizeDelta, delegate(Vector2 x)
+			this.termBlockPresent1.Restart(true, -1f);
+			DOTween.To(() => this.termBlockRT.sizeDelta, delegate(Vector2 x)
 			{
 				this.termBlockRT.sizeDelta = x;
-			}, this.termBlockTargetWidth, 0.35f), 1), 0.25f);
-			TweenSettingsExtensions.OnComplete<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetDelay<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.termBlockRT.sizeDelta, delegate(Vector2 x)
+			}, this.termBlockTargetWidth, 0.35f).SetEase(Ease.Linear).SetDelay(0.25f);
+			DOTween.To(() => this.termBlockRT.sizeDelta, delegate(Vector2 x)
 			{
 				this.termBlockRT.sizeDelta = x;
-			}, this.termBlockTargetHeight, 0.35f), 1), 0.6f), new TweenCallback(this.BuildSweepAttack));
+			}, this.termBlockTargetHeight, 0.35f).SetEase(Ease.Linear).SetDelay(0.6f).OnComplete(new TweenCallback(this.BuildSweepAttack));
 		}, 0);
 	}
 
@@ -102,10 +102,10 @@ public class SweeperHack : MonoBehaviour
 			{
 				this.curSweeperObjects[i].MoveMeUp();
 			}
-			TweenSettingsExtensions.OnComplete<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetDelay<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.termBlockRT.sizeDelta, delegate(Vector2 x)
+			DOTween.To(() => this.termBlockRT.sizeDelta, delegate(Vector2 x)
 			{
 				this.termBlockRT.sizeDelta = x;
-			}, new Vector2(0f, -(this.sweeperObjectRT.sizeDelta.y + 10f)), 0.15f), 1), true), 0.15f), delegate()
+			}, new Vector2(0f, -(this.sweeperObjectRT.sizeDelta.y + 10f)), 0.15f).SetEase(Ease.Linear).SetRelative(true).SetDelay(0.15f).OnComplete(delegate
 			{
 				this.curSweeperObjects[this.curSweeperIndex].FireMe();
 				this.gameIsActive = true;
@@ -114,10 +114,10 @@ public class SweeperHack : MonoBehaviour
 		else
 		{
 			GameManager.HackerManager.HackingTimer.KillHackerTimer();
-			TweenSettingsExtensions.OnComplete<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetDelay<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetRelative<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.termBlockRT.sizeDelta, delegate(Vector2 x)
+			DOTween.To(() => this.termBlockRT.sizeDelta, delegate(Vector2 x)
 			{
 				this.termBlockRT.sizeDelta = x;
-			}, new Vector2(0f, -(this.sweeperObjectRT.sizeDelta.y + 10f)), 0.15f), 1), true), 0.15f), delegate()
+			}, new Vector2(0f, -(this.sweeperObjectRT.sizeDelta.y + 10f)), 0.15f).SetEase(Ease.Linear).SetRelative(true).SetDelay(0.15f).OnComplete(delegate
 			{
 				this.FinishGame();
 			});
@@ -163,8 +163,8 @@ public class SweeperHack : MonoBehaviour
 	private void ClearTerm()
 	{
 		GameManager.AudioSlinger.PlaySound(this.SweeperEnd);
-		TweenExtensions.Restart(this.termBlockDismiss1, true, -1f);
-		TweenExtensions.Restart(this.termBlockDismiss2, true, -1f);
+		this.termBlockDismiss1.Restart(true, -1f);
+		this.termBlockDismiss2.Restart(true, -1f);
 	}
 
 	private void tallyPlayerPoints(int scoreCount)
@@ -255,32 +255,32 @@ public class SweeperHack : MonoBehaviour
 		this.sweeperObjectRT = this.SweeperObject.GetComponent<RectTransform>();
 		this.sweeperObjectHolderRT = this.SweeperObjectsHolder.GetComponent<RectTransform>();
 		this.DefaultTermBlockSize = this.termBlockRT.sizeDelta;
-		this.termBlockPresent1 = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.termBlockCG.alpha, delegate(float x)
+		this.termBlockPresent1 = DOTween.To(() => this.termBlockCG.alpha, delegate(float x)
 		{
 			this.termBlockCG.alpha = x;
-		}, 1f, 0.25f), 1);
-		TweenExtensions.Pause<Tweener>(this.termBlockPresent1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.termBlockPresent1, false);
-		this.termBlockDismiss1 = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.termBlockRT.sizeDelta, delegate(Vector2 x)
+		}, 1f, 0.25f).SetEase(Ease.Linear);
+		this.termBlockPresent1.Pause<Tweener>();
+		this.termBlockPresent1.SetAutoKill(false);
+		this.termBlockDismiss1 = DOTween.To(() => this.termBlockRT.sizeDelta, delegate(Vector2 x)
 		{
 			this.termBlockRT.sizeDelta = x;
-		}, this.DefaultTermBlockSize, 0.25f), 1);
-		TweenExtensions.Pause<Tweener>(this.termBlockDismiss1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.termBlockDismiss1, false);
-		this.termBlockDismiss2 = TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.termBlockCG.alpha, delegate(float x)
+		}, this.DefaultTermBlockSize, 0.25f).SetEase(Ease.Linear);
+		this.termBlockDismiss1.Pause<Tweener>();
+		this.termBlockDismiss1.SetAutoKill(false);
+		this.termBlockDismiss2 = DOTween.To(() => this.termBlockCG.alpha, delegate(float x)
 		{
 			this.termBlockCG.alpha = x;
-		}, 0f, 0.3f), 1), delegate()
+		}, 0f, 0.3f).SetEase(Ease.Linear).OnComplete(delegate
 		{
 			this.termBlockRT.pivot = new Vector2(0.5f, 0.5f);
 			this.termBlockRT.anchoredPosition = Vector2.zero;
 		});
-		TweenExtensions.Pause<Tweener>(this.termBlockDismiss2);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.termBlockDismiss2, false);
+		this.termBlockDismiss2.Pause<Tweener>();
+		this.termBlockDismiss2.SetAutoKill(false);
 		this.SweeperHackOverlay.GetComponent<RectTransform>().sizeDelta = new Vector2((float)Screen.width, (float)Screen.height);
 		this.SweeperHackOverlay.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
 		this.fireNextSweeperAction = new SweeperObject.VoidActions(this.FireNextSweeper);
-		this.sweeperObjectPool = new PooledStack<SweeperObject>(() => Object.Instantiate<GameObject>(this.SweeperObject, this.sweeperObjectHolderRT).GetComponent<SweeperObject>(), this.SWEEPER_OBJ_POOL_COUNT);
+		this.sweeperObjectPool = new PooledStack<SweeperObject>(() => UnityEngine.Object.Instantiate<GameObject>(this.SweeperObject, this.sweeperObjectHolderRT).GetComponent<SweeperObject>(), this.SWEEPER_OBJ_POOL_COUNT);
 		GameManager.StageManager.Stage += this.stageMe;
 	}
 

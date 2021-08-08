@@ -127,10 +127,10 @@ public class BreatherBehaviour : MonoBehaviour
 
 	public void TriggerWalkToDoor()
 	{
-		TweenSettingsExtensions.OnComplete<Tweener>(TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => base.transform.rotation, delegate(Quaternion x)
+		DOTween.To(() => base.transform.rotation, delegate(Quaternion x)
 		{
 			base.transform.rotation = x;
-		}, new Vector3(0f, 108.791f, 0f), 0.5f), 1), true), delegate()
+		}, new Vector3(0f, 108.791f, 0f), 0.5f).SetEase(Ease.Linear).SetOptions(true).OnComplete(delegate
 		{
 			this.voiceAudioHub.PlaySound(this.breathing);
 			this.TriggerAnim("triggerWalkToDoor");
@@ -201,7 +201,7 @@ public class BreatherBehaviour : MonoBehaviour
 
 	private void playFootStepSound()
 	{
-		int num = Random.Range(1, this.footStepSFXs.Length);
+		int num = UnityEngine.Random.Range(1, this.footStepSFXs.Length);
 		AudioFileDefinition audioFileDefinition = this.footStepSFXs[num];
 		this.footAudioHub.PlaySound(this.footStepSFXs[num]);
 		this.footStepSFXs[num] = this.footStepSFXs[0];
@@ -210,7 +210,7 @@ public class BreatherBehaviour : MonoBehaviour
 
 	private void playCementFootStepSound()
 	{
-		int num = Random.Range(1, this.cementFootStepsSFXs.Length);
+		int num = UnityEngine.Random.Range(1, this.cementFootStepsSFXs.Length);
 		AudioFileDefinition audioFileDefinition = this.cementFootStepsSFXs[num];
 		this.footAudioHub.PlaySound(this.cementFootStepsSFXs[num]);
 		this.cementFootStepsSFXs[num] = this.cementFootStepsSFXs[0];

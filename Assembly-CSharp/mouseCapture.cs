@@ -103,8 +103,8 @@ public class mouseCapture
 	public void LookRotation()
 	{
 		float num = Input.GetAxis("Mouse Y") * this.XSensitivity;
-		float num2 = Input.GetAxis("Mouse X") * this.YSensitivity;
-		this.myRotatingObjectTargetRot *= Quaternion.Euler(0f, num2, 0f);
+		float y = Input.GetAxis("Mouse X") * this.YSensitivity;
+		this.myRotatingObjectTargetRot *= Quaternion.Euler(0f, y, 0f);
 		this.myRotatingCameraTargetRot *= Quaternion.Euler(-num, 0f, 0f);
 		if (this.clampVerticalRotation)
 		{

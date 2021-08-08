@@ -10,12 +10,12 @@ public class LoadingScreenManager : MonoBehaviour
 	private void stageLoading()
 	{
 		this.myAudioHub.PlaySound(this.loadingMusic);
-		TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetDelay<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.contentCanvasGroup.alpha, delegate(float x)
+		DOTween.To(() => this.contentCanvasGroup.alpha, delegate(float x)
 		{
 			this.contentCanvasGroup.alpha = x;
-		}, 1f, 2f), 3f), 1), delegate()
+		}, 1f, 2f).SetDelay(3f).SetEase(Ease.Linear).OnComplete(delegate
 		{
-			TweenExtensions.Restart(this.skullTween, true, -1f);
+			this.skullTween.Restart(true, -1f);
 			GameManager.WorldManager.StageGame();
 		});
 	}
@@ -26,17 +26,17 @@ public class LoadingScreenManager : MonoBehaviour
 		if (!this.debugMode)
 		{
 			this.myAudioHub.MuffleHub(0f, 1.75f);
-			TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetDelay<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.contentCanvasGroup.alpha, delegate(float x)
+			DOTween.To(() => this.contentCanvasGroup.alpha, delegate(float x)
 			{
 				this.contentCanvasGroup.alpha = x;
-			}, 0f, 1f), 1f), 1), delegate()
+			}, 0f, 1f).SetDelay(1f).SetEase(Ease.Linear).OnComplete(delegate
 			{
-				TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.loadingScreenCanvasGroup.alpha, delegate(float x)
+				DOTween.To(() => this.loadingScreenCanvasGroup.alpha, delegate(float x)
 				{
 					this.loadingScreenCanvasGroup.alpha = x;
-				}, 0f, 0.75f), 1), delegate()
+				}, 0f, 0.75f).SetEase(Ease.Linear).OnComplete(delegate
 				{
-					TweenExtensions.Kill(this.skullTween, false);
+					this.skullTween.Kill(false);
 					this.loadingScreenGameObject.SetActive(false);
 				});
 			});
@@ -51,12 +51,12 @@ public class LoadingScreenManager : MonoBehaviour
 	{
 		LoadingScreenManager.Ins = this;
 		this.myAudioHub = base.GetComponent<AudioHubObject>();
-		this.skullTween = TweenSettingsExtensions.SetLoops<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.skullCanvasGroup.alpha, delegate(float x)
+		this.skullTween = DOTween.To(() => this.skullCanvasGroup.alpha, delegate(float x)
 		{
 			this.skullCanvasGroup.alpha = x;
-		}, 1f, 0.75f), 1), -1, 1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.skullTween, false);
-		TweenExtensions.Pause<Tweener>(this.skullTween);
+		}, 1f, 0.75f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+		this.skullTween.SetAutoKill(false);
+		this.skullTween.Pause<Tweener>();
 		GameManager.StageManager.TheGameIsLive += this.gameIsLive;
 	}
 

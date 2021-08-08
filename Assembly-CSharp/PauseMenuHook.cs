@@ -13,14 +13,14 @@ public class PauseMenuHook : MonoBehaviour
 {
 	private void playerHitPause()
 	{
-		TweenExtensions.Restart(this.pauseTween, true, -1f);
+		this.pauseTween.Restart(true, -1f);
 		this.myCG.blocksRaycasts = true;
 		this.myCG.interactable = true;
 	}
 
 	private void playerHitUnPause()
 	{
-		TweenExtensions.Restart(this.unPauseTween, true, -1f);
+		this.unPauseTween.Restart(true, -1f);
 		this.myCG.blocksRaycasts = false;
 		this.myCG.interactable = false;
 	}
@@ -50,18 +50,18 @@ public class PauseMenuHook : MonoBehaviour
 	{
 		PauseMenuHook.Ins = this;
 		this.myCG = base.GetComponent<CanvasGroup>();
-		this.pauseTween = TweenSettingsExtensions.SetUpdate<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		this.pauseTween = DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 1f, 0.2f), 1), true);
-		TweenExtensions.Pause<Tweener>(this.pauseTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.pauseTween, false);
-		this.unPauseTween = TweenSettingsExtensions.SetUpdate<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		}, 1f, 0.2f).SetEase(Ease.Linear).SetUpdate(true);
+		this.pauseTween.Pause<Tweener>();
+		this.pauseTween.SetAutoKill(false);
+		this.unPauseTween = DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 0f, 0.2f), 1), true);
-		TweenExtensions.Pause<Tweener>(this.unPauseTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.unPauseTween, false);
+		}, 0f, 0.2f).SetEase(Ease.Linear).SetUpdate(true);
+		this.unPauseTween.Pause<Tweener>();
+		this.unPauseTween.SetAutoKill(false);
 		this.mouseSensSlider.onValueChanged.AddListener(new UnityAction<float>(this.playerChangedMouseSens));
 		this.mouseSensSlider.value = (float)OptionDataHook.Ins.Options.MouseSens;
 		this.mouseSensValue.SetText(OptionDataHook.Ins.Options.MouseSens.ToString());

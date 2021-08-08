@@ -13,10 +13,10 @@ namespace ZenFulcrum.EmbeddedBrowser
 
 		public Browser CreateBrowser(Browser parent)
 		{
-			GameObject gameObject = GameObject.CreatePrimitive(0);
+			GameObject gameObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 			gameObject.AddComponent<Rigidbody>();
 			gameObject.transform.localScale = new Vector3(this.size, this.size, this.size);
-			gameObject.transform.position = this.spawnPosition.position + Vector3.one * Random.value * 0.01f;
+			gameObject.transform.position = this.spawnPosition.position + Vector3.one * UnityEngine.Random.value * 0.01f;
 			Browser browser = gameObject.AddComponent<Browser>();
 			browser.UIHandler = null;
 			browser.Resize(110, 110);

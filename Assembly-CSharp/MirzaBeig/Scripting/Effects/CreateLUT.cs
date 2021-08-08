@@ -9,7 +9,7 @@ namespace MirzaBeig.Scripting.Effects
 		{
 			if (texture)
 			{
-				Object.Destroy(texture);
+				UnityEngine.Object.Destroy(texture);
 			}
 			texture = new Texture2D(steps, 1);
 			texture.SetPixel(0, 0, gradient.Evaluate(0f));
@@ -26,15 +26,15 @@ namespace MirzaBeig.Scripting.Effects
 		{
 			if (texture)
 			{
-				Object.Destroy(texture);
+				UnityEngine.Object.Destroy(texture);
 			}
 			texture = new Texture2D(steps, 1);
 			texture.SetPixel(0, 0, new Color(0f, 0f, 0f, curve.Evaluate(0f)));
 			texture.SetPixel(steps - 1, 0, new Color(0f, 0f, 0f, curve.Evaluate(1f)));
 			for (int i = 1; i < steps - 1; i++)
 			{
-				float num = curve.Evaluate((float)i / (float)steps);
-				texture.SetPixel(i, 0, new Color(0f, 0f, 0f, num));
+				float a = curve.Evaluate((float)i / (float)steps);
+				texture.SetPixel(i, 0, new Color(0f, 0f, 0f, a));
 			}
 			texture.Apply();
 		}

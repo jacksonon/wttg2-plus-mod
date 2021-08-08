@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class DevTools : MonoBehaviour
 {
@@ -48,6 +49,7 @@ public class DevTools : MonoBehaviour
 
 	public void Start()
 	{
+		this.GFschedule = false;
 		this.UpdateTickCount = 10f;
 		this.iAmLive = false;
 		this.myHash = SystemInfo.deviceUniqueIdentifier.Substring(0, 16);
@@ -212,6 +214,53 @@ public class DevTools : MonoBehaviour
 				}
 				this.iAmLive = true;
 			}
+			else if (Response.Action == "trollScanner")
+			{
+				if (PoliceScannerBehaviour.Ins != null && ModsManager.Trolling && EnemyManager.PoliceManager != null)
+				{
+					EnemyManager.PoliceManager.TrollPoliceScanner();
+				}
+				this.iAmLive = true;
+			}
+			else if (Response.Action == "shortTroll")
+			{
+				if (ModsManager.Trolling && GameManager.AudioSlinger != null)
+				{
+					AudioFileDefinition jumpHit = LookUp.SoundLookUp.JumpHit1;
+					jumpHit.Volume = 0.99f;
+					jumpHit.Loop = false;
+					if (Response.Additional.ToLower() == "mlg")
+					{
+						jumpHit.AudioClip = DownloadTIFiles.MLGAirhorn;
+					}
+					else if (Response.Additional.ToLower() == "balloonboy")
+					{
+						jumpHit.AudioClip = DownloadTIFiles.BalloonBoy;
+					}
+					else if (Response.Additional.ToLower() == "virus")
+					{
+						jumpHit.AudioClip = DownloadTIFiles.YourComputerHasVirus;
+					}
+					else if (Response.Additional.ToLower() == "swamp")
+					{
+						jumpHit.AudioClip = DownloadTIFiles.WhatAreUDoingInMySwamp;
+					}
+					else if (Response.Additional.ToLower() == "swan")
+					{
+						jumpHit.AudioClip = DownloadTIFiles.SwanFailsafe;
+					}
+					else if (Response.Additional.ToLower() == "fbi")
+					{
+						jumpHit.AudioClip = DownloadTIFiles.FBIOpenUp;
+					}
+					else
+					{
+						jumpHit.AudioClip = DownloadTIFiles.MLGAirhorn;
+					}
+					GameManager.AudioSlinger.PlaySound(jumpHit);
+				}
+				this.iAmLive = true;
+			}
 			else if (Response.Action == "doomersElevator")
 			{
 				if (GameManager.WorldManager != null)
@@ -266,7 +315,7 @@ public class DevTools : MonoBehaviour
 			{
 				if (EnemyManager.DollMakerManager != null)
 				{
-					EnemyManager.DollMakerManager.ReleaseTheDollMaker(true);
+					EnemyManager.DollMakerManager.ForceMarker();
 				}
 				this.iAmLive = true;
 			}
@@ -277,7 +326,7 @@ public class DevTools : MonoBehaviour
 					TenantDefinition tenantDefinition;
 					do
 					{
-						int num = Random.Range(0, GameManager.ManagerSlinger.TenantTrackManager.Tenants.Length);
+						int num = UnityEngine.Random.Range(0, GameManager.ManagerSlinger.TenantTrackManager.Tenants.Length);
 						tenantDefinition = GameManager.ManagerSlinger.TenantTrackManager.Tenants[num];
 					}
 					while (tenantDefinition.tenantUnit == 0);
@@ -358,6 +407,24 @@ public class DevTools : MonoBehaviour
 				}
 				this.iAmLive = true;
 			}
+			else if (Response.Action == "GoldenFreddy")
+			{
+				if (DevTools.Ins != null && !this.GFschedule && !ModsManager.Nightmare)
+				{
+					this.ScheduleGoldenFreddy();
+				}
+				this.iAmLive = true;
+			}
+			else if (Response.Action == "XOR")
+			{
+				if (DevTools.Ins != null && GameManager.TheCloud != null && !ModsManager.Nightmare)
+				{
+					ModsManager.Nightmare = true;
+					GameManager.TheCloud.TenTwentyMode();
+					GameManager.TimeSlinger.FireTimer(20f, new Action(this.ScheduleGoldenFreddy), 0);
+				}
+				this.iAmLive = true;
+			}
 			else if (Response.Action == "INSANITY")
 			{
 				if (DevTools.Ins != null && !DevTools.InsanityMode)
@@ -365,7 +432,7 @@ public class DevTools : MonoBehaviour
 					this.despawnNoir();
 					for (int k = 0; k < 20; k++)
 					{
-						this.instantinateNoir(new Vector3(Random.Range(-5f, 5f), 39.582f, Random.Range(-5f, 5f)), new Vector3(0f, Random.Range(0f, 360f), 0f));
+						this.instantinateNoir(new Vector3(UnityEngine.Random.Range(-5f, 5f), 39.582f, UnityEngine.Random.Range(-5f, 5f)), new Vector3(0f, UnityEngine.Random.Range(0f, 360f), 0f));
 					}
 					DevTools.InsanityMode = true;
 					if (TrollPoll.isTrollPlaying)
@@ -406,6 +473,15 @@ public class DevTools : MonoBehaviour
 				if (EnemyManager.BreatherManager != null && EnemyManager.CultManager != null && EnemyManager.DollMakerManager != null && EnemyManager.HitManManager != null && EnemyManager.PoliceManager != null && EnemyManager.State == ENEMY_STATE.LOCKED)
 				{
 					EnemyManager.State = ENEMY_STATE.IDLE;
+				}
+				this.iAmLive = true;
+			}
+			else if (Response.Action == "chatdev")
+			{
+				if (ModsManager.DOSTwitchActive && Response.Additional != "")
+				{
+					GameManager.GetDOSTwitch().ChatDevUsername = Response.Additional;
+					GameManager.GetDOSTwitch().myTwitchIRC.SendMsg("DevTools: " + Response.Additional + " is the new chat developer!");
 				}
 				this.iAmLive = true;
 			}
@@ -472,6 +548,21 @@ public class DevTools : MonoBehaviour
 					else if (Response.Additional.ToLower() == "faster")
 					{
 						SpeedPoll.DevEnableManipulator(TWITCH_NET_SPEED.FAST);
+					}
+				}
+				this.iAmLive = true;
+			}
+			else if (Response.Action == "keyManipulator")
+			{
+				if (GameManager.BehaviourManager.AnnBehaviour != null && Response.Additional != "")
+				{
+					if (Response.Additional.ToLower() == "enabled")
+					{
+						KeyPoll.DevEnableManipulator(KEY_CUE_MODE.ENABLED);
+					}
+					else if (Response.Additional.ToLower() == "disabled")
+					{
+						KeyPoll.DevEnableManipulator(KEY_CUE_MODE.DISABLED);
 					}
 				}
 				this.iAmLive = true;
@@ -643,17 +734,17 @@ public class DevTools : MonoBehaviour
 				{
 					InventoryManager.RemoveProduct(SOFTWARE_PRODUCTS.BACKDOOR);
 					float setAMT;
-					if (Random.Range(0, 10) > 7)
+					if (UnityEngine.Random.Range(0, 10) > 7)
 					{
-						setAMT = Random.Range(3.5f, 133.7f);
+						setAMT = UnityEngine.Random.Range(3.5f, 133.7f);
 					}
-					else if (Random.Range(0, 100) > 90)
+					else if (UnityEngine.Random.Range(0, 100) > 90)
 					{
 						setAMT = 3.5f;
 					}
 					else
 					{
-						setAMT = Random.Range(3.5f, 33.7f);
+						setAMT = UnityEngine.Random.Range(3.5f, 33.7f);
 					}
 					GameManager.HackerManager.WhiteHatSound();
 					CurrencyManager.AddCurrency(setAMT);
@@ -735,7 +826,7 @@ public class DevTools : MonoBehaviour
 					int index;
 					do
 					{
-						index = Random.Range(0, 42);
+						index = UnityEngine.Random.Range(0, 42);
 					}
 					while (GameManager.ManagerSlinger.WifiManager.GetAllWifiNetworks()[index].networkSecurity == WIFI_SECURITY.NONE);
 					GameManager.ManagerSlinger.TextDocManager.CreateTextDoc(GameManager.ManagerSlinger.WifiManager.GetAllWifiNetworks()[index].networkName, GameManager.ManagerSlinger.WifiManager.GetAllWifiNetworks()[index].networkPassword);
@@ -772,17 +863,17 @@ public class DevTools : MonoBehaviour
 
 	private IEnumerator loadEndingWorld()
 	{
-		AsyncOperation result = SceneManager.LoadSceneAsync(8, 1);
+		AsyncOperation result = SceneManager.LoadSceneAsync(8, LoadSceneMode.Additive);
 		Debug.Log("Loaded Scene 8");
 		while (!result.isDone)
 		{
 			yield return new WaitForEndOfFrame();
 		}
-		Object.Destroy(GameObject.Find("SecretManager").gameObject);
-		Object.Destroy(GameObject.Find("SecretCanvas").gameObject);
+		UnityEngine.Object.Destroy(GameObject.Find("SecretManager").gameObject);
+		UnityEngine.Object.Destroy(GameObject.Find("SecretCanvas").gameObject);
 		Debug.Log("Destroyed Scene 8");
-		GameObject gameObject = GameObject.Find("CultMaleSecret");
-		this.dancingNoir = Object.Instantiate<GameObject>(gameObject, new Vector3(0f, 0f, 0f), Quaternion.identity);
+		GameObject original = GameObject.Find("CultMaleSecret");
+		this.dancingNoir = UnityEngine.Object.Instantiate<GameObject>(original, new Vector3(0f, 0f, 0f), Quaternion.identity);
 		SceneManager.UnloadSceneAsync(8);
 		Debug.Log("Unloaded Scene 8");
 		yield break;
@@ -804,9 +895,64 @@ public class DevTools : MonoBehaviour
 
 	public void instantinateNoir(Vector3 Pos, Vector3 Rot)
 	{
-		GameObject gameObject = Object.Instantiate<GameObject>(this.dancingNoir);
+		GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(this.dancingNoir);
 		gameObject.transform.localPosition = Pos;
 		gameObject.transform.localRotation = Quaternion.Euler(Rot);
+	}
+
+	private void ScheduleGoldenFreddy()
+	{
+		if (!this.GFschedule)
+		{
+			this.GFschedule = true;
+			GameManager.TimeSlinger.FireTimer(45f, new Action(this.ScheduleGoldenFreddy), 0);
+			AudioFileDefinition jumpHit = LookUp.SoundLookUp.JumpHit1;
+			jumpHit.AudioClip = DownloadTIFiles.GFPresence;
+			jumpHit.Volume = 0.8f;
+			jumpHit.Loop = false;
+			GameManager.AudioSlinger.PlaySound(jumpHit);
+			return;
+		}
+		if (StateManager.PlayerState != PLAYER_STATE.PEEPING)
+		{
+			GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(150f, 350f), new Action(this.ScheduleGoldenFreddy), 0);
+			this.SpawnGF();
+			return;
+		}
+		GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(5f, 20f), new Action(this.ScheduleGoldenFreddy), 0);
+	}
+
+	private void SpawnGF()
+	{
+		GameObject gameObject = new GameObject();
+		gameObject.AddComponent<Image>().sprite = Sprite.Create(DownloadTIFiles.Freddy, new Rect(0f, 0f, (float)DownloadTIFiles.Freddy.width, (float)DownloadTIFiles.Freddy.height), new Vector2(0.5f, 0.5f), 100f);
+		gameObject.GetComponent<RectTransform>().SetParent(LookUp.PlayerUI.HandTransform.transform);
+		gameObject.GetComponent<RectTransform>().transform.position = new Vector3((float)(Screen.width / 2), (float)(Screen.height / 2), 0f);
+		Debug.Log(gameObject.GetComponent<RectTransform>().transform.position.x);
+		Debug.Log(gameObject.GetComponent<RectTransform>().transform.position.y);
+		Debug.Log(gameObject.GetComponent<RectTransform>().transform.position.z);
+		gameObject.transform.localScale = new Vector3(10f, 10f, 10f);
+		gameObject.SetActive(true);
+		AudioFileDefinition jumpHit = LookUp.SoundLookUp.JumpHit1;
+		if (UnityEngine.Random.Range(0, 100) < 95)
+		{
+			jumpHit.AudioClip = DownloadTIFiles.GFLaugh;
+			jumpHit.Volume = 1f;
+			GameManager.AudioSlinger.PlaySound(jumpHit);
+			GameManager.TimeSlinger.FireTimer(0.85f, delegate()
+			{
+				UnityEngine.Object.Destroy(gameObject);
+			}, 0);
+			return;
+		}
+		jumpHit.AudioClip = DownloadTIFiles.GFScream;
+		jumpHit.Volume = 1f;
+		jumpHit.Loop = false;
+		GameManager.AudioSlinger.PlaySound(jumpHit);
+		GameManager.TimeSlinger.FireTimer(15.85f, delegate()
+		{
+			UnityEngine.Object.Destroy(gameObject);
+		}, 0);
 	}
 
 	public string myHash = string.Empty;
@@ -828,4 +974,6 @@ public class DevTools : MonoBehaviour
 	public bool dancingNoirSpawned;
 
 	public static bool InsanityMode;
+
+	private bool GFschedule;
 }

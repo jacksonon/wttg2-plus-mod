@@ -8,7 +8,7 @@ namespace ZenFulcrum.EmbeddedBrowser
 	{
 		public static int GetWindowsKeyCode(Event ev)
 		{
-			int keyCode = ev.keyCode;
+			int keyCode = (int)ev.keyCode;
 			if (keyCode == 0)
 			{
 				if (ev.character == '\n')
@@ -36,327 +36,327 @@ namespace ZenFulcrum.EmbeddedBrowser
 		private static Dictionary<KeyCode, int> mappings = new Dictionary<KeyCode, int>
 		{
 			{
-				27,
+				KeyCode.Escape,
 				27
 			},
 			{
-				282,
+				KeyCode.F1,
 				112
 			},
 			{
-				283,
+				KeyCode.F2,
 				113
 			},
 			{
-				284,
+				KeyCode.F3,
 				114
 			},
 			{
-				285,
+				KeyCode.F4,
 				115
 			},
 			{
-				286,
+				KeyCode.F5,
 				116
 			},
 			{
-				287,
+				KeyCode.F6,
 				117
 			},
 			{
-				288,
+				KeyCode.F7,
 				118
 			},
 			{
-				289,
+				KeyCode.F8,
 				119
 			},
 			{
-				290,
+				KeyCode.F9,
 				120
 			},
 			{
-				291,
+				KeyCode.F10,
 				121
 			},
 			{
-				292,
+				KeyCode.F11,
 				122
 			},
 			{
-				293,
+				KeyCode.F12,
 				123
 			},
 			{
-				317,
+				KeyCode.SysReq,
 				44
 			},
 			{
-				316,
+				KeyCode.Print,
 				44
 			},
 			{
-				302,
+				KeyCode.ScrollLock,
 				145
 			},
 			{
-				19,
+				KeyCode.Pause,
 				19
 			},
 			{
-				96,
+				KeyCode.BackQuote,
 				192
 			},
 			{
-				48,
+				KeyCode.Alpha0,
 				48
 			},
 			{
-				49,
+				KeyCode.Alpha1,
 				49
 			},
 			{
-				50,
+				KeyCode.Alpha2,
 				50
 			},
 			{
-				51,
+				KeyCode.Alpha3,
 				51
 			},
 			{
-				52,
+				KeyCode.Alpha4,
 				52
 			},
 			{
-				53,
+				KeyCode.Alpha5,
 				53
 			},
 			{
-				54,
+				KeyCode.Alpha6,
 				54
 			},
 			{
-				55,
+				KeyCode.Alpha7,
 				55
 			},
 			{
-				56,
+				KeyCode.Alpha8,
 				56
 			},
 			{
-				57,
+				KeyCode.Alpha9,
 				57
 			},
 			{
-				45,
+				KeyCode.Minus,
 				189
 			},
 			{
-				61,
+				KeyCode.Equals,
 				187
 			},
 			{
-				8,
+				KeyCode.Backspace,
 				8
 			},
 			{
-				9,
+				KeyCode.Tab,
 				9
 			},
 			{
-				91,
+				KeyCode.LeftBracket,
 				219
 			},
 			{
-				93,
+				KeyCode.RightBracket,
 				221
 			},
 			{
-				92,
+				KeyCode.Backslash,
 				220
 			},
 			{
-				301,
+				KeyCode.CapsLock,
 				20
 			},
 			{
-				59,
+				KeyCode.Semicolon,
 				186
 			},
 			{
-				39,
+				KeyCode.Quote,
 				222
 			},
 			{
-				13,
+				KeyCode.Return,
 				13
 			},
 			{
-				304,
+				KeyCode.LeftShift,
 				16
 			},
 			{
-				44,
+				KeyCode.Comma,
 				188
 			},
 			{
-				46,
+				KeyCode.Period,
 				190
 			},
 			{
-				47,
+				KeyCode.Slash,
 				191
 			},
 			{
-				303,
+				KeyCode.RightShift,
 				16
 			},
 			{
-				306,
+				KeyCode.LeftControl,
 				17
 			},
 			{
-				310,
+				KeyCode.LeftCommand,
 				91
 			},
 			{
-				311,
+				KeyCode.LeftWindows,
 				91
 			},
 			{
-				308,
+				KeyCode.LeftAlt,
 				18
 			},
 			{
-				32,
+				KeyCode.Space,
 				32
 			},
 			{
-				307,
+				KeyCode.RightAlt,
 				18
 			},
 			{
-				309,
+				KeyCode.RightCommand,
 				92
 			},
 			{
-				312,
+				KeyCode.RightWindows,
 				92
 			},
 			{
-				319,
+				KeyCode.Menu,
 				93
 			},
 			{
-				305,
+				KeyCode.RightControl,
 				17
 			},
 			{
-				277,
+				KeyCode.Insert,
 				45
 			},
 			{
-				278,
+				KeyCode.Home,
 				36
 			},
 			{
-				280,
+				KeyCode.PageUp,
 				33
 			},
 			{
-				127,
+				KeyCode.Delete,
 				46
 			},
 			{
-				279,
+				KeyCode.End,
 				35
 			},
 			{
-				281,
+				KeyCode.PageDown,
 				34
 			},
 			{
-				273,
+				KeyCode.UpArrow,
 				38
 			},
 			{
-				276,
+				KeyCode.LeftArrow,
 				37
 			},
 			{
-				274,
+				KeyCode.DownArrow,
 				40
 			},
 			{
-				275,
+				KeyCode.RightArrow,
 				39
 			},
 			{
-				300,
+				KeyCode.Numlock,
 				144
 			},
 			{
-				267,
+				KeyCode.KeypadDivide,
 				111
 			},
 			{
-				268,
+				KeyCode.KeypadMultiply,
 				106
 			},
 			{
-				269,
+				KeyCode.KeypadMinus,
 				109
 			},
 			{
-				263,
+				KeyCode.Keypad7,
 				103
 			},
 			{
-				264,
+				KeyCode.Keypad8,
 				104
 			},
 			{
-				265,
+				KeyCode.Keypad9,
 				105
 			},
 			{
-				270,
+				KeyCode.KeypadPlus,
 				107
 			},
 			{
-				260,
+				KeyCode.Keypad4,
 				100
 			},
 			{
-				261,
+				KeyCode.Keypad5,
 				101
 			},
 			{
-				262,
+				KeyCode.Keypad6,
 				102
 			},
 			{
-				257,
+				KeyCode.Keypad1,
 				97
 			},
 			{
-				258,
+				KeyCode.Keypad2,
 				98
 			},
 			{
-				259,
+				KeyCode.Keypad3,
 				99
 			},
 			{
-				271,
+				KeyCode.KeypadEnter,
 				13
 			},
 			{
-				256,
+				KeyCode.Keypad0,
 				96
 			},
 			{
-				266,
+				KeyCode.KeypadPeriod,
 				110
 			}
 		};

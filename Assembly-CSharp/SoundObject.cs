@@ -86,8 +86,8 @@ public class SoundObject : MonoBehaviour
 				this.myAS.spatialBlend = this.MyAudioFile.MyAudioSourceDefinition.CustomAudioSource.spatialBlend;
 				this.myAS.reverbZoneMix = this.MyAudioFile.MyAudioSourceDefinition.CustomAudioSource.reverbZoneMix;
 				this.myAS.spread = this.MyAudioFile.MyAudioSourceDefinition.CustomAudioSource.spread;
-				this.myAS.rolloffMode = 2;
-				this.myAS.SetCustomCurve(0, this.MyAudioFile.MyAudioSourceDefinition.CustomAudioSource.GetCustomCurve(0));
+				this.myAS.rolloffMode = AudioRolloffMode.Custom;
+				this.myAS.SetCustomCurve(AudioSourceCurveType.CustomRolloff, this.MyAudioFile.MyAudioSourceDefinition.CustomAudioSource.GetCustomCurve(AudioSourceCurveType.CustomRolloff));
 				this.myAS.minDistance = this.MyAudioFile.MyAudioSourceDefinition.CustomAudioSource.minDistance;
 				this.myAS.maxDistance = this.MyAudioFile.MyAudioSourceDefinition.CustomAudioSource.maxDistance;
 			}
@@ -99,11 +99,11 @@ public class SoundObject : MonoBehaviour
 				this.myAS.dopplerLevel = this.MyAudioFile.MyAudioSourceDefinition.DopplerLevel;
 				if (this.MyAudioFile.MyAudioSourceDefinition.IsLiner)
 				{
-					this.myAS.rolloffMode = 1;
+					this.myAS.rolloffMode = AudioRolloffMode.Linear;
 				}
 				else
 				{
-					this.myAS.rolloffMode = 0;
+					this.myAS.rolloffMode = AudioRolloffMode.Logarithmic;
 					this.myAS.spread = this.MyAudioFile.MyAudioSourceDefinition.Spread;
 				}
 				this.myAS.minDistance = this.MyAudioFile.MyAudioSourceDefinition.MinDistance;
@@ -182,10 +182,10 @@ public class SoundObject : MonoBehaviour
 			}
 			else
 			{
-				TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myAS.volume, delegate(float x)
+				DOTween.To(() => this.myAS.volume, delegate(float x)
 				{
 					this.myAS.volume = x;
-				}, num, FadeTime), 1);
+				}, num, FadeTime).SetEase(Ease.Linear);
 			}
 		}
 	}

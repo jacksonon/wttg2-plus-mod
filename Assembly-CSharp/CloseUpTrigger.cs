@@ -32,14 +32,14 @@ public class CloseUpTrigger : MonoBehaviour
 			GameManager.InteractionManager.LockInteraction();
 			GameManager.BehaviourManager.CrossHairBehaviour.HideCrossHairGroup();
 			this.myCamera.transform.SetParent(base.transform);
-			TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.myCamera.transform.rotation, delegate(Quaternion x)
+			DOTween.To(() => this.myCamera.transform.rotation, delegate(Quaternion x)
 			{
 				this.myCamera.transform.rotation = x;
-			}, this.CameraTargetROT, 0.5f), 1), true);
-			TweenSettingsExtensions.OnComplete<TweenerCore<Vector3, Vector3, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.myCamera.transform.position, delegate(Vector3 x)
+			}, this.CameraTargetROT, 0.5f).SetEase(Ease.Linear).SetOptions(true);
+			DOTween.To(() => this.myCamera.transform.position, delegate(Vector3 x)
 			{
 				this.myCamera.transform.position = x;
-			}, this.CameraTargetPOS, 0.75f), 1), delegate()
+			}, this.CameraTargetPOS, 0.75f).SetEase(Ease.Linear).OnComplete(delegate
 			{
 				this.interactLock = false;
 				this.isCloseUp = true;
@@ -54,10 +54,10 @@ public class CloseUpTrigger : MonoBehaviour
 			this.isCloseUp = false;
 			this.interactLock = true;
 			this.myCamera.transform.SetParent(this.lastCameraParent);
-			TweenSettingsExtensions.OnComplete<TweenerCore<Vector3, Vector3, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.myCamera.transform.localPosition, delegate(Vector3 x)
+			DOTween.To(() => this.myCamera.transform.localPosition, delegate(Vector3 x)
 			{
 				this.myCamera.transform.localPosition = x;
-			}, roamController.Ins.DefaultCameraPOS, 0.75f), 1), delegate()
+			}, roamController.Ins.DefaultCameraPOS, 0.75f).SetEase(Ease.Linear).OnComplete(delegate
 			{
 				if (this.disableDOF)
 				{
@@ -71,10 +71,10 @@ public class CloseUpTrigger : MonoBehaviour
 					this.interactLock = false;
 				}, 0);
 			});
-			TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.myCamera.transform.localRotation, delegate(Quaternion x)
+			DOTween.To(() => this.myCamera.transform.localRotation, delegate(Quaternion x)
 			{
 				this.myCamera.transform.localRotation = x;
-			}, this.lastCameraROT, 0.5f), 1), true);
+			}, this.lastCameraROT, 0.5f).SetEase(Ease.Linear).SetOptions(true);
 		}
 	}
 

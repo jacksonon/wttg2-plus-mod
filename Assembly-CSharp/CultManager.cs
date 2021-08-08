@@ -95,7 +95,7 @@ public class CultManager : MonoBehaviour
 			EnvironmentManager.PowerBehaviour.LockedOut = true;
 			DataManager.LockSave = true;
 			List<CultSpawnDefinition> list = this.normalSpawnLookUp[StateManager.PlayerLocation];
-			int index = Random.Range(0, list.Count);
+			int index = UnityEngine.Random.Range(0, list.Count);
 			list[index].InvokeSpawnEvent();
 			return;
 		}
@@ -142,7 +142,7 @@ public class CultManager : MonoBehaviour
 	{
 		if (this.powerOffAttackModeActivated && EnemyManager.State == ENEMY_STATE.IDLE && this.darkSpawnLookUp.ContainsKey(StateManager.PlayerLocation))
 		{
-			int num = Random.Range(0, 10);
+			int num = UnityEngine.Random.Range(0, 10);
 			bool flag;
 			switch (this.keyDiscoveryCount)
 			{
@@ -171,7 +171,7 @@ public class CultManager : MonoBehaviour
 				EnvironmentManager.PowerBehaviour.LockedOut = true;
 				DataManager.LockSave = true;
 				List<CultSpawnDefinition> list = this.darkSpawnLookUp[StateManager.PlayerLocation];
-				int index = Random.Range(0, list.Count);
+				int index = UnityEngine.Random.Range(0, list.Count);
 				list[index].InvokeSpawnEvent();
 			}
 		}
@@ -185,7 +185,7 @@ public class CultManager : MonoBehaviour
 
 	private void generateNormalSpawnWindow()
 	{
-		this.normalSpawnFireWindow = Random.Range(this.data.NormalSpawnFireWindowMin, this.data.NormalSpawnFireWindowMax);
+		this.normalSpawnFireWindow = UnityEngine.Random.Range(this.data.NormalSpawnFireWindowMin, this.data.NormalSpawnFireWindowMax);
 		this.normalSpawnTimeStamp = Time.time;
 		this.normalSpawnFireWindowActive = true;
 	}

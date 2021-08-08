@@ -242,7 +242,7 @@ public class HitManManager : MonoBehaviour
 
 	private void generateFireWindow()
 	{
-		this.fireWindow = Random.Range(this.data.FireWindowMin, this.data.FireWindowMax);
+		this.fireWindow = UnityEngine.Random.Range(this.data.FireWindowMin, this.data.FireWindowMax);
 		if (DataManager.LeetMode)
 		{
 			this.fireWindow *= 0.4f;

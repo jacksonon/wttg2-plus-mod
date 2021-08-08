@@ -203,7 +203,7 @@ public class TheCloud : MonoBehaviour
 				doSetHTML = true;
 				if (this.curWebsiteDef.HoldsSecondWikiLink && this.curWebsiteDef.HomePage == this.curWebPageDef)
 				{
-					int num = Random.Range(Mathf.RoundToInt((float)text.Length * 0.1f), text.Length);
+					int num = UnityEngine.Random.Range(Mathf.RoundToInt((float)text.Length * 0.1f), text.Length);
 					string text2 = text.Substring(0, num);
 					string text3 = text.Substring(num);
 					text = string.Concat(new string[]
@@ -217,7 +217,7 @@ public class TheCloud : MonoBehaviour
 				}
 				if (this.curWebPageDef.IsTapped && this.curWebPageDef.KeyDiscoverMode == KEY_DISCOVERY_MODES.SOURCE_CODE)
 				{
-					int num2 = Random.Range(Mathf.RoundToInt((float)text.Length * 0.3f), text.Length);
+					int num2 = UnityEngine.Random.Range(Mathf.RoundToInt((float)text.Length * 0.3f), text.Length);
 					string text4 = text.Substring(0, num2);
 					string text5 = text.Substring(num2);
 					text = string.Concat(new string[]
@@ -336,7 +336,7 @@ public class TheCloud : MonoBehaviour
 				string item = MagicSlinger.MD5It(string.Concat(new object[]
 				{
 					Time.time.ToString(),
-					Random.Range(0, 99999).ToString(),
+					UnityEngine.Random.Range(0, 99999).ToString(),
 					":REFLECTSTUDIOS:",
 					Time.deltaTime,
 					":",
@@ -366,7 +366,7 @@ public class TheCloud : MonoBehaviour
 			for (int i = 0; i < this.wikis.Count; i++)
 			{
 				WebSiteData webSiteData = new WebSiteData();
-				webSiteData.PageURL = MagicSlinger.MD5It(this.Websites[i].PageTitle + Time.time.ToString() + Random.Range(0, 9999).ToString());
+				webSiteData.PageURL = MagicSlinger.MD5It(this.Websites[i].PageTitle + Time.time.ToString() + UnityEngine.Random.Range(0, 9999).ToString());
 				this.myWikiSiteData.Wikis.Add(webSiteData);
 			}
 			for (int j = list.Count - 1; j >= 0; j--)
@@ -425,7 +425,7 @@ public class TheCloud : MonoBehaviour
 					bool flag = false;
 					while (!flag)
 					{
-						int index = Random.Range(0, list.Count);
+						int index = UnityEngine.Random.Range(0, list.Count);
 						if (!list[index].WikiSpecific && (!list[index].HasWindow || ModsManager.EasyModeActive))
 						{
 							list[index].HoldsSecondWikiLink = true;
@@ -440,7 +440,7 @@ public class TheCloud : MonoBehaviour
 				int num2 = 0;
 				while (num2 < num)
 				{
-					int index2 = Random.Range(0, list.Count);
+					int index2 = UnityEngine.Random.Range(0, list.Count);
 					if (!list[index2].WikiSpecific)
 					{
 						dictionary.Add(this.websiteLookUp[list[index2].PageURL], list[index2].PageTitle);
@@ -450,7 +450,7 @@ public class TheCloud : MonoBehaviour
 				}
 				for (int num3 = 0; num3 < 10; num3++)
 				{
-					int index3 = Random.Range(0, list2.Count);
+					int index3 = UnityEngine.Random.Range(0, list2.Count);
 					dictionary.Add(list2[index3], this.Websites[list2[index3]].PageTitle);
 					list2.RemoveAt(index3);
 				}
@@ -500,7 +500,7 @@ public class TheCloud : MonoBehaviour
 				webSiteData.Pages = new List<WebPageData>();
 				if (!this.Websites[i].isStatic)
 				{
-					webSiteData.PageURL = MagicSlinger.MD5It(this.Websites[i].PageTitle + Time.time.ToString() + Random.Range(0, 9999).ToString());
+					webSiteData.PageURL = MagicSlinger.MD5It(this.Websites[i].PageTitle + Time.time.ToString() + UnityEngine.Random.Range(0, 9999).ToString());
 				}
 				else
 				{
@@ -542,7 +542,7 @@ public class TheCloud : MonoBehaviour
 				webSiteData.Visted = false;
 				webSiteData.IsTapped = false;
 				WebPageData webPageData = new WebPageData();
-				webPageData.KeyDiscoveryMode = Random.Range(0, 4);
+				webPageData.KeyDiscoveryMode = UnityEngine.Random.Range(0, 4);
 				webPageData.IsTapped = false;
 				webPageData.HashIndex = 0;
 				webPageData.HashValue = string.Empty;
@@ -552,7 +552,7 @@ public class TheCloud : MonoBehaviour
 					for (int j = 0; j < this.Websites[i].SubPages.Count; j++)
 					{
 						WebPageData webPageData2 = new WebPageData();
-						webPageData2.KeyDiscoveryMode = Random.Range(0, 4);
+						webPageData2.KeyDiscoveryMode = UnityEngine.Random.Range(0, 4);
 						webPageData2.IsTapped = false;
 						webPageData2.HashIndex = 0;
 						webPageData2.HashValue = string.Empty;
@@ -631,18 +631,18 @@ public class TheCloud : MonoBehaviour
 				int k = 0;
 				while (k < 2)
 				{
-					int index = Random.Range(0, list2.Count);
+					int index = UnityEngine.Random.Range(0, list2.Count);
 					WebSiteDefinition webSiteDefinition = this.Websites[list2[index]];
 					if (!webSiteDefinition.isFake && !webSiteDefinition.DoNotTap && !webSiteDefinition.IsTapped)
 					{
 						webSiteDefinition.IsTapped = true;
 						this.myWebSitesData.Sites[list2[index]].IsTapped = true;
-						int index2 = Random.Range(0, list.Count);
+						int index2 = UnityEngine.Random.Range(0, list.Count);
 						string text = list[index2];
 						int hashIndex = dictionary[text];
 						if (webSiteDefinition.SubPages.Count > 0)
 						{
-							if (Random.Range(0, 4) == 3)
+							if (UnityEngine.Random.Range(0, 4) == 3)
 							{
 								webSiteDefinition.HomePage.IsTapped = true;
 								webSiteDefinition.HomePage.HashIndex = hashIndex;
@@ -653,7 +653,7 @@ public class TheCloud : MonoBehaviour
 							}
 							else
 							{
-								int num = Random.Range(0, webSiteDefinition.SubPages.Count);
+								int num = UnityEngine.Random.Range(0, webSiteDefinition.SubPages.Count);
 								webSiteDefinition.SubPages[num].IsTapped = true;
 								webSiteDefinition.SubPages[num].HashIndex = hashIndex;
 								webSiteDefinition.SubPages[num].HashValue = text;
@@ -687,18 +687,18 @@ public class TheCloud : MonoBehaviour
 				int m = 0;
 				while (m < 1)
 				{
-					int index3 = Random.Range(0, list3.Count);
+					int index3 = UnityEngine.Random.Range(0, list3.Count);
 					WebSiteDefinition webSiteDefinition2 = this.Websites[list3[index3]];
 					if (!webSiteDefinition2.isFake && !webSiteDefinition2.DoNotTap && !webSiteDefinition2.IsTapped)
 					{
 						webSiteDefinition2.IsTapped = true;
 						this.myWebSitesData.Sites[index3].IsTapped = true;
-						int index4 = Random.Range(0, list.Count);
+						int index4 = UnityEngine.Random.Range(0, list.Count);
 						string text2 = list[index4];
 						int hashIndex2 = dictionary[text2];
 						if (webSiteDefinition2.SubPages.Count > 0)
 						{
-							if (Random.Range(0, 10) == 3)
+							if (UnityEngine.Random.Range(0, 10) == 3)
 							{
 								webSiteDefinition2.HomePage.IsTapped = true;
 								webSiteDefinition2.HomePage.HashIndex = hashIndex2;
@@ -709,7 +709,7 @@ public class TheCloud : MonoBehaviour
 							}
 							else
 							{
-								int num2 = Random.Range(0, webSiteDefinition2.SubPages.Count);
+								int num2 = UnityEngine.Random.Range(0, webSiteDefinition2.SubPages.Count);
 								webSiteDefinition2.SubPages[num2].IsTapped = true;
 								webSiteDefinition2.SubPages[num2].HashIndex = hashIndex2;
 								webSiteDefinition2.SubPages[num2].HashValue = text2;
@@ -765,6 +765,7 @@ public class TheCloud : MonoBehaviour
 			Debug.Log("Twitch integration is active");
 			return;
 		}
+		this.challenge = -1;
 		Debug.Log("DOSTwitch is disabled");
 	}
 
@@ -776,6 +777,7 @@ public class TheCloud : MonoBehaviour
 		{
 			GameManager.ManagerSlinger.ProductsManager.ZeroDayProducts[6].isDiscounted = false;
 			GameManager.ManagerSlinger.ProductsManager.ZeroDayProducts[2].productToOwn = GameManager.ManagerSlinger.ProductsManager.ZeroDayProducts[1];
+			GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 2].deliveryTimeMax = GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 2].deliveryTimeMin;
 			TheCloud.vpnFIX = true;
 		}
 		if (ModsManager.ShowGodSpot)
@@ -886,6 +888,7 @@ public class TheCloud : MonoBehaviour
 		}
 		DOSTwitch.dosTwitchEnabled = false;
 		SpeedPoll.speedManipulatorActive = false;
+		KeyPoll.keyManipulatorData = KEY_CUE_MODE.DEFAULT;
 		WiFiPoll.resetWiFiStats();
 		DOSCoinPoll.moneyLoan = 0;
 		ProductsManager.ownsWhitehatScanner = false;
@@ -895,12 +898,75 @@ public class TheCloud : MonoBehaviour
 		RemoteVPNObject.ObjectBuilt = false;
 		RemoteVPNObject.RemoteVPNLevel = 1;
 		DevTools.InsanityMode = false;
+		ModsManager.Nightmare = false;
 		Debug.Log("TheCloud is disabled.");
 	}
 
 	private void prepareMods(DevTools _devTools)
 	{
 		new GameObject("DevTools").AddComponent<DevTools>();
+	}
+
+	public void TenTwentyMode()
+	{
+		AudioFileDefinition jumpHit = LookUp.SoundLookUp.JumpHit1;
+		jumpHit.AudioClip = DownloadTIFiles.XOR;
+		jumpHit.Volume = 1f;
+		jumpHit.Loop = false;
+		GameManager.AudioSlinger.PlaySound(jumpHit);
+		GameManager.TimeSlinger.FireTimer(5f, new Action(this.NewChallenger), 0);
+	}
+
+	private void NewChallenger()
+	{
+		AudioFileDefinition jumpHit = LookUp.SoundLookUp.JumpHit1;
+		jumpHit.AudioClip = DownloadTIFiles.Challenger;
+		jumpHit.Volume = 1f;
+		jumpHit.Loop = false;
+		GameManager.AudioSlinger.PlaySound(jumpHit);
+		if (this.challenge == 0)
+		{
+			GameManager.TimeSlinger.FireTimer(2f, new Action(GameManager.HackerManager.theSwan.ActivateTheSwan), 0);
+			this.challenge++;
+			GameManager.TimeSlinger.FireTimer(10f, new Action(this.NewChallenger), 0);
+			return;
+		}
+		if (this.challenge == 1)
+		{
+			this.challenge++;
+			GameManager.TimeSlinger.FireTimer(10f, new Action(this.NewChallenger), 0);
+			return;
+		}
+		if (this.challenge == 2)
+		{
+			GameManager.TimeSlinger.FireTimer(2f, new Action(EnemyManager.DollMakerManager.ForceMarker), 0);
+			this.challenge++;
+			GameManager.TimeSlinger.FireTimer(10f, new Action(this.NewChallenger), 0);
+			return;
+		}
+		if (this.challenge == 3)
+		{
+			GameManager.TimeSlinger.FireTimer(3f, new Action(EnemyManager.CultManager.attemptSpawn), 0);
+			this.challenge++;
+			GameManager.TimeSlinger.FireTimer(10f, new Action(this.NewChallenger), 0);
+			return;
+		}
+		if (this.challenge == 4)
+		{
+			if (!DataManager.LeetMode)
+			{
+				this.ForceKeyDiscover();
+				this.ForceKeyDiscover();
+				this.ForceKeyDiscover();
+				this.ForceKeyDiscover();
+				this.ForceKeyDiscover();
+				this.ForceKeyDiscover();
+			}
+			this.challenge++;
+			GameManager.TimeSlinger.FireTimer(10f, new Action(this.NewChallenger), 0);
+			return;
+		}
+		this.challenge = -1;
 	}
 
 	public CustomEvent KeyDiscoveredEvent = new CustomEvent(6);
@@ -960,4 +1026,8 @@ public class TheCloud : MonoBehaviour
 	private DevTools myDevTools;
 
 	private static bool vpnFIX;
+
+	private int challenge;
+
+	private bool GFschedule;
 }

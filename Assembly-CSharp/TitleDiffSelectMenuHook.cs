@@ -8,10 +8,10 @@ public class TitleDiffSelectMenuHook : MonoBehaviour
 {
 	public void Present()
 	{
-		TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 1f, 0.25f), 1), delegate()
+		}, 1f, 0.25f).SetEase(Ease.Linear).OnComplete(delegate
 		{
 			this.myCG.interactable = true;
 			this.myCG.blocksRaycasts = true;
@@ -22,10 +22,10 @@ public class TitleDiffSelectMenuHook : MonoBehaviour
 	{
 		this.myCG.interactable = false;
 		this.myCG.blocksRaycasts = false;
-		TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 0f, 0.25f), 1), delegate()
+		}, 0f, 0.25f).SetEase(Ease.Linear).OnComplete(delegate
 		{
 			this.DismissActions.ExecuteAndKill();
 		});

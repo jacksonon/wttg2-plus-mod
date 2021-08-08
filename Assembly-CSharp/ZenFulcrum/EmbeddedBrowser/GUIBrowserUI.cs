@@ -70,7 +70,7 @@ namespace ZenFulcrum.EmbeddedBrowser
 					this.raycaster = base.GetComponentInParent<BaseRaycaster>();
 				}
 				Vector2 mousePosition;
-				RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)base.transform, Input.mousePosition, this.raycaster.eventCamera, ref mousePosition);
+				RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)base.transform, Input.mousePosition, this.raycaster.eventCamera, out mousePosition);
 				mousePosition.x = mousePosition.x / this.rTransform.rect.width + 0.5f;
 				mousePosition.y = mousePosition.y / this.rTransform.rect.height + 0.5f;
 				this.MousePosition = mousePosition;
@@ -94,20 +94,20 @@ namespace ZenFulcrum.EmbeddedBrowser
 			{
 				this.MouseButtons = (MouseButton)0;
 			}
-			if (Input.GetKeyDown(304) || Input.GetKeyDown(303))
+			if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
 			{
 				this.keyEventsLast.Insert(0, new Event
 				{
-					type = 4,
-					keyCode = 304
+					type = EventType.KeyDown,
+					keyCode = KeyCode.LeftShift
 				});
 			}
-			if (Input.GetKeyUp(304) || Input.GetKeyUp(303))
+			if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift))
 			{
 				this.keyEventsLast.Add(new Event
 				{
-					type = 5,
-					keyCode = 304
+					type = EventType.KeyUp,
+					keyCode = KeyCode.LeftShift
 				});
 			}
 		}
@@ -115,7 +115,7 @@ namespace ZenFulcrum.EmbeddedBrowser
 		public void OnGUI()
 		{
 			Event current = Event.current;
-			if (current.type != 4 && current.type != 5)
+			if (current.type != EventType.KeyDown && current.type != EventType.KeyUp)
 			{
 				return;
 			}

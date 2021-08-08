@@ -66,11 +66,11 @@ public class AppManager : MonoBehaviour
 
 	public void UnMinApp(SOFTWARE_PRODUCTS AppToUnMin)
 	{
-		MinnedAppObject item;
-		if (this.currentMinApps.TryGetValue((int)AppToUnMin, out item))
+		MinnedAppObject t;
+		if (this.currentMinApps.TryGetValue((int)AppToUnMin, out t))
 		{
 			this.currentMinApps.Remove((int)AppToUnMin);
-			this.minTabObjectPool.Push(item);
+			this.minTabObjectPool.Push(t);
 			WindowManager.Get(AppToUnMin).UnMin();
 			this.minTabsCleanUp();
 		}
@@ -78,11 +78,11 @@ public class AppManager : MonoBehaviour
 
 	public void UnMinApp(SoftwareProductDefinition AppToUnMin)
 	{
-		MinnedAppObject item;
-		if (this.currentMinApps.TryGetValue(AppToUnMin.GetHashCode(), out item))
+		MinnedAppObject t;
+		if (this.currentMinApps.TryGetValue(AppToUnMin.GetHashCode(), out t))
 		{
 			this.currentMinApps.Remove(AppToUnMin.GetHashCode());
-			this.minTabObjectPool.Push(item);
+			this.minTabObjectPool.Push(t);
 			WindowManager.Get(AppToUnMin).UnMin();
 			this.minTabsCleanUp();
 		}
@@ -169,7 +169,7 @@ public class AppManager : MonoBehaviour
 		GameManager.ManagerSlinger.AppManager = this;
 		this.minTabObjectPool = new PooledStack<MinnedAppObject>(delegate()
 		{
-			MinnedAppObject component = Object.Instantiate<GameObject>(LookUp.DesktopUI.MIN_WINDOW_TAB_OBJECT, LookUp.DesktopUI.MIN_WINDOW_TAB_HOLDER.GetComponent<RectTransform>()).GetComponent<MinnedAppObject>();
+			MinnedAppObject component = UnityEngine.Object.Instantiate<GameObject>(LookUp.DesktopUI.MIN_WINDOW_TAB_OBJECT, LookUp.DesktopUI.MIN_WINDOW_TAB_HOLDER.GetComponent<RectTransform>()).GetComponent<MinnedAppObject>();
 			component.SoftBuild();
 			return component;
 		}, this.START_MIN_APP_POOL_COUNT);

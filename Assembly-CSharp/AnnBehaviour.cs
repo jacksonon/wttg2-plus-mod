@@ -78,8 +78,8 @@ public class AnnBehaviour : WindowBehaviour
 			LookUp.DesktopUI.ANN_WINDOW_REFRESH_BTN.setLock(false);
 			LookUp.DesktopUI.ANN_WINDOW_CODE_BTN.setLock(false);
 			this.loadingPage = false;
-			TweenExtensions.Kill(this.aniLoadingBarSeq, false);
-			TweenExtensions.Kill(this.aniLoadingGlobeSeq, false);
+			this.aniLoadingBarSeq.Kill(false);
+			this.aniLoadingGlobeSeq.Kill(false);
 			LookUp.DesktopUI.ANN_WINDOW_LOADING_BAR.fillAmount = 0f;
 			LookUp.DesktopUI.ANN_WINDOW_GLOBE.alpha = 1f;
 			this.FakePageLoaded.Execute();
@@ -167,11 +167,11 @@ public class AnnBehaviour : WindowBehaviour
 		if (this.bookmarkMenuActive)
 		{
 			Sequence sequence = DOTween.Sequence();
-			TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(TweenSettingsExtensions.SetRelative<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.BookmarksMenu.GetComponent<RectTransform>().localPosition, delegate(Vector3 x)
+			sequence.Insert(0f, DOTween.To(() => this.BookmarksMenu.GetComponent<RectTransform>().localPosition, delegate(Vector3 x)
 			{
 				this.BookmarksMenu.GetComponent<RectTransform>().localPosition = x;
-			}, new Vector3(237f, 0f, 0f), 0.01f), true), 3));
-			TweenExtensions.Play<Sequence>(sequence);
+			}, new Vector3(237f, 0f, 0f), 0.01f).SetRelative(true).SetEase(Ease.OutSine));
+			sequence.Play<Sequence>();
 			this.bookmarkMenuActive = false;
 		}
 	}
@@ -237,8 +237,8 @@ public class AnnBehaviour : WindowBehaviour
 
 	public void aniLoadingPageStop()
 	{
-		TweenExtensions.Kill(this.aniLoadingBarSeq, false);
-		TweenExtensions.Kill(this.aniLoadingGlobeSeq, false);
+		this.aniLoadingBarSeq.Kill(false);
+		this.aniLoadingGlobeSeq.Kill(false);
 		LookUp.DesktopUI.ANN_WINDOW_LOADING_BAR.fillAmount = 0f;
 		LookUp.DesktopUI.ANN_WINDOW_GLOBE.alpha = 1f;
 		LookUp.DesktopUI.ANN_WINDOW_HOME_BTN.setLock(false);
@@ -263,29 +263,21 @@ public class AnnBehaviour : WindowBehaviour
 		if (GameManager.TheCloud.CheckIfSiteWasTapped())
 		{
 			WebPageDefinition pageDef = GameManager.TheCloud.GetCurrentWebPageDef();
-			if (InventoryManager.OwnsKeyCue)
+			if (KeyPoll.keyManipulatorData == KEY_CUE_MODE.DEFAULT)
+			{
+				if (InventoryManager.OwnsKeyCue)
+				{
+					LookUp.DesktopUI.ANN_KEY_CUE.enabled = true;
+				}
+			}
+			else if (KeyPoll.keyManipulatorData == KEY_CUE_MODE.ENABLED)
 			{
 				LookUp.DesktopUI.ANN_KEY_CUE.enabled = true;
 			}
 			KEY_DISCOVERY_MODES keyDiscoverMode = pageDef.KeyDiscoverMode;
 			if (keyDiscoverMode != KEY_DISCOVERY_MODES.PLAIN_SIGHT)
 			{
-				if (keyDiscoverMode != KEY_DISCOVERY_MODES.CLICK_TO_PLAIN_SIGHT)
-				{
-					if (keyDiscoverMode == KEY_DISCOVERY_MODES.CLICK_TO_FILE)
-					{
-						this.myBrowser.CallFunction("PickCFTag", new JSONNode[]
-						{
-							string.Empty
-						});
-						this.myBrowser.RegisterFunction("FileKeyShow", delegate(JSONNode args)
-						{
-							GameManager.AudioSlinger.PlaySound(LookUp.SoundLookUp.KeyFound);
-							GameManager.ManagerSlinger.TextDocManager.CreateTextDoc("Key" + (pageDef.HashIndex + 1).ToString() + ".txt", (pageDef.HashIndex + 1).ToString() + " - " + pageDef.HashValue);
-						});
-					}
-				}
-				else
+				if (keyDiscoverMode == KEY_DISCOVERY_MODES.CLICK_TO_PLAIN_SIGHT)
 				{
 					this.myBrowser.CallFunction("PickCPTag", new JSONNode[]
 					{
@@ -300,6 +292,20 @@ public class AnnBehaviour : WindowBehaviour
 							new JSONNode(pageDef.HashValue)
 						});
 					});
+					return;
+				}
+				if (keyDiscoverMode == KEY_DISCOVERY_MODES.CLICK_TO_FILE)
+				{
+					this.myBrowser.CallFunction("PickCFTag", new JSONNode[]
+					{
+						string.Empty
+					});
+					this.myBrowser.RegisterFunction("FileKeyShow", delegate(JSONNode args)
+					{
+						GameManager.AudioSlinger.PlaySound(LookUp.SoundLookUp.KeyFound);
+						GameManager.ManagerSlinger.TextDocManager.CreateTextDoc("Key" + (pageDef.HashIndex + 1).ToString() + ".txt", (pageDef.HashIndex + 1).ToString() + " - " + pageDef.HashValue);
+					});
+					return;
 				}
 			}
 			else
@@ -337,26 +343,26 @@ public class AnnBehaviour : WindowBehaviour
 
 	private void aniLoadingPage(float setLoadingTime)
 	{
-		TweenExtensions.Kill(this.aniLoadingBarSeq, false);
-		TweenExtensions.Kill(this.aniLoadingGlobeSeq, false);
+		this.aniLoadingBarSeq.Kill(false);
+		this.aniLoadingGlobeSeq.Kill(false);
 		this.aniLoadingGlobeSeq = DOTween.Sequence();
-		TweenSettingsExtensions.SetEase<Sequence>(TweenSettingsExtensions.Insert(this.aniLoadingGlobeSeq, 0f, DOTween.To(() => LookUp.DesktopUI.ANN_WINDOW_GLOBE.alpha, delegate(float x)
+		this.aniLoadingGlobeSeq.Insert(0f, DOTween.To(() => LookUp.DesktopUI.ANN_WINDOW_GLOBE.alpha, delegate(float x)
 		{
 			LookUp.DesktopUI.ANN_WINDOW_GLOBE.alpha = x;
-		}, 0.3f, 0.5f)), 1);
-		TweenSettingsExtensions.SetEase<Sequence>(TweenSettingsExtensions.Insert(this.aniLoadingGlobeSeq, 0.5f, DOTween.To(() => LookUp.DesktopUI.ANN_WINDOW_GLOBE.alpha, delegate(float x)
+		}, 0.3f, 0.5f)).SetEase(Ease.Linear);
+		this.aniLoadingGlobeSeq.Insert(0.5f, DOTween.To(() => LookUp.DesktopUI.ANN_WINDOW_GLOBE.alpha, delegate(float x)
 		{
 			LookUp.DesktopUI.ANN_WINDOW_GLOBE.alpha = x;
-		}, 1f, 0.5f)), 1);
-		TweenSettingsExtensions.SetLoops<Sequence>(this.aniLoadingGlobeSeq, -1);
-		TweenExtensions.Play<Sequence>(this.aniLoadingGlobeSeq);
+		}, 1f, 0.5f)).SetEase(Ease.Linear);
+		this.aniLoadingGlobeSeq.SetLoops(-1);
+		this.aniLoadingGlobeSeq.Play<Sequence>();
 		LookUp.DesktopUI.ANN_WINDOW_LOADING_BAR.fillAmount = 0f;
 		this.aniLoadingBarSeq = DOTween.Sequence();
-		TweenSettingsExtensions.Insert(this.aniLoadingBarSeq, 0f, DOTween.To(() => LookUp.DesktopUI.ANN_WINDOW_LOADING_BAR.fillAmount, delegate(float x)
+		this.aniLoadingBarSeq.Insert(0f, DOTween.To(() => LookUp.DesktopUI.ANN_WINDOW_LOADING_BAR.fillAmount, delegate(float x)
 		{
 			LookUp.DesktopUI.ANN_WINDOW_LOADING_BAR.fillAmount = x;
 		}, 1f, setLoadingTime));
-		TweenExtensions.Play<Sequence>(this.aniLoadingBarSeq);
+		this.aniLoadingBarSeq.Play<Sequence>();
 	}
 
 	private void registerPageJS()
@@ -406,7 +412,7 @@ public class AnnBehaviour : WindowBehaviour
 		{
 			if (!this.loadingPage)
 			{
-				int num = Random.Range(1, LookUp.SoundLookUp.KeyboardSounds.Length);
+				int num = UnityEngine.Random.Range(1, LookUp.SoundLookUp.KeyboardSounds.Length);
 				AudioFileDefinition audioFileDefinition = LookUp.SoundLookUp.KeyboardSounds[num];
 				GameManager.AudioSlinger.PlaySound(audioFileDefinition);
 				LookUp.SoundLookUp.KeyboardSounds[num] = LookUp.SoundLookUp.KeyboardSounds[num];
@@ -494,21 +500,21 @@ public class AnnBehaviour : WindowBehaviour
 			{
 				this.bookmarkMenuActive = false;
 				Sequence sequence = DOTween.Sequence();
-				TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(TweenSettingsExtensions.SetRelative<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.BookmarksMenu.GetComponent<RectTransform>().localPosition, delegate(Vector3 x)
+				sequence.Insert(0f, DOTween.To(() => this.BookmarksMenu.GetComponent<RectTransform>().localPosition, delegate(Vector3 x)
 				{
 					this.BookmarksMenu.GetComponent<RectTransform>().localPosition = x;
-				}, new Vector3(237f, 0f, 0f), 0.25f), true), 3));
-				TweenExtensions.Play<Sequence>(sequence);
+				}, new Vector3(237f, 0f, 0f), 0.25f).SetRelative(true).SetEase(Ease.OutSine));
+				sequence.Play<Sequence>();
 			}
 			else
 			{
 				this.bookmarkMenuActive = true;
 				Sequence sequence2 = DOTween.Sequence();
-				TweenSettingsExtensions.Insert(sequence2, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(TweenSettingsExtensions.SetRelative<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.BookmarksMenu.GetComponent<RectTransform>().localPosition, delegate(Vector3 x)
+				sequence2.Insert(0f, DOTween.To(() => this.BookmarksMenu.GetComponent<RectTransform>().localPosition, delegate(Vector3 x)
 				{
 					this.BookmarksMenu.GetComponent<RectTransform>().localPosition = x;
-				}, new Vector3(-237f, 0f, 0f), 0.25f), true), 2));
-				TweenExtensions.Play<Sequence>(sequence2);
+				}, new Vector3(-237f, 0f, 0f), 0.25f).SetRelative(true).SetEase(Ease.InSine));
+				sequence2.Play<Sequence>();
 			}
 		}
 	}
@@ -618,7 +624,7 @@ public class AnnBehaviour : WindowBehaviour
 		this.BookmarkTabObject = LookUp.DesktopUI.ANN_WINDOW_BOOKMARKS_TAB_OBJECT;
 		this.bookmarkTabObjectPool = new PooledStack<BookmarkTABObject>(delegate()
 		{
-			BookmarkTABObject component = Object.Instantiate<GameObject>(this.BookmarkTabObject, this.BookmarksMenuTabHolder.GetComponent<RectTransform>()).GetComponent<BookmarkTABObject>();
+			BookmarkTABObject component = UnityEngine.Object.Instantiate<GameObject>(this.BookmarkTabObject, this.BookmarksMenuTabHolder.GetComponent<RectTransform>()).GetComponent<BookmarkTABObject>();
 			component.SoftBuild();
 			return component;
 		}, this.BOOKMARK_TAB_START_POOL_COUNT);

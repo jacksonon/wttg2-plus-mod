@@ -57,81 +57,81 @@ public class PoliceManager : MonoBehaviour
 		{
 			this.currentActiveSwatMen[1].NavMeshAgent.enabled = true;
 			this.currentActiveSwatMen[2].TriggerAnim("walk");
-			Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+			Sequence sequence = DOTween.Sequence().OnComplete(delegate
 			{
 				this.currentActiveSwatMen[2].EndWalkCycle();
 			});
 			this.currentActiveSwatMen[2].TriggerVoiceCommand(SWAT_VOICE_COMMANDS.GO_GO, 1.5f);
-			TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.currentActiveSwatMen[2].transform.position, delegate(Vector3 x)
+			sequence.Insert(0f, DOTween.To(() => this.currentActiveSwatMen[2].transform.position, delegate(Vector3 x)
 			{
 				this.currentActiveSwatMen[2].transform.position = x;
-			}, new Vector3(-2.249f, 39.599f, -6.46f), 0.5f), 1));
-			TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.currentActiveSwatMen[2].transform.rotation, delegate(Quaternion x)
+			}, new Vector3(-2.249f, 39.599f, -6.46f), 0.5f).SetEase(Ease.Linear));
+			sequence.Insert(0f, DOTween.To(() => this.currentActiveSwatMen[2].transform.rotation, delegate(Quaternion x)
 			{
 				this.currentActiveSwatMen[2].transform.rotation = x;
-			}, Vector3.zero, 0.5f), 1), true));
-			TweenSettingsExtensions.Insert(sequence, 0.5f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.currentActiveSwatMen[2].transform.position, delegate(Vector3 x)
+			}, Vector3.zero, 0.5f).SetEase(Ease.Linear).SetOptions(true));
+			sequence.Insert(0.5f, DOTween.To(() => this.currentActiveSwatMen[2].transform.position, delegate(Vector3 x)
 			{
 				this.currentActiveSwatMen[2].transform.position = x;
-			}, new Vector3(-2.249f, 39.599f, -3.561f), 1f), 1));
-			TweenSettingsExtensions.Insert(sequence, 1f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.currentActiveSwatMen[2].transform.rotation, delegate(Quaternion x)
+			}, new Vector3(-2.249f, 39.599f, -3.561f), 1f).SetEase(Ease.Linear));
+			sequence.Insert(1f, DOTween.To(() => this.currentActiveSwatMen[2].transform.rotation, delegate(Quaternion x)
 			{
 				this.currentActiveSwatMen[2].transform.rotation = x;
-			}, new Vector3(0f, -45f, 0f), 0.5f), 1), true));
-			TweenSettingsExtensions.Insert(sequence, 1.5f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.currentActiveSwatMen[2].transform.position, delegate(Vector3 x)
+			}, new Vector3(0f, -45f, 0f), 0.5f).SetEase(Ease.Linear).SetOptions(true));
+			sequence.Insert(1.5f, DOTween.To(() => this.currentActiveSwatMen[2].transform.position, delegate(Vector3 x)
 			{
 				this.currentActiveSwatMen[2].transform.position = x;
-			}, this.swatEndPOS[0], 1.5f), 1));
-			TweenSettingsExtensions.Insert(sequence, 1.5f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.currentActiveSwatMen[2].transform.rotation, delegate(Quaternion x)
+			}, this.swatEndPOS[0], 1.5f).SetEase(Ease.Linear));
+			sequence.Insert(1.5f, DOTween.To(() => this.currentActiveSwatMen[2].transform.rotation, delegate(Quaternion x)
 			{
 				this.currentActiveSwatMen[2].transform.rotation = x;
-			}, new Vector3(0f, -90f, 0f), 0.75f), 1), true));
-			TweenExtensions.Play<Sequence>(sequence);
+			}, new Vector3(0f, -90f, 0f), 0.75f).SetEase(Ease.Linear).SetOptions(true));
+			sequence.Play<Sequence>();
 		}, 0);
 		GameManager.TimeSlinger.FireTimer(3.5f, delegate()
 		{
 			this.currentActiveSwatMen[3].TriggerAnim("walk");
-			Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+			Sequence sequence = DOTween.Sequence().OnComplete(delegate
 			{
 				this.currentActiveSwatMen[3].EndWalkCycle();
 			});
-			TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.currentActiveSwatMen[3].transform.position, delegate(Vector3 x)
+			sequence.Insert(0f, DOTween.To(() => this.currentActiveSwatMen[3].transform.position, delegate(Vector3 x)
 			{
 				this.currentActiveSwatMen[3].transform.position = x;
-			}, new Vector3(-2.249f, 39.599f, -6.46f), 0.5f), 1));
-			TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.currentActiveSwatMen[3].transform.rotation, delegate(Quaternion x)
+			}, new Vector3(-2.249f, 39.599f, -6.46f), 0.5f).SetEase(Ease.Linear));
+			sequence.Insert(0f, DOTween.To(() => this.currentActiveSwatMen[3].transform.rotation, delegate(Quaternion x)
 			{
 				this.currentActiveSwatMen[3].transform.rotation = x;
-			}, Vector3.zero, 0.5f), 1), true));
-			TweenSettingsExtensions.Insert(sequence, 0.5f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.currentActiveSwatMen[3].transform.position, delegate(Vector3 x)
+			}, Vector3.zero, 0.5f).SetEase(Ease.Linear).SetOptions(true));
+			sequence.Insert(0.5f, DOTween.To(() => this.currentActiveSwatMen[3].transform.position, delegate(Vector3 x)
 			{
 				this.currentActiveSwatMen[3].transform.position = x;
-			}, new Vector3(-2.249f, 39.599f, -3.561f), 1f), 1));
-			TweenSettingsExtensions.Insert(sequence, 1f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.currentActiveSwatMen[3].transform.rotation, delegate(Quaternion x)
+			}, new Vector3(-2.249f, 39.599f, -3.561f), 1f).SetEase(Ease.Linear));
+			sequence.Insert(1f, DOTween.To(() => this.currentActiveSwatMen[3].transform.rotation, delegate(Quaternion x)
 			{
 				this.currentActiveSwatMen[3].transform.rotation = x;
-			}, new Vector3(0f, 45f, 0f), 0.5f), 1), true));
-			TweenSettingsExtensions.Insert(sequence, 1.5f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.currentActiveSwatMen[3].transform.position, delegate(Vector3 x)
+			}, new Vector3(0f, 45f, 0f), 0.5f).SetEase(Ease.Linear).SetOptions(true));
+			sequence.Insert(1.5f, DOTween.To(() => this.currentActiveSwatMen[3].transform.position, delegate(Vector3 x)
 			{
 				this.currentActiveSwatMen[3].transform.position = x;
-			}, this.swatEndPOS[1], 2f), 1));
-			TweenSettingsExtensions.Insert(sequence, 1.5f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.currentActiveSwatMen[3].transform.rotation, delegate(Quaternion x)
+			}, this.swatEndPOS[1], 2f).SetEase(Ease.Linear));
+			sequence.Insert(1.5f, DOTween.To(() => this.currentActiveSwatMen[3].transform.rotation, delegate(Quaternion x)
 			{
 				this.currentActiveSwatMen[3].transform.rotation = x;
-			}, new Vector3(0f, 90f, 0f), 0.75f), 1), true));
-			TweenExtensions.Play<Sequence>(sequence);
+			}, new Vector3(0f, 90f, 0f), 0.75f).SetEase(Ease.Linear).SetOptions(true));
+			sequence.Play<Sequence>();
 		}, 0);
 		GameManager.TimeSlinger.FireTimer(5f, delegate()
 		{
 			this.currentActiveSwatMen[0].TriggerAnim("charge");
-			TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.currentActiveSwatMen[0].transform.position, delegate(Vector3 x)
+			DOTween.To(() => this.currentActiveSwatMen[0].transform.position, delegate(Vector3 x)
 			{
 				this.currentActiveSwatMen[0].transform.position = x;
-			}, new Vector3(-2.249f, 39.599f, -6.46f), 0.25f), 1);
-			TweenSettingsExtensions.OnComplete<Tweener>(TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.currentActiveSwatMen[0].transform.rotation, delegate(Quaternion x)
+			}, new Vector3(-2.249f, 39.599f, -6.46f), 0.25f).SetEase(Ease.Linear);
+			DOTween.To(() => this.currentActiveSwatMen[0].transform.rotation, delegate(Quaternion x)
 			{
 				this.currentActiveSwatMen[0].transform.rotation = x;
-			}, Vector3.zero, 0.25f), 1), true), delegate()
+			}, Vector3.zero, 0.25f).SetEase(Ease.Linear).SetOptions(true).OnComplete(delegate
 			{
 				this.currentActiveSwatMen[1].GunLight.enabled = true;
 				this.currentActiveSwatMen[0].ChargePlayer();
@@ -142,26 +142,26 @@ public class PoliceManager : MonoBehaviour
 			this.currentActiveSwatMen[1].GunLight.enabled = false;
 			this.currentActiveSwatMen[1].NavMeshAgent.enabled = false;
 			this.currentActiveSwatMen[1].TriggerAnim("walk");
-			Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+			Sequence s = DOTween.Sequence().OnComplete(delegate
 			{
 				this.currentActiveSwatMen[1].EndWalkCycle();
 			});
-			TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.currentActiveSwatMen[1].transform.position, delegate(Vector3 x)
+			s.Insert(0f, DOTween.To(() => this.currentActiveSwatMen[1].transform.position, delegate(Vector3 x)
 			{
 				this.currentActiveSwatMen[1].transform.position = x;
-			}, new Vector3(-2.249f, 39.599f, -6.46f), 0.5f), 1));
-			TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.currentActiveSwatMen[1].transform.rotation, delegate(Quaternion x)
+			}, new Vector3(-2.249f, 39.599f, -6.46f), 0.5f).SetEase(Ease.Linear));
+			s.Insert(0f, DOTween.To(() => this.currentActiveSwatMen[1].transform.rotation, delegate(Quaternion x)
 			{
 				this.currentActiveSwatMen[1].transform.rotation = x;
-			}, Vector3.zero, 0.5f), 1), true));
-			TweenSettingsExtensions.Insert(sequence, 0.5f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.currentActiveSwatMen[1].transform.position, delegate(Vector3 x)
+			}, Vector3.zero, 0.5f).SetEase(Ease.Linear).SetOptions(true));
+			s.Insert(0.5f, DOTween.To(() => this.currentActiveSwatMen[1].transform.position, delegate(Vector3 x)
 			{
 				this.currentActiveSwatMen[1].transform.position = x;
-			}, new Vector3(-2.249f, 39.599f, -3.561f), 1f), 1));
-			TweenSettingsExtensions.Insert(sequence, 1f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.currentActiveSwatMen[1].transform.rotation, delegate(Quaternion x)
+			}, new Vector3(-2.249f, 39.599f, -3.561f), 1f).SetEase(Ease.Linear));
+			s.Insert(1f, DOTween.To(() => this.currentActiveSwatMen[1].transform.rotation, delegate(Quaternion x)
 			{
 				this.currentActiveSwatMen[1].transform.rotation = x;
-			}, new Vector3(0f, 90f, 0f), 0.5f), 1), true));
+			}, new Vector3(0f, 90f, 0f), 0.5f).SetEase(Ease.Linear).SetOptions(true));
 		}, 0);
 		this.currentActiveSwatMen[2].TriggerVoiceCommand(SWAT_VOICE_COMMANDS.CLEAR, 11f);
 		GameManager.TimeSlinger.FireTimer(12.5f, delegate()
@@ -236,18 +236,16 @@ public class PoliceManager : MonoBehaviour
 			this.triggerActive = true;
 			this.warningActive = true;
 			this.hotNetworks.Remove(TheNetwork);
+			return;
 		}
-		else
+		this.triggerTimeWindow = TheNetwork.networkTrackRate;
+		if (DataManager.LeetMode)
 		{
-			this.triggerTimeWindow = TheNetwork.networkTrackRate;
-			if (DataManager.LeetMode)
-			{
-				this.triggerTimeWindow *= 0.7f;
-			}
-			this.triggerTimeStamp = Time.time;
-			this.triggerActive = true;
-			this.warningActive = true;
+			this.triggerTimeWindow *= 0.7f;
 		}
+		this.triggerTimeStamp = Time.time;
+		this.triggerActive = true;
+		this.warningActive = true;
 	}
 
 	private void userWentOffline()
@@ -265,19 +263,22 @@ public class PoliceManager : MonoBehaviour
 
 	private void attemptAttack()
 	{
-		int num = Random.Range(0, 101);
+		int num = UnityEngine.Random.Range(0, 101);
 		int num2 = Mathf.RoundToInt(this.currentActiveWifiNetwork.networkTrackProbability * 100f);
 		if (num < num2)
 		{
 			this.triggerAttack();
+			return;
 		}
-		else
+		if (ModsManager.Nightmare)
 		{
-			this.triggerTimeWindow = this.currentActiveWifiNetwork.networkTrackRate;
-			this.triggerTimeStamp = Time.time;
-			this.triggerActive = true;
-			this.warningActive = true;
+			this.triggerAttack();
+			return;
 		}
+		this.triggerTimeWindow = this.currentActiveWifiNetwork.networkTrackRate;
+		this.triggerTimeStamp = Time.time;
+		this.triggerActive = true;
+		this.warningActive = true;
 	}
 
 	public void triggerAttack()
@@ -308,7 +309,7 @@ public class PoliceManager : MonoBehaviour
 					{
 						if (StateManager.PlayerState == PLAYER_STATE.COMPUTER || StateManager.PlayerState == PLAYER_STATE.DESK)
 						{
-							int num = Random.Range(0, 100);
+							int num = UnityEngine.Random.Range(0, 100);
 							if (num < 25)
 							{
 								this.powerWasTripped = true;
@@ -435,7 +436,7 @@ public class PoliceManager : MonoBehaviour
 		EnemyManager.PoliceManager = this;
 		this.swatManPool = new PooledStack<SwatManBehaviour>(delegate()
 		{
-			SwatManBehaviour component = Object.Instantiate<GameObject>(this.swatManObject, this.swatParent).GetComponent<SwatManBehaviour>();
+			SwatManBehaviour component = UnityEngine.Object.Instantiate<GameObject>(this.swatManObject, this.swatParent).GetComponent<SwatManBehaviour>();
 			component.Build();
 			return component;
 		}, this.SWAT_POOL_COUNT);
@@ -500,6 +501,14 @@ public class PoliceManager : MonoBehaviour
 			{
 				this.roomRaidTriggers[i].SetActive();
 			}
+		}
+	}
+
+	public void TrollPoliceScanner()
+	{
+		if (this.FireWarning != null)
+		{
+			this.FireWarning();
 		}
 	}
 

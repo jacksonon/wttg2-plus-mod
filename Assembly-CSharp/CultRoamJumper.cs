@@ -28,23 +28,23 @@ public class CultRoamJumper : MonoBehaviour
 		zero.x = 0f;
 		zero.y = -180f;
 		zero.z = 0f;
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+		Sequence sequence = DOTween.Sequence().OnComplete(delegate
 		{
 			CultFemaleBehaviour.Ins.HammerJump();
 		});
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.myCamera.transform.localRotation, delegate(Quaternion x)
+		sequence.Insert(0f, DOTween.To(() => this.myCamera.transform.localRotation, delegate(Quaternion x)
 		{
 			this.myCamera.transform.localRotation = x;
-		}, zero, 0.25f), 1), true));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.myCamera.transform.localPosition, delegate(Vector3 x)
+		}, zero, 0.25f).SetEase(Ease.Linear).SetOptions(true));
+		sequence.Insert(0f, DOTween.To(() => this.myCamera.transform.localPosition, delegate(Vector3 x)
 		{
 			this.myCamera.transform.localPosition = x;
-		}, Vector3.zero, 0.3f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.ppVol.weight, delegate(float x)
+		}, Vector3.zero, 0.3f).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.ppVol.weight, delegate(float x)
 		{
 			this.ppVol.weight = x;
-		}, 1f, 0.3f), 1));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, 1f, 0.3f).SetEase(Ease.Linear));
+		sequence.Play<Sequence>();
 	}
 
 	public void ClearDOF()

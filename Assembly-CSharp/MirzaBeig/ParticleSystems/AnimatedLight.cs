@@ -46,7 +46,7 @@ namespace MirzaBeig.ParticleSystems
 					{
 						if (this.autoDestruct)
 						{
-							Object.Destroy(base.gameObject);
+							UnityEngine.Object.Destroy(base.gameObject);
 						}
 						else if (this.loop)
 						{
@@ -61,9 +61,9 @@ namespace MirzaBeig.ParticleSystems
 				}
 				if (this.time <= this.duration)
 				{
-					float num = this.time / this.duration;
-					this.light.color = this.startColour * this.colourOverLifetime.Evaluate(num);
-					this.light.intensity = this.startIntensity * this.intensityOverLifetime.Evaluate(num);
+					float time = this.time / this.duration;
+					this.light.color = this.startColour * this.colourOverLifetime.Evaluate(time);
+					this.light.intensity = this.startIntensity * this.intensityOverLifetime.Evaluate(time);
 				}
 			}
 		}

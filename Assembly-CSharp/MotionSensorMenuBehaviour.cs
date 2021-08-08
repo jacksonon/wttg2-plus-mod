@@ -6,27 +6,25 @@ public class MotionSensorMenuBehaviour : MonoBehaviour
 {
 	private void rebuildMenu()
 	{
-		float num = 0f;
+		float y = 0f;
 		if (this.currentActiveMotionSensors.Count > 0)
 		{
-			num = 4f + ((float)this.currentActiveMotionSensors.Count * 24f + (float)this.currentActiveMotionSensors.Count * 4f) + 4f;
+			y = 4f + ((float)this.currentActiveMotionSensors.Count * 24f + (float)this.currentActiveMotionSensors.Count * 4f) + 4f;
 			this.nonActiveCG.alpha = 0f;
 		}
 		else
 		{
-			num = 32f;
+			y = 32f;
 			this.nonActiveCG.alpha = 1f;
 		}
-		int num2 = 0;
+		int num = 0;
 		foreach (KeyValuePair<MotionSensorObject, MotionSensorMenuOptionObject> keyValuePair in this.currentActiveMotionSensors)
 		{
-			keyValuePair.Value.PutMe(num2);
-			num2++;
+			keyValuePair.Value.PutMe(num);
+			num++;
 		}
-		Vector2 sizeDelta;
-		sizeDelta..ctor(this.myRT.sizeDelta.x, num);
-		Vector2 anchoredPosition;
-		anchoredPosition..ctor(this.myRT.anchoredPosition.x, num);
+		Vector2 sizeDelta = new Vector2(this.myRT.sizeDelta.x, y);
+		Vector2 anchoredPosition = new Vector2(this.myRT.anchoredPosition.x, y);
 		if (this.myRT.anchoredPosition.y == -41f)
 		{
 			anchoredPosition.y = -41f;
@@ -75,7 +73,7 @@ public class MotionSensorMenuBehaviour : MonoBehaviour
 		this.myRT = base.GetComponent<RectTransform>();
 		this.motionSensorMenuOptionsPool = new PooledStack<MotionSensorMenuOptionObject>(delegate()
 		{
-			MotionSensorMenuOptionObject component = Object.Instantiate<GameObject>(this.motionSensorMenuObject, this.myRT).GetComponent<MotionSensorMenuOptionObject>();
+			MotionSensorMenuOptionObject component = UnityEngine.Object.Instantiate<GameObject>(this.motionSensorMenuObject, this.myRT).GetComponent<MotionSensorMenuOptionObject>();
 			component.SoftBuild();
 			return component;
 		}, this.MOTION_SENSOR_MENU_POOL_COUNT);

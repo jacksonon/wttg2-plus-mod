@@ -13,8 +13,8 @@ public class WarmUpNumberObject : MonoBehaviour
 		this.myRT.anchoredPosition = this.myStartPOS;
 		this.myText.text = setNumber;
 		this.myCG.alpha = 1f;
-		TweenExtensions.Restart(this.scaleDownTween, true, -1f);
-		TweenExtensions.Restart(this.fadeOutTween, true, -1f);
+		this.scaleDownTween.Restart(true, -1f);
+		this.fadeOutTween.Restart(true, -1f);
 	}
 
 	private void Awake()
@@ -25,22 +25,22 @@ public class WarmUpNumberObject : MonoBehaviour
 		this.myCG.alpha = 0f;
 		this.myStartPOS.x = 0f;
 		this.myStartPOS.y = -(this.myRT.sizeDelta.y / 2f + 5f);
-		this.scaleDownTween = TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.myRT.localScale, delegate(Vector3 x)
+		this.scaleDownTween = DOTween.To(() => this.myRT.localScale, delegate(Vector3 x)
 		{
 			this.myRT.localScale = x;
-		}, WarmUpNumberObject.myDownScale, 0.6f), 14);
-		TweenExtensions.Pause<Tweener>(this.scaleDownTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.scaleDownTween, false);
-		this.fadeOutTween = TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		}, WarmUpNumberObject.myDownScale, 0.6f).SetEase(Ease.InQuint);
+		this.scaleDownTween.Pause<Tweener>();
+		this.scaleDownTween.SetAutoKill(false);
+		this.fadeOutTween = DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 0f, 0.6f), 1), delegate()
+		}, 0f, 0.6f).SetEase(Ease.Linear).OnComplete(delegate
 		{
 			this.myCG.alpha = 0f;
 			this.myRT.localScale = this.myDefaultScale;
 		});
-		TweenExtensions.Pause<Tweener>(this.fadeOutTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.fadeOutTween, false);
+		this.fadeOutTween.Pause<Tweener>();
+		this.fadeOutTween.SetAutoKill(false);
 	}
 
 	public AudioFileDefinition MySFX;

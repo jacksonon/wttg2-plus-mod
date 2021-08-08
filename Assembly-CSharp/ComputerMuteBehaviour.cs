@@ -41,7 +41,7 @@ public class ComputerMuteBehaviour : MonoBehaviour
 
 	private void generateTrollWindow()
 	{
-		this.fireTimeWindow = Random.Range(this.fireMin, this.fireMax);
+		this.fireTimeWindow = UnityEngine.Random.Range(this.fireMin, this.fireMax);
 		this.fireTimeStamp = Time.time;
 		this.fireActive = true;
 	}

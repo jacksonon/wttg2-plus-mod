@@ -23,7 +23,7 @@ public class CultFemaleEnding : MonoBehaviour
 
 	public void TriggerFootSound()
 	{
-		int num = Random.Range(1, this.footStepSFXs.Length);
+		int num = UnityEngine.Random.Range(1, this.footStepSFXs.Length);
 		AudioFileDefinition audioFileDefinition = this.footStepSFXs[num];
 		this.footHub.PlaySound(this.footStepSFXs[num]);
 		this.footStepSFXs[num] = this.footStepSFXs[0];
@@ -45,7 +45,7 @@ public class CultFemaleEnding : MonoBehaviour
 		this.myAC = base.GetComponent<Animator>();
 		this.inIdle2 = false;
 		this.aniTimeStamp = Time.time;
-		this.aniWindow = Random.Range(15f, 45f);
+		this.aniWindow = UnityEngine.Random.Range(15f, 45f);
 	}
 
 	private void Update()
@@ -53,10 +53,10 @@ public class CultFemaleEnding : MonoBehaviour
 		if (!this.lockOut && Time.time - this.aniTimeStamp >= this.aniWindow)
 		{
 			this.aniTimeStamp = Time.time;
-			this.aniWindow = Random.Range(15f, 45f);
+			this.aniWindow = UnityEngine.Random.Range(15f, 45f);
 			if (!this.inIdle2)
 			{
-				int num = Random.Range(0, 10);
+				int num = UnityEngine.Random.Range(0, 10);
 				if (num < 2)
 				{
 					this.myAC.SetTrigger("fidget1");

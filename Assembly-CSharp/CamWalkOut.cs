@@ -12,7 +12,7 @@ public class CamWalkOut : MonoBehaviour
 
 	public void TriggerFootStep()
 	{
-		int num = Random.Range(1, this.footStepSFXs.Length);
+		int num = UnityEngine.Random.Range(1, this.footStepSFXs.Length);
 		AudioFileDefinition audioFileDefinition = this.footStepSFXs[num];
 		this.footHub.PlaySound(this.footStepSFXs[num]);
 		this.footStepSFXs[num] = this.footStepSFXs[0];

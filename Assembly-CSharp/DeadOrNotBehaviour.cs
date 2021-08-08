@@ -10,68 +10,68 @@ public class DeadOrNotBehaviour : MonoBehaviour
 {
 	public void StartViewers()
 	{
-		this.currentViewerCount = Random.Range(666, 999);
+		this.currentViewerCount = UnityEngine.Random.Range(666, 999);
 		this.viewersText.text = this.currentViewerCount.ToString();
 		this.viewerCountTimeStamp = Time.time;
-		this.viewerCountWindow = Random.Range(1f, 3f);
+		this.viewerCountWindow = UnityEngine.Random.Range(1f, 3f);
 		this.viewerCountActive = true;
-		this.prepareTween = TweenSettingsExtensions.SetLoops<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.prepareText.GetComponent<CanvasGroup>().alpha, delegate(float x)
+		this.prepareTween = DOTween.To(() => this.prepareText.GetComponent<CanvasGroup>().alpha, delegate(float x)
 		{
 			this.prepareText.GetComponent<CanvasGroup>().alpha = x;
-		}, 1f, 0.75f), 1), -1, 1);
-		TweenExtensions.Play<Tweener>(this.prepareTween);
+		}, 1f, 0.75f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+		this.prepareTween.Play<Tweener>();
 	}
 
 	public void StartFirstVid()
 	{
-		TweenExtensions.Kill(this.prepareTween, false);
+		this.prepareTween.Kill(false);
 		this.prepareText.SetActive(false);
-		this.pleaseWaitTween = TweenSettingsExtensions.SetLoops<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.pleaseWaitCG.alpha, delegate(float x)
+		this.pleaseWaitTween = DOTween.To(() => this.pleaseWaitCG.alpha, delegate(float x)
 		{
 			this.pleaseWaitCG.alpha = x;
-		}, 1f, 0.75f), 1), -1, 1);
-		TweenExtensions.Play<Tweener>(this.pleaseWaitTween);
+		}, 1f, 0.75f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+		this.pleaseWaitTween.Play<Tweener>();
 		this.currentDeathVoteCount = 0;
 		this.currentLifeVoteCount = 0;
 		this.deathVoteCountText.text = "0";
 		this.lifeVoteCountText.text = "0";
-		this.presentVoteSeq = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+		this.presentVoteSeq = DOTween.Sequence().OnComplete(delegate
 		{
 			this.votingTimeStamp = Time.time;
-			this.votingWindow = Random.Range(0.5f, 3.5f);
+			this.votingWindow = UnityEngine.Random.Range(0.5f, 3.5f);
 			this.votingActive = true;
 		});
-		TweenSettingsExtensions.Insert(this.presentVoteSeq, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.castYourVotesTextCG.alpha, delegate(float x)
+		this.presentVoteSeq.Insert(0f, DOTween.To(() => this.castYourVotesTextCG.alpha, delegate(float x)
 		{
 			this.castYourVotesTextCG.alpha = x;
-		}, 1f, 0.75f), 1));
-		TweenSettingsExtensions.Insert(this.presentVoteSeq, 2.75f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.castYourVotesTextCG.alpha, delegate(float x)
+		}, 1f, 0.75f).SetEase(Ease.Linear));
+		this.presentVoteSeq.Insert(2.75f, DOTween.To(() => this.castYourVotesTextCG.alpha, delegate(float x)
 		{
 			this.castYourVotesTextCG.alpha = x;
-		}, 0f, 0.5f), 1));
-		TweenSettingsExtensions.Insert(this.presentVoteSeq, 3.25f, TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.castYourVotesHolderRT.anchoredPosition, delegate(Vector2 x)
+		}, 0f, 0.5f).SetEase(Ease.Linear));
+		this.presentVoteSeq.Insert(3.25f, DOTween.To(() => this.castYourVotesHolderRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.castYourVotesHolderRT.anchoredPosition = x;
-		}, new Vector2(0f, 15f), 0.75f), 6));
-		TweenExtensions.Play<Sequence>(this.presentVoteSeq);
-		this.presentChatTween = TweenSettingsExtensions.OnComplete<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.chatHolderRT.anchoredPosition, delegate(Vector2 x)
+		}, new Vector2(0f, 15f), 0.75f).SetEase(Ease.OutQuad));
+		this.presentVoteSeq.Play<Sequence>();
+		this.presentChatTween = DOTween.To(() => this.chatHolderRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.chatHolderRT.anchoredPosition = x;
-		}, Vector2.zero, 0.75f), 1), delegate()
+		}, Vector2.zero, 0.75f).SetEase(Ease.Linear).OnComplete(delegate
 		{
-			this.chatWindow = Random.Range(1.5f, 6f);
+			this.chatWindow = UnityEngine.Random.Range(1.5f, 6f);
 			this.chatTimeStamp = Time.time;
 			this.chatActive = true;
 		});
-		TweenExtensions.Play<Tweener>(this.presentChatTween);
+		this.presentChatTween.Play<Tweener>();
 	}
 
 	public void ClearOut()
 	{
-		TweenExtensions.Kill(this.prepareTween, false);
-		TweenExtensions.Kill(this.pleaseWaitTween, false);
-		TweenExtensions.Kill(this.presentVoteSeq, false);
-		TweenExtensions.Kill(this.presentChatTween, false);
+		this.prepareTween.Kill(false);
+		this.pleaseWaitTween.Kill(false);
+		this.presentVoteSeq.Kill(false);
+		this.presentChatTween.Kill(false);
 		this.viewerCountActive = false;
 		this.votingActive = false;
 		this.chatActive = false;
@@ -83,7 +83,7 @@ public class DeadOrNotBehaviour : MonoBehaviour
 		{
 			if (deadOrNotChatObject != null)
 			{
-				Object.Destroy(deadOrNotChatObject.gameObject);
+				UnityEngine.Object.Destroy(deadOrNotChatObject.gameObject);
 			}
 		}
 		this.chatLineObjectPool.Clear();
@@ -93,7 +93,7 @@ public class DeadOrNotBehaviour : MonoBehaviour
 	{
 		if (this.chatLines.Count > 0)
 		{
-			int index = Random.Range(0, this.chatLines.Count);
+			int index = UnityEngine.Random.Range(0, this.chatLines.Count);
 			string chatText = this.chatLines[index];
 			this.chatLines.RemoveAt(index);
 			DeadOrNotChatObject deadOrNotChatObject = this.chatLineObjectPool.Pop();
@@ -121,7 +121,7 @@ public class DeadOrNotBehaviour : MonoBehaviour
 		}
 		this.chatLineObjectPool = new PooledStack<DeadOrNotChatObject>(delegate()
 		{
-			DeadOrNotChatObject component = Object.Instantiate<GameObject>(this.chatLineObject, this.chatContentHolderRT).GetComponent<DeadOrNotChatObject>();
+			DeadOrNotChatObject component = UnityEngine.Object.Instantiate<GameObject>(this.chatLineObject, this.chatContentHolderRT).GetComponent<DeadOrNotChatObject>();
 			component.SoftBuild();
 			return component;
 		}, this.CHAT_LINE_OBJECT_POOL_COUNT);
@@ -132,17 +132,17 @@ public class DeadOrNotBehaviour : MonoBehaviour
 		if (this.viewerCountActive && Time.time - this.viewerCountTimeStamp >= this.viewerCountWindow)
 		{
 			this.viewerCountTimeStamp = Time.time;
-			this.viewerCountWindow = Random.Range(1f, 4f);
-			this.currentViewerCount += Random.Range(1, 9);
+			this.viewerCountWindow = UnityEngine.Random.Range(1f, 4f);
+			this.currentViewerCount += UnityEngine.Random.Range(1, 9);
 			this.viewersText.text = this.currentViewerCount.ToString();
 		}
 		if (this.votingActive && Time.time - this.votingTimeStamp >= this.votingWindow)
 		{
 			this.votingTimeStamp = Time.time;
-			this.votingWindow = Random.Range(0.5f, 3.5f);
-			this.currentDeathVoteCount += Random.Range(2, 10);
+			this.votingWindow = UnityEngine.Random.Range(0.5f, 3.5f);
+			this.currentDeathVoteCount += UnityEngine.Random.Range(2, 10);
 			this.currentDeathVoteCount = Mathf.Min(this.currentDeathVoteCount, 666);
-			int num = Random.Range(0, 10);
+			int num = UnityEngine.Random.Range(0, 10);
 			if (num < 3)
 			{
 				this.currentLifeVoteCount++;
@@ -154,7 +154,7 @@ public class DeadOrNotBehaviour : MonoBehaviour
 		if (this.chatActive && Time.time - this.chatTimeStamp >= this.chatWindow)
 		{
 			this.chatTimeStamp = Time.time;
-			this.chatWindow = Random.Range(1.25f, 6.5f);
+			this.chatWindow = UnityEngine.Random.Range(1.25f, 6.5f);
 			this.addChat();
 		}
 	}

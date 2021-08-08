@@ -25,7 +25,7 @@ public class DocIconObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 			flag = true;
 		}
 		Vector3 vector;
-		if (!flag && RectTransformUtility.ScreenPointToWorldPointInRectangle(this.dragPlane, data.position, data.pressEventCamera, ref vector))
+		if (!flag && RectTransformUtility.ScreenPointToWorldPointInRectangle(this.dragPlane, data.position, data.pressEventCamera, out vector))
 		{
 			vector -= this.bufferPos;
 			this.myRT.position = vector;
@@ -86,10 +86,10 @@ public class DocIconObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
 	public void OnBeginDrag(PointerEventData eventData)
 	{
-		Vector3 vector;
-		if (RectTransformUtility.ScreenPointToWorldPointInRectangle(this.dragPlane, eventData.position, eventData.pressEventCamera, ref vector))
+		Vector3 a;
+		if (RectTransformUtility.ScreenPointToWorldPointInRectangle(this.dragPlane, eventData.position, eventData.pressEventCamera, out a))
 		{
-			this.bufferPos = vector - this.myRT.position;
+			this.bufferPos = a - this.myRT.position;
 		}
 		this.setDragPOS(eventData);
 	}

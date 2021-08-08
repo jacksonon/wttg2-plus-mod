@@ -31,10 +31,10 @@ public class MinnedAppObject : MonoBehaviour, IPointerEnterHandler, IPointerExit
 		this.MyStartPOS.x = x2;
 		this.MyShowPOS.x = x2;
 		base.GetComponent<RectTransform>().anchoredPosition = this.MyStartPOS;
-		TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => base.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
+		DOTween.To(() => base.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
 		{
 			base.GetComponent<RectTransform>().anchoredPosition = x;
-		}, this.MyShowPOS, 0.2f), 1);
+		}, this.MyShowPOS, 0.2f).SetEase(Ease.Linear);
 	}
 
 	public void BuildMe(SoftwareProductDefinition SetMyProduct, int MyCount)
@@ -55,10 +55,10 @@ public class MinnedAppObject : MonoBehaviour, IPointerEnterHandler, IPointerExit
 		this.MyStartPOS.x = x2;
 		this.MyShowPOS.x = x2;
 		base.GetComponent<RectTransform>().anchoredPosition = this.MyStartPOS;
-		TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => base.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
+		DOTween.To(() => base.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
 		{
 			base.GetComponent<RectTransform>().anchoredPosition = x;
-		}, this.MyShowPOS, 0.2f), 1);
+		}, this.MyShowPOS, 0.2f).SetEase(Ease.Linear);
 	}
 
 	public void RePOSMe(int setIndex)
@@ -75,11 +75,11 @@ public class MinnedAppObject : MonoBehaviour, IPointerEnterHandler, IPointerExit
 		this.MyShowPOS.x = x2;
 		this.MyStartPOS.x = x2;
 		Sequence sequence = DOTween.Sequence();
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => base.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
+		sequence.Insert(0f, DOTween.To(() => base.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
 		{
 			base.GetComponent<RectTransform>().anchoredPosition = x;
-		}, this.MyShowPOS, 0.1f), 1));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, this.MyShowPOS, 0.1f).SetEase(Ease.Linear));
+		sequence.Play<Sequence>();
 	}
 
 	public void ForceDismissMe()
@@ -89,17 +89,17 @@ public class MinnedAppObject : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
 	private void dismissMe()
 	{
-		TweenExtensions.Kill(this.hoverSEQ, false);
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), new TweenCallback(this.unMinApp));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.tabHoverIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
+		this.hoverSEQ.Kill(false);
+		Sequence sequence = DOTween.Sequence().OnComplete(new TweenCallback(this.unMinApp));
+		sequence.Insert(0f, DOTween.To(() => this.tabHoverIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
 		{
 			this.tabHoverIMG.GetComponent<CanvasGroup>().alpha = x;
-		}, 0f, 0.2f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => base.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
+		}, 0f, 0.2f).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => base.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
 		{
 			base.GetComponent<RectTransform>().anchoredPosition = x;
-		}, this.MyStartPOS, 0.2f), 1));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, this.MyStartPOS, 0.2f).SetEase(Ease.Linear));
+		sequence.Play<Sequence>();
 	}
 
 	private void unMinApp()
@@ -121,22 +121,22 @@ public class MinnedAppObject : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
-		TweenExtensions.Kill(this.hoverSEQ, false);
-		TweenSettingsExtensions.Insert(this.hoverSEQ, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.tabHoverIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
+		this.hoverSEQ.Kill(false);
+		this.hoverSEQ.Insert(0f, DOTween.To(() => this.tabHoverIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
 		{
 			this.tabHoverIMG.GetComponent<CanvasGroup>().alpha = x;
-		}, 1f, 0.2f), 1));
-		TweenExtensions.Play<Sequence>(this.hoverSEQ);
+		}, 1f, 0.2f).SetEase(Ease.Linear));
+		this.hoverSEQ.Play<Sequence>();
 	}
 
 	public void OnPointerExit(PointerEventData eventData)
 	{
-		TweenExtensions.Kill(this.hoverSEQ, false);
-		TweenSettingsExtensions.Insert(this.hoverSEQ, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.tabHoverIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
+		this.hoverSEQ.Kill(false);
+		this.hoverSEQ.Insert(0f, DOTween.To(() => this.tabHoverIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
 		{
 			this.tabHoverIMG.GetComponent<CanvasGroup>().alpha = x;
-		}, 0f, 0.2f), 1));
-		TweenExtensions.Play<Sequence>(this.hoverSEQ);
+		}, 0f, 0.2f).SetEase(Ease.Linear));
+		this.hoverSEQ.Play<Sequence>();
 	}
 
 	public void OnPointerDown(PointerEventData eventData)

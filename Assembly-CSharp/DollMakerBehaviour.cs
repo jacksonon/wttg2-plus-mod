@@ -121,7 +121,7 @@ public class DollMakerBehaviour : MonoBehaviour
 
 	public void TriggerFootSound()
 	{
-		int num = Random.Range(1, this.footStepSFXs.Length);
+		int num = UnityEngine.Random.Range(1, this.footStepSFXs.Length);
 		AudioFileDefinition audioFileDefinition = this.footStepSFXs[num];
 		this.footHub.PlaySoundWithWildPitch(this.footStepSFXs[num], 0.9f, 1f);
 		this.footStepSFXs[num] = this.footStepSFXs[0];
@@ -138,19 +138,19 @@ public class DollMakerBehaviour : MonoBehaviour
 		this.hardVoiceSource.clip = this.theTalkClip;
 		this.hardVoiceSource.Play();
 		GameManager.TimeSlinger.FireTimer(58f, new Action(this.endSpeech), 0);
-		this.fidgetTimeWindow = Random.Range(7f, 16f);
+		this.fidgetTimeWindow = UnityEngine.Random.Range(7f, 16f);
 		this.fidgetTimeStamp = Time.time;
 		this.fidgetActive = true;
 		Sequence sequence = DOTween.Sequence();
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.hardVoiceSource.transform.localPosition, delegate(Vector3 x)
+		sequence.Insert(0f, DOTween.To(() => this.hardVoiceSource.transform.localPosition, delegate(Vector3 x)
 		{
 			this.hardVoiceSource.transform.localPosition = x;
-		}, new Vector3(0.2836f, -0.2156f, 0.328f), 2f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.hardVoiceSource.panStereo, delegate(float x)
+		}, new Vector3(0.2836f, -0.2156f, 0.328f), 2f).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => this.hardVoiceSource.panStereo, delegate(float x)
 		{
 			this.hardVoiceSource.panStereo = x;
-		}, 1f, 2.4f), 1));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, 1f, 2.4f).SetEase(Ease.Linear));
+		sequence.Play<Sequence>();
 	}
 
 	public void TriggerDisapointMe()
@@ -212,7 +212,7 @@ public class DollMakerBehaviour : MonoBehaviour
 		if (this.fidgetActive && Time.time - this.fidgetTimeStamp >= this.fidgetTimeWindow)
 		{
 			this.fidgetActive = false;
-			int num = Random.Range(0, 10);
+			int num = UnityEngine.Random.Range(0, 10);
 			if (num < 5)
 			{
 				this.TriggerAnim("fidget1");
@@ -221,7 +221,7 @@ public class DollMakerBehaviour : MonoBehaviour
 			{
 				this.TriggerAnim("fidget2");
 			}
-			this.fidgetTimeWindow = Random.Range(7f, 16f);
+			this.fidgetTimeWindow = UnityEngine.Random.Range(7f, 16f);
 			this.fidgetTimeStamp = Time.time;
 			this.fidgetActive = true;
 		}

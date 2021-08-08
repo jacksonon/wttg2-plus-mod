@@ -51,10 +51,10 @@ public class MemFragmentObject : MonoBehaviour, IPointerEnterHandler, IPointerEx
 			this.LineIMG.GetComponent<RectTransform>().anchoredPosition = new Vector2(Mathf.Ceil(base.GetComponent<RectTransform>().sizeDelta.x / 2f + 10f), 0f);
 			break;
 		}
-		TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => base.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
+		DOTween.To(() => base.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
 		{
 			base.GetComponent<RectTransform>().anchoredPosition = x;
-		}, zero, 0.5f), 21);
+		}, zero, 0.5f).SetEase(Ease.OutCirc);
 		this.isLocked = false;
 	}
 
@@ -63,10 +63,10 @@ public class MemFragmentObject : MonoBehaviour, IPointerEnterHandler, IPointerEx
 		GameManager.TimeSlinger.KillTimer(this.collapseTimer);
 		this.collapseTimer = null;
 		this.isLocked = true;
-		TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => base.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
+		DOTween.To(() => base.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
 		{
 			base.GetComponent<RectTransform>().anchoredPosition = x;
-		}, Vector2.zero, 0.5f), 20);
+		}, Vector2.zero, 0.5f).SetEase(Ease.InCirc);
 		GameManager.TimeSlinger.FireHardTimer(out this.collapseTimer, 0.5f, delegate()
 		{
 			base.GetComponent<CanvasGroup>().alpha = 0f;
@@ -75,22 +75,22 @@ public class MemFragmentObject : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
 	public void GoRed()
 	{
-		TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.HoverIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
+		DOTween.To(() => this.HoverIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
 		{
 			this.HoverIMG.GetComponent<CanvasGroup>().alpha = x;
-		}, 0f, 0.2f), 1);
-		TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.FragIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
+		}, 0f, 0.2f).SetEase(Ease.Linear);
+		DOTween.To(() => this.FragIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
 		{
 			this.FragIMG.GetComponent<CanvasGroup>().alpha = x;
-		}, 0f, 0.2f), 1);
-		TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.CorrectIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
+		}, 0f, 0.2f).SetEase(Ease.Linear);
+		DOTween.To(() => this.CorrectIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
 		{
 			this.CorrectIMG.GetComponent<CanvasGroup>().alpha = x;
-		}, 0f, 0.2f), 1);
-		TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.WrongIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
+		}, 0f, 0.2f).SetEase(Ease.Linear);
+		DOTween.To(() => this.WrongIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
 		{
 			this.WrongIMG.GetComponent<CanvasGroup>().alpha = x;
-		}, 1f, 0.2f), 1);
+		}, 1f, 0.2f).SetEase(Ease.Linear);
 	}
 
 	public void ResetMe()
@@ -129,11 +129,11 @@ public class MemFragmentObject : MonoBehaviour, IPointerEnterHandler, IPointerEx
 	{
 		if (!this.isLocked)
 		{
-			TweenExtensions.Kill(this.HoverStateTweener, false);
-			this.HoverStateTweener = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.HoverIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
+			this.HoverStateTweener.Kill(false);
+			this.HoverStateTweener = DOTween.To(() => this.HoverIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
 			{
 				this.HoverIMG.GetComponent<CanvasGroup>().alpha = x;
-			}, 1f, 0.2f), 1);
+			}, 1f, 0.2f).SetEase(Ease.Linear);
 		}
 	}
 
@@ -141,11 +141,11 @@ public class MemFragmentObject : MonoBehaviour, IPointerEnterHandler, IPointerEx
 	{
 		if (!this.isLocked)
 		{
-			TweenExtensions.Kill(this.HoverStateTweener, false);
-			this.HoverStateTweener = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.HoverIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
+			this.HoverStateTweener.Kill(false);
+			this.HoverStateTweener = DOTween.To(() => this.HoverIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
 			{
 				this.HoverIMG.GetComponent<CanvasGroup>().alpha = x;
-			}, 0f, 0.2f), 1);
+			}, 0f, 0.2f).SetEase(Ease.Linear);
 		}
 	}
 
@@ -157,18 +157,18 @@ public class MemFragmentObject : MonoBehaviour, IPointerEnterHandler, IPointerEx
 			if (this.IWasChosen(this.CurKeyPart))
 			{
 				this.IWasSolved = true;
-				TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.HoverIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
+				DOTween.To(() => this.HoverIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
 				{
 					this.HoverIMG.GetComponent<CanvasGroup>().alpha = x;
-				}, 0f, 0.2f), 1);
-				TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.FragIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
+				}, 0f, 0.2f).SetEase(Ease.Linear);
+				DOTween.To(() => this.FragIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
 				{
 					this.FragIMG.GetComponent<CanvasGroup>().alpha = x;
-				}, 0f, 0.2f), 1);
-				TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.CorrectIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
+				}, 0f, 0.2f).SetEase(Ease.Linear);
+				DOTween.To(() => this.CorrectIMG.GetComponent<CanvasGroup>().alpha, delegate(float x)
 				{
 					this.CorrectIMG.GetComponent<CanvasGroup>().alpha = x;
-				}, 1f, 0.2f), 1);
+				}, 1f, 0.2f).SetEase(Ease.Linear);
 			}
 		}
 	}

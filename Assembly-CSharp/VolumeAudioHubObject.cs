@@ -37,8 +37,8 @@ public class VolumeAudioHubObject : MonoBehaviour
 			}
 			else
 			{
-				Vector3 vector = this.bounds.ClosestPoint(position);
-				this.distance = (vector - position).magnitude;
+				Vector3 a = this.bounds.ClosestPoint(position);
+				this.distance = (a - position).magnitude;
 				if (this.distance <= this.fadeDistance)
 				{
 					this.setVolumeAMT = Mathf.Min((this.fadeDistance - this.distance) / this.fadeDistance, this.maxVolume);

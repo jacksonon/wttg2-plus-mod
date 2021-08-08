@@ -31,14 +31,14 @@ namespace MirzaBeig.ParticleSystems
 
 		private void rotate()
 		{
-			float num = this.unscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+			float d = this.unscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
 			if (this.localRotationSpeed != Vector3.zero)
 			{
-				base.transform.Rotate(this.localRotationSpeed * num, 1);
+				base.transform.Rotate(this.localRotationSpeed * d, Space.Self);
 			}
 			if (this.worldRotationSpeed != Vector3.zero)
 			{
-				base.transform.Rotate(this.worldRotationSpeed * num, 0);
+				base.transform.Rotate(this.worldRotationSpeed * d, Space.World);
 			}
 		}
 

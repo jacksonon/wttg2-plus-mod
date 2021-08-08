@@ -26,9 +26,9 @@ public class LightFadeLOD : MonoBehaviour
 			this.distance = 0f;
 			return;
 		}
-		Vector3 vector = this.lodLight.transform.TransformPoint(this.center);
+		Vector3 a = this.lodLight.transform.TransformPoint(this.center);
 		Vector3 position = this.mainCamera.transform.position;
-		this.distance = (vector - position).magnitude;
+		this.distance = (a - position).magnitude;
 	}
 
 	private void UpdateFadePercent()
@@ -73,11 +73,11 @@ public class LightFadeLOD : MonoBehaviour
 		}
 		if (this.toggleShadows)
 		{
-			this.lodLight.shadows = ((this.fadePercent > 0f) ? this.defaultShadows : 0);
+			this.lodLight.shadows = ((this.fadePercent > 0f) ? this.defaultShadows : LightShadows.None);
 		}
 		else
 		{
-			LightShadows shadows = (this.lodLight.shadowStrength > 0f) ? this.defaultShadows : 0;
+			LightShadows shadows = (this.lodLight.shadowStrength > 0f) ? this.defaultShadows : LightShadows.None;
 			this.lodLight.shadows = shadows;
 		}
 	}
@@ -88,8 +88,8 @@ public class LightFadeLOD : MonoBehaviour
 		{
 			this.lodLight = base.GetComponent<Light>();
 		}
-		float num = (!(this.lodLight != null)) ? float.MinValue : this.lodLight.range;
-		this.beginFadeDistance = Mathf.Clamp(this.beginFadeDistance, num, this.endFadeDistance);
+		float min = (!(this.lodLight != null)) ? float.MinValue : this.lodLight.range;
+		this.beginFadeDistance = Mathf.Clamp(this.beginFadeDistance, min, this.endFadeDistance);
 		this.endFadeDistance = Mathf.Clamp(this.endFadeDistance, this.beginFadeDistance, float.MaxValue);
 	}
 
@@ -107,14 +107,14 @@ public class LightFadeLOD : MonoBehaviour
 			}
 			this.UpdateDistance();
 			this.UpdateFadePercent();
-			Vector3 vector = (!(this.lodLight != null)) ? base.transform.TransformPoint(this.center) : this.lodLight.transform.TransformPoint(this.center);
+			Vector3 from = (!(this.lodLight != null)) ? base.transform.TransformPoint(this.center) : this.lodLight.transform.TransformPoint(this.center);
 			Gizmos.color = new Color(0.7f, 0.7f, 0f, 1f);
-			Gizmos.DrawWireSphere(vector, this.beginFadeDistance);
+			Gizmos.DrawWireSphere(from, this.beginFadeDistance);
 			Gizmos.color = new Color(0.7f, 0.7f, 0f, 0.5f);
-			Gizmos.DrawWireSphere(vector, this.endFadeDistance);
+			Gizmos.DrawWireSphere(from, this.endFadeDistance);
 			if (Application.isPlaying && this.mainCamera != null)
 			{
-				Gizmos.DrawLine(vector, this.mainCamera.transform.position);
+				Gizmos.DrawLine(from, this.mainCamera.transform.position);
 			}
 		}
 	}

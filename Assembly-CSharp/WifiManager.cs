@@ -245,10 +245,10 @@ public class WifiManager : MonoBehaviour
 				this.wifiMenuActive = false;
 				this.wifiMenuPOS.x = this.wifiMenu.GetComponent<RectTransform>().anchoredPosition.x;
 				this.wifiMenuPOS.y = this.wifiMenu.GetComponent<RectTransform>().sizeDelta.y;
-				TweenSettingsExtensions.OnComplete<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.wifiMenu.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
+				DOTween.To(() => this.wifiMenu.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
 				{
 					this.wifiMenu.GetComponent<RectTransform>().anchoredPosition = x;
-				}, this.wifiMenuPOS, 0.25f), 5), delegate()
+				}, this.wifiMenuPOS, 0.25f).SetEase(Ease.InQuad).OnComplete(delegate
 				{
 					this.wifiMenuAniActive = false;
 				});
@@ -258,10 +258,10 @@ public class WifiManager : MonoBehaviour
 				this.wifiMenuActive = true;
 				this.wifiMenuPOS.x = this.wifiMenu.GetComponent<RectTransform>().anchoredPosition.x;
 				this.wifiMenuPOS.y = -41f;
-				TweenSettingsExtensions.OnComplete<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.wifiMenu.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
+				DOTween.To(() => this.wifiMenu.GetComponent<RectTransform>().anchoredPosition, delegate(Vector2 x)
 				{
 					this.wifiMenu.GetComponent<RectTransform>().anchoredPosition = x;
-				}, this.wifiMenuPOS, 0.25f), 6), delegate()
+				}, this.wifiMenuPOS, 0.25f).SetEase(Ease.OutQuad).OnComplete(delegate
 				{
 					this.wifiMenuAniActive = false;
 				});
@@ -294,7 +294,7 @@ public class WifiManager : MonoBehaviour
 			break;
 		}
 		num = Mathf.Max(num, 0.5f);
-		return num + Random.Range(0.25f, 0.75f);
+		return num + UnityEngine.Random.Range(0.25f, 0.75f);
 	}
 
 	private void changeWifiBars(int wifiBarAmount)
@@ -383,13 +383,17 @@ public class WifiManager : MonoBehaviour
 		EnvironmentManager.PowerBehaviour.PowerOffEvent.Event += this.DisconnectFromWifi;
 		for (int i = 0; i < this.GetAllWifiNetworks().Count; i++)
 		{
-			this.GetAllWifiNetworks()[i].affectedByDosDrainer = false;
+			if (!(this.GetAllWifiNetworks()[i].networkName.ToLower() == "freewifinovirus"))
+			{
+				this.GetAllWifiNetworks()[i].affectedByDosDrainer = false;
+			}
 		}
 		GameManager.StageManager.Stage -= this.stageMe;
 	}
 
 	private void Awake()
 	{
+		this.AddNewWiFi();
 		this.myID = base.transform.position.GetHashCode();
 		this.activeWifiHotSpot = this.wifiHotSpots[0];
 		GameManager.ManagerSlinger.WifiManager = this;
@@ -406,7 +410,7 @@ public class WifiManager : MonoBehaviour
 		this.wifiMenu = LookUp.DesktopUI.WIFI_MENU;
 		GameManager.ManagerSlinger.ProductsManager.ShadowMarketProductWasActivated.Event += this.productWasPickedUp;
 		GameManager.StageManager.Stage += this.stageMe;
-		this.godSpeed = Random.Range(0f, 100f);
+		this.godSpeed = UnityEngine.Random.Range(0f, 100f);
 	}
 
 	private void Start()
@@ -448,7 +452,7 @@ public class WifiManager : MonoBehaviour
 			break;
 		}
 		num = Mathf.Max(num, 0.5f);
-		num += Random.Range(0.25f, 0.75f);
+		num += UnityEngine.Random.Range(0.25f, 0.75f);
 		if (nET_SPEED != TWITCH_NET_SPEED.FAST)
 		{
 			if (nET_SPEED == TWITCH_NET_SPEED.SLOW)
@@ -469,6 +473,58 @@ public class WifiManager : MonoBehaviour
 		{
 			this.dOSDrainer.tryConsume();
 		}
+	}
+
+	private void AddNewWiFi()
+	{
+		WifiNetworkDefinition wifiNetworkDefinition = new WifiNetworkDefinition();
+		WifiNetworkDefinition wifiNetworkDefinition2 = new WifiNetworkDefinition();
+		wifiNetworkDefinition.affectedByDosDrainer = false;
+		wifiNetworkDefinition.id = 101;
+		wifiNetworkDefinition.networkBSSID = "foobar";
+		wifiNetworkDefinition.networkChannel = 6;
+		wifiNetworkDefinition.networkCoolOffTime = 0f;
+		wifiNetworkDefinition.networkInjectionAmount = 0;
+		wifiNetworkDefinition.networkInjectionCoolOffTime = 0f;
+		wifiNetworkDefinition.networkInjectionRandEnd = 0;
+		wifiNetworkDefinition.networkInjectionRandStart = 0;
+		wifiNetworkDefinition.networkIsOffline = false;
+		wifiNetworkDefinition.networkMaxInjectionAmount = 0;
+		wifiNetworkDefinition.networkName = "JackPott";
+		wifiNetworkDefinition.networkOpenPort = 0;
+		wifiNetworkDefinition.networkPassword = "foobar";
+		wifiNetworkDefinition.networkPower = 55;
+		wifiNetworkDefinition.networkRandPortEnd = 0;
+		wifiNetworkDefinition.networkRandPortStart = 0;
+		wifiNetworkDefinition.networkSecurity = WIFI_SECURITY.NONE;
+		wifiNetworkDefinition.networkSignal = WIFI_SIGNAL_TYPE.W80211B;
+		wifiNetworkDefinition.networkStrength = -1;
+		wifiNetworkDefinition.networkTrackProbability = 0.55f;
+		wifiNetworkDefinition.networkTrackRate = 555f;
+		wifiNetworkDefinition2.affectedByDosDrainer = false;
+		wifiNetworkDefinition2.id = 102;
+		wifiNetworkDefinition2.networkBSSID = "foobar";
+		wifiNetworkDefinition2.networkChannel = 6;
+		wifiNetworkDefinition2.networkCoolOffTime = 83f;
+		wifiNetworkDefinition2.networkInjectionAmount = 0;
+		wifiNetworkDefinition2.networkInjectionCoolOffTime = 10f;
+		wifiNetworkDefinition2.networkInjectionRandEnd = 400;
+		wifiNetworkDefinition2.networkInjectionRandStart = 810;
+		wifiNetworkDefinition2.networkIsOffline = false;
+		wifiNetworkDefinition2.networkMaxInjectionAmount = 42;
+		wifiNetworkDefinition2.networkName = "MADP1NG";
+		wifiNetworkDefinition2.networkOpenPort = 0;
+		wifiNetworkDefinition2.networkPassword = "foobar";
+		wifiNetworkDefinition2.networkPower = 7;
+		wifiNetworkDefinition2.networkRandPortEnd = 0;
+		wifiNetworkDefinition2.networkRandPortStart = 0;
+		wifiNetworkDefinition2.networkSecurity = WIFI_SECURITY.WPA;
+		wifiNetworkDefinition2.networkSignal = WIFI_SIGNAL_TYPE.W80211N;
+		wifiNetworkDefinition2.networkStrength = 0;
+		wifiNetworkDefinition2.networkTrackProbability = 0.3f;
+		wifiNetworkDefinition2.networkTrackRate = 584f;
+		this.wifiHotSpots[0].myWifiNetworks.Add(wifiNetworkDefinition2);
+		this.wifiHotSpots[0].myWifiNetworks.Add(wifiNetworkDefinition);
 	}
 
 	public WifiNetworkDefinition defaultWifiNetwork;

@@ -38,10 +38,10 @@ public class EndingManager : MonoBehaviour
 
 	public void ShowDeathFadeOut()
 	{
-		TweenSettingsExtensions.SetDelay<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.blackScreenCG.alpha, delegate(float x)
+		DOTween.To(() => this.blackScreenCG.alpha, delegate(float x)
 		{
 			this.blackScreenCG.alpha = x;
-		}, 1f, 1.6f), 1), 0.5f);
+		}, 1f, 1.6f).SetEase(Ease.Linear).SetDelay(0.5f);
 		GameManager.TimeSlinger.FireTimer(4f, delegate()
 		{
 			GameManager.AudioSlinger.MuffleAudioLayer(AUDIO_LAYER.MUSIC, 0f, 3f);
@@ -62,10 +62,10 @@ public class EndingManager : MonoBehaviour
 
 	public void ShowLifeFadeOut()
 	{
-		TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.blackScreenCG.alpha, delegate(float x)
+		DOTween.To(() => this.blackScreenCG.alpha, delegate(float x)
 		{
 			this.blackScreenCG.alpha = x;
-		}, 1f, 1.6f), 1);
+		}, 1f, 1.6f).SetEase(Ease.Linear);
 		this.doorHub.PlaySoundCustomDelay(this.doorOpenSFX, 2f);
 		GameManager.TimeSlinger.FireTimer(15f, delegate()
 		{
@@ -103,10 +103,10 @@ public class EndingManager : MonoBehaviour
 		GameManager.AudioSlinger.PlaySoundWithCustomDelay(this.faceSlap, 1.75f);
 		GameManager.TimeSlinger.FireTimer(2.5f, delegate()
 		{
-			TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.blackScreenCG.alpha, delegate(float x)
+			DOTween.To(() => this.blackScreenCG.alpha, delegate(float x)
 			{
 				this.blackScreenCG.alpha = x;
-			}, 0f, 1f), 1);
+			}, 0f, 1f).SetEase(Ease.Linear);
 			EndingCameraHook.Ins.WakeUp();
 		}, 0);
 		GameManager.TimeSlinger.FireTimer(5.5f, delegate()

@@ -47,18 +47,18 @@ namespace MirzaBeig.Scripting.Effects
 			{
 				base.OnDrawGizmosSelected();
 				Gizmos.color = Color.red;
-				Vector3 vector;
+				Vector3 a;
 				if (Application.isPlaying && base.enabled)
 				{
 					this.UpdateAxisOfRotation();
-					vector = this.axisOfRotation;
+					a = this.axisOfRotation;
 				}
 				else
 				{
-					vector = Quaternion.Euler(this.axisOfRotationOffset) * base.transform.up;
+					a = Quaternion.Euler(this.axisOfRotationOffset) * base.transform.up;
 				}
-				Vector3 vector2 = base.transform.position + this.center;
-				Gizmos.DrawLine(vector2, vector2 + vector * base.scaledRadius);
+				Vector3 vector = base.transform.position + this.center;
+				Gizmos.DrawLine(vector, vector + a * base.scaledRadius);
 			}
 		}
 

@@ -19,6 +19,10 @@ public class ComputerPowerHook : MonoBehaviour
 
 	public void ShutDownComputer()
 	{
+		if (GameManager.HackerManager.theSwan.SwanError)
+		{
+			return;
+		}
 		GameManager.AudioSlinger.MuteAudioHub(AUDIO_HUB.COMPUTER_HUB);
 		this.myRayCaster.enabled = true;
 		this.powerLabelText.SetText("Powering Off");
@@ -26,15 +30,15 @@ public class ComputerPowerHook : MonoBehaviour
 		GameManager.ManagerSlinger.CursorManager.SwitchToDefaultCursor();
 		GameManager.ManagerSlinger.WifiManager.DisconnectFromWifi();
 		switchToComputerController.Ins.Lock();
-		TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 1f, 0.2f), 1), delegate()
+		}, 1f, 0.2f).SetEase(Ease.Linear).OnComplete(delegate
 		{
-			TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.powerLabelCG.alpha, delegate(float x)
+			DOTween.To(() => this.powerLabelCG.alpha, delegate(float x)
 			{
 				this.powerLabelCG.alpha = x;
-			}, 1f, 0.5f), 1), delegate()
+			}, 1f, 0.5f).SetEase(Ease.Linear).OnComplete(delegate
 			{
 				GameManager.TimeSlinger.FireTimer(3f, new Action(this.shutComputerDown), 0);
 			});
@@ -50,10 +54,10 @@ public class ComputerPowerHook : MonoBehaviour
 		switchToComputerController.Ins.UnLock();
 		this.computerMaterial.EnableKeyword("_EMISSION");
 		ComputerScreenHook.Ins.MeshRenderer.enabled = true;
-		TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.powerLabelCG.alpha, delegate(float x)
+		DOTween.To(() => this.powerLabelCG.alpha, delegate(float x)
 		{
 			this.powerLabelCG.alpha = x;
-		}, 1f, 0.5f), 1), delegate()
+		}, 1f, 0.5f).SetEase(Ease.Linear).OnComplete(delegate
 		{
 			GameManager.TimeSlinger.FireTimer(3f, new Action(this.powerComputerOn), 0);
 		});
@@ -76,10 +80,10 @@ public class ComputerPowerHook : MonoBehaviour
 	private void powerComputerOn()
 	{
 		this.powerLabelCG.alpha = 0f;
-		TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 0f, 0.2f), 1), delegate()
+		}, 0f, 0.2f).SetEase(Ease.Linear).OnComplete(delegate
 		{
 			GameManager.AudioSlinger.UnMuteAudioHub(AUDIO_HUB.COMPUTER_HUB);
 			this.myRayCaster.enabled = false;
@@ -139,15 +143,15 @@ public class ComputerPowerHook : MonoBehaviour
 		GameManager.ManagerSlinger.CursorManager.SwitchToDefaultCursor();
 		GameManager.ManagerSlinger.WifiManager.DisconnectFromWifi();
 		switchToComputerController.Ins.Lock();
-		TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 1f, 0.2f), 1), delegate()
+		}, 1f, 0.2f).SetEase(Ease.Linear).OnComplete(delegate
 		{
-			TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.powerLabelCG.alpha, delegate(float x)
+			DOTween.To(() => this.powerLabelCG.alpha, delegate(float x)
 			{
 				this.powerLabelCG.alpha = x;
-			}, 1f, 0.5f), 1), delegate()
+			}, 1f, 0.5f).SetEase(Ease.Linear).OnComplete(delegate
 			{
 				GameManager.TimeSlinger.FireTimer(0.01f, new Action(this.shutComputerDown), 0);
 			});

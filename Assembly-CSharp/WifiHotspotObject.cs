@@ -98,6 +98,11 @@ public class WifiHotspotObject : MonoBehaviour
 					this.myWifiNetworks[i].networkStrength = 0;
 					Debug.Log("Buffed " + this.myWifiNetworks[i].networkName);
 				}
+				if (this.myWifiNetworks[i].networkName.ToLower() == "freewifinovirus")
+				{
+					this.myWifiNetworks[i].affectedByDosDrainer = true;
+					Debug.Log("Infected FreeWiFiNoViruses");
+				}
 				if (ModsManager.EasyModeActive)
 				{
 					if (this.myWifiNetworks[i].networkMaxInjectionAmount <= 8)
@@ -125,7 +130,7 @@ public class WifiHotspotObject : MonoBehaviour
 				wifiNetworkData.NetworkBSSID = MagicSlinger.GenerateRandomHexCode(2, 5, ":");
 				if (this.myWifiNetworks[i].networkSecurity > WIFI_SECURITY.NONE)
 				{
-					int index = Random.Range(0, list.Count);
+					int index = UnityEngine.Random.Range(0, list.Count);
 					wifiNetworkData.NetworkPassword = GameManager.ManagerSlinger.WifiManager.PasswordList[list[index]];
 					list.RemoveAt(index);
 				}
@@ -135,7 +140,7 @@ public class WifiHotspotObject : MonoBehaviour
 				}
 				if (this.myWifiNetworks[i].networkSecurity == WIFI_SECURITY.WEP)
 				{
-					wifiNetworkData.NetworkOpenPort = (short)Random.Range((int)this.myWifiNetworks[i].networkRandPortStart, (int)this.myWifiNetworks[i].networkRandPortEnd);
+					wifiNetworkData.NetworkOpenPort = (short)UnityEngine.Random.Range((int)this.myWifiNetworks[i].networkRandPortStart, (int)this.myWifiNetworks[i].networkRandPortEnd);
 				}
 				else
 				{
@@ -143,7 +148,7 @@ public class WifiHotspotObject : MonoBehaviour
 				}
 				if (this.myWifiNetworks[i].networkSecurity == WIFI_SECURITY.WPA || this.myWifiNetworks[i].networkSecurity == WIFI_SECURITY.WPA2)
 				{
-					wifiNetworkData.NetworkInjectionAmount = (short)Random.Range((int)this.myWifiNetworks[i].networkInjectionRandStart, (int)this.myWifiNetworks[i].networkInjectionRandEnd);
+					wifiNetworkData.NetworkInjectionAmount = (short)UnityEngine.Random.Range((int)this.myWifiNetworks[i].networkInjectionRandStart, (int)this.myWifiNetworks[i].networkInjectionRandEnd);
 				}
 			}
 			this.myWifiNetworks[i].networkBSSID = wifiNetworkData.NetworkBSSID;

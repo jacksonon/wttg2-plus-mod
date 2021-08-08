@@ -35,8 +35,8 @@ public class CultSeeAndHideSpawn : CultSpawner
 		{
 			if (this.currentSpawnData.RotateSpawnTowardsPlayer)
 			{
-				Vector3 vector = roamController.Ins.transform.position - this.currentSpawnData.Position;
-				Vector3 eulerAngles = Quaternion.LookRotation(vector).eulerAngles;
+				Vector3 forward = roamController.Ins.transform.position - this.currentSpawnData.Position;
+				Vector3 eulerAngles = Quaternion.LookRotation(forward).eulerAngles;
 				eulerAngles.x = 0f;
 				eulerAngles.z = 0f;
 				base.Spawn(this.currentSpawnData.Position, eulerAngles);

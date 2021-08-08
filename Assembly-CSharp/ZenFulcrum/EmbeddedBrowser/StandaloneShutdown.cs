@@ -9,7 +9,7 @@ namespace ZenFulcrum.EmbeddedBrowser
 		{
 			GameObject gameObject = new GameObject("ZFB Shutdown");
 			gameObject.AddComponent<StandaloneShutdown>();
-			Object.DontDestroyOnLoad(gameObject);
+			UnityEngine.Object.DontDestroyOnLoad(gameObject);
 		}
 
 		public void OnApplicationQuit()

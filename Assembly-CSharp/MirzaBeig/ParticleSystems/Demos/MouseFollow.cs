@@ -17,9 +17,9 @@ namespace MirzaBeig.ParticleSystems.Demos
 		{
 			Vector3 mousePosition = Input.mousePosition;
 			mousePosition.z = this.distanceFromCamera;
-			Vector3 vector = Camera.main.ScreenToWorldPoint(mousePosition);
+			Vector3 b = Camera.main.ScreenToWorldPoint(mousePosition);
 			float num = this.ignoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime;
-			Vector3 position = Vector3.Lerp(base.transform.position, vector, 1f - Mathf.Exp(-this.speed * num));
+			Vector3 position = Vector3.Lerp(base.transform.position, b, 1f - Mathf.Exp(-this.speed * num));
 			base.transform.position = position;
 		}
 

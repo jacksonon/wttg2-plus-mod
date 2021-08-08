@@ -15,7 +15,7 @@ namespace DG.Tweening
 			{
 				return;
 			}
-			if (this.animationType != 1 || !this.useTargetAsV3)
+			if (this.animationType != DOTweenAnimationType.Move || !this.useTargetAsV3)
 			{
 				this.CreateTween();
 				this._tweenCreated = true;
@@ -34,9 +34,9 @@ namespace DG.Tweening
 
 		private void OnDestroy()
 		{
-			if (this.tween != null && TweenExtensions.IsActive(this.tween))
+			if (this.tween != null && this.tween.IsActive())
 			{
-				TweenExtensions.Kill(this.tween, false);
+				this.tween.Kill(false);
 			}
 			this.tween = null;
 		}
@@ -48,17 +48,17 @@ namespace DG.Tweening
 				Debug.LogWarning(string.Format("{0} :: This tween's target is NULL, because the animation was created with a DOTween Pro version older than 0.9.255. To fix this, exit Play mode then simply select this object, and it will update automatically", base.gameObject.name), base.gameObject);
 				return;
 			}
-			if (this.forcedTargetType != null)
+			if (this.forcedTargetType != TargetType.Unset)
 			{
 				this.targetType = this.forcedTargetType;
 			}
-			if (this.targetType == null)
+			if (this.targetType == TargetType.Unset)
 			{
 				this.targetType = DOTweenAnimation.TypeToDOTargetType(this.target.GetType());
 			}
 			switch (this.animationType)
 			{
-			case 1:
+			case DOTweenAnimationType.Move:
 				if (this.useTargetAsV3)
 				{
 					this.isRelative = false;
@@ -67,7 +67,7 @@ namespace DG.Tweening
 						Debug.LogWarning(string.Format("{0} :: This tween's TO target is NULL, a Vector3 of (0,0,0) will be used instead", base.gameObject.name), base.gameObject);
 						this.endValueV3 = Vector3.zero;
 					}
-					else if (this.targetType == 5)
+					else if (this.targetType == TargetType.RectTransform)
 					{
 						RectTransform rectTransform = this.endValueTransform as RectTransform;
 						if (rectTransform == null)
@@ -95,170 +95,170 @@ namespace DG.Tweening
 				}
 				switch (this.targetType)
 				{
-				case 5:
-					this.tween = ShortcutExtensions46.DOAnchorPos3D((RectTransform)this.target, this.endValueV3, this.duration, this.optionalBool0);
+				case TargetType.RectTransform:
+					this.tween = ((RectTransform)this.target).DOAnchorPos3D(this.endValueV3, this.duration, this.optionalBool0);
 					break;
-				case 8:
-					this.tween = ShortcutExtensions.DOMove((Rigidbody)this.target, this.endValueV3, this.duration, this.optionalBool0);
+				case TargetType.Rigidbody:
+					this.tween = ((Rigidbody)this.target).DOMove(this.endValueV3, this.duration, this.optionalBool0);
 					break;
-				case 9:
-					this.tween = ShortcutExtensions43.DOMove((Rigidbody2D)this.target, this.endValueV3, this.duration, this.optionalBool0);
+				case TargetType.Rigidbody2D:
+					this.tween = ((Rigidbody2D)this.target).DOMove(this.endValueV3, this.duration, this.optionalBool0);
 					break;
-				case 11:
-					this.tween = ShortcutExtensions.DOMove((Transform)this.target, this.endValueV3, this.duration, this.optionalBool0);
+				case TargetType.Transform:
+					this.tween = ((Transform)this.target).DOMove(this.endValueV3, this.duration, this.optionalBool0);
 					break;
 				}
 				break;
-			case 2:
-				this.tween = ShortcutExtensions.DOLocalMove(base.transform, this.endValueV3, this.duration, this.optionalBool0);
+			case DOTweenAnimationType.LocalMove:
+				this.tween = base.transform.DOLocalMove(this.endValueV3, this.duration, this.optionalBool0);
 				break;
-			case 3:
+			case DOTweenAnimationType.Rotate:
 			{
 				TargetType targetType = this.targetType;
-				if (targetType != 11)
+				if (targetType != TargetType.Transform)
 				{
-					if (targetType != 9)
+					if (targetType != TargetType.Rigidbody2D)
 					{
-						if (targetType == 8)
+						if (targetType == TargetType.Rigidbody)
 						{
-							this.tween = ShortcutExtensions.DORotate((Rigidbody)this.target, this.endValueV3, this.duration, this.optionalRotationMode);
+							this.tween = ((Rigidbody)this.target).DORotate(this.endValueV3, this.duration, this.optionalRotationMode);
 						}
 					}
 					else
 					{
-						this.tween = ShortcutExtensions43.DORotate((Rigidbody2D)this.target, this.endValueFloat, this.duration);
+						this.tween = ((Rigidbody2D)this.target).DORotate(this.endValueFloat, this.duration);
 					}
 				}
 				else
 				{
-					this.tween = ShortcutExtensions.DORotate((Transform)this.target, this.endValueV3, this.duration, this.optionalRotationMode);
+					this.tween = ((Transform)this.target).DORotate(this.endValueV3, this.duration, this.optionalRotationMode);
 				}
 				break;
 			}
-			case 4:
-				this.tween = ShortcutExtensions.DOLocalRotate(base.transform, this.endValueV3, this.duration, this.optionalRotationMode);
+			case DOTweenAnimationType.LocalRotate:
+				this.tween = base.transform.DOLocalRotate(this.endValueV3, this.duration, this.optionalRotationMode);
 				break;
-			case 5:
-				this.tween = ShortcutExtensions.DOScale(base.transform, (!this.optionalBool0) ? this.endValueV3 : new Vector3(this.endValueFloat, this.endValueFloat, this.endValueFloat), this.duration);
+			case DOTweenAnimationType.Scale:
+				this.tween = base.transform.DOScale((!this.optionalBool0) ? this.endValueV3 : new Vector3(this.endValueFloat, this.endValueFloat, this.endValueFloat), this.duration);
 				break;
-			case 6:
+			case DOTweenAnimationType.Color:
 				this.isRelative = false;
 				switch (this.targetType)
 				{
-				case 3:
-					this.tween = ShortcutExtensions46.DOColor((Image)this.target, this.endValueColor, this.duration);
+				case TargetType.Image:
+					this.tween = ((Image)this.target).DOColor(this.endValueColor, this.duration);
 					break;
-				case 4:
-					this.tween = ShortcutExtensions.DOColor((Light)this.target, this.endValueColor, this.duration);
+				case TargetType.Light:
+					this.tween = ((Light)this.target).DOColor(this.endValueColor, this.duration);
 					break;
-				case 6:
-					this.tween = ShortcutExtensions.DOColor(((Renderer)this.target).material, this.endValueColor, this.duration);
+				case TargetType.Renderer:
+					this.tween = ((Renderer)this.target).material.DOColor(this.endValueColor, this.duration);
 					break;
-				case 7:
-					this.tween = ShortcutExtensions43.DOColor((SpriteRenderer)this.target, this.endValueColor, this.duration);
+				case TargetType.SpriteRenderer:
+					this.tween = ((SpriteRenderer)this.target).DOColor(this.endValueColor, this.duration);
 					break;
-				case 10:
-					this.tween = ShortcutExtensions46.DOColor((Text)this.target, this.endValueColor, this.duration);
+				case TargetType.Text:
+					this.tween = ((Text)this.target).DOColor(this.endValueColor, this.duration);
 					break;
 				}
 				break;
-			case 7:
+			case DOTweenAnimationType.Fade:
 				this.isRelative = false;
 				switch (this.targetType)
 				{
-				case 2:
-					this.tween = ShortcutExtensions46.DOFade((CanvasGroup)this.target, this.endValueFloat, this.duration);
+				case TargetType.CanvasGroup:
+					this.tween = ((CanvasGroup)this.target).DOFade(this.endValueFloat, this.duration);
 					break;
-				case 3:
-					this.tween = ShortcutExtensions46.DOFade((Image)this.target, this.endValueFloat, this.duration);
+				case TargetType.Image:
+					this.tween = ((Image)this.target).DOFade(this.endValueFloat, this.duration);
 					break;
-				case 4:
-					this.tween = ShortcutExtensions.DOIntensity((Light)this.target, this.endValueFloat, this.duration);
+				case TargetType.Light:
+					this.tween = ((Light)this.target).DOIntensity(this.endValueFloat, this.duration);
 					break;
-				case 6:
-					this.tween = ShortcutExtensions.DOFade(((Renderer)this.target).material, this.endValueFloat, this.duration);
+				case TargetType.Renderer:
+					this.tween = ((Renderer)this.target).material.DOFade(this.endValueFloat, this.duration);
 					break;
-				case 7:
-					this.tween = ShortcutExtensions43.DOFade((SpriteRenderer)this.target, this.endValueFloat, this.duration);
+				case TargetType.SpriteRenderer:
+					this.tween = ((SpriteRenderer)this.target).DOFade(this.endValueFloat, this.duration);
 					break;
-				case 10:
-					this.tween = ShortcutExtensions46.DOFade((Text)this.target, this.endValueFloat, this.duration);
+				case TargetType.Text:
+					this.tween = ((Text)this.target).DOFade(this.endValueFloat, this.duration);
 					break;
 				}
 				break;
-			case 8:
+			case DOTweenAnimationType.Text:
 			{
 				TargetType targetType2 = this.targetType;
-				if (targetType2 == 10)
+				if (targetType2 == TargetType.Text)
 				{
-					this.tween = ShortcutExtensions46.DOText((Text)this.target, this.endValueString, this.duration, this.optionalBool0, this.optionalScrambleMode, this.optionalString);
+					this.tween = ((Text)this.target).DOText(this.endValueString, this.duration, this.optionalBool0, this.optionalScrambleMode, this.optionalString);
 				}
 				break;
 			}
-			case 9:
+			case DOTweenAnimationType.PunchPosition:
 			{
 				TargetType targetType3 = this.targetType;
-				if (targetType3 != 5)
+				if (targetType3 != TargetType.RectTransform)
 				{
-					if (targetType3 == 11)
+					if (targetType3 == TargetType.Transform)
 					{
-						this.tween = ShortcutExtensions.DOPunchPosition((Transform)this.target, this.endValueV3, this.duration, this.optionalInt0, this.optionalFloat0, this.optionalBool0);
+						this.tween = ((Transform)this.target).DOPunchPosition(this.endValueV3, this.duration, this.optionalInt0, this.optionalFloat0, this.optionalBool0);
 					}
 				}
 				else
 				{
-					this.tween = ShortcutExtensions46.DOPunchAnchorPos((RectTransform)this.target, this.endValueV3, this.duration, this.optionalInt0, this.optionalFloat0, this.optionalBool0);
+					this.tween = ((RectTransform)this.target).DOPunchAnchorPos(this.endValueV3, this.duration, this.optionalInt0, this.optionalFloat0, this.optionalBool0);
 				}
 				break;
 			}
-			case 10:
-				this.tween = ShortcutExtensions.DOPunchRotation(base.transform, this.endValueV3, this.duration, this.optionalInt0, this.optionalFloat0);
+			case DOTweenAnimationType.PunchRotation:
+				this.tween = base.transform.DOPunchRotation(this.endValueV3, this.duration, this.optionalInt0, this.optionalFloat0);
 				break;
-			case 11:
-				this.tween = ShortcutExtensions.DOPunchScale(base.transform, this.endValueV3, this.duration, this.optionalInt0, this.optionalFloat0);
+			case DOTweenAnimationType.PunchScale:
+				this.tween = base.transform.DOPunchScale(this.endValueV3, this.duration, this.optionalInt0, this.optionalFloat0);
 				break;
-			case 12:
+			case DOTweenAnimationType.ShakePosition:
 			{
 				TargetType targetType4 = this.targetType;
-				if (targetType4 != 5)
+				if (targetType4 != TargetType.RectTransform)
 				{
-					if (targetType4 == 11)
+					if (targetType4 == TargetType.Transform)
 					{
-						this.tween = ShortcutExtensions.DOShakePosition((Transform)this.target, this.duration, this.endValueV3, this.optionalInt0, this.optionalFloat0, this.optionalBool0, true);
+						this.tween = ((Transform)this.target).DOShakePosition(this.duration, this.endValueV3, this.optionalInt0, this.optionalFloat0, this.optionalBool0, true);
 					}
 				}
 				else
 				{
-					this.tween = ShortcutExtensions46.DOShakeAnchorPos((RectTransform)this.target, this.duration, this.endValueV3, this.optionalInt0, this.optionalFloat0, this.optionalBool0, true);
+					this.tween = ((RectTransform)this.target).DOShakeAnchorPos(this.duration, this.endValueV3, this.optionalInt0, this.optionalFloat0, this.optionalBool0, true);
 				}
 				break;
 			}
-			case 13:
-				this.tween = ShortcutExtensions.DOShakeRotation(base.transform, this.duration, this.endValueV3, this.optionalInt0, this.optionalFloat0, true);
+			case DOTweenAnimationType.ShakeRotation:
+				this.tween = base.transform.DOShakeRotation(this.duration, this.endValueV3, this.optionalInt0, this.optionalFloat0, true);
 				break;
-			case 14:
-				this.tween = ShortcutExtensions.DOShakeScale(base.transform, this.duration, this.endValueV3, this.optionalInt0, this.optionalFloat0, true);
+			case DOTweenAnimationType.ShakeScale:
+				this.tween = base.transform.DOShakeScale(this.duration, this.endValueV3, this.optionalInt0, this.optionalFloat0, true);
 				break;
-			case 15:
-				this.tween = ShortcutExtensions.DOAspect((Camera)this.target, this.endValueFloat, this.duration);
+			case DOTweenAnimationType.CameraAspect:
+				this.tween = ((Camera)this.target).DOAspect(this.endValueFloat, this.duration);
 				break;
-			case 16:
-				this.tween = ShortcutExtensions.DOColor((Camera)this.target, this.endValueColor, this.duration);
+			case DOTweenAnimationType.CameraBackgroundColor:
+				this.tween = ((Camera)this.target).DOColor(this.endValueColor, this.duration);
 				break;
-			case 17:
-				this.tween = ShortcutExtensions.DOFieldOfView((Camera)this.target, this.endValueFloat, this.duration);
+			case DOTweenAnimationType.CameraFieldOfView:
+				this.tween = ((Camera)this.target).DOFieldOfView(this.endValueFloat, this.duration);
 				break;
-			case 18:
-				this.tween = ShortcutExtensions.DOOrthoSize((Camera)this.target, this.endValueFloat, this.duration);
+			case DOTweenAnimationType.CameraOrthoSize:
+				this.tween = ((Camera)this.target).DOOrthoSize(this.endValueFloat, this.duration);
 				break;
-			case 19:
-				this.tween = ShortcutExtensions.DOPixelRect((Camera)this.target, this.endValueRect, this.duration);
+			case DOTweenAnimationType.CameraPixelRect:
+				this.tween = ((Camera)this.target).DOPixelRect(this.endValueRect, this.duration);
 				break;
-			case 20:
-				this.tween = ShortcutExtensions.DORect((Camera)this.target, this.endValueRect, this.duration);
+			case DOTweenAnimationType.CameraRect:
+				this.tween = ((Camera)this.target).DORect(this.endValueRect, this.duration);
 				break;
-			case 21:
-				this.tween = ShortcutExtensions46.DOSizeDelta((RectTransform)this.target, (!this.optionalBool0) ? this.endValueV2 : new Vector2(this.endValueFloat, this.endValueFloat), this.duration, false);
+			case DOTweenAnimationType.UIWidthHeight:
+				this.tween = ((RectTransform)this.target).DOSizeDelta((!this.optionalBool0) ? this.endValueV2 : new Vector2(this.endValueFloat, this.endValueFloat), this.duration, false);
 				break;
 			}
 			if (this.tween == null)
@@ -267,38 +267,38 @@ namespace DG.Tweening
 			}
 			if (this.isFrom)
 			{
-				TweenSettingsExtensions.From<Tweener>((Tweener)this.tween, this.isRelative);
+				((Tweener)this.tween).From(this.isRelative);
 			}
 			else
 			{
-				TweenSettingsExtensions.SetRelative<Tween>(this.tween, this.isRelative);
+				this.tween.SetRelative(this.isRelative);
 			}
-			TweenSettingsExtensions.OnKill<Tween>(TweenSettingsExtensions.SetAutoKill<Tween>(TweenSettingsExtensions.SetLoops<Tween>(TweenSettingsExtensions.SetDelay<Tween>(TweenSettingsExtensions.SetTarget<Tween>(this.tween, base.gameObject), this.delay), this.loops, this.loopType), this.autoKill), delegate()
+			this.tween.SetTarget(base.gameObject).SetDelay(this.delay).SetLoops(this.loops, this.loopType).SetAutoKill(this.autoKill).OnKill(delegate
 			{
 				this.tween = null;
 			});
 			if (this.isSpeedBased)
 			{
-				TweenSettingsExtensions.SetSpeedBased<Tween>(this.tween);
+				this.tween.SetSpeedBased<Tween>();
 			}
-			if (this.easeType == 37)
+			if (this.easeType == Ease.INTERNAL_Custom)
 			{
-				TweenSettingsExtensions.SetEase<Tween>(this.tween, this.easeCurve);
+				this.tween.SetEase(this.easeCurve);
 			}
 			else
 			{
-				TweenSettingsExtensions.SetEase<Tween>(this.tween, this.easeType);
+				this.tween.SetEase(this.easeType);
 			}
 			if (!string.IsNullOrEmpty(this.id))
 			{
-				TweenSettingsExtensions.SetId<Tween>(this.tween, this.id);
+				this.tween.SetId(this.id);
 			}
-			TweenSettingsExtensions.SetUpdate<Tween>(this.tween, this.isIndependentUpdate);
+			this.tween.SetUpdate(this.isIndependentUpdate);
 			if (this.hasOnStart)
 			{
 				if (this.onStart != null)
 				{
-					TweenSettingsExtensions.OnStart<Tween>(this.tween, new TweenCallback(this.onStart.Invoke));
+					this.tween.OnStart(new TweenCallback(this.onStart.Invoke));
 				}
 			}
 			else
@@ -309,7 +309,7 @@ namespace DG.Tweening
 			{
 				if (this.onPlay != null)
 				{
-					TweenSettingsExtensions.OnPlay<Tween>(this.tween, new TweenCallback(this.onPlay.Invoke));
+					this.tween.OnPlay(new TweenCallback(this.onPlay.Invoke));
 				}
 			}
 			else
@@ -320,7 +320,7 @@ namespace DG.Tweening
 			{
 				if (this.onUpdate != null)
 				{
-					TweenSettingsExtensions.OnUpdate<Tween>(this.tween, new TweenCallback(this.onUpdate.Invoke));
+					this.tween.OnUpdate(new TweenCallback(this.onUpdate.Invoke));
 				}
 			}
 			else
@@ -331,7 +331,7 @@ namespace DG.Tweening
 			{
 				if (this.onStepComplete != null)
 				{
-					TweenSettingsExtensions.OnStepComplete<Tween>(this.tween, new TweenCallback(this.onStepComplete.Invoke));
+					this.tween.OnStepComplete(new TweenCallback(this.onStepComplete.Invoke));
 				}
 			}
 			else
@@ -342,7 +342,7 @@ namespace DG.Tweening
 			{
 				if (this.onComplete != null)
 				{
-					TweenSettingsExtensions.OnComplete<Tween>(this.tween, new TweenCallback(this.onComplete.Invoke));
+					this.tween.OnComplete(new TweenCallback(this.onComplete.Invoke));
 				}
 			}
 			else
@@ -353,7 +353,7 @@ namespace DG.Tweening
 			{
 				if (this.onRewind != null)
 				{
-					TweenSettingsExtensions.OnRewind<Tween>(this.tween, new TweenCallback(this.onRewind.Invoke));
+					this.tween.OnRewind(new TweenCallback(this.onRewind.Invoke));
 				}
 			}
 			else
@@ -362,11 +362,11 @@ namespace DG.Tweening
 			}
 			if (this.autoPlay)
 			{
-				TweenExtensions.Play<Tween>(this.tween);
+				this.tween.Play<Tween>();
 			}
 			else
 			{
-				TweenExtensions.Pause<Tween>(this.tween);
+				this.tween.Pause<Tween>();
 			}
 			if (this.hasOnTweenCreated && this.onTweenCreated != null)
 			{
@@ -406,9 +406,9 @@ namespace DG.Tweening
 			for (int i = components.Length - 1; i > -1; i--)
 			{
 				Tween tween = components[i].tween;
-				if (tween != null && TweenExtensions.IsInitialized(tween))
+				if (tween != null && tween.IsInitialized())
 				{
-					TweenExtensions.Rewind(components[i].tween, true);
+					components[i].tween.Rewind(true);
 				}
 			}
 		}
@@ -484,9 +484,9 @@ namespace DG.Tweening
 			{
 				this._playCount++;
 				DOTweenAnimation dotweenAnimation = components[this._playCount];
-				if (dotweenAnimation != null && dotweenAnimation.tween != null && !TweenExtensions.IsPlaying(dotweenAnimation.tween) && !TweenExtensions.IsComplete(dotweenAnimation.tween))
+				if (dotweenAnimation != null && dotweenAnimation.tween != null && !dotweenAnimation.tween.IsPlaying() && !dotweenAnimation.tween.IsComplete())
 				{
-					TweenExtensions.Play<Tween>(dotweenAnimation.tween);
+					dotweenAnimation.tween.Play<Tween>();
 					break;
 				}
 			}
@@ -539,11 +539,11 @@ namespace DG.Tweening
 
 		private void ReEvaluateRelativeTween()
 		{
-			if (this.animationType == 1)
+			if (this.animationType == DOTweenAnimationType.Move)
 			{
 				((Tweener)this.tween).ChangeEndValue(base.transform.position + this.endValueV3, true);
 			}
-			else if (this.animationType == 2)
+			else if (this.animationType == DOTweenAnimationType.LocalMove)
 			{
 				((Tweener)this.tween).ChangeEndValue(base.transform.localPosition + this.endValueV3, true);
 			}
@@ -553,7 +553,7 @@ namespace DG.Tweening
 
 		public float duration = 1f;
 
-		public Ease easeType = 6;
+		public Ease easeType = Ease.OutQuad;
 
 		public AnimationCurve easeCurve = new AnimationCurve(new Keyframe[]
 		{

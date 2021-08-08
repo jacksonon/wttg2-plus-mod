@@ -40,7 +40,7 @@ namespace MirzaBeig.Scripting.Effects
 			{
 				for (int i = this.maxLineRenderers; i < num; i++)
 				{
-					Object.Destroy(this.lineRenderers[i].gameObject);
+					UnityEngine.Object.Destroy(this.lineRenderers[i].gameObject);
 				}
 				this.lineRenderers.RemoveRange(this.maxLineRenderers, num - this.maxLineRenderers);
 				num -= num - this.maxLineRenderers;
@@ -70,15 +70,15 @@ namespace MirzaBeig.Scripting.Effects
 						Transform customSimulationSpace = this.particleSystemMainModule.customSimulationSpace;
 						Color startColor = this.lineRendererTemplate.startColor;
 						Color endColor = this.lineRendererTemplate.endColor;
-						float num4 = this.lineRendererTemplate.startWidth * this.lineRendererTemplate.widthMultiplier;
-						float num5 = this.lineRendererTemplate.endWidth * this.lineRendererTemplate.widthMultiplier;
+						float a = this.lineRendererTemplate.startWidth * this.lineRendererTemplate.widthMultiplier;
+						float a2 = this.lineRendererTemplate.endWidth * this.lineRendererTemplate.widthMultiplier;
 						for (int j = 0; j < particleCount; j++)
 						{
 							this.particlePositions[j] = this.particles[j].position;
 							this.particleColours[j] = this.particles[j].GetCurrentColor(this.particleSystem);
 							this.particleSizes[j] = this.particles[j].GetCurrentSize(this.particleSystem);
 						}
-						if (simulationSpace == 1)
+						if (simulationSpace == ParticleSystemSimulationSpace.World)
 						{
 							for (int k = 0; k < particleCount; k++)
 							{
@@ -86,24 +86,24 @@ namespace MirzaBeig.Scripting.Effects
 								{
 									break;
 								}
-								Color color = this.particleColours[k];
-								Color startColor2 = Color.LerpUnclamped(startColor, color, this.colourFromParticle);
-								startColor2.a = Mathf.LerpUnclamped(startColor.a, color.a, this.alphaFromParticle);
-								float startWidth = Mathf.LerpUnclamped(num4, this.particleSizes[k], this.widthFromParticle);
-								int num6 = 0;
+								Color b = this.particleColours[k];
+								Color startColor2 = Color.LerpUnclamped(startColor, b, this.colourFromParticle);
+								startColor2.a = Mathf.LerpUnclamped(startColor.a, b.a, this.alphaFromParticle);
+								float startWidth = Mathf.LerpUnclamped(a, this.particleSizes[k], this.widthFromParticle);
+								int num4 = 0;
 								for (int l = k + 1; l < particleCount; l++)
 								{
 									Vector3 vector;
 									vector.x = this.particlePositions[k].x - this.particlePositions[l].x;
 									vector.y = this.particlePositions[k].y - this.particlePositions[l].y;
 									vector.z = this.particlePositions[k].z - this.particlePositions[l].z;
-									float num7 = vector.x * vector.x + vector.y * vector.y + vector.z * vector.z;
-									if (num7 <= num3)
+									float num5 = vector.x * vector.x + vector.y * vector.y + vector.z * vector.z;
+									if (num5 <= num3)
 									{
 										LineRenderer lineRenderer;
 										if (num2 == num)
 										{
-											lineRenderer = Object.Instantiate<LineRenderer>(this.lineRendererTemplate, this._transform, false);
+											lineRenderer = UnityEngine.Object.Instantiate<LineRenderer>(this.lineRendererTemplate, this._transform, false);
 											this.lineRenderers.Add(lineRenderer);
 											num++;
 										}
@@ -112,15 +112,15 @@ namespace MirzaBeig.Scripting.Effects
 										lineRenderer.SetPosition(0, this.particlePositions[k]);
 										lineRenderer.SetPosition(1, this.particlePositions[l]);
 										lineRenderer.startColor = startColor2;
-										color = this.particleColours[l];
-										Color endColor2 = Color.LerpUnclamped(endColor, color, this.colourFromParticle);
-										endColor2.a = Mathf.LerpUnclamped(endColor.a, color.a, this.alphaFromParticle);
+										b = this.particleColours[l];
+										Color endColor2 = Color.LerpUnclamped(endColor, b, this.colourFromParticle);
+										endColor2.a = Mathf.LerpUnclamped(endColor.a, b.a, this.alphaFromParticle);
 										lineRenderer.endColor = endColor2;
 										lineRenderer.startWidth = startWidth;
-										lineRenderer.endWidth = Mathf.LerpUnclamped(num5, this.particleSizes[l], this.widthFromParticle);
+										lineRenderer.endWidth = Mathf.LerpUnclamped(a2, this.particleSizes[l], this.widthFromParticle);
 										num2++;
-										num6++;
-										if (num6 == this.maxConnections || num2 == this.maxLineRenderers)
+										num4++;
+										if (num4 == this.maxConnections || num2 == this.maxLineRenderers)
 										{
 											break;
 										}
@@ -131,24 +131,24 @@ namespace MirzaBeig.Scripting.Effects
 						else
 						{
 							Vector3 vector2 = Vector3.zero;
-							Quaternion quaternion = Quaternion.identity;
+							Quaternion rotation = Quaternion.identity;
 							Vector3 vector3 = Vector3.one;
 							Transform transform = this._transform;
-							if (simulationSpace != null)
+							if (simulationSpace != ParticleSystemSimulationSpace.Local)
 							{
-								if (simulationSpace != 2)
+								if (simulationSpace != ParticleSystemSimulationSpace.Custom)
 								{
 									throw new NotSupportedException(string.Format("Unsupported scaling mode '{0}'.", simulationSpace));
 								}
 								transform = customSimulationSpace;
 								vector2 = transform.position;
-								quaternion = transform.rotation;
+								rotation = transform.rotation;
 								vector3 = transform.localScale;
 							}
 							else
 							{
 								vector2 = transform.position;
-								quaternion = transform.rotation;
+								rotation = transform.rotation;
 								vector3 = transform.localScale;
 							}
 							Vector3 vector4 = Vector3.zero;
@@ -159,24 +159,24 @@ namespace MirzaBeig.Scripting.Effects
 								{
 									break;
 								}
-								if (simulationSpace == null || simulationSpace == 2)
+								if (simulationSpace == ParticleSystemSimulationSpace.Local || simulationSpace == ParticleSystemSimulationSpace.Custom)
 								{
 									switch (scalingMode)
 									{
-									case 0:
+									case ParticleSystemScalingMode.Hierarchy:
 										vector4 = transform.TransformPoint(this.particlePositions[m]);
 										break;
-									case 1:
+									case ParticleSystemScalingMode.Local:
 										vector4.x = this.particlePositions[m].x * vector3.x;
 										vector4.y = this.particlePositions[m].y * vector3.y;
 										vector4.z = this.particlePositions[m].z * vector3.z;
-										vector4 = quaternion * vector4;
+										vector4 = rotation * vector4;
 										vector4.x += vector2.x;
 										vector4.y += vector2.y;
 										vector4.z += vector2.z;
 										break;
-									case 2:
-										vector4 = quaternion * this.particlePositions[m];
+									case ParticleSystemScalingMode.Shape:
+										vector4 = rotation * this.particlePositions[m];
 										vector4.x += vector2.x;
 										vector4.y += vector2.y;
 										vector4.z += vector2.z;
@@ -185,31 +185,31 @@ namespace MirzaBeig.Scripting.Effects
 										throw new NotSupportedException(string.Format("Unsupported scaling mode '{0}'.", scalingMode));
 									}
 								}
-								Color color2 = this.particleColours[m];
-								Color startColor3 = Color.LerpUnclamped(startColor, color2, this.colourFromParticle);
-								startColor3.a = Mathf.LerpUnclamped(startColor.a, color2.a, this.alphaFromParticle);
-								float startWidth2 = Mathf.LerpUnclamped(num4, this.particleSizes[m], this.widthFromParticle);
-								int num8 = 0;
+								Color b2 = this.particleColours[m];
+								Color startColor3 = Color.LerpUnclamped(startColor, b2, this.colourFromParticle);
+								startColor3.a = Mathf.LerpUnclamped(startColor.a, b2.a, this.alphaFromParticle);
+								float startWidth2 = Mathf.LerpUnclamped(a, this.particleSizes[m], this.widthFromParticle);
+								int num6 = 0;
 								for (int n = m + 1; n < particleCount; n++)
 								{
-									if (simulationSpace == null || simulationSpace == 2)
+									if (simulationSpace == ParticleSystemSimulationSpace.Local || simulationSpace == ParticleSystemSimulationSpace.Custom)
 									{
 										switch (scalingMode)
 										{
-										case 0:
+										case ParticleSystemScalingMode.Hierarchy:
 											vector5 = transform.TransformPoint(this.particlePositions[n]);
 											break;
-										case 1:
+										case ParticleSystemScalingMode.Local:
 											vector5.x = this.particlePositions[n].x * vector3.x;
 											vector5.y = this.particlePositions[n].y * vector3.y;
 											vector5.z = this.particlePositions[n].z * vector3.z;
-											vector5 = quaternion * vector5;
+											vector5 = rotation * vector5;
 											vector5.x += vector2.x;
 											vector5.y += vector2.y;
 											vector5.z += vector2.z;
 											break;
-										case 2:
-											vector5 = quaternion * this.particlePositions[n];
+										case ParticleSystemScalingMode.Shape:
+											vector5 = rotation * this.particlePositions[n];
 											vector5.x += vector2.x;
 											vector5.y += vector2.y;
 											vector5.z += vector2.z;
@@ -222,13 +222,13 @@ namespace MirzaBeig.Scripting.Effects
 									vector.x = this.particlePositions[m].x - this.particlePositions[n].x;
 									vector.y = this.particlePositions[m].y - this.particlePositions[n].y;
 									vector.z = this.particlePositions[m].z - this.particlePositions[n].z;
-									float num9 = vector.x * vector.x + vector.y * vector.y + vector.z * vector.z;
-									if (num9 <= num3)
+									float num7 = vector.x * vector.x + vector.y * vector.y + vector.z * vector.z;
+									if (num7 <= num3)
 									{
 										LineRenderer lineRenderer2;
 										if (num2 == num)
 										{
-											lineRenderer2 = Object.Instantiate<LineRenderer>(this.lineRendererTemplate, this._transform, false);
+											lineRenderer2 = UnityEngine.Object.Instantiate<LineRenderer>(this.lineRendererTemplate, this._transform, false);
 											this.lineRenderers.Add(lineRenderer2);
 											num++;
 										}
@@ -237,15 +237,15 @@ namespace MirzaBeig.Scripting.Effects
 										lineRenderer2.SetPosition(0, vector4);
 										lineRenderer2.SetPosition(1, vector5);
 										lineRenderer2.startColor = startColor3;
-										color2 = this.particleColours[n];
-										Color endColor3 = Color.LerpUnclamped(endColor, color2, this.colourFromParticle);
-										endColor3.a = Mathf.LerpUnclamped(endColor.a, color2.a, this.alphaFromParticle);
+										b2 = this.particleColours[n];
+										Color endColor3 = Color.LerpUnclamped(endColor, b2, this.colourFromParticle);
+										endColor3.a = Mathf.LerpUnclamped(endColor.a, b2.a, this.alphaFromParticle);
 										lineRenderer2.endColor = endColor3;
 										lineRenderer2.startWidth = startWidth2;
-										lineRenderer2.endWidth = Mathf.LerpUnclamped(num5, this.particleSizes[n], this.widthFromParticle);
+										lineRenderer2.endWidth = Mathf.LerpUnclamped(a2, this.particleSizes[n], this.widthFromParticle);
 										num2++;
-										num8++;
-										if (num8 == this.maxConnections || num2 == this.maxLineRenderers)
+										num6++;
+										if (num6 == this.maxConnections || num2 == this.maxLineRenderers)
 										{
 											break;
 										}
@@ -254,11 +254,11 @@ namespace MirzaBeig.Scripting.Effects
 							}
 						}
 					}
-					for (int num10 = num2; num10 < num; num10++)
+					for (int num8 = num2; num8 < num; num8++)
 					{
-						if (this.lineRenderers[num10].enabled)
+						if (this.lineRenderers[num8].enabled)
 						{
-							this.lineRenderers[num10].enabled = false;
+							this.lineRenderers[num8].enabled = false;
 						}
 					}
 				}

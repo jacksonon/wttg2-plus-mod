@@ -53,7 +53,7 @@ public class HackingTimerObject : MonoBehaviour
 		this.hackerTimerTween = null;
 		this.hackerTimeTimer = null;
 		this.panicTickTimer = null;
-		TweenExtensions.Restart(this.killMeTween, true, -1f);
+		this.killMeTween.Restart(true, -1f);
 	}
 
 	public void Pause()
@@ -107,15 +107,15 @@ public class HackingTimerObject : MonoBehaviour
 	{
 		this.myCG = base.GetComponent<CanvasGroup>();
 		this.myRT = base.GetComponent<RectTransform>();
-		this.killMeTween = TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		this.killMeTween = DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 0f, 0.25f), delegate()
+		}, 0f, 0.25f).OnComplete(delegate
 		{
 			GameManager.HackerManager.HackingTimer.setTimerOverLayInactive();
 		});
-		TweenExtensions.Pause<Tweener>(this.killMeTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.killMeTween, false);
+		this.killMeTween.Pause<Tweener>();
+		this.killMeTween.SetAutoKill(false);
 		this.updateFillAction = new Action<float>(this.updateFill);
 	}
 

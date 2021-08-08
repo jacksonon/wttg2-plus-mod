@@ -10,14 +10,14 @@ public class TitleCultBehaviour : MonoBehaviour
 
 	private void generateFireTime()
 	{
-		this.fireWindow = Random.Range(this.fireMin, this.fireMin);
+		this.fireWindow = UnityEngine.Random.Range(this.fireMin, this.fireMin);
 		this.fireTimeStamp = Time.time;
 		this.fireActive = true;
 	}
 
 	private void doHeadTilt()
 	{
-		int num = Random.Range(1, 11);
+		int num = UnityEngine.Random.Range(1, 11);
 		if (num <= 5)
 		{
 			this.myAC.SetTrigger("headTiltTrigger");

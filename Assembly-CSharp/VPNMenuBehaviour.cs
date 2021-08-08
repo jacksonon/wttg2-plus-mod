@@ -25,10 +25,8 @@ public class VPNMenuBehaviour : MonoBehaviour, IPointerExitHandler, IEventSystem
 			num = 38f;
 			this.noVPNSOwnedCG.alpha = 1f;
 		}
-		Vector2 sizeDelta;
-		sizeDelta..ctor(this.myRT.sizeDelta.x, num);
-		Vector2 anchoredPosition;
-		anchoredPosition..ctor(this.myRT.anchoredPosition.x, num);
+		Vector2 sizeDelta = new Vector2(this.myRT.sizeDelta.x, num);
+		Vector2 anchoredPosition = new Vector2(this.myRT.anchoredPosition.x, num);
 		this.myRT.sizeDelta = sizeDelta;
 		this.myRT.anchoredPosition = anchoredPosition;
 	}
@@ -127,7 +125,7 @@ public class VPNMenuBehaviour : MonoBehaviour, IPointerExitHandler, IEventSystem
 		this.myRT = base.GetComponent<RectTransform>();
 		this.vpnMenuObjectPool = new PooledStack<VPNMenuObject>(delegate()
 		{
-			VPNMenuObject component = Object.Instantiate<GameObject>(this.VPNMenuObjectPrefab, this.myRT).GetComponent<VPNMenuObject>();
+			VPNMenuObject component = UnityEngine.Object.Instantiate<GameObject>(this.VPNMenuObjectPrefab, this.myRT).GetComponent<VPNMenuObject>();
 			component.SoftBuild();
 			component.IWasPressed += this.connectToVPN;
 			return component;

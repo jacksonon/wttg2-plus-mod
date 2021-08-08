@@ -44,12 +44,16 @@ public class PoliceScannerBehaviour : MonoBehaviour
 
 	public void TriggerWarning()
 	{
+		if (!this.scannerIsActive)
+		{
+			return;
+		}
 		for (int i = 0; i < this.currentPlayingClips.Count; i++)
 		{
 			GameManager.AudioSlinger.UniKillSound(this.currentPlayingClips[i]);
 			this.myAudioHub.KillSound(this.currentPlayingClips[i].AudioClip);
 		}
-		int num = Random.Range(1, this.warningSFXS.Length);
+		int num = UnityEngine.Random.Range(1, this.warningSFXS.Length);
 		this.myAudioHub.PlaySound(this.warningSFXS[num]);
 		BlueWhisperManager.Ins.ProcessSound(this.warningSFXS[num]);
 		this.currentPlayingClips.Add(this.warningSFXS[num]);
@@ -99,13 +103,13 @@ public class PoliceScannerBehaviour : MonoBehaviour
 
 	private void generateFireWindow()
 	{
-		this.fireTimeWindow = Random.Range(this.fireWindowMin, this.fireWindowMax);
+		this.fireTimeWindow = UnityEngine.Random.Range(this.fireWindowMin, this.fireWindowMax);
 		this.fireTimeStamp = Time.time;
 	}
 
 	private void triggerPoliceBanter()
 	{
-		int num = Random.Range(1, this.policeBanterSFXS.Length);
+		int num = UnityEngine.Random.Range(1, this.policeBanterSFXS.Length);
 		this.myAudioHub.PlaySound(this.policeBanterSFXS[num]);
 		BlueWhisperManager.Ins.ProcessSound(this.policeBanterSFXS[num]);
 		this.currentPlayingClips.Add(this.policeBanterSFXS[num]);

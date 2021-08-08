@@ -15,15 +15,15 @@ public class LOLPYDiscBehaviour : MonoBehaviour
 		base.transform.rotation = Quaternion.Euler(Vector3.zero);
 		this.myMeshRenderer.enabled = false;
 		this.myInteractionHook.LeftClickAction += this.leftClickAction;
-		this.insertTween = TweenSettingsExtensions.OnComplete<TweenerCore<Vector3, Vector3, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => new Vector3(3.818f, 0.6124f, -23.1333f), delegate(Vector3 x)
+		this.insertTween = DOTween.To(() => new Vector3(3.818f, 0.6124f, -23.1333f), delegate(Vector3 x)
 		{
 			base.transform.position = x;
-		}, new Vector3(3.818f, 0.6124f, -23.2183f), 1f), 3), delegate()
+		}, new Vector3(3.818f, 0.6124f, -23.2183f), 1f).SetEase(Ease.OutSine).OnComplete(delegate
 		{
 			GameManager.ManagerSlinger.TenantTrackManager.UnLockSystem();
 		});
-		TweenExtensions.Pause<Tweener>(this.insertTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.insertTween, false);
+		this.insertTween.Pause<Tweener>();
+		this.insertTween.SetAutoKill(false);
 	}
 
 	public void MoveMe(Vector3 SetPOS, Vector3 SetROT)
@@ -39,7 +39,7 @@ public class LOLPYDiscBehaviour : MonoBehaviour
 		this.myMeshRenderer.enabled = true;
 		base.transform.position = new Vector3(3.818f, 0.6124f, -23.1333f);
 		base.transform.rotation = Quaternion.Euler(new Vector3(0f, -90f, 90f));
-		TweenExtensions.Restart(this.insertTween, true, -1f);
+		this.insertTween.Restart(true, -1f);
 	}
 
 	public void HardInsert()

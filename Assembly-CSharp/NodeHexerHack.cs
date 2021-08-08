@@ -111,7 +111,7 @@ public class NodeHexerHack : MonoBehaviour
 		this.nodesThatNeedToBeTagged.Clear();
 		if (matrixSize * matrixSize - (num + num2) != 0)
 		{
-			if (Random.Range(0, 2) == 0)
+			if (UnityEngine.Random.Range(0, 2) == 0)
 			{
 				num++;
 			}
@@ -129,8 +129,8 @@ public class NodeHexerHack : MonoBehaviour
 		}
 		bool flag = true;
 		int num3 = 0;
-		int num4 = Random.Range(0, this.stackCords.Count);
-		int num5 = Random.Range(2, matrixSize - 1);
+		int num4 = UnityEngine.Random.Range(0, this.stackCords.Count);
+		int num5 = UnityEngine.Random.Range(2, matrixSize - 1);
 		while (flag)
 		{
 			while (i < num)
@@ -170,8 +170,8 @@ public class NodeHexerHack : MonoBehaviour
 			}
 			if (num3 > 0)
 			{
-				num4 = Random.Range(0, this.stackCords.Count);
-				num5 = Random.Range(2, matrixSize - 1);
+				num4 = UnityEngine.Random.Range(0, this.stackCords.Count);
+				num5 = UnityEngine.Random.Range(2, matrixSize - 1);
 				i = 0;
 				num3 = 0;
 				foreach (NodeHexObject nodeHexObject3 in this.currentMatrix.GetAll())
@@ -186,13 +186,13 @@ public class NodeHexerHack : MonoBehaviour
 			}
 		}
 		this.hexTypePicker.X = 0;
-		this.hexTypePicker.Y = Random.Range(1, matrixSize);
+		this.hexTypePicker.Y = UnityEngine.Random.Range(1, matrixSize);
 		this.startNode = this.currentMatrix.Get(this.hexTypePicker);
 		this.currentTagPieces = tagPieces;
 		while (j < tagPieces)
 		{
-			this.hexTypePicker.X = ((j != tagPieces - 1) ? Random.Range(1, matrixSize - 1) : (matrixSize - 1));
-			this.hexTypePicker.Y = Random.Range(0, matrixSize);
+			this.hexTypePicker.X = ((j != tagPieces - 1) ? UnityEngine.Random.Range(1, matrixSize - 1) : (matrixSize - 1));
+			this.hexTypePicker.Y = UnityEngine.Random.Range(0, matrixSize);
 			if (!this.nodesThatNeedToBeTagged.ContainsKey(this.hexTypePicker))
 			{
 				this.nodesThatNeedToBeTagged.Add(this.hexTypePicker, true);
@@ -445,7 +445,7 @@ public class NodeHexerHack : MonoBehaviour
 	{
 		this.nodeHexObjectPool = new PooledStack<NodeHexObject>(delegate()
 		{
-			NodeHexObject component = Object.Instantiate<GameObject>(this.NodeHexObject, this.NodeHolderRT).GetComponent<NodeHexObject>();
+			NodeHexObject component = UnityEngine.Object.Instantiate<GameObject>(this.NodeHexObject, this.NodeHolderRT).GetComponent<NodeHexObject>();
 			component.PoolBuild(this);
 			return component;
 		}, this.START_NODE_HEX_OBJECT_POOL_COUNT);

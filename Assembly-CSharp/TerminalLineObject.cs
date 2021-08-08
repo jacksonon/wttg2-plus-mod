@@ -48,7 +48,7 @@ public class TerminalLineObject : MonoBehaviour
 		this.isCrackLine = false;
 		this.crackTimeStamp = 0f;
 		this.updateDelay = 0f;
-		TweenExtensions.Kill(this.myTweener, false);
+		this.myTweener.Kill(false);
 		GameManager.TimeSlinger.KillTimer(this.myTimer);
 		GameManager.TweenSlinger.KillTween(this.myDOSTween);
 		this.myTweener = null;
@@ -101,7 +101,7 @@ public class TerminalLineObject : MonoBehaviour
 		this.isCrackLine = false;
 		this.crackTimeStamp = 0f;
 		this.updateDelay = 0f;
-		TweenExtensions.Kill(this.myTweener, false);
+		this.myTweener.Kill(false);
 		GameManager.TimeSlinger.KillTimer(this.myTimer);
 		GameManager.TweenSlinger.KillTween(this.myDOSTween);
 		this.myTweener = null;
@@ -185,10 +185,10 @@ public class TerminalLineObject : MonoBehaviour
 	{
 		this.myCanvasGroup.alpha = 0f;
 		this.myText.text = this.myLine;
-		this.myTweener = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCanvasGroup.alpha, delegate(float x)
+		this.myTweener = DOTween.To(() => this.myCanvasGroup.alpha, delegate(float x)
 		{
 			this.myCanvasGroup.alpha = x;
-		}, 1f, SetTime), 1);
+		}, 1f, SetTime).SetEase(Ease.Linear);
 	}
 
 	private void fadeShow(float SetTime, float SetDelay)
@@ -205,10 +205,10 @@ public class TerminalLineObject : MonoBehaviour
 
 	private void fadeHide(float SetTime)
 	{
-		TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCanvasGroup.alpha, delegate(float x)
+		DOTween.To(() => this.myCanvasGroup.alpha, delegate(float x)
 		{
 			this.myCanvasGroup.alpha = x;
-		}, 0f, SetTime), 1);
+		}, 0f, SetTime).SetEase(Ease.Linear);
 	}
 
 	private void typeShow(float SetTime)

@@ -33,15 +33,15 @@ namespace MirzaBeig.Scripting.Effects
 			int num5 = 0;
 			for (int i = 0; i < this.voxelsPerAxis; i++)
 			{
-				float num6 = -num4 + num3 + (float)i * num2;
+				float x = -num4 + num3 + (float)i * num2;
 				for (int j = 0; j < this.voxelsPerAxis; j++)
 				{
-					float num7 = -num4 + num3 + (float)j * num2;
+					float y = -num4 + num3 + (float)j * num2;
 					for (int k = 0; k < this.voxelsPerAxis; k++)
 					{
-						float num8 = -num4 + num3 + (float)k * num2;
+						float z = -num4 + num3 + (float)k * num2;
 						this.voxels[num5].particleCount = 0;
-						this.voxels[num5].bounds = new Bounds(position + new Vector3(num6, num7, num8), Vector3.one * num2);
+						this.voxels[num5].bounds = new Bounds(position + new Vector3(x, y, z), Vector3.one * num2);
 						num5++;
 					}
 				}
@@ -80,63 +80,63 @@ namespace MirzaBeig.Scripting.Effects
 					this.timer = 0f;
 					this.particleSystem.GetParticles(this.particles);
 					int particleCount = this.particleSystem.particleCount;
-					float num3 = this.cohesion * num2;
-					float num4 = this.separation * num2;
+					float d = this.cohesion * num2;
+					float num3 = this.separation * num2;
 					for (int j = 0; j < particleCount; j++)
 					{
 						this.particlePositions[j] = this.particles[j].position;
 					}
 					if (this.useVoxels)
 					{
-						int num5 = this.voxels.Length;
-						float num6 = this.voxelVolume / (float)this.voxelsPerAxis;
+						int num4 = this.voxels.Length;
+						float num5 = this.voxelVolume / (float)this.voxelsPerAxis;
 						for (int k = 0; k < particleCount; k++)
 						{
-							for (int l = 0; l < num5; l++)
+							for (int l = 0; l < num4; l++)
 							{
 								if (this.voxels[l].bounds.Contains(this.particlePositions[k]))
 								{
 									this.voxels[l].particles[this.voxels[l].particleCount] = k;
 									ParticleFlocking.Voxel[] array = this.voxels;
-									int num7 = l;
-									array[num7].particleCount = array[num7].particleCount + 1;
+									int num6 = l;
+									array[num6].particleCount = array[num6].particleCount + 1;
 									break;
 								}
 							}
 						}
-						for (int m = 0; m < num5; m++)
+						for (int m = 0; m < num4; m++)
 						{
 							if (this.voxels[m].particleCount > 1)
 							{
 								for (int n = 0; n < this.voxels[m].particleCount; n++)
 								{
-									Vector3 vector = this.particlePositions[this.voxels[m].particles[n]];
-									Vector3 vector2;
+									Vector3 a = this.particlePositions[this.voxels[m].particles[n]];
+									Vector3 a2;
 									if (this.voxelLocalCenterFromBounds)
 									{
-										vector2 = this.voxels[m].bounds.center - this.particlePositions[this.voxels[m].particles[n]];
+										a2 = this.voxels[m].bounds.center - this.particlePositions[this.voxels[m].particles[n]];
 									}
 									else
 									{
-										for (int num8 = 0; num8 < this.voxels[m].particleCount; num8++)
+										for (int num7 = 0; num7 < this.voxels[m].particleCount; num7++)
 										{
-											if (num8 != n)
+											if (num7 != n)
 											{
-												vector += this.particlePositions[this.voxels[m].particles[num8]];
+												a += this.particlePositions[this.voxels[m].particles[num7]];
 											}
 										}
-										vector /= (float)this.voxels[m].particleCount;
-										vector2 = vector - this.particlePositions[this.voxels[m].particles[n]];
+										a /= (float)this.voxels[m].particleCount;
+										a2 = a - this.particlePositions[this.voxels[m].particles[n]];
 									}
-									float sqrMagnitude = vector2.sqrMagnitude;
-									vector2.Normalize();
-									Vector3 vector3 = Vector3.zero;
-									vector3 += vector2 * num3;
-									vector3 -= vector2 * ((1f - sqrMagnitude / num6) * num4);
+									float sqrMagnitude = a2.sqrMagnitude;
+									a2.Normalize();
+									Vector3 a3 = Vector3.zero;
+									a3 += a2 * d;
+									a3 -= a2 * ((1f - sqrMagnitude / num5) * num3);
 									Vector3 velocity = this.particles[this.voxels[m].particles[n]].velocity;
-									velocity.x += vector3.x;
-									velocity.y += vector3.y;
-									velocity.z += vector3.z;
+									velocity.x += a3.x;
+									velocity.y += a3.y;
+									velocity.z += a3.z;
 									this.particles[this.voxels[m].particles[n]].velocity = velocity;
 								}
 								this.voxels[m].particleCount = 0;
@@ -145,41 +145,41 @@ namespace MirzaBeig.Scripting.Effects
 					}
 					else
 					{
-						float num9 = this.maxDistance * this.maxDistance;
-						for (int num10 = 0; num10 < particleCount; num10++)
+						float num8 = this.maxDistance * this.maxDistance;
+						for (int num9 = 0; num9 < particleCount; num9++)
 						{
-							int num11 = 1;
-							Vector3 vector4 = this.particlePositions[num10];
-							for (int num12 = 0; num12 < particleCount; num12++)
+							int num10 = 1;
+							Vector3 a4 = this.particlePositions[num9];
+							for (int num11 = 0; num11 < particleCount; num11++)
 							{
-								if (num12 != num10)
+								if (num11 != num9)
 								{
-									Vector3 vector5;
-									vector5.x = this.particlePositions[num10].x - this.particlePositions[num12].x;
-									vector5.y = this.particlePositions[num10].y - this.particlePositions[num12].y;
-									vector5.z = this.particlePositions[num10].z - this.particlePositions[num12].z;
-									float num13 = Vector3.SqrMagnitude(vector5);
-									if (num13 <= num9)
+									Vector3 vector;
+									vector.x = this.particlePositions[num9].x - this.particlePositions[num11].x;
+									vector.y = this.particlePositions[num9].y - this.particlePositions[num11].y;
+									vector.z = this.particlePositions[num9].z - this.particlePositions[num11].z;
+									float num12 = Vector3.SqrMagnitude(vector);
+									if (num12 <= num8)
 									{
-										num11++;
-										vector4 += this.particlePositions[num12];
+										num10++;
+										a4 += this.particlePositions[num11];
 									}
 								}
 							}
-							if (num11 != 1)
+							if (num10 != 1)
 							{
-								vector4 /= (float)num11;
-								Vector3 vector6 = vector4 - this.particlePositions[num10];
-								float sqrMagnitude2 = vector6.sqrMagnitude;
-								vector6.Normalize();
-								Vector3 vector7 = Vector3.zero;
-								vector7 += vector6 * num3;
-								vector7 -= vector6 * ((1f - sqrMagnitude2 / num9) * num4);
-								Vector3 velocity2 = this.particles[num10].velocity;
-								velocity2.x += vector7.x;
-								velocity2.y += vector7.y;
-								velocity2.z += vector7.z;
-								this.particles[num10].velocity = velocity2;
+								a4 /= (float)num10;
+								Vector3 a5 = a4 - this.particlePositions[num9];
+								float sqrMagnitude2 = a5.sqrMagnitude;
+								a5.Normalize();
+								Vector3 a6 = Vector3.zero;
+								a6 += a5 * d;
+								a6 -= a5 * ((1f - sqrMagnitude2 / num8) * num3);
+								Vector3 velocity2 = this.particles[num9].velocity;
+								velocity2.x += a6.x;
+								velocity2.y += a6.y;
+								velocity2.z += a6.z;
+								this.particles[num9].velocity = velocity2;
 							}
 						}
 					}
@@ -199,14 +199,14 @@ namespace MirzaBeig.Scripting.Effects
 			Gizmos.color = Color.white;
 			for (int i = 0; i < this.voxelsPerAxis; i++)
 			{
-				float num4 = -num3 + num2 + (float)i * num;
+				float x = -num3 + num2 + (float)i * num;
 				for (int j = 0; j < this.voxelsPerAxis; j++)
 				{
-					float num5 = -num3 + num2 + (float)j * num;
+					float y = -num3 + num2 + (float)j * num;
 					for (int k = 0; k < this.voxelsPerAxis; k++)
 					{
-						float num6 = -num3 + num2 + (float)k * num;
-						Gizmos.DrawWireCube(position + new Vector3(num4, num5, num6), Vector3.one * num);
+						float z = -num3 + num2 + (float)k * num;
+						Gizmos.DrawWireCube(position + new Vector3(x, y, z), Vector3.one * num);
 					}
 				}
 			}

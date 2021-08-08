@@ -36,7 +36,7 @@ public class CultSeePlayer : MonoBehaviour
 					this.playerVisibleSet.Invoke(true);
 				}
 			}
-			else if (Physics.SphereCast(this.firePosition.position, this.sphereRadius, base.transform.forward, ref this.ray, this.maxDistance, this.visibleLayers))
+			else if (Physics.SphereCast(this.firePosition.position, this.sphereRadius, base.transform.forward, out this.ray, this.maxDistance, this.visibleLayers))
 			{
 				if (this.playerVisibleSet != null)
 				{

@@ -20,19 +20,19 @@ public class MemCellObject : MonoBehaviour
 
 	public void ActivateInactiveCellIMG()
 	{
-		TweenExtensions.Restart(this.activateInactiveCellTween, true, -1f);
+		this.activateInactiveCellTween.Restart(true, -1f);
 	}
 
 	public void ActivateActiveCellIMG()
 	{
-		TweenExtensions.Restart(this.hideInactiveCellTween, true, -1f);
+		this.hideInactiveCellTween.Restart(true, -1f);
 		if (this.myIndex != this.maxIndex - 1)
 		{
-			TweenExtensions.Restart(this.showActiveCellTween1, true, -1f);
+			this.showActiveCellTween1.Restart(true, -1f);
 		}
 		else
 		{
-			TweenExtensions.Restart(this.showActiveCellTween2, true, -1f);
+			this.showActiveCellTween2.Restart(true, -1f);
 		}
 	}
 
@@ -45,7 +45,7 @@ public class MemCellObject : MonoBehaviour
 
 	private void ActivateConLine()
 	{
-		TweenExtensions.Restart(this.activateConLineTween, true, -1f);
+		this.activateConLineTween.Restart(true, -1f);
 	}
 
 	private void TriggerIWasActivated()
@@ -61,36 +61,36 @@ public class MemCellObject : MonoBehaviour
 		this.MemInactiveCellIMGCG = this.MemInactiveCellIMG.GetComponent<CanvasGroup>();
 		this.MemActiveCellIMGCG = this.MemActiveCellIMG.GetComponent<CanvasGroup>();
 		this.MemInactiveLineImage = this.MemInactiveLineIMG.GetComponent<Image>();
-		this.activateInactiveCellTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.MemInactiveCellIMGCG.alpha, delegate(float x)
+		this.activateInactiveCellTween = DOTween.To(() => this.MemInactiveCellIMGCG.alpha, delegate(float x)
 		{
 			this.MemInactiveCellIMGCG.alpha = x;
-		}, 1f, 0.25f), 1);
-		TweenExtensions.Pause<Tweener>(this.activateInactiveCellTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.activateInactiveCellTween, false);
-		this.hideInactiveCellTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.MemInactiveCellIMGCG.alpha, delegate(float x)
+		}, 1f, 0.25f).SetEase(Ease.Linear);
+		this.activateInactiveCellTween.Pause<Tweener>();
+		this.activateInactiveCellTween.SetAutoKill(false);
+		this.hideInactiveCellTween = DOTween.To(() => this.MemInactiveCellIMGCG.alpha, delegate(float x)
 		{
 			this.MemInactiveCellIMGCG.alpha = x;
-		}, 0f, 0.25f), 1);
-		TweenExtensions.Pause<Tweener>(this.hideInactiveCellTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideInactiveCellTween, false);
-		this.showActiveCellTween1 = TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.MemActiveCellIMGCG.alpha, delegate(float x)
+		}, 0f, 0.25f).SetEase(Ease.Linear);
+		this.hideInactiveCellTween.Pause<Tweener>();
+		this.hideInactiveCellTween.SetAutoKill(false);
+		this.showActiveCellTween1 = DOTween.To(() => this.MemActiveCellIMGCG.alpha, delegate(float x)
 		{
 			this.MemActiveCellIMGCG.alpha = x;
-		}, 1f, 0.3f), 1), new TweenCallback(this.ActivateConLine));
-		TweenExtensions.Pause<Tweener>(this.showActiveCellTween1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showActiveCellTween1, false);
-		this.showActiveCellTween2 = TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.MemActiveCellIMGCG.alpha, delegate(float x)
+		}, 1f, 0.3f).SetEase(Ease.Linear).OnComplete(new TweenCallback(this.ActivateConLine));
+		this.showActiveCellTween1.Pause<Tweener>();
+		this.showActiveCellTween1.SetAutoKill(false);
+		this.showActiveCellTween2 = DOTween.To(() => this.MemActiveCellIMGCG.alpha, delegate(float x)
 		{
 			this.MemActiveCellIMGCG.alpha = x;
-		}, 1f, 0.3f), 1), new TweenCallback(this.TriggerIWasActivated));
-		TweenExtensions.Pause<Tweener>(this.showActiveCellTween2);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showActiveCellTween2, false);
-		this.activateConLineTween = TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.MemInactiveLineImage.fillAmount, delegate(float x)
+		}, 1f, 0.3f).SetEase(Ease.Linear).OnComplete(new TweenCallback(this.TriggerIWasActivated));
+		this.showActiveCellTween2.Pause<Tweener>();
+		this.showActiveCellTween2.SetAutoKill(false);
+		this.activateConLineTween = DOTween.To(() => this.MemInactiveLineImage.fillAmount, delegate(float x)
 		{
 			this.MemInactiveLineImage.fillAmount = x;
-		}, 1f, 0.2f), 1), new TweenCallback(this.TriggerIWasActivated));
-		TweenExtensions.Pause<Tweener>(this.activateConLineTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.activateConLineTween, false);
+		}, 1f, 0.2f).SetEase(Ease.Linear).OnComplete(new TweenCallback(this.TriggerIWasActivated));
+		this.activateConLineTween.Pause<Tweener>();
+		this.activateConLineTween.SetAutoKill(false);
 	}
 
 	public GameObject MemInactiveLineIMG;

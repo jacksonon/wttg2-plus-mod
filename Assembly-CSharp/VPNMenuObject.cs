@@ -56,8 +56,8 @@ public class VPNMenuObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		}
 		this.vpnName1.text = text;
 		this.vpnName2.text = text;
-		float num = -(4f + ((float)MyIndex * 4f + (float)MyIndex * 24f));
-		this.myRT.anchoredPosition = new Vector2(10f, num);
+		float y = -(4f + ((float)MyIndex * 4f + (float)MyIndex * 24f));
+		this.myRT.anchoredPosition = new Vector2(10f, y);
 	}
 
 	public void OnPointerEnter(PointerEventData eventData)

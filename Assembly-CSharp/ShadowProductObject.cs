@@ -77,7 +77,7 @@ public class ShadowProductObject : MonoBehaviour
 
 	public void shipItem()
 	{
-		float num = Random.Range(this.myProduct.deliveryTimeMin, this.myProduct.deliveryTimeMax);
+		float num = UnityEngine.Random.Range(this.myProduct.deliveryTimeMin, this.myProduct.deliveryTimeMax);
 		this.iAmBusy = true;
 		this.myProduct.productIsPending = true;
 		this.productsBTN.ShipAni(num);

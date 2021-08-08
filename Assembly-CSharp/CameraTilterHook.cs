@@ -13,48 +13,48 @@ public class CameraTilterHook : MonoBehaviour
 
 	private void presentToGame()
 	{
-		TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => base.transform.rotation, delegate(Quaternion x)
+		DOTween.To(() => base.transform.rotation, delegate(Quaternion x)
 		{
 			base.transform.rotation = x;
-		}, new Vector3(90f, 0f, 0f), 1.5f), 1);
-		TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => base.transform.position, delegate(Vector3 x)
+		}, new Vector3(90f, 0f, 0f), 1.5f).SetEase(Ease.Linear);
+		DOTween.To(() => base.transform.position, delegate(Vector3 x)
 		{
 			base.transform.position = x;
-		}, new Vector3(-0.0009f, 2.63f, -0.00081f), 2.4f), 14);
+		}, new Vector3(-0.0009f, 2.63f, -0.00081f), 2.4f).SetEase(Ease.InQuint);
 	}
 
 	private void presentToOptions()
 	{
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+		Sequence sequence = DOTween.Sequence().OnComplete(delegate
 		{
 			TitleManager.Ins.OptionsPresented.Execute();
 		});
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => base.transform.position, delegate(Vector3 x)
+		sequence.Insert(0f, DOTween.To(() => base.transform.position, delegate(Vector3 x)
 		{
 			base.transform.position = x;
-		}, new Vector3(-0.0009f, 2.117f, this.defaultPOS.z), 0.75f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0.6f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => base.transform.position, delegate(Vector3 x)
+		}, new Vector3(-0.0009f, 2.117f, this.defaultPOS.z), 0.75f).SetEase(Ease.Linear));
+		sequence.Insert(0.6f, DOTween.To(() => base.transform.position, delegate(Vector3 x)
 		{
 			base.transform.position = x;
-		}, new Vector3(-0.0009f, 2.117f, 0.64f), 0.75f), 1));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, new Vector3(-0.0009f, 2.117f, 0.64f), 0.75f).SetEase(Ease.Linear));
+		sequence.Play<Sequence>();
 	}
 
 	private void dismissFromOptions()
 	{
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+		Sequence sequence = DOTween.Sequence().OnComplete(delegate
 		{
 			TitleManager.Ins.OptionsDismissed.Execute();
 		});
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => base.transform.position, delegate(Vector3 x)
+		sequence.Insert(0f, DOTween.To(() => base.transform.position, delegate(Vector3 x)
 		{
 			base.transform.position = x;
-		}, new Vector3(this.defaultPOS.z, 2.117f, this.defaultPOS.z), 0.75f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0.6f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => base.transform.position, delegate(Vector3 x)
+		}, new Vector3(this.defaultPOS.z, 2.117f, this.defaultPOS.z), 0.75f).SetEase(Ease.Linear));
+		sequence.Insert(0.6f, DOTween.To(() => base.transform.position, delegate(Vector3 x)
 		{
 			base.transform.position = x;
-		}, this.defaultPOS, 0.75f), 1));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, this.defaultPOS, 0.75f).SetEase(Ease.Linear));
+		sequence.Play<Sequence>();
 	}
 
 	private void Awake()

@@ -13,7 +13,7 @@ public class MemDefragmentObject : MonoBehaviour
 		int num = 0;
 		int num2 = 0;
 		int num3 = 0;
-		int num4 = Random.Range(1, 5);
+		int num4 = UnityEngine.Random.Range(1, 5);
 		if (this.PauseGameTime != null)
 		{
 			this.PauseGameTime();
@@ -21,7 +21,7 @@ public class MemDefragmentObject : MonoBehaviour
 		this.myCurrentLevel = SetCurrentLevel;
 		this.curKeyIndex = 0;
 		this.iWasSovled = false;
-		this.curFragCount = Random.Range(this.myCurrentLevel.MemoryFragmentCountMin, this.myCurrentLevel.MemoryFragmentCountMax);
+		this.curFragCount = UnityEngine.Random.Range(this.myCurrentLevel.MemoryFragmentCountMin, this.myCurrentLevel.MemoryFragmentCountMax);
 		this.GenerateKey(this.curFragCount);
 		List<string> list = new List<string>(this.curKey);
 		this.curCoreObject.BuildMe(this.curKey);
@@ -31,7 +31,7 @@ public class MemDefragmentObject : MonoBehaviour
 			{
 				num3++;
 			}
-			int index = Random.Range(0, list.Count);
+			int index = UnityEngine.Random.Range(0, list.Count);
 			this.fragmentObjetsData.Add(new MemDefragmentObject.FragmentData(num4, num3, list[index]));
 			list.RemoveAt(index);
 			if (num4 == 1 || num4 == 3)
@@ -207,7 +207,7 @@ public class MemDefragmentObject : MonoBehaviour
 		List<string> list = new List<string>(this.curKey);
 		for (int i = 0; i < this.memFragmentObjects.Count; i++)
 		{
-			int index = Random.Range(0, list.Count);
+			int index = UnityEngine.Random.Range(0, list.Count);
 			this.memFragmentObjects[i].ResetMe();
 			this.memFragmentObjects[i].UpdateMyKey(list[index]);
 			list.RemoveAt(index);
@@ -283,7 +283,7 @@ public class MemDefragmentObject : MonoBehaviour
 		this.curKey.Clear();
 		for (int i = 0; i < setLength; i++)
 		{
-			int index = Random.Range(0, this.keyPool.Count);
+			int index = UnityEngine.Random.Range(0, this.keyPool.Count);
 			this.curKey.Add(this.keyPool[index]);
 			this.keyPool.RemoveAt(index);
 		}
@@ -341,13 +341,13 @@ public class MemDefragmentObject : MonoBehaviour
 	private void Awake()
 	{
 		this.myRT = base.GetComponent<RectTransform>();
-		this.curCoreObject = Object.Instantiate<GameObject>(this.CoreObject, this.myRT).GetComponent<MemCoreObject>();
+		this.curCoreObject = UnityEngine.Object.Instantiate<GameObject>(this.CoreObject, this.myRT).GetComponent<MemCoreObject>();
 		this.curCoreObject.CoreWasShown += this.PresentKey;
 		this.curCoreObject.KeyWasPresented += this.BeginGame;
 		this.curCoreObject.KeysWereFlashed += this.KeysWereReFlashed;
 		this.memFragmentObjectPool = new PooledStack<MemFragmentObject>(delegate()
 		{
-			MemFragmentObject component = Object.Instantiate<GameObject>(this.FragmentObject, this.FragmentsHolder.GetComponent<RectTransform>()).GetComponent<MemFragmentObject>();
+			MemFragmentObject component = UnityEngine.Object.Instantiate<GameObject>(this.FragmentObject, this.FragmentsHolder.GetComponent<RectTransform>()).GetComponent<MemFragmentObject>();
 			component.IWasChosen += this.PlayerHasPickedAFrag;
 			return component;
 		}, 16);

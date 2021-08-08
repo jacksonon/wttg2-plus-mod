@@ -37,7 +37,7 @@ public class SecretController : moveableController
 			{
 				base.SetMasterLock(true);
 			}
-			if (Input.GetKeyDown(113))
+			if (Input.GetKeyDown(KeyCode.Q))
 			{
 				Application.Quit();
 			}

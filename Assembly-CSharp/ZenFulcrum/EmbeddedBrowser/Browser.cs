@@ -110,8 +110,8 @@ namespace ZenFulcrum.EmbeddedBrowser
 			};
 			this.onConsoleMessage += delegate(string message, string source)
 			{
-				string text = source + ": " + message;
-				Debug.Log(text, this);
+				string message2 = source + ": " + message;
+				UnityEngine.Debug.Log(message2, this);
 			};
 			this.onFetchError += delegate(JSONNode err)
 			{
@@ -243,7 +243,7 @@ namespace ZenFulcrum.EmbeddedBrowser
 						Browser.JSResultFunc jsresultFunc;
 						if (!<RequestNativeBrowser>c__AnonStoreyA.registeredCallbacks.TryGetValue(id, out jsresultFunc))
 						{
-							Debug.LogWarning("Got a JS callback for event " + id + ", but no such event is registered.");
+							UnityEngine.Debug.LogWarning("Got a JS callback for event " + id + ", but no such event is registered.");
 							return;
 						}
 						bool isError = false;
@@ -259,16 +259,16 @@ namespace ZenFulcrum.EmbeddedBrowser
 						}
 						catch (SerializationException)
 						{
-							Debug.LogWarning("Invalid JSON sent from browser: " + data);
+							UnityEngine.Debug.LogWarning("Invalid JSON sent from browser: " + data);
 							return;
 						}
 						try
 						{
 							jsresultFunc(value, isError);
 						}
-						catch (Exception ex)
+						catch (Exception exception)
 						{
-							Debug.LogException(ex);
+							UnityEngine.Debug.LogException(exception);
 						}
 					});
 				}
@@ -286,7 +286,7 @@ namespace ZenFulcrum.EmbeddedBrowser
 						{
 							<RequestNativeBrowser>c__AnonStoreyA.$this.thingsToDo.Add(delegate
 							{
-								Object.Destroy(<RequestNativeBrowser>c__AnonStoreyA.gameObject);
+								UnityEngine.Object.Destroy(<RequestNativeBrowser>c__AnonStoreyA.gameObject);
 							});
 						}
 					}
@@ -380,7 +380,7 @@ namespace ZenFulcrum.EmbeddedBrowser
 							return BrowserNative.NewWindowAction.NWA_NEW_BROWSER;
 						}
 					}
-					Debug.LogError("Missing NewWindowHandler, can't open new window", <RequestNativeBrowser>c__AnonStoreyA.$this);
+					UnityEngine.Debug.LogError("Missing NewWindowHandler, can't open new window", <RequestNativeBrowser>c__AnonStoreyA.$this);
 					return BrowserNative.NewWindowAction.NWA_IGNORE;
 				case Browser.NewWindowAction.NewWindow:
 					return BrowserNative.NewWindowAction.NWA_NEW_WINDOW;
@@ -506,13 +506,13 @@ namespace ZenFulcrum.EmbeddedBrowser
 			}
 			if (this.dialogHandler)
 			{
-				Object.DestroyImmediate(this.dialogHandler.gameObject);
+				UnityEngine.Object.DestroyImmediate(this.dialogHandler.gameObject);
 			}
 			this.dialogHandler = null;
 			BrowserNative.zfb_destoryBrowser(this.browserId);
 			if (this.textureIsOurs)
 			{
-				Object.Destroy(this.texture);
+				UnityEngine.Object.Destroy(this.texture);
 			}
 			this.browserId = 0;
 			this.texture = null;
@@ -741,7 +741,7 @@ namespace ZenFulcrum.EmbeddedBrowser
 			int height = newTexture.height;
 			if (this.textureIsOurs && this.texture && newTexture != this.texture)
 			{
-				Object.Destroy(this.texture);
+				UnityEngine.Object.Destroy(this.texture);
 			}
 			this._width = width;
 			this._height = height;
@@ -772,12 +772,12 @@ namespace ZenFulcrum.EmbeddedBrowser
 
 		public void Resize(int width, int height)
 		{
-			Texture2D texture2D = new Texture2D(width, height, 5, this.generateMipmap);
+			Texture2D texture2D = new Texture2D(width, height, TextureFormat.ARGB32, this.generateMipmap);
 			if (this.generateMipmap)
 			{
-				texture2D.filterMode = 2;
+				texture2D.filterMode = FilterMode.Trilinear;
 			}
-			texture2D.wrapMode = 1;
+			texture2D.wrapMode = TextureWrapMode.Clamp;
 			this._Resize(texture2D, true);
 		}
 
@@ -1027,10 +1027,10 @@ namespace ZenFulcrum.EmbeddedBrowser
 				int num4;
 				BrowserNative.zfb_getMouseCustomCursor(this.browserId, gchandle.AddrOfPinnedObject(), num, num2, out num3, out num4);
 				gchandle.Free();
-				Texture2D texture2D = new Texture2D(num, num2, 5, false);
+				Texture2D texture2D = new Texture2D(num, num2, TextureFormat.ARGB32, false);
 				texture2D.SetPixels32(array);
 				this.UIHandler.BrowserCursor.SetCustomCursor(texture2D, new Vector2((float)num3, (float)num4));
-				Object.DestroyImmediate(texture2D);
+				UnityEngine.Object.DestroyImmediate(texture2D);
 			}
 		}
 

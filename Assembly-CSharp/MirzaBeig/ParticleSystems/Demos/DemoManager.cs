@@ -9,8 +9,8 @@ namespace MirzaBeig.ParticleSystems.Demos
 	{
 		private void Awake()
 		{
-			this.loopingParticleSystems = Object.FindObjectOfType<LoopingParticleSystemsManager>();
-			this.oneshotParticleSystems = Object.FindObjectOfType<OneshotParticleSystemsManager>();
+			this.loopingParticleSystems = UnityEngine.Object.FindObjectOfType<LoopingParticleSystemsManager>();
+			this.oneshotParticleSystems = UnityEngine.Object.FindObjectOfType<OneshotParticleSystemsManager>();
 			this.loopingParticleSystems.Init();
 			this.oneshotParticleSystems.Init();
 		}
@@ -123,13 +123,13 @@ namespace MirzaBeig.ParticleSystems.Demos
 			if (value)
 			{
 				QualitySettings.SetQualityLevel(32, true);
-				this.mainCamera.renderingPath = -1;
+				this.mainCamera.renderingPath = RenderingPath.UsePlayerSettings;
 				this.mouse.gameObject.SetActive(true);
 			}
 			else
 			{
 				QualitySettings.SetQualityLevel(0, true);
-				this.mainCamera.renderingPath = 0;
+				this.mainCamera.renderingPath = RenderingPath.VertexLit;
 				this.mouse.gameObject.SetActive(false);
 			}
 			for (int i = 0; i < this.mainCameraPostEffects.Length; i++)
@@ -150,7 +150,7 @@ namespace MirzaBeig.ParticleSystems.Demos
 		{
 			this.input.x = Input.GetAxis("Horizontal");
 			this.input.y = Input.GetAxis("Vertical");
-			if (Input.GetKey(304))
+			if (Input.GetKey(KeyCode.LeftShift))
 			{
 				this.targetCameraPosition.z = this.targetCameraPosition.z + this.input.y * this.cameraMoveAmount;
 				this.targetCameraPosition.z = Mathf.Clamp(this.targetCameraPosition.z, -6.3f, -1f);
@@ -173,11 +173,11 @@ namespace MirzaBeig.ParticleSystems.Demos
 			{
 				this.Previous();
 			}
-			if (Input.GetKeyDown(117))
+			if (Input.GetKeyDown(KeyCode.U))
 			{
 				this.ui.SetActive(!this.ui.activeSelf);
 			}
-			if (Input.GetKeyDown(111))
+			if (Input.GetKeyDown(KeyCode.O))
 			{
 				if (this.particleMode == DemoManager.ParticleMode.looping)
 				{
@@ -188,11 +188,11 @@ namespace MirzaBeig.ParticleSystems.Demos
 					this.SetToLoopingParticleMode(true);
 				}
 			}
-			if (Input.GetKeyDown(108))
+			if (Input.GetKeyDown(KeyCode.L))
 			{
 				this.SetLevel((this.currentLevel + 1) % (DemoManager.Level)Enum.GetNames(typeof(DemoManager.Level)).Length);
 			}
-			else if (Input.GetKey(114))
+			else if (Input.GetKey(KeyCode.R))
 			{
 			}
 			if (this.particleMode == DemoManager.ParticleMode.oneshot)
@@ -200,7 +200,7 @@ namespace MirzaBeig.ParticleSystems.Demos
 				Vector3 mousePosition = Input.mousePosition;
 				if (Input.GetMouseButtonDown(0))
 				{
-					CameraShake cameraShake = Object.FindObjectOfType<CameraShake>();
+					CameraShake cameraShake = UnityEngine.Object.FindObjectOfType<CameraShake>();
 					cameraShake.Add(0.2f, 5f, 0.2f, CameraShakeTarget.Position, CameraShakeAmplitudeCurve.FadeInOut25);
 					cameraShake.Add(4f, 5f, 0.5f, CameraShakeTarget.Rotation, CameraShakeAmplitudeCurve.FadeInOut25);
 					this.oneshotParticleSystems.InstantiateParticlePrefab(mousePosition, this.mouse.distanceFromCamera);
@@ -210,7 +210,7 @@ namespace MirzaBeig.ParticleSystems.Demos
 					this.oneshotParticleSystems.InstantiateParticlePrefab(mousePosition, this.mouse.distanceFromCamera);
 				}
 			}
-			if (Input.GetKeyDown(114))
+			if (Input.GetKeyDown(KeyCode.R))
 			{
 				this.ResetCameraTransformTargets();
 			}

@@ -12,13 +12,13 @@ public class BreatherManager : MonoBehaviour
 		if (this.firstProductWasPickedUp && this.threatsActive && EnemyManager.State == ENEMY_STATE.IDLE)
 		{
 			bool flag;
-			if (DevTools.Ins != null && DevTools.Ins.forceBreather)
+			if ((DevTools.Ins != null && DevTools.Ins.forceBreather) || ModsManager.Nightmare)
 			{
 				flag = true;
 			}
 			else
 			{
-				int num = Random.Range(0, 100);
+				int num = UnityEngine.Random.Range(0, 100);
 				switch (this.keyDiscoveryCount)
 				{
 				case 0:
@@ -56,7 +56,7 @@ public class BreatherManager : MonoBehaviour
 			if (flag)
 			{
 				EnemyManager.State = ENEMY_STATE.BREATHER;
-				int num2 = Random.Range(0, this.audioQueSFXs.Length);
+				int num2 = UnityEngine.Random.Range(0, this.audioQueSFXs.Length);
 				this.audioQueHub.PlaySoundCustomDelay(this.audioQueSFXs[num2], 2f);
 				this.breatherIsActive = true;
 				this.preLeaveTrigger.SetActive();
@@ -131,8 +131,8 @@ public class BreatherManager : MonoBehaviour
 	public void TriggerDoorMech()
 	{
 		this.doorMechanicActive = true;
-		this.currentDoorAttempts = Random.Range(this.breatherData.DoorAttemptsMin, this.breatherData.DoorAttemptsMax);
-		this.openDoorAttemptWindow = Random.Range(this.breatherData.DoorAttemptWindowMin, this.breatherData.DoorAttemptWindowMax);
+		this.currentDoorAttempts = UnityEngine.Random.Range(this.breatherData.DoorAttemptsMin, this.breatherData.DoorAttemptsMax);
+		this.openDoorAttemptWindow = UnityEngine.Random.Range(this.breatherData.DoorAttemptWindowMin, this.breatherData.DoorAttemptWindowMax);
 		this.openDoorAttemptTimeStamp = Time.time;
 		this.openDoorAttemptActive = true;
 	}
@@ -162,7 +162,7 @@ public class BreatherManager : MonoBehaviour
 			}
 			else
 			{
-				float duration = Random.Range(this.breatherData.PatrolDelayMin, this.breatherData.PatrolDelayMax);
+				float duration = UnityEngine.Random.Range(this.breatherData.PatrolDelayMin, this.breatherData.PatrolDelayMax);
 				GameManager.TimeSlinger.FireHardTimer(out this.braceTimer, duration, new Action(this.triggerDoorPatrol), 0);
 			}
 		}
@@ -178,10 +178,10 @@ public class BreatherManager : MonoBehaviour
 		{
 			if (this.doorMechanicActive)
 			{
-				TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.deadDropDoor.transform.localRotation, delegate(Quaternion x)
+				DOTween.To(() => this.deadDropDoor.transform.localRotation, delegate(Quaternion x)
 				{
 					this.deadDropDoor.transform.localRotation = x;
-				}, Vector3.zero, 0.5f), 1), true);
+				}, Vector3.zero, 0.5f).SetEase(Ease.Linear).SetOptions(true);
 				this.openDoorAttemptActive = false;
 				this.openDoorActive = false;
 			}
@@ -205,13 +205,13 @@ public class BreatherManager : MonoBehaviour
 
 	private void triggerOpenDoor()
 	{
-		TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.deadDropDoor.transform.localRotation, delegate(Quaternion x)
+		DOTween.To(() => this.deadDropDoor.transform.localRotation, delegate(Quaternion x)
 		{
 			this.deadDropDoor.transform.localRotation = x;
-		}, new Vector3(0f, -0.5f, 0f), 0.75f), 1), true);
+		}, new Vector3(0f, -0.5f, 0f), 0.75f).SetEase(Ease.Linear).SetOptions(true);
 		GameManager.TimeSlinger.FireTimer(0.55f, delegate()
 		{
-			this.openDoorWindow = Random.Range(this.breatherData.OpeningDoorWindowMin, this.breatherData.OpeningDoorWindowMax);
+			this.openDoorWindow = UnityEngine.Random.Range(this.breatherData.OpeningDoorWindowMin, this.breatherData.OpeningDoorWindowMax);
 			this.openDoorTimeStamp = Time.time;
 			this.openDoorActive = true;
 		}, 0);
@@ -219,14 +219,14 @@ public class BreatherManager : MonoBehaviour
 
 	private void rollNextAttempt()
 	{
-		TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.deadDropDoor.transform.localRotation, delegate(Quaternion x)
+		DOTween.To(() => this.deadDropDoor.transform.localRotation, delegate(Quaternion x)
 		{
 			this.deadDropDoor.transform.localRotation = x;
-		}, Vector3.zero, 0.5f), 1), true);
+		}, Vector3.zero, 0.5f).SetEase(Ease.Linear).SetOptions(true);
 		this.currentDoorAttempts--;
 		if (this.currentDoorAttempts > 0)
 		{
-			this.openDoorAttemptWindow = Random.Range(this.breatherData.DoorAttemptWindowMin, this.breatherData.DoorAttemptWindowMax);
+			this.openDoorAttemptWindow = UnityEngine.Random.Range(this.breatherData.DoorAttemptWindowMin, this.breatherData.DoorAttemptWindowMax);
 			this.openDoorAttemptTimeStamp = Time.time;
 			this.openDoorAttemptActive = true;
 		}
@@ -250,10 +250,10 @@ public class BreatherManager : MonoBehaviour
 		DataManager.ClearGameData();
 		PauseManager.LockPause();
 		GameManager.InteractionManager.LockInteraction();
-		TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.deadDropDoor.transform.localRotation, delegate(Quaternion x)
+		DOTween.To(() => this.deadDropDoor.transform.localRotation, delegate(Quaternion x)
 		{
 			this.deadDropDoor.transform.localRotation = x;
-		}, new Vector3(0f, -131f, 0f), 0.3f), 1), true);
+		}, new Vector3(0f, -131f, 0f), 0.3f).SetEase(Ease.Linear).SetOptions(true);
 		BreatherBraceJumper.Ins.TriggerDoorJump();
 		this.breatherBehaviour.TriggerDoorJump();
 		LookUp.Doors.DeadDropDoor.AudioHub.PlaySound(LookUp.SoundLookUp.SlamOpenDoor2);

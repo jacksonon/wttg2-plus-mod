@@ -10,7 +10,7 @@ namespace ZenFulcrum.EmbeddedBrowser
 		public BrowserCursor()
 		{
 			BrowserCursor.Load();
-			this.normalTexture = new Texture2D(BrowserCursor.size, BrowserCursor.size, 5, false);
+			this.normalTexture = new Texture2D(BrowserCursor.size, BrowserCursor.size, TextureFormat.ARGB32, false);
 			this.SetActiveCursor(BrowserNative.CursorType.Pointer);
 		}
 
@@ -81,8 +81,8 @@ namespace ZenFulcrum.EmbeddedBrowser
 		{
 			if (!this.customTexture || this.customTexture.width != cursor.width || this.customTexture.height != cursor.height)
 			{
-				Object.Destroy(this.customTexture);
-				this.customTexture = new Texture2D(cursor.width, cursor.height, 5, false);
+				UnityEngine.Object.Destroy(this.customTexture);
+				this.customTexture = new Texture2D(cursor.width, cursor.height, TextureFormat.ARGB32, false);
 			}
 			this.customTexture.SetPixels32(cursor.GetPixels32());
 			this.customTexture.Apply(true);

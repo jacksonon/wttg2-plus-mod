@@ -352,7 +352,7 @@ public class skyBreakWPA2Behavior : MonoBehaviour
 		this.myTerminalHelper.AddLine(TERMINAL_LINE_TYPE.CRACK, string.Empty, 0f, 0f);
 		this.myTerminalHelper.AddLine(TERMINAL_LINE_TYPE.HARD, string.Empty, 0f, 0f);
 		this.myTerminalHelper.AddLine(TERMINAL_LINE_TYPE.CRACK, "EAPOL HMAC", 0f, 0f);
-		float num = Random.Range(this.minCrackTime, this.maxCrackTime);
+		float num = UnityEngine.Random.Range(this.minCrackTime, this.maxCrackTime);
 		float setToValue = Mathf.Round(num * 500f);
 		this.wpa2UpdateKeysTested = GameManager.TweenSlinger.PlayDOSTweenLiner(0f, setToValue, num, new Action<float>(this.UpdateKeysTested));
 		GameManager.TimeSlinger.FireHardTimer(out this.wpaCrackedTimer, num, new Action(this.Cracked), 0);
@@ -395,7 +395,7 @@ public class skyBreakWPA2Behavior : MonoBehaviour
 
 	private float GetRandScanTime()
 	{
-		return Random.Range(this.minScanTime, this.maxScanTime);
+		return UnityEngine.Random.Range(this.minScanTime, this.maxScanTime);
 	}
 
 	private void PrepMe()

@@ -28,8 +28,8 @@ public class NGSS_Directional : MonoBehaviour
 		if (this.isGraphicSet)
 		{
 			this.isGraphicSet = false;
-			GraphicsSettings.SetCustomShader(3, Shader.Find("Hidden/Internal-ScreenSpaceShadows"));
-			GraphicsSettings.SetShaderMode(3, 1);
+			GraphicsSettings.SetCustomShader(BuiltinShaderType.ScreenSpaceShadows, Shader.Find("Hidden/Internal-ScreenSpaceShadows"));
+			GraphicsSettings.SetShaderMode(BuiltinShaderType.ScreenSpaceShadows, BuiltinShaderMode.UseBuiltin);
 		}
 	}
 
@@ -52,8 +52,8 @@ public class NGSS_Directional : MonoBehaviour
 		}
 		if (!this.isGraphicSet)
 		{
-			GraphicsSettings.SetShaderMode(3, 2);
-			GraphicsSettings.SetCustomShader(3, Shader.Find("Hidden/NGSS_Directional"));
+			GraphicsSettings.SetShaderMode(BuiltinShaderType.ScreenSpaceShadows, BuiltinShaderMode.UseCustom);
+			GraphicsSettings.SetCustomShader(BuiltinShaderType.ScreenSpaceShadows, Shader.Find("Hidden/NGSS_Directional"));
 			this.isGraphicSet = true;
 		}
 		this.isInitialized = true;
@@ -61,7 +61,7 @@ public class NGSS_Directional : MonoBehaviour
 
 	private bool IsNotSupported()
 	{
-		return SystemInfo.graphicsDeviceType == 8 || SystemInfo.graphicsDeviceType == 12 || SystemInfo.graphicsDeviceType == 19;
+		return SystemInfo.graphicsDeviceType == GraphicsDeviceType.OpenGLES2 || SystemInfo.graphicsDeviceType == GraphicsDeviceType.PlayStationVita || SystemInfo.graphicsDeviceType == GraphicsDeviceType.N3DS;
 	}
 
 	private void Update()
@@ -69,11 +69,11 @@ public class NGSS_Directional : MonoBehaviour
 		if (this.NGSS_HARD_SHADOWS)
 		{
 			Shader.EnableKeyword("NGSS_HARD_SHADOWS_DIR");
-			this.dirLight.shadows = 1;
+			this.dirLight.shadows = LightShadows.Hard;
 			return;
 		}
 		Shader.DisableKeyword("NGSS_HARD_SHADOWS_DIR");
-		this.dirLight.shadows = 2;
+		this.dirLight.shadows = LightShadows.Soft;
 		this.NGSS_TEST_SAMPLERS = Mathf.Clamp(this.NGSS_TEST_SAMPLERS, 4, this.NGSS_FILTER_SAMPLERS / 2);
 		Shader.SetGlobalFloat("NGSS_TEST_SAMPLERS_DIR", (float)this.NGSS_TEST_SAMPLERS);
 		Shader.SetGlobalFloat("NGSS_FILTER_SAMPLERS_DIR", (float)this.NGSS_FILTER_SAMPLERS);
@@ -166,7 +166,7 @@ public class NGSS_Directional : MonoBehaviour
 	public bool GLOBAL_SETTINGS_OVERRIDE;
 
 	[Tooltip("Shadows projection.\nRecommeded StableFit as it helps stabilizing shadows as camera moves.")]
-	public ShadowProjection GLOBAL_SHADOWS_PROJECTION = 1;
+	public ShadowProjection GLOBAL_SHADOWS_PROJECTION = ShadowProjection.StableFit;
 
 	[Tooltip("Shadows resolution.\nLow = 1024, Med = 2048, High = 4096, Ultra = 8192, Mega = 16384.")]
 	public NGSS_Directional.ShadowsResolution GLOBAL_SHADOWS_RESOLUTION = NGSS_Directional.ShadowsResolution.High;

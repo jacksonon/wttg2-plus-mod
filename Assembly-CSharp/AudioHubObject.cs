@@ -16,7 +16,7 @@ public class AudioHubObject : MonoBehaviour
 
 	public void PlaySoundCustomDelay(AudioFileDefinition AudioFile, float SetDelay)
 	{
-		AudioFileDefinition audioFileDefinition = Object.Instantiate<AudioFileDefinition>(AudioFile);
+		AudioFileDefinition audioFileDefinition = UnityEngine.Object.Instantiate<AudioFileDefinition>(AudioFile);
 		audioFileDefinition.Delay = true;
 		audioFileDefinition.DelayAmount = SetDelay;
 		this.PlaySound(audioFileDefinition);
@@ -49,7 +49,7 @@ public class AudioHubObject : MonoBehaviour
 		list.Add(soundObject);
 		soundObject.enabled = true;
 		soundObject.DonePlaying += this.soundObjectDoneAction;
-		soundObject.SetCustomPitch(Random.Range(MinLevel, MaxLevel));
+		soundObject.SetCustomPitch(UnityEngine.Random.Range(MinLevel, MaxLevel));
 		soundObject.Fire(AudioFile);
 	}
 
@@ -73,7 +73,7 @@ public class AudioHubObject : MonoBehaviour
 		}
 		this.mySoundObjects.Clear();
 		this.soundObjectsPool.Clear();
-		Object.Destroy(this);
+		UnityEngine.Object.Destroy(this);
 	}
 
 	public void MuffleHub(float setMuffleAmount, float fadeTime = 0f)

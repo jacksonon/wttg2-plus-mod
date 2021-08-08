@@ -24,7 +24,7 @@ public class DragUniWindowBehaviour : MonoBehaviour, IBeginDragHandler, IDragHan
 		{
 			flag = true;
 		}
-		if (!flag && RectTransformUtility.ScreenPointToWorldPointInRectangle(this.dragPlane, data.position, data.pressEventCamera, ref this.tempPOS))
+		if (!flag && RectTransformUtility.ScreenPointToWorldPointInRectangle(this.dragPlane, data.position, data.pressEventCamera, out this.tempPOS))
 		{
 			this.tempPOS -= this.bufferPos;
 			if (this.FactorInScreenSize)
@@ -50,7 +50,7 @@ public class DragUniWindowBehaviour : MonoBehaviour, IBeginDragHandler, IDragHan
 	{
 		if (!GameManager.PauseManager.Paused)
 		{
-			if (RectTransformUtility.ScreenPointToWorldPointInRectangle(this.dragPlane, eventData.position, eventData.pressEventCamera, ref this.tempPOS))
+			if (RectTransformUtility.ScreenPointToWorldPointInRectangle(this.dragPlane, eventData.position, eventData.pressEventCamera, out this.tempPOS))
 			{
 				this.bufferPos = this.tempPOS - this.parentWindow.rectTransform.position;
 			}

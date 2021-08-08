@@ -23,19 +23,19 @@ public class desktopBehavior : MonoBehaviour
 			{
 				this.wifiMenuActive = false;
 				float num = Mathf.Floor(this.WifiMenu.GetComponent<RectTransform>().sizeDelta.y / 2f + 41f);
-				TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.WifiMenu.GetComponent<RectTransform>().localPosition, delegate(Vector3 x)
+				DOTween.To(() => this.WifiMenu.GetComponent<RectTransform>().localPosition, delegate(Vector3 x)
 				{
 					this.WifiMenu.GetComponent<RectTransform>().localPosition = x;
-				}, new Vector3(this.WifiMenu.GetComponent<RectTransform>().localPosition.x, num, 0f), 0.25f), 5);
+				}, new Vector3(this.WifiMenu.GetComponent<RectTransform>().localPosition.x, num, 0f), 0.25f).SetEase(Ease.InQuad);
 			}
 			else
 			{
 				this.wifiMenuActive = true;
 				float num = Mathf.Floor(this.WifiMenu.GetComponent<RectTransform>().sizeDelta.y / 2f + 41f);
-				TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.WifiMenu.GetComponent<RectTransform>().localPosition, delegate(Vector3 x)
+				DOTween.To(() => this.WifiMenu.GetComponent<RectTransform>().localPosition, delegate(Vector3 x)
 				{
 					this.WifiMenu.GetComponent<RectTransform>().localPosition = x;
-				}, new Vector3(this.WifiMenu.GetComponent<RectTransform>().localPosition.x, -num, 0f), 0.25f), 6);
+				}, new Vector3(this.WifiMenu.GetComponent<RectTransform>().localPosition.x, -num, 0f), 0.25f).SetEase(Ease.OutQuad);
 			}
 		}
 	}

@@ -117,7 +117,7 @@ public class MotionSensorObject : MonoBehaviour
 					this.IWasTripped(this);
 				}
 			}
-			else if (Physics.SphereCast(base.transform.position + base.transform.forward * this.MOTION_SENSOR_SPHERE_CAST_RADIUS, this.MOTION_SENSOR_SPHERE_CAST_RADIUS, base.transform.forward, ref raycastHit, this.MOTION_SENSOR_SPHERE_CAST_DISTANCE, this.enemyMask.value) && this.IWasTripped != null)
+			else if (Physics.SphereCast(base.transform.position + base.transform.forward * this.MOTION_SENSOR_SPHERE_CAST_RADIUS, this.MOTION_SENSOR_SPHERE_CAST_RADIUS, base.transform.forward, out raycastHit, this.MOTION_SENSOR_SPHERE_CAST_DISTANCE, this.enemyMask.value) && this.IWasTripped != null)
 			{
 				this.IWasTripped(this);
 			}

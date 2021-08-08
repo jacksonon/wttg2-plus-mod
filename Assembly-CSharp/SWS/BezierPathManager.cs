@@ -142,11 +142,11 @@ namespace SWS
 			while ((float)num2 <= num)
 			{
 				float num3 = (float)num2 / num;
-				float num4 = 1f - num3;
+				float d = 1f - num3;
 				Vector3 vector = Vector3.zero;
-				vector += p0 * num4 * num4 * num4;
-				vector += p1 * num3 * 3f * num4 * num4;
-				vector += p2 * 3f * num3 * num3 * num4;
+				vector += p0 * d * d * d;
+				vector += p1 * num3 * 3f * d * d;
+				vector += p2 * 3f * num3 * num3 * d;
 				vector += p3 * num3 * num3 * num3;
 				list.Add(vector);
 				num2++;

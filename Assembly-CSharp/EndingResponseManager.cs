@@ -67,7 +67,7 @@ public class EndingResponseManager : MonoBehaviour
 	{
 		this.endingResponseObjectPool = new PooledStack<EndingResponseObject>(delegate()
 		{
-			EndingResponseObject component = Object.Instantiate<GameObject>(this.endingResponseObject, this.endingResponseObjectHolder).GetComponent<EndingResponseObject>();
+			EndingResponseObject component = UnityEngine.Object.Instantiate<GameObject>(this.endingResponseObject, this.endingResponseObjectHolder).GetComponent<EndingResponseObject>();
 			component.SoftBuild();
 			return component;
 		}, 2);

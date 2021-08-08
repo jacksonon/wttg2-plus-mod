@@ -28,7 +28,7 @@ public class UBER_applyLightForDeferred : MonoBehaviour
 		{
 			if (this._renderer)
 			{
-				if (this.lightForSelfShadowing.type == 1)
+				if (this.lightForSelfShadowing.type == LightType.Directional)
 				{
 					for (int i = 0; i < this._renderer.sharedMaterials.Length; i++)
 					{
@@ -43,7 +43,7 @@ public class UBER_applyLightForDeferred : MonoBehaviour
 					}
 				}
 			}
-			else if (this.lightForSelfShadowing.type == 1)
+			else if (this.lightForSelfShadowing.type == LightType.Directional)
 			{
 				Shader.SetGlobalVector("_WorldSpaceLightPosCustom", -this.lightForSelfShadowing.transform.forward);
 			}

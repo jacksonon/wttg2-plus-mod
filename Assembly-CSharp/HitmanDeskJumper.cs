@@ -18,10 +18,10 @@ public class HitmanDeskJumper : MonoBehaviour
 		HitmanBehaviour.Ins.ActivateGunMesh();
 		HitmanBehaviour.Ins.TriggerAnim("deskJumpIdle");
 		HitmanBehaviour.Ins.GunFlashDoneEvents.Event += EnemyManager.HitManManager.GunFlashGameOver;
-		TweenSettingsExtensions.OnComplete<Tweener>(TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => base.transform.rotation, delegate(Quaternion x)
+		DOTween.To(() => base.transform.rotation, delegate(Quaternion x)
 		{
 			base.transform.rotation = x;
-		}, new Vector3(0f, -90f, 0f), 0.25f), 1), true), delegate()
+		}, new Vector3(0f, -90f, 0f), 0.25f).SetEase(Ease.Linear).SetOptions(true).OnComplete(delegate
 		{
 			HitmanBehaviour.Ins.TriggerAnim("deskJump");
 			MainCameraHook.Ins.TriggerHitManJump();

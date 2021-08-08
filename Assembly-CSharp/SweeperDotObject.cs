@@ -13,7 +13,7 @@ public class SweeperDotObject : MonoBehaviour
 	public void BuildMe(int setIndex, int maxIndex)
 	{
 		this.myIndex = setIndex;
-		TweenExtensions.Restart(this.showMeSeq, true, (float)setIndex * 0.015f);
+		this.showMeSeq.Restart(true, (float)setIndex * 0.015f);
 		if (setIndex == maxIndex)
 		{
 			this.fireDelay = (float)setIndex * 0.015f;
@@ -31,7 +31,7 @@ public class SweeperDotObject : MonoBehaviour
 	{
 		if (this.iAmHot)
 		{
-			TweenExtensions.Restart(this.showHotSpotSeq, true, (float)setIndex * 0.1f);
+			this.showHotSpotSeq.Restart(true, (float)setIndex * 0.1f);
 		}
 	}
 
@@ -54,18 +54,18 @@ public class SweeperDotObject : MonoBehaviour
 		this.myCG = base.GetComponent<CanvasGroup>();
 		this.myHotSpotCG = this.MyHotSpot.GetComponent<CanvasGroup>();
 		this.myRT = base.GetComponent<RectTransform>();
-		this.showMeSeq = TweenSettingsExtensions.SetDelay<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		this.showMeSeq = DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 1f, 0.2f), 1), 0.015f);
-		TweenExtensions.Pause<Tweener>(this.showMeSeq);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showMeSeq, false);
-		this.showHotSpotSeq = TweenSettingsExtensions.SetDelay<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myHotSpotCG.alpha, delegate(float x)
+		}, 1f, 0.2f).SetEase(Ease.Linear).SetDelay(0.015f);
+		this.showMeSeq.Pause<Tweener>();
+		this.showMeSeq.SetAutoKill(false);
+		this.showHotSpotSeq = DOTween.To(() => this.myHotSpotCG.alpha, delegate(float x)
 		{
 			this.myHotSpotCG.alpha = x;
-		}, 1f, 0.1f), 1), 0.1f);
-		TweenExtensions.Pause<Tweener>(this.showHotSpotSeq);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showHotSpotSeq, false);
+		}, 1f, 0.1f).SetEase(Ease.Linear).SetDelay(0.1f);
+		this.showHotSpotSeq.Pause<Tweener>();
+		this.showHotSpotSeq.SetAutoKill(false);
 	}
 
 	private void Update()

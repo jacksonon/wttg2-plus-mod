@@ -75,12 +75,12 @@ namespace SWS
 		public static void DrawCurved(Vector3[] pathPoints)
 		{
 			pathPoints = WaypointManager.GetCurved(pathPoints);
-			Vector3 vector = pathPoints[0];
+			Vector3 to = pathPoints[0];
 			for (int i = 1; i < pathPoints.Length; i++)
 			{
-				Vector3 vector2 = pathPoints[i];
-				Gizmos.DrawLine(vector2, vector);
-				vector = vector2;
+				Vector3 vector = pathPoints[i];
+				Gizmos.DrawLine(vector, to);
+				to = vector;
 			}
 		}
 
@@ -111,11 +111,11 @@ namespace SWS
 				num3 = num2;
 			}
 			float num4 = t * (float)num - (float)num3;
-			Vector3 vector = gizmoPoints[num3];
-			Vector3 vector2 = gizmoPoints[num3 + 1];
-			Vector3 vector3 = gizmoPoints[num3 + 2];
-			Vector3 vector4 = gizmoPoints[num3 + 3];
-			return 0.5f * ((-vector + 3f * vector2 - 3f * vector3 + vector4) * (num4 * num4 * num4) + (2f * vector - 5f * vector2 + 4f * vector3 - vector4) * (num4 * num4) + (-vector + vector3) * num4 + 2f * vector2);
+			Vector3 a = gizmoPoints[num3];
+			Vector3 a2 = gizmoPoints[num3 + 1];
+			Vector3 vector = gizmoPoints[num3 + 2];
+			Vector3 b = gizmoPoints[num3 + 3];
+			return 0.5f * ((-a + 3f * a2 - 3f * vector + b) * (num4 * num4 * num4) + (2f * a - 5f * a2 + 4f * vector - b) * (num4 * num4) + (-a + vector) * num4 + 2f * a2);
 		}
 
 		public static float GetPathLength(Vector3[] waypoints)
@@ -153,9 +153,9 @@ namespace SWS
 			return list;
 		}
 
-		public KeyCode placementKey = 112;
+		public KeyCode placementKey = KeyCode.P;
 
-		public KeyCode viewPlacementKey = 99;
+		public KeyCode viewPlacementKey = KeyCode.C;
 
 		public static readonly Dictionary<string, PathManager> Paths = new Dictionary<string, PathManager>();
 	}

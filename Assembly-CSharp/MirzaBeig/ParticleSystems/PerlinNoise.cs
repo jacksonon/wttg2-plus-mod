@@ -8,8 +8,8 @@ namespace MirzaBeig.ParticleSystems
 	{
 		public void init()
 		{
-			this.offset.x = Random.Range(-32f, 32f);
-			this.offset.y = Random.Range(-32f, 32f);
+			this.offset.x = UnityEngine.Random.Range(-32f, 32f);
+			this.offset.y = UnityEngine.Random.Range(-32f, 32f);
 		}
 
 		public float GetValue(float time)

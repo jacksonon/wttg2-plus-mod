@@ -15,13 +15,13 @@ namespace MirzaBeig.ParticleSystems.Demos
 
 		private void Update()
 		{
-			if (Input.GetKey(32))
+			if (Input.GetKey(KeyCode.Space))
 			{
 				Application.targetFrameRate = this.targetFPS2;
 				this.previousVSyncCount = QualitySettings.vSyncCount;
 				QualitySettings.vSyncCount = 0;
 			}
-			else if (Input.GetKeyUp(32))
+			else if (Input.GetKeyUp(KeyCode.Space))
 			{
 				Application.targetFrameRate = this.targetFPS1;
 				QualitySettings.vSyncCount = this.previousVSyncCount;

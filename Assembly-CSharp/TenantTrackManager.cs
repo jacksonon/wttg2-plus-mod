@@ -19,7 +19,7 @@ public class TenantTrackManager : MonoBehaviour
 			this.systemIsLocked = false;
 			this.lockInput = false;
 			this.systemLockedImage.enabled = false;
-			TweenExtensions.Restart(this.showBorderBoxTween, true, -1f);
+			this.showBorderBoxTween.Restart(true, -1f);
 		}, 0);
 	}
 
@@ -49,7 +49,7 @@ public class TenantTrackManager : MonoBehaviour
 
 	private void processKeyboardSFX()
 	{
-		int num = Random.Range(1, this.KeyboardSFXS.Length);
+		int num = UnityEngine.Random.Range(1, this.KeyboardSFXS.Length);
 		AudioFileDefinition audioFileDefinition = this.KeyboardSFXS[num];
 		GameManager.AudioSlinger.PlaySound(audioFileDefinition);
 		this.KeyboardSFXS[num] = this.KeyboardSFXS[0];
@@ -174,14 +174,14 @@ public class TenantTrackManager : MonoBehaviour
 		this.lockInput = true;
 		this.myState = TENANT_TRACK_STATE.TENANT_SELECT;
 		this.tenantWindowInfoCG.alpha = 1f;
-		TweenExtensions.Restart(this.showTenantWindow, true, -1f);
+		this.showTenantWindow.Restart(true, -1f);
 	}
 
 	private void dismissTenantInfoWindow()
 	{
 		this.lockInput = true;
 		this.myState = TENANT_TRACK_STATE.FLOOR_SELECT;
-		TweenExtensions.Restart(this.hideTenantWindow, true, -1f);
+		this.hideTenantWindow.Restart(true, -1f);
 	}
 
 	private void updateTenantData()
@@ -229,7 +229,7 @@ public class TenantTrackManager : MonoBehaviour
 					}
 					else if (this.floors[j] != 1 || k != 2)
 					{
-						int num = Random.Range(0, this.avaibleTenants.Count);
+						int num = UnityEngine.Random.Range(0, this.avaibleTenants.Count);
 						TenantDefinition tenantDefinition = this.avaibleTenants[num];
 						tenantDefinition.tenantUnit = this.floors[j] * 100 + (k + 1);
 						list.Add(new TenantData(tenantDefinition)
@@ -271,31 +271,31 @@ public class TenantTrackManager : MonoBehaviour
 		GameManager.ManagerSlinger.TenantTrackManager = this;
 		GameManager.StageManager.Stage += this.stageMe;
 		this.myState = TENANT_TRACK_STATE.LOCKED;
-		this.showBorderBoxTween = TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => new Vector3(0f, 0f, 1f), delegate(Vector3 x)
+		this.showBorderBoxTween = DOTween.To(() => new Vector3(0f, 0f, 1f), delegate(Vector3 x)
 		{
 			this.borderBoxRT.localScale = x;
-		}, Vector3.one, 0.4f), 1);
-		TweenExtensions.Pause<Tweener>(this.showBorderBoxTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showBorderBoxTween, false);
-		this.showTenantWindow = TweenSettingsExtensions.OnComplete<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(800f, 0f), delegate(Vector2 x)
+		}, Vector3.one, 0.4f).SetEase(Ease.Linear);
+		this.showBorderBoxTween.Pause<Tweener>();
+		this.showBorderBoxTween.SetAutoKill(false);
+		this.showTenantWindow = DOTween.To(() => new Vector2(800f, 0f), delegate(Vector2 x)
 		{
 			this.tenantWindowInfoRT.sizeDelta = x;
-		}, new Vector2(800f, 500f), 0.5f), 1), delegate()
+		}, new Vector2(800f, 500f), 0.5f).SetEase(Ease.Linear).OnComplete(delegate
 		{
 			this.lockInput = false;
 		});
-		TweenExtensions.Pause<Tweener>(this.showTenantWindow);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.showTenantWindow, false);
-		this.hideTenantWindow = TweenSettingsExtensions.OnComplete<TweenerCore<Vector2, Vector2, VectorOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => new Vector2(800f, 500f), delegate(Vector2 x)
+		this.showTenantWindow.Pause<Tweener>();
+		this.showTenantWindow.SetAutoKill(false);
+		this.hideTenantWindow = DOTween.To(() => new Vector2(800f, 500f), delegate(Vector2 x)
 		{
 			this.tenantWindowInfoRT.sizeDelta = x;
-		}, new Vector2(800f, 0f), 0.5f), 1), delegate()
+		}, new Vector2(800f, 0f), 0.5f).SetEase(Ease.Linear).OnComplete(delegate
 		{
 			this.lockInput = false;
 			this.tenantWindowInfoCG.alpha = 0f;
 		});
-		TweenExtensions.Pause<Tweener>(this.hideTenantWindow);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideTenantWindow, false);
+		this.hideTenantWindow.Pause<Tweener>();
+		this.hideTenantWindow.SetAutoKill(false);
 	}
 
 	private void Update()
@@ -309,6 +309,19 @@ public class TenantTrackManager : MonoBehaviour
 		{
 			return this.tenants;
 		}
+	}
+
+	public float CheckDollMakerPrice(int UnitNumber)
+	{
+		if (this.tenantLookUp[UnitNumber].tenantSex == 0 || this.tenantLookUp[UnitNumber].tenantAge < 18 || this.tenantLookUp[UnitNumber].tenantName == "Kylie Hogan")
+		{
+			return 135f;
+		}
+		if ((this.tenantLookUp[UnitNumber].tenantAge >= 18 && this.tenantLookUp[UnitNumber].tenantAge < 30) || this.tenantLookUp[UnitNumber].tenantName == "Carissa Whitehead")
+		{
+			return 65f;
+		}
+		return 35f;
 	}
 
 	[SerializeField]

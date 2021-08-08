@@ -12,7 +12,7 @@ public class CultMaleEnding : MonoBehaviour
 
 	public void TriggerFootSound()
 	{
-		int num = Random.Range(1, this.footStepSFXs.Length);
+		int num = UnityEngine.Random.Range(1, this.footStepSFXs.Length);
 		AudioFileDefinition audioFileDefinition = this.footStepSFXs[num];
 		this.footHub.PlaySoundWithWildPitch(this.footStepSFXs[num], 1.1f, 1.2f);
 		this.footStepSFXs[num] = this.footStepSFXs[0];
@@ -43,11 +43,11 @@ public class CultMaleEnding : MonoBehaviour
 	{
 		if (!this.lockOut && Time.time - this.aniTimeStamp >= 30f)
 		{
-			int num = Random.Range(0, 10);
+			int num = UnityEngine.Random.Range(0, 10);
 			this.aniTimeStamp = Time.time;
 			if (num < 3)
 			{
-				int num2 = Random.Range(0, 10);
+				int num2 = UnityEngine.Random.Range(0, 10);
 				if (num2 < 5)
 				{
 					this.myAC.SetTrigger("triggerHeadTilt");

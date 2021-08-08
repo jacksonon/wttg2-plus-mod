@@ -96,10 +96,10 @@ public class HackerManager : MonoBehaviour
 		LookUp.DesktopUI.DesktopGraphicRaycaster.enabled = false;
 		this.hackerOverlayCG.blocksRaycasts = true;
 		this.hackerOverlayCG.ignoreParentGroups = true;
-		TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.hackerOverlayCG.alpha, delegate(float x)
+		DOTween.To(() => this.hackerOverlayCG.alpha, delegate(float x)
 		{
 			this.hackerOverlayCG.alpha = x;
-		}, 1f, 0.3f), 1), delegate()
+		}, 1f, 0.3f).SetEase(Ease.Linear).OnComplete(delegate
 		{
 			switch (SetType)
 			{
@@ -124,7 +124,7 @@ public class HackerManager : MonoBehaviour
 
 	public void RollHack()
 	{
-		if (Random.Range(0f, 100f) <= 10f && !this.rollHackFroze)
+		if (UnityEngine.Random.Range(0f, 100f) <= 10f && !this.rollHackFroze)
 		{
 			if (!DataManager.LeetMode)
 			{
@@ -150,10 +150,10 @@ public class HackerManager : MonoBehaviour
 
 	private void clearTestHack()
 	{
-		TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.hackerOverlayCG.alpha, delegate(float x)
+		DOTween.To(() => this.hackerOverlayCG.alpha, delegate(float x)
 		{
 			this.hackerOverlayCG.alpha = x;
-		}, 0f, 0.3f), 1), delegate()
+		}, 0f, 0.3f).SetEase(Ease.Linear).OnComplete(delegate
 		{
 			this.isInTestMode = false;
 			StateManager.BeingHacked = false;
@@ -197,7 +197,7 @@ public class HackerManager : MonoBehaviour
 
 	private void pickHack(HACK_SWEEPER_SKILL_TIER SetTier)
 	{
-		int num = Random.Range(0, 100);
+		int num = UnityEngine.Random.Range(0, 100);
 		if (num == this.lastHackPicked)
 		{
 			this.lastHackDupCount++;
@@ -206,11 +206,11 @@ public class HackerManager : MonoBehaviour
 		{
 			if (num < 33)
 			{
-				num = Random.Range(33, 100);
+				num = UnityEngine.Random.Range(33, 100);
 			}
 			else if (num >= 33 & num < 66)
 			{
-				if (Random.Range(0, 2) == 0)
+				if (UnityEngine.Random.Range(0, 2) == 0)
 				{
 					num = 10;
 				}
@@ -221,7 +221,7 @@ public class HackerManager : MonoBehaviour
 			}
 			else
 			{
-				num = Random.Range(0, 66);
+				num = UnityEngine.Random.Range(0, 66);
 			}
 		}
 		this.lastHackPicked = num;
@@ -261,21 +261,16 @@ public class HackerManager : MonoBehaviour
 	{
 		if (this.twitchGodHack && DataManager.LeetMode)
 		{
-			if (EnemyManager.State != ENEMY_STATE.LOCKED)
-			{
-				EnemyManager.State = ENEMY_STATE.LOCKED;
-				GameManager.TimeSlinger.FireTimer(60f, new Action(this.ResetEnemyState), 0);
-				this.resetEnemyStateTriggered = true;
-			}
 			EnvironmentManager.PowerBehaviour.ForcePowerOff();
+			EnvironmentManager.PowerBehaviour.ResetPowerTripTime();
 		}
 		GameManager.AudioSlinger.KillSound(this.HackingIntroBedSFX);
 		CursorManager.Ins.SwitchToHackerCursor();
 		GameManager.AudioSlinger.PlaySound(this.HackedSFX);
 		this.myComputerCameraManager.TriggerHackedEFXs();
 		this.evilSkull.HackedLaugh();
-		TweenExtensions.Restart(this.hacked1Tween, true, -1f);
-		TweenExtensions.Restart(this.hacked2Tween, true, -1f);
+		this.hacked1Tween.Restart(true, -1f);
+		this.hacked2Tween.Restart(true, -1f);
 		GameManager.TimeSlinger.FireTimer(3f, new Action(this.dismissHackMode), 0);
 	}
 
@@ -284,7 +279,7 @@ public class HackerManager : MonoBehaviour
 		GameManager.AudioSlinger.KillSound(this.HackingIntroBedSFX);
 		GameManager.AudioSlinger.PlaySound(this.HackBlockSFX);
 		this.myComputerCameraManager.TriggerHackBlockedEFXs();
-		TweenExtensions.Restart(this.hackedBlockedTween, true, -1f);
+		this.hackedBlockedTween.Restart(true, -1f);
 		this.genereateBlockHackedStats(LevelIndex);
 		GameManager.TimeSlinger.FireTimer(2.3f, new Action(this.dismissHackMode), 0);
 	}
@@ -294,7 +289,7 @@ public class HackerManager : MonoBehaviour
 		GameManager.AudioSlinger.KillSound(this.HackingIntroBedSFX);
 		GameManager.AudioSlinger.PlaySound(this.HackBlockSFX);
 		this.myComputerCameraManager.TriggerHackBlockedEFXs();
-		TweenExtensions.Restart(this.instaHackBlockedTween, true, -1f);
+		this.instaHackBlockedTween.Restart(true, -1f);
 		GameManager.TimeSlinger.FireTimer(2.3f, new Action(this.dismissHackMode), 0);
 	}
 
@@ -328,7 +323,7 @@ public class HackerManager : MonoBehaviour
 	{
 		this.freezeAddTime = 0f;
 		this.freezeTimeStamp = 0f;
-		this.fireWindow = Random.Range(this.fireWindowMin, this.fireWindowMax);
+		this.fireWindow = UnityEngine.Random.Range(this.fireWindowMin, this.fireWindowMax);
 		this.fireWindowTimeStamp = Time.time;
 		this.fireWindowActive = true;
 	}
@@ -337,14 +332,14 @@ public class HackerManager : MonoBehaviour
 	{
 		this.freezeAddTime = 0f;
 		this.freezeTimeStamp = 0f;
-		this.fireWindow = Random.Range(this.smallFireWindowMin, this.smallFireWindowMax);
+		this.fireWindow = UnityEngine.Random.Range(this.smallFireWindowMin, this.smallFireWindowMax);
 		this.fireWindowTimeStamp = Time.time;
 		this.fireWindowActive = true;
 	}
 
 	private void triggerHack()
 	{
-		if (!this.openForHacks || EnemyManager.State != ENEMY_STATE.IDLE || StateManager.BeingHacked)
+		if (!this.openForHacks || EnemyManager.State != ENEMY_STATE.IDLE || StateManager.BeingHacked || this.theSwan.SwanError)
 		{
 			this.generateSmallFireWindow();
 			return;
@@ -354,7 +349,7 @@ public class HackerManager : MonoBehaviour
 		VPN_LEVELS currentVPN = GameManager.ManagerSlinger.VPNManager.CurrentVPN;
 		if (currentVPN != VPN_LEVELS.LEVEL0)
 		{
-			int num = Random.Range(1, 101);
+			int num = UnityEngine.Random.Range(1, 101);
 			switch (currentVPN)
 			{
 			case VPN_LEVELS.LEVEL1:
@@ -434,7 +429,7 @@ public class HackerManager : MonoBehaviour
 	{
 		if (InventoryManager.GetProductCount(SOFTWARE_PRODUCTS.BACKDOOR) > 0)
 		{
-			float num = (float)Math.Round((double)(Random.Range(this.backdoorDOSCoinMin, this.backdoorDOSCoinMax) * (float)levelIndex), 3);
+			float num = (float)Math.Round((double)(UnityEngine.Random.Range(this.backdoorDOSCoinMin, this.backdoorDOSCoinMax) * (float)levelIndex), 3);
 			if (this.twitchGodHack)
 			{
 				if (DataManager.LeetMode)
@@ -456,10 +451,10 @@ public class HackerManager : MonoBehaviour
 			}
 			CurrencyManager.AddCurrency(num);
 			this.DOSCoinGainedText.text = "GAINED: " + num.ToString();
-			TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.DOSCoinGainedCG.alpha, delegate(float x)
+			DOTween.To(() => this.DOSCoinGainedCG.alpha, delegate(float x)
 			{
 				this.DOSCoinGainedCG.alpha = x;
-			}, 1f, 0.2f), 1);
+			}, 1f, 0.2f).SetEase(Ease.Linear);
 		}
 		InventoryManager.RemoveProduct(SOFTWARE_PRODUCTS.BACKDOOR);
 	}
@@ -468,7 +463,7 @@ public class HackerManager : MonoBehaviour
 	{
 		InventoryManager.RemoveProduct(SOFTWARE_PRODUCTS.BACKDOOR);
 		double num = (double)CurrencyManager.CurrentCurrency;
-		int num2 = Random.Range(1, 21);
+		int num2 = UnityEngine.Random.Range(1, 21);
 		float num3;
 		if (num2 >= 8 && num2 < 12)
 		{
@@ -497,7 +492,7 @@ public class HackerManager : MonoBehaviour
 		float setAMT = (float)Math.Round(num * (double)num3, 3);
 		CurrencyManager.RemoveCurrency(setAMT);
 		this.DOSCoinLostText.SetText("LOST: " + setAMT.ToString());
-		num2 = Random.Range(1, 101);
+		num2 = UnityEngine.Random.Range(1, 101);
 		if (num2 >= 0 && num2 <= 20)
 		{
 			GameManager.BehaviourManager.NotesBehaviour.ClearNotes();
@@ -515,14 +510,14 @@ public class HackerManager : MonoBehaviour
 		{
 			this.virusManager.AddVirus();
 		}
-		TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.DOSCoinLostCG.alpha, delegate(float x)
+		DOTween.To(() => this.DOSCoinLostCG.alpha, delegate(float x)
 		{
 			this.DOSCoinLostCG.alpha = x;
-		}, 1f, 0.5f), 1);
-		TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.NotesLostCG.alpha, delegate(float x)
+		}, 1f, 0.5f).SetEase(Ease.Linear);
+		DOTween.To(() => this.NotesLostCG.alpha, delegate(float x)
 		{
 			this.NotesLostCG.alpha = x;
-		}, 1f, 0.5f), 1);
+		}, 1f, 0.5f).SetEase(Ease.Linear);
 	}
 
 	private void stageMe()
@@ -558,30 +553,30 @@ public class HackerManager : MonoBehaviour
 		this.hackedCG = this.Hacked.GetComponent<CanvasGroup>();
 		this.instaHackedBlockedCG = this.InstaHackBlocked.GetComponent<CanvasGroup>();
 		this.hackedRT = this.Hacked.GetComponent<RectTransform>();
-		this.instaHackBlockedTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.instaHackedBlockedCG.alpha, delegate(float x)
+		this.instaHackBlockedTween = DOTween.To(() => this.instaHackedBlockedCG.alpha, delegate(float x)
 		{
 			this.instaHackedBlockedCG.alpha = x;
-		}, 1f, 0.2f), 1);
-		TweenExtensions.Pause<Tweener>(this.instaHackBlockedTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.instaHackBlockedTween, false);
-		this.hackedBlockedTween = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.hackedBlockedCG.alpha, delegate(float x)
+		}, 1f, 0.2f).SetEase(Ease.Linear);
+		this.instaHackBlockedTween.Pause<Tweener>();
+		this.instaHackBlockedTween.SetAutoKill(false);
+		this.hackedBlockedTween = DOTween.To(() => this.hackedBlockedCG.alpha, delegate(float x)
 		{
 			this.hackedBlockedCG.alpha = x;
-		}, 1f, 0.2f), 1);
-		TweenExtensions.Pause<Tweener>(this.hackedBlockedTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hackedBlockedTween, false);
-		this.hacked1Tween = TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.hackedCG.alpha, delegate(float x)
+		}, 1f, 0.2f).SetEase(Ease.Linear);
+		this.hackedBlockedTween.Pause<Tweener>();
+		this.hackedBlockedTween.SetAutoKill(false);
+		this.hacked1Tween = DOTween.To(() => this.hackedCG.alpha, delegate(float x)
 		{
 			this.hackedCG.alpha = x;
-		}, 1f, 0.3f), 1), new TweenCallback(this.genereateLostHackStats));
-		TweenExtensions.Pause<Tweener>(this.hacked1Tween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hacked1Tween, false);
-		this.hacked2Tween = TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => this.hackedRT.localScale, delegate(Vector3 x)
+		}, 1f, 0.3f).SetEase(Ease.Linear).OnComplete(new TweenCallback(this.genereateLostHackStats));
+		this.hacked1Tween.Pause<Tweener>();
+		this.hacked1Tween.SetAutoKill(false);
+		this.hacked2Tween = DOTween.To(() => this.hackedRT.localScale, delegate(Vector3 x)
 		{
 			this.hackedRT.localScale = x;
-		}, this.hackedFullScale, 0.3f), 20);
-		TweenExtensions.Pause<Tweener>(this.hacked2Tween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hacked2Tween, false);
+		}, this.hackedFullScale, 0.3f).SetEase(Ease.InCirc);
+		this.hacked2Tween.Pause<Tweener>();
+		this.hacked2Tween.SetAutoKill(false);
 		this.hackingTerminal.DumpDone += this.triggerSkull;
 		if (DataManager.LeetMode)
 		{
@@ -677,17 +672,6 @@ public class HackerManager : MonoBehaviour
 		{
 			return this.godHack;
 		}
-	}
-
-	private void ResetEnemyState()
-	{
-		if (EnvironmentManager.PowerState == POWER_STATE.ON)
-		{
-			EnemyManager.State = ENEMY_STATE.IDLE;
-			this.resetEnemyStateTriggered = false;
-			return;
-		}
-		GameManager.TimeSlinger.FireTimer(30f, new Action(this.ResetEnemyState), 0);
 	}
 
 	public void BlackHatSound2S()
@@ -815,8 +799,6 @@ public class HackerManager : MonoBehaviour
 	private bool godHack;
 
 	private bool twitchGodHack;
-
-	private bool resetEnemyStateTriggered;
 
 	public TheSwan theSwan;
 }

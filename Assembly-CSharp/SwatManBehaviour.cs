@@ -163,7 +163,7 @@ public class SwatManBehaviour : MonoBehaviour
 	{
 		this.flashBangObject.transform.SetParent(null);
 		this.flashBangObject.GetComponent<Rigidbody>().isKinematic = false;
-		this.flashBangObject.GetComponent<Rigidbody>().AddForce(this.flashBangDirection * this.flashBangForce, 2);
+		this.flashBangObject.GetComponent<Rigidbody>().AddForce(this.flashBangDirection * this.flashBangForce, ForceMode.VelocityChange);
 		this.flashBangBehaviour.Thrown();
 	}
 
@@ -179,7 +179,7 @@ public class SwatManBehaviour : MonoBehaviour
 
 	private void playFootStepSound()
 	{
-		int num = Random.Range(1, this.footStepSFXs.Length);
+		int num = UnityEngine.Random.Range(1, this.footStepSFXs.Length);
 		AudioFileDefinition audioFileDefinition = this.footStepSFXs[num];
 		this.footAudioHub.PlaySoundWithWildPitch(this.footStepSFXs[num], 0.5f, 1.25f);
 		this.footStepSFXs[num] = this.footStepSFXs[0];
@@ -206,10 +206,10 @@ public class SwatManBehaviour : MonoBehaviour
 		}
 		if (this.lookAtPlayerActive)
 		{
-			Vector3 vector = this.cameraIControl.transform.position - base.transform.position;
-			vector.y = 0f;
-			Quaternion quaternion = Quaternion.LookRotation(vector);
-			base.transform.rotation = Quaternion.Lerp(base.transform.rotation, quaternion, this.lookAtPlayerSpeed * Time.deltaTime);
+			Vector3 forward = this.cameraIControl.transform.position - base.transform.position;
+			forward.y = 0f;
+			Quaternion b = Quaternion.LookRotation(forward);
+			base.transform.rotation = Quaternion.Lerp(base.transform.rotation, b, this.lookAtPlayerSpeed * Time.deltaTime);
 		}
 		if (this.playerLookAtMeActive)
 		{

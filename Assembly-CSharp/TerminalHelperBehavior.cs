@@ -188,7 +188,7 @@ public class TerminalHelperBehavior : MonoBehaviour
 	private void stageMe()
 	{
 		GameManager.StageManager.Stage -= this.stageMe;
-		this.terminalInputLine = Object.Instantiate<GameObject>(this.terminalInputLineObject, this.terminalContentBox.GetComponent<RectTransform>()).GetComponent<TerminalInputLineObject>();
+		this.terminalInputLine = UnityEngine.Object.Instantiate<GameObject>(this.terminalInputLineObject, this.terminalContentBox.GetComponent<RectTransform>()).GetComponent<TerminalInputLineObject>();
 		this.terminalInputLine.SoftBuild(new Action<string>(this.processCMD));
 	}
 
@@ -196,7 +196,7 @@ public class TerminalHelperBehavior : MonoBehaviour
 	{
 		this.terminalLineObjectPool = new PooledStack<TerminalLineObject>(delegate()
 		{
-			TerminalLineObject component = Object.Instantiate<GameObject>(this.terminalLineObject, this.terminalContentBox.GetComponent<RectTransform>()).GetComponent<TerminalLineObject>();
+			TerminalLineObject component = UnityEngine.Object.Instantiate<GameObject>(this.terminalLineObject, this.terminalContentBox.GetComponent<RectTransform>()).GetComponent<TerminalLineObject>();
 			component.SoftBuild();
 			return component;
 		}, this.STARTING_TERMINAL_LINE_POOL);
@@ -209,11 +209,11 @@ public class TerminalHelperBehavior : MonoBehaviour
 	{
 		if (this.terminalInputLine != null && this.terminalInputLine.GetComponent<TerminalInputLineObject>().inputLine.isFocused)
 		{
-			if (Input.GetKeyDown(273))
+			if (Input.GetKeyDown(KeyCode.UpArrow))
 			{
 				this.getLastCommand();
 			}
-			else if (Input.GetKeyDown(274))
+			else if (Input.GetKeyDown(KeyCode.DownArrow))
 			{
 				this.getNextCommand();
 			}

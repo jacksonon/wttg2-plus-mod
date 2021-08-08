@@ -10,48 +10,48 @@ public class VWipeDialog : MonoBehaviour
 	{
 		LookUp.DesktopUI.VWIPE_PROGRESS_BAR.fillAmount = 0f;
 		LookUp.DesktopUI.DIALOG_HOLDER.SetActive(true);
-		TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => LookUp.DesktopUI.DIALOG_BG_OBJECT.GetComponent<CanvasGroup>().alpha, delegate(float x)
+		DOTween.To(() => LookUp.DesktopUI.DIALOG_BG_OBJECT.GetComponent<CanvasGroup>().alpha, delegate(float x)
 		{
 			LookUp.DesktopUI.DIALOG_BG_OBJECT.GetComponent<CanvasGroup>().alpha = x;
-		}, 1f, 0.35f), 1), delegate()
+		}, 1f, 0.35f).SetEase(Ease.Linear).OnComplete(delegate
 		{
 			LookUp.DesktopUI.VWIPE_DIALOG_HOLDER.SetActive(true);
-			Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+			Sequence sequence = DOTween.Sequence().OnComplete(delegate
 			{
 				this.VWipeDialogWasPresented.Execute();
 			});
-			TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => LookUp.DesktopUI.VWIPE_DIALOG_HOLDER.GetComponent<RectTransform>().localScale, delegate(Vector3 x)
+			sequence.Insert(0f, DOTween.To(() => LookUp.DesktopUI.VWIPE_DIALOG_HOLDER.GetComponent<RectTransform>().localScale, delegate(Vector3 x)
 			{
 				LookUp.DesktopUI.VWIPE_DIALOG_HOLDER.GetComponent<RectTransform>().localScale = x;
-			}, Vector3.one, 0.35f), 21));
-			TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => LookUp.DesktopUI.VWIPE_DIALOG_HOLDER.GetComponent<CanvasGroup>().alpha, delegate(float x)
+			}, Vector3.one, 0.35f).SetEase(Ease.OutCirc));
+			sequence.Insert(0f, DOTween.To(() => LookUp.DesktopUI.VWIPE_DIALOG_HOLDER.GetComponent<CanvasGroup>().alpha, delegate(float x)
 			{
 				LookUp.DesktopUI.VWIPE_DIALOG_HOLDER.GetComponent<CanvasGroup>().alpha = x;
-			}, 1f, 0.25f), 1));
-			TweenExtensions.Play<Sequence>(sequence);
+			}, 1f, 0.25f).SetEase(Ease.Linear));
+			sequence.Play<Sequence>();
 		});
 	}
 
 	public void PerformScanRemove(int NumOfVir)
 	{
-		float num = Random.Range(5f, 12f);
-		TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => LookUp.DesktopUI.VWIPE_PROGRESS_BAR.fillAmount, delegate(float x)
+		float duration = UnityEngine.Random.Range(5f, 12f);
+		DOTween.To(() => LookUp.DesktopUI.VWIPE_PROGRESS_BAR.fillAmount, delegate(float x)
 		{
 			LookUp.DesktopUI.VWIPE_PROGRESS_BAR.fillAmount = x;
-		}, 1f, num), 1), delegate()
+		}, 1f, duration).SetEase(Ease.Linear).OnComplete(delegate
 		{
 			LookUp.DesktopUI.VWIPE_VIRUS_FOUND_TEXT.text = "Viruses Found: " + NumOfVir.ToString();
 			if (NumOfVir > 0)
 			{
-				float removeTime = Random.Range(6f, 10f) + (float)NumOfVir * Random.Range(3f, 5f);
+				float removeTime = UnityEngine.Random.Range(6f, 10f) + (float)NumOfVir * UnityEngine.Random.Range(3f, 5f);
 				GameManager.TimeSlinger.FireTimer(1.5f, delegate()
 				{
 					LookUp.DesktopUI.VWIPE_INFO_TEXT.text = "Removing Viruses...";
 					LookUp.DesktopUI.VWIPE_PROGRESS_BAR.fillAmount = 0f;
-					TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetDelay<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => LookUp.DesktopUI.VWIPE_PROGRESS_BAR.fillAmount, delegate(float x)
+					DOTween.To(() => LookUp.DesktopUI.VWIPE_PROGRESS_BAR.fillAmount, delegate(float x)
 					{
 						LookUp.DesktopUI.VWIPE_PROGRESS_BAR.fillAmount = x;
-					}, 1f, removeTime), 1), 0.5f), delegate()
+					}, 1f, removeTime).SetEase(Ease.Linear).SetDelay(0.5f).OnComplete(delegate
 					{
 						LookUp.DesktopUI.VWIPE_INFO_TEXT.text = "Removed All Viruses!";
 						GameManager.TimeSlinger.FireTimer(1.5f, new Action(<PerformScanRemove>c__AnonStorey.VWipeScanRemoveDone.Execute), 0);
@@ -68,12 +68,12 @@ public class VWipeDialog : MonoBehaviour
 
 	public void Dismiss()
 	{
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+		Sequence sequence = DOTween.Sequence().OnComplete(delegate
 		{
-			TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => LookUp.DesktopUI.DIALOG_BG_OBJECT.GetComponent<CanvasGroup>().alpha, delegate(float x)
+			DOTween.To(() => LookUp.DesktopUI.DIALOG_BG_OBJECT.GetComponent<CanvasGroup>().alpha, delegate(float x)
 			{
 				LookUp.DesktopUI.DIALOG_BG_OBJECT.GetComponent<CanvasGroup>().alpha = x;
-			}, 0f, 0.35f), 1), delegate()
+			}, 0f, 0.35f).SetEase(Ease.Linear).OnComplete(delegate
 			{
 				LookUp.DesktopUI.VWIPE_VIRUS_FOUND_TEXT.text = "Viruses Found: 0";
 				LookUp.DesktopUI.VWIPE_INFO_TEXT.text = "Scanning For Viruses...";
@@ -81,15 +81,15 @@ public class VWipeDialog : MonoBehaviour
 				LookUp.DesktopUI.VWIPE_DIALOG_HOLDER.SetActive(false);
 			});
 		});
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => LookUp.DesktopUI.VWIPE_DIALOG_HOLDER.GetComponent<RectTransform>().localScale, delegate(Vector3 x)
+		sequence.Insert(0f, DOTween.To(() => LookUp.DesktopUI.VWIPE_DIALOG_HOLDER.GetComponent<RectTransform>().localScale, delegate(Vector3 x)
 		{
 			LookUp.DesktopUI.VWIPE_DIALOG_HOLDER.GetComponent<RectTransform>().localScale = x;
-		}, new Vector3(0.1f, 0.1f, 0.1f), 0.35f), 21));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => LookUp.DesktopUI.VWIPE_DIALOG_HOLDER.GetComponent<CanvasGroup>().alpha, delegate(float x)
+		}, new Vector3(0.1f, 0.1f, 0.1f), 0.35f).SetEase(Ease.OutCirc));
+		sequence.Insert(0f, DOTween.To(() => LookUp.DesktopUI.VWIPE_DIALOG_HOLDER.GetComponent<CanvasGroup>().alpha, delegate(float x)
 		{
 			LookUp.DesktopUI.VWIPE_DIALOG_HOLDER.GetComponent<CanvasGroup>().alpha = x;
-		}, 0f, 0.35f), 1));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, 0f, 0.35f).SetEase(Ease.Linear));
+		sequence.Play<Sequence>();
 	}
 
 	private void Awake()

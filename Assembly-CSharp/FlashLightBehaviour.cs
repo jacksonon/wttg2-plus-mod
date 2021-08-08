@@ -106,7 +106,7 @@ public class FlashLightBehaviour : MonoBehaviour
 			return;
 		}
 		this.flashlightHuntMode = true;
-		GameManager.TimeSlinger.FireTimer(Random.Range(0.25f, 0.75f), new Action(this.ToggleHuntFlashLight), 0);
+		GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(0.25f, 0.75f), new Action(this.ToggleHuntFlashLight), 0);
 	}
 
 	private void ToggleHuntFlashLight()
@@ -126,7 +126,7 @@ public class FlashLightBehaviour : MonoBehaviour
 		}
 		if (this.flashlightHuntMode)
 		{
-			GameManager.TimeSlinger.FireTimer(Random.Range(0.2f, 0.6f), new Action(this.ToggleHuntFlashLight), 0);
+			GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(0.2f, 0.6f), new Action(this.ToggleHuntFlashLight), 0);
 		}
 	}
 

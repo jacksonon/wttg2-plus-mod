@@ -8,43 +8,43 @@ public class NodeHexStartArrowObject : MonoBehaviour
 {
 	public void Clear()
 	{
-		TweenExtensions.Restart(this.hideMeTween, true, -1f);
+		this.hideMeTween.Restart(true, -1f);
 	}
 
 	public void Present(RectTransform NewParent)
 	{
 		this.myRT.SetParent(NewParent);
 		this.myRT.anchoredPosition = Vector2.zero;
-		TweenExtensions.Restart(this.presentMeTween1, true, -1f);
-		TweenExtensions.Restart(this.presentMeTween2, true, -1f);
+		this.presentMeTween1.Restart(true, -1f);
+		this.presentMeTween2.Restart(true, -1f);
 	}
 
 	private void Awake()
 	{
 		this.myCG = base.GetComponent<CanvasGroup>();
 		this.myRT = base.GetComponent<RectTransform>();
-		this.presentMeTween1 = TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		this.presentMeTween1 = DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 1f, 0.45f), 1);
-		TweenExtensions.Pause<Tweener>(this.presentMeTween1);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.presentMeTween1, false);
-		this.presentMeTween2 = TweenSettingsExtensions.SetEase<TweenerCore<Vector2, Vector2, VectorOptions>>(DOTween.To(() => this.myRT.anchoredPosition, delegate(Vector2 x)
+		}, 1f, 0.45f).SetEase(Ease.Linear);
+		this.presentMeTween1.Pause<Tweener>();
+		this.presentMeTween1.SetAutoKill(false);
+		this.presentMeTween2 = DOTween.To(() => this.myRT.anchoredPosition, delegate(Vector2 x)
 		{
 			this.myRT.anchoredPosition = x;
-		}, new Vector2(-35f, 0f), 0.15f), 3);
-		TweenExtensions.Pause<Tweener>(this.presentMeTween2);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.presentMeTween2, false);
-		this.hideMeTween = TweenSettingsExtensions.OnComplete<TweenerCore<float, float, FloatOptions>>(TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.myCG.alpha, delegate(float x)
+		}, new Vector2(-35f, 0f), 0.15f).SetEase(Ease.OutSine);
+		this.presentMeTween2.Pause<Tweener>();
+		this.presentMeTween2.SetAutoKill(false);
+		this.hideMeTween = DOTween.To(() => this.myCG.alpha, delegate(float x)
 		{
 			this.myCG.alpha = x;
-		}, 0f, 0.25f), 1), delegate()
+		}, 0f, 0.25f).SetEase(Ease.Linear).OnComplete(delegate
 		{
 			this.myRT.SetParent(this.DefaultParent);
 			this.myRT.anchoredPosition = Vector2.zero;
 		});
-		TweenExtensions.Pause<Tweener>(this.hideMeTween);
-		TweenSettingsExtensions.SetAutoKill<Tweener>(this.hideMeTween, false);
+		this.hideMeTween.Pause<Tweener>();
+		this.hideMeTween.SetAutoKill(false);
 	}
 
 	public RectTransform DefaultParent;

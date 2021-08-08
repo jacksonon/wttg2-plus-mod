@@ -79,7 +79,7 @@ internal class SteamStatsAndAchievements : MonoBehaviour
 			SteamUserStats.SetStat("FeetTraveled", this.m_flTotalFeetTraveled);
 			SteamUserStats.SetStat("MaxFeetTraveled", this.m_flMaxFeetTraveled);
 			SteamUserStats.UpdateAvgRateStat("AverageSpeed", this.m_flGameFeetTraveled, this.m_flGameDurationSeconds);
-			SteamUserStats.GetStat("AverageSpeed", ref this.m_flAverageSpeed);
+			SteamUserStats.GetStat("AverageSpeed", out this.m_flAverageSpeed);
 			bool flag = SteamUserStats.StoreStats();
 			this.m_bStoreStats = !flag;
 		}
@@ -105,13 +105,13 @@ internal class SteamStatsAndAchievements : MonoBehaviour
 		}
 		if ((ulong)this.m_GameID == pCallback.m_nGameID)
 		{
-			if (pCallback.m_eResult == 1)
+			if (pCallback.m_eResult == EResult.k_EResultOK)
 			{
 				Debug.Log("Received stats and achievements from Steam\n");
 				this.m_bStatsValid = true;
 				foreach (SteamStatsAndAchievements.Achievement_t achievement_t in this.m_Achievements)
 				{
-					bool achievement = SteamUserStats.GetAchievement(achievement_t.m_eAchievementID.ToString(), ref achievement_t.m_bAchieved);
+					bool achievement = SteamUserStats.GetAchievement(achievement_t.m_eAchievementID.ToString(), out achievement_t.m_bAchieved);
 					if (achievement)
 					{
 						achievement_t.m_strName = SteamUserStats.GetAchievementDisplayAttribute(achievement_t.m_eAchievementID.ToString(), "name");
@@ -122,12 +122,12 @@ internal class SteamStatsAndAchievements : MonoBehaviour
 						Debug.LogWarning("SteamUserStats.GetAchievement failed for Achievement " + achievement_t.m_eAchievementID + "\nIs it registered in the Steam Partner site?");
 					}
 				}
-				SteamUserStats.GetStat("NumGames", ref this.m_nTotalGamesPlayed);
-				SteamUserStats.GetStat("NumWins", ref this.m_nTotalNumWins);
-				SteamUserStats.GetStat("NumLosses", ref this.m_nTotalNumLosses);
-				SteamUserStats.GetStat("FeetTraveled", ref this.m_flTotalFeetTraveled);
-				SteamUserStats.GetStat("MaxFeetTraveled", ref this.m_flMaxFeetTraveled);
-				SteamUserStats.GetStat("AverageSpeed", ref this.m_flAverageSpeed);
+				SteamUserStats.GetStat("NumGames", out this.m_nTotalGamesPlayed);
+				SteamUserStats.GetStat("NumWins", out this.m_nTotalNumWins);
+				SteamUserStats.GetStat("NumLosses", out this.m_nTotalNumLosses);
+				SteamUserStats.GetStat("FeetTraveled", out this.m_flTotalFeetTraveled);
+				SteamUserStats.GetStat("MaxFeetTraveled", out this.m_flMaxFeetTraveled);
+				SteamUserStats.GetStat("AverageSpeed", out this.m_flAverageSpeed);
 			}
 			else
 			{
@@ -140,17 +140,18 @@ internal class SteamStatsAndAchievements : MonoBehaviour
 	{
 		if ((ulong)this.m_GameID == pCallback.m_nGameID)
 		{
-			if (pCallback.m_eResult == 1)
+			if (pCallback.m_eResult == EResult.k_EResultOK)
 			{
 				Debug.Log("StoreStats - success");
 			}
-			else if (pCallback.m_eResult == 8)
+			else if (pCallback.m_eResult == EResult.k_EResultInvalidParam)
 			{
 				Debug.Log("StoreStats - some failed to validate");
-				UserStatsReceived_t pCallback2 = default(UserStatsReceived_t);
-				pCallback2.m_eResult = 1;
-				pCallback2.m_nGameID = (ulong)this.m_GameID;
-				this.OnUserStatsReceived(pCallback2);
+				this.OnUserStatsReceived(new UserStatsReceived_t
+				{
+					m_eResult = EResult.k_EResultOK,
+					m_nGameID = (ulong)this.m_GameID
+				});
 			}
 			else
 			{

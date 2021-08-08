@@ -38,24 +38,24 @@ public class HitmanRoamJumper : MonoBehaviour
 			depthOfField
 		});
 		this.ppVol.weight = 0f;
-		TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.ppVol.weight, delegate(float x)
+		DOTween.To(() => this.ppVol.weight, delegate(float x)
 		{
 			this.ppVol.weight = x;
-		}, 1f, 2f), 1);
+		}, 1f, 2f).SetEase(Ease.Linear);
 		Sequence sequence = DOTween.Sequence();
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => base.transform.position, delegate(Vector3 x)
+		sequence.Insert(0f, DOTween.To(() => base.transform.position, delegate(Vector3 x)
 		{
 			base.transform.position = x;
-		}, new Vector3(5.244362f, 40.52543f, 1.948186f), 0.75f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => base.transform.rotation, delegate(Quaternion x)
+		}, new Vector3(5.244362f, 40.52543f, 1.948186f), 0.75f).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => base.transform.rotation, delegate(Quaternion x)
 		{
 			base.transform.rotation = x;
-		}, new Vector3(0f, -90f, 0f), 0.5f), 1), true));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.myCamera.transform.localRotation, delegate(Quaternion x)
+		}, new Vector3(0f, -90f, 0f), 0.5f).SetEase(Ease.Linear).SetOptions(true));
+		sequence.Insert(0f, DOTween.To(() => this.myCamera.transform.localRotation, delegate(Quaternion x)
 		{
 			this.myCamera.transform.localRotation = x;
-		}, Vector3.zero, 0.5f), 1), true));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, Vector3.zero, 0.5f).SetEase(Ease.Linear).SetOptions(true));
+		sequence.Play<Sequence>();
 	}
 
 	public void TriggerMainDoorOpenJump()
@@ -68,15 +68,15 @@ public class HitmanRoamJumper : MonoBehaviour
 		{
 			this.myRoamController.KillOutOfWay();
 			Sequence sequence = DOTween.Sequence();
-			TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => base.transform.position, delegate(Vector3 x)
+			sequence.Insert(0f, DOTween.To(() => base.transform.position, delegate(Vector3 x)
 			{
 				base.transform.position = x;
-			}, new Vector3(-2.185477f, 40.52925f, -3.811371f), 0.3f), 1));
-			TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.myCamera.transform.localRotation, delegate(Quaternion x)
+			}, new Vector3(-2.185477f, 40.52925f, -3.811371f), 0.3f).SetEase(Ease.Linear));
+			sequence.Insert(0f, DOTween.To(() => this.myCamera.transform.localRotation, delegate(Quaternion x)
 			{
 				this.myCamera.transform.localRotation = x;
-			}, Vector3.zero, 0.3f), 1), true));
-			TweenExtensions.Play<Sequence>(sequence);
+			}, Vector3.zero, 0.3f).SetEase(Ease.Linear).SetOptions(true));
+			sequence.Play<Sequence>();
 		}, 0);
 	}
 
@@ -93,10 +93,10 @@ public class HitmanRoamJumper : MonoBehaviour
 			depthOfField
 		});
 		this.ppVol.weight = 0f;
-		TweenSettingsExtensions.SetEase<TweenerCore<float, float, FloatOptions>>(DOTween.To(() => this.ppVol.weight, delegate(float x)
+		DOTween.To(() => this.ppVol.weight, delegate(float x)
 		{
 			this.ppVol.weight = x;
-		}, 1f, 2f), 1);
+		}, 1f, 2f).SetEase(Ease.Linear);
 	}
 
 	public void TriggerMainDoorOutSideJump()
@@ -106,19 +106,19 @@ public class HitmanRoamJumper : MonoBehaviour
 		GameManager.InteractionManager.LockInteraction();
 		this.myRoamController.SetMasterLock(true);
 		Sequence sequence = DOTween.Sequence();
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => base.transform.position, delegate(Vector3 x)
+		sequence.Insert(0f, DOTween.To(() => base.transform.position, delegate(Vector3 x)
 		{
 			base.transform.position = x;
-		}, new Vector3(-2.253f, base.transform.position.y, -5.411f), 0.5f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => base.transform.rotation, delegate(Quaternion x)
+		}, new Vector3(-2.253f, base.transform.position.y, -5.411f), 0.5f).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => base.transform.rotation, delegate(Quaternion x)
 		{
 			base.transform.rotation = x;
-		}, Vector3.zero, 0.4f), 1), true));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.myCamera.transform.localRotation, delegate(Quaternion x)
+		}, Vector3.zero, 0.4f).SetEase(Ease.Linear).SetOptions(true));
+		sequence.Insert(0f, DOTween.To(() => this.myCamera.transform.localRotation, delegate(Quaternion x)
 		{
 			this.myCamera.transform.localRotation = x;
-		}, Vector3.zero, 0.5f), 1), true));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, Vector3.zero, 0.5f).SetEase(Ease.Linear).SetOptions(true));
+		sequence.Play<Sequence>();
 	}
 
 	public void TriggerHallWayDoorJump()
@@ -128,19 +128,19 @@ public class HitmanRoamJumper : MonoBehaviour
 		GameManager.InteractionManager.LockInteraction();
 		this.myRoamController.SetMasterLock(true);
 		Sequence sequence = DOTween.Sequence();
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => base.transform.position, delegate(Vector3 x)
+		sequence.Insert(0f, DOTween.To(() => base.transform.position, delegate(Vector3 x)
 		{
 			base.transform.position = x;
-		}, new Vector3(24.727f, base.transform.position.y, -6.284f), 0.5f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => base.transform.rotation, delegate(Quaternion x)
+		}, new Vector3(24.727f, base.transform.position.y, -6.284f), 0.5f).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => base.transform.rotation, delegate(Quaternion x)
 		{
 			base.transform.rotation = x;
-		}, new Vector3(0f, 90f, 0f), 0.4f), 1), true));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.myCamera.transform.localRotation, delegate(Quaternion x)
+		}, new Vector3(0f, 90f, 0f), 0.4f).SetEase(Ease.Linear).SetOptions(true));
+		sequence.Insert(0f, DOTween.To(() => this.myCamera.transform.localRotation, delegate(Quaternion x)
 		{
 			this.myCamera.transform.localRotation = x;
-		}, Vector3.zero, 0.5f), 1), true));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, Vector3.zero, 0.5f).SetEase(Ease.Linear).SetOptions(true));
+		sequence.Play<Sequence>();
 	}
 
 	public void TriggerStairWayDoorJump()
@@ -159,23 +159,23 @@ public class HitmanRoamJumper : MonoBehaviour
 		PauseManager.LockPause();
 		GameManager.InteractionManager.LockInteraction();
 		this.myRoamController.SetMasterLock(true);
-		Sequence sequence = TweenSettingsExtensions.OnComplete<Sequence>(DOTween.Sequence(), delegate()
+		Sequence sequence = DOTween.Sequence().OnComplete(delegate
 		{
 			EnemyManager.HitManManager.ExecuteLobbyComputerJump();
 		});
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetEase<TweenerCore<Vector3, Vector3, VectorOptions>>(DOTween.To(() => base.transform.position, delegate(Vector3 x)
+		sequence.Insert(0f, DOTween.To(() => base.transform.position, delegate(Vector3 x)
 		{
 			base.transform.position = x;
-		}, new Vector3(3.587919f, base.transform.position.y, -22.74409f), 0.3f), 1));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => base.transform.rotation, delegate(Quaternion x)
+		}, new Vector3(3.587919f, base.transform.position.y, -22.74409f), 0.3f).SetEase(Ease.Linear));
+		sequence.Insert(0f, DOTween.To(() => base.transform.rotation, delegate(Quaternion x)
 		{
 			base.transform.rotation = x;
-		}, new Vector3(0f, 0f, 0f), 0.25f), 1), true));
-		TweenSettingsExtensions.Insert(sequence, 0f, TweenSettingsExtensions.SetOptions(TweenSettingsExtensions.SetEase<TweenerCore<Quaternion, Vector3, QuaternionOptions>>(DOTween.To(() => this.myCamera.transform.localRotation, delegate(Quaternion x)
+		}, new Vector3(0f, 0f, 0f), 0.25f).SetEase(Ease.Linear).SetOptions(true));
+		sequence.Insert(0f, DOTween.To(() => this.myCamera.transform.localRotation, delegate(Quaternion x)
 		{
 			this.myCamera.transform.localRotation = x;
-		}, Vector3.zero, 0.3f), 1), true));
-		TweenExtensions.Play<Sequence>(sequence);
+		}, Vector3.zero, 0.3f).SetEase(Ease.Linear).SetOptions(true));
+		sequence.Play<Sequence>();
 	}
 
 	private void Awake()

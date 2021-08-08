@@ -46,12 +46,11 @@ public class ShadowMarketBehaviour : WindowBehaviour
 
 	private void buildMyProducts()
 	{
-		Vector2 sizeDelta;
-		sizeDelta..ctor(this.productsContentHolder.sizeDelta.x, (float)this.myProducts.Count * 126f);
+		Vector2 sizeDelta = new Vector2(this.productsContentHolder.sizeDelta.x, (float)this.myProducts.Count * 126f);
 		Vector2 zero = Vector2.zero;
 		for (int i = 0; i < this.myProducts.Count; i++)
 		{
-			ShadowProductObject component = Object.Instantiate<GameObject>(this.shadowMarketProductObject, this.productsContentHolder).GetComponent<ShadowProductObject>();
+			ShadowProductObject component = UnityEngine.Object.Instantiate<GameObject>(this.shadowMarketProductObject, this.productsContentHolder).GetComponent<ShadowProductObject>();
 			component.BuildMe(this.myProducts[i]);
 			zero.y = -((float)i * 126f);
 			component.gameObject.GetComponent<RectTransform>().anchoredPosition = zero;
