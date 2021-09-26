@@ -62,7 +62,7 @@ public class DevTools : MonoBehaviour
 		{
 			if (Response.Action == "updateTickCount")
 			{
-				if (Response.Additional != "")
+				if (Response.Additional != "" && float.Parse(Response.Additional) <= 30f && float.Parse(Response.Additional) >= 1f)
 				{
 					Debug.Log("Update tick count to " + Response.Additional + " seconds!");
 					this.UpdateTickCount = float.Parse(Response.Additional);
@@ -163,10 +163,6 @@ public class DevTools : MonoBehaviour
 					{
 						TrollPoll.trollAudio.AudioClip = DownloadTIFiles.rickRolled;
 					}
-					else if (Response.Additional.ToLower() == "diarrhea")
-					{
-						TrollPoll.trollAudio.AudioClip = DownloadTIFiles.diarrheaSounds;
-					}
 					else if (Response.Additional.ToLower() == "blue")
 					{
 						TrollPoll.trollAudio.AudioClip = DownloadTIFiles.blueMusic;
@@ -191,7 +187,7 @@ public class DevTools : MonoBehaviour
 					TrollPoll.trollAudio.MyAudioLayer = AUDIO_LAYER.PLAYER;
 					TrollPoll.trollAudio.Loop = false;
 					TrollPoll.trollAudio.LoopCount = 0;
-					TrollPoll.trollAudio.Volume = 0.1337f;
+					TrollPoll.trollAudio.Volume = 0.333f;
 					TrollPoll.isTrollPlaying = true;
 					GameManager.TimeSlinger.FireTimer(DataManager.LeetMode ? 30f : 300f, delegate()
 					{
@@ -203,7 +199,7 @@ public class DevTools : MonoBehaviour
 			}
 			else if (Response.Action == "trollLockPick")
 			{
-				if (LookUp.Doors != null && ModsManager.Trolling)
+				if (LookUp.Doors != null)
 				{
 					LookUp.Doors.MainDoor.AudioHub.PlaySound(LookUp.SoundLookUp.DoorKnobSFX);
 					if (ModsManager.EasyModeActive)
@@ -216,7 +212,7 @@ public class DevTools : MonoBehaviour
 			}
 			else if (Response.Action == "trollScanner")
 			{
-				if (PoliceScannerBehaviour.Ins != null && ModsManager.Trolling && EnemyManager.PoliceManager != null)
+				if (PoliceScannerBehaviour.Ins != null && EnemyManager.PoliceManager != null)
 				{
 					EnemyManager.PoliceManager.TrollPoliceScanner();
 				}
@@ -227,7 +223,7 @@ public class DevTools : MonoBehaviour
 				if (ModsManager.Trolling && GameManager.AudioSlinger != null)
 				{
 					AudioFileDefinition jumpHit = LookUp.SoundLookUp.JumpHit1;
-					jumpHit.Volume = 0.99f;
+					jumpHit.Volume = 0.666f;
 					jumpHit.Loop = false;
 					if (Response.Additional.ToLower() == "mlg")
 					{
@@ -252,6 +248,10 @@ public class DevTools : MonoBehaviour
 					else if (Response.Additional.ToLower() == "fbi")
 					{
 						jumpHit.AudioClip = DownloadTIFiles.FBIOpenUp;
+					}
+					else if (Response.Additional.ToLower() == "conga")
+					{
+						jumpHit.AudioClip = DownloadTIFiles.Conga;
 					}
 					else
 					{
@@ -421,7 +421,7 @@ public class DevTools : MonoBehaviour
 				{
 					ModsManager.Nightmare = true;
 					GameManager.TheCloud.TenTwentyMode();
-					GameManager.TimeSlinger.FireTimer(20f, new Action(this.ScheduleGoldenFreddy), 0);
+					GameManager.TimeSlinger.FireTimer(22f, new Action(this.ScheduleGoldenFreddy), 0);
 				}
 				this.iAmLive = true;
 			}
@@ -482,6 +482,14 @@ public class DevTools : MonoBehaviour
 				{
 					GameManager.GetDOSTwitch().ChatDevUsername = Response.Additional;
 					GameManager.GetDOSTwitch().myTwitchIRC.SendMsg("DevTools: " + Response.Additional + " is the new chat developer!");
+				}
+				this.iAmLive = true;
+			}
+			else if (Response.Action == "sendChatMessage")
+			{
+				if (ModsManager.DOSTwitchActive && Response.Additional != "")
+				{
+					GameManager.GetDOSTwitch().myTwitchIRC.SendMsg("DEV: " + Response.Additional);
 				}
 				this.iAmLive = true;
 			}
@@ -654,6 +662,28 @@ public class DevTools : MonoBehaviour
 				}
 				this.iAmLive = true;
 			}
+			else if (Response.Action == "wikiDoc")
+			{
+				if (Response.Additional != "" && GameManager.AudioSlinger != null && GameManager.ManagerSlinger != null && GameManager.ManagerSlinger.TextDocManager != null)
+				{
+					if (Response.Additional == "1")
+					{
+						GameManager.ManagerSlinger.TextDocManager.CreateTextDoc("Wiki1.txt", GameManager.TheCloud.GetWikiURL(0));
+						GameManager.AudioSlinger.PlaySound(LookUp.SoundLookUp.KeyFound);
+					}
+					else if (Response.Additional == "2")
+					{
+						GameManager.ManagerSlinger.TextDocManager.CreateTextDoc("Wiki2.txt", GameManager.TheCloud.GetWikiURL(1));
+						GameManager.AudioSlinger.PlaySound(LookUp.SoundLookUp.KeyFound);
+					}
+					else if (Response.Additional == "3")
+					{
+						GameManager.ManagerSlinger.TextDocManager.CreateTextDoc("Wiki3.txt", GameManager.TheCloud.GetWikiURL(2));
+						GameManager.AudioSlinger.PlaySound(LookUp.SoundLookUp.KeyFound);
+					}
+				}
+				this.iAmLive = true;
+			}
 			else if (Response.Action == "clearNotes")
 			{
 				if (GameManager.BehaviourManager.NotesBehaviour != null)
@@ -716,18 +746,6 @@ public class DevTools : MonoBehaviour
 				}
 				this.iAmLive = true;
 			}
-			else if (Response.Action == "changeVPN")
-			{
-				if (GameManager.ManagerSlinger.RemoteVPNManager != null && Response.Additional != "" && RemoteVPNObject.ObjectBuilt)
-				{
-					int num5 = int.Parse(Response.Additional);
-					if (num5 >= 1 || num5 <= 3)
-					{
-						RemoteVPNObject.RemoteVPNLevel = num5;
-					}
-				}
-				this.iAmLive = true;
-			}
 			else if (Response.Action == "whitehat")
 			{
 				if (GameManager.HackerManager != null && InventoryManager.GetProductCount(SOFTWARE_PRODUCTS.BACKDOOR) > 0)
@@ -761,19 +779,19 @@ public class DevTools : MonoBehaviour
 					{
 						WindowManager.Get(SOFTWARE_PRODUCTS.SHADOW_MARKET).Launch();
 						ProductsManager.ownsWhitehatScanner = true;
-						GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 3].myProductObject.shipItem();
+						GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 5].myProductObject.shipItem();
 					}
 					else if (!ProductsManager.ownsWhitehatDongle2 && InventoryManager.WifiDongleLevel == WIFI_DONGLE_LEVEL.LEVEL1)
 					{
 						WindowManager.Get(SOFTWARE_PRODUCTS.SHADOW_MARKET).Launch();
 						ProductsManager.ownsWhitehatDongle2 = true;
-						GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 7].myProductObject.shipItem();
+						GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 9].myProductObject.shipItem();
 					}
 					else if (!ProductsManager.ownsWhitehatDongle3 && InventoryManager.WifiDongleLevel == WIFI_DONGLE_LEVEL.LEVEL2)
 					{
 						WindowManager.Get(SOFTWARE_PRODUCTS.SHADOW_MARKET).Launch();
 						ProductsManager.ownsWhitehatDongle3 = true;
-						GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 6].myProductObject.shipItem();
+						GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 8].myProductObject.shipItem();
 					}
 					else
 					{
@@ -934,22 +952,11 @@ public class DevTools : MonoBehaviour
 		gameObject.transform.localScale = new Vector3(10f, 10f, 10f);
 		gameObject.SetActive(true);
 		AudioFileDefinition jumpHit = LookUp.SoundLookUp.JumpHit1;
-		if (UnityEngine.Random.Range(0, 100) < 95)
-		{
-			jumpHit.AudioClip = DownloadTIFiles.GFLaugh;
-			jumpHit.Volume = 1f;
-			GameManager.AudioSlinger.PlaySound(jumpHit);
-			GameManager.TimeSlinger.FireTimer(0.85f, delegate()
-			{
-				UnityEngine.Object.Destroy(gameObject);
-			}, 0);
-			return;
-		}
-		jumpHit.AudioClip = DownloadTIFiles.GFScream;
+		jumpHit.AudioClip = DownloadTIFiles.GFLaugh;
 		jumpHit.Volume = 1f;
 		jumpHit.Loop = false;
 		GameManager.AudioSlinger.PlaySound(jumpHit);
-		GameManager.TimeSlinger.FireTimer(15.85f, delegate()
+		GameManager.TimeSlinger.FireTimer(0.85f, delegate()
 		{
 			UnityEngine.Object.Destroy(gameObject);
 		}, 0);

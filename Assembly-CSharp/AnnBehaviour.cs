@@ -254,6 +254,7 @@ public class AnnBehaviour : WindowBehaviour
 	{
 		if (GameManager.TheCloud.GetCurrentWebPageDef() != null && GameManager.TheCloud.GetCurrentWebPageDef().HasMusic)
 		{
+			this.checkCustomMusicAudio(GameManager.TheCloud.GetCurrentWebPageDef().PageName.ToLower(), GameManager.TheCloud.GetCurrentWebPageDef(), GameManager.TheCloud.GetCurrentWebPageDef().FileName.ToLower());
 			GameManager.AudioSlinger.PlaySound(GameManager.TheCloud.GetCurrentWebPageDef().AudioFile);
 		}
 	}
@@ -275,7 +276,49 @@ public class AnnBehaviour : WindowBehaviour
 				LookUp.DesktopUI.ANN_KEY_CUE.enabled = true;
 			}
 			KEY_DISCOVERY_MODES keyDiscoverMode = pageDef.KeyDiscoverMode;
-			if (keyDiscoverMode != KEY_DISCOVERY_MODES.PLAIN_SIGHT)
+			if (pageDef.isWTTG1Website)
+			{
+				if (keyDiscoverMode == KEY_DISCOVERY_MODES.PLAIN_SIGHT)
+				{
+					int num = pageDef.HashIndex + 1;
+					this.myBrowser.CallFunction("PlaceKey", new JSONNode[]
+					{
+						num.ToString() + " - " + pageDef.HashValue.ToString()
+					});
+					return;
+				}
+				if (keyDiscoverMode == KEY_DISCOVERY_MODES.CLICK_TO_PLAIN_SIGHT)
+				{
+					this.myBrowser.CallFunction("PickHotSpot", new JSONNode[]
+					{
+						string.Empty
+					});
+					this.myBrowser.RegisterFunction("HotSpotHit", delegate(JSONNode args)
+					{
+						GameManager.AudioSlinger.PlaySound(LookUp.SoundLookUp.KeyFound);
+						int num2 = pageDef.HashIndex + 1;
+						this.myBrowser.CallFunction("PlaceKey", new JSONNode[]
+						{
+							num2.ToString() + " - " + pageDef.HashValue.ToString()
+						});
+					});
+					return;
+				}
+				if (keyDiscoverMode == KEY_DISCOVERY_MODES.CLICK_TO_FILE)
+				{
+					this.myBrowser.CallFunction("PickHotSpot", new JSONNode[]
+					{
+						string.Empty
+					});
+					this.myBrowser.RegisterFunction("HotSpotHit", delegate(JSONNode args)
+					{
+						GameManager.AudioSlinger.PlaySound(LookUp.SoundLookUp.KeyFound);
+						GameManager.ManagerSlinger.TextDocManager.CreateTextDoc("Key" + (pageDef.HashIndex + 1).ToString() + ".txt", (pageDef.HashIndex + 1).ToString() + " - " + pageDef.HashValue);
+					});
+				}
+				return;
+			}
+			else if (keyDiscoverMode != KEY_DISCOVERY_MODES.PLAIN_SIGHT)
 			{
 				if (keyDiscoverMode == KEY_DISCOVERY_MODES.CLICK_TO_PLAIN_SIGHT)
 				{
@@ -660,6 +703,105 @@ public class AnnBehaviour : WindowBehaviour
 		if ((GameManager.TheCloud.GetCurrentWebPageDef() != null && GameManager.TheCloud.GetCurrentWebPageDef().PageName.ToLower() == "the prey") || (GameManager.TheCloud.GetCurrentWebPageDef() != null && GameManager.TheCloud.GetCurrentWebPageDef().PageName.ToLower() == "theprey"))
 		{
 			EnemyManager.CultManager.attemptSpawn();
+		}
+	}
+
+	private void checkCustomMusicAudio(string pagename, WebPageDefinition definition, string htmlFile)
+	{
+		if (pagename == "vacation" && htmlFile == "index.html")
+		{
+			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
+			definition.AudioFile.AudioClip = TheCloud.VacationSound;
+			definition.AudioFile.Loop = true;
+			return;
+		}
+		if (pagename == "legion" && htmlFile == "index.html")
+		{
+			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
+			definition.AudioFile.AudioClip = DownloadTIFiles.Legion;
+			definition.AudioFile.Loop = false;
+			return;
+		}
+		if (pagename == "forsaken gifts" && htmlFile == "index.html")
+		{
+			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
+			definition.AudioFile.AudioClip = DownloadTIFiles.ForsakenGifts;
+			definition.AudioFile.Loop = true;
+			return;
+		}
+		if (pagename == "takedownman" && htmlFile == "index.html")
+		{
+			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
+			definition.AudioFile.AudioClip = DownloadTIFiles.TakedownMan;
+			definition.AudioFile.Loop = true;
+			return;
+		}
+		if (pagename == "tango down" && htmlFile == "index.html")
+		{
+			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
+			definition.AudioFile.AudioClip = DownloadTIFiles.TangoDown;
+			definition.AudioFile.Loop = true;
+			return;
+		}
+		if (pagename == "testical mutilation" && htmlFile == "index.html")
+		{
+			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
+			definition.AudioFile.AudioClip = DownloadTIFiles.TesticalMutilation;
+			definition.AudioFile.Loop = false;
+		}
+		if (pagename == "hail satan" && htmlFile == "index.html")
+		{
+			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
+			definition.AudioFile.AudioClip = DownloadTIFiles.HailSatan;
+			definition.AudioFile.Loop = true;
+		}
+		if (pagename == "illuminati" && htmlFile == "index.html")
+		{
+			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
+			definition.AudioFile.AudioClip = DownloadTIFiles.Illuminati;
+			definition.AudioFile.Loop = false;
+		}
+		if (pagename == "enigma" && htmlFile == "index.html")
+		{
+			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
+			definition.AudioFile.AudioClip = DownloadTIFiles.Enigma;
+			definition.AudioFile.Loop = false;
+		}
+		if (pagename == "cannabisworld" && htmlFile == "index.html")
+		{
+			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
+			definition.AudioFile.AudioClip = DownloadTIFiles.Cannabisworld;
+			definition.AudioFile.Loop = true;
+		}
+		if (pagename == "the art" && htmlFile == "index.html")
+		{
+			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
+			definition.AudioFile.AudioClip = DownloadTIFiles.TheArt;
+			definition.AudioFile.Loop = false;
+		}
+		if (pagename == "nuclear dream" && htmlFile == "index.html")
+		{
+			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
+			definition.AudioFile.AudioClip = DownloadTIFiles.NuclearDream;
+			definition.AudioFile.Loop = false;
+		}
+		if (pagename == "roses destruction" && htmlFile == "index.html")
+		{
+			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
+			definition.AudioFile.AudioClip = DownloadTIFiles.RosesDestruction;
+			definition.AudioFile.Loop = false;
+		}
+		if (pagename == "vengeance angel" && htmlFile == "freedom.html")
+		{
+			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
+			definition.AudioFile.AudioClip = DownloadTIFiles.Freedom;
+			definition.AudioFile.Loop = false;
+		}
+		if (pagename == "funny monke" && htmlFile == "index.html")
+		{
+			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
+			definition.AudioFile.AudioClip = DownloadTIFiles.Funky;
+			definition.AudioFile.Loop = true;
 		}
 	}
 

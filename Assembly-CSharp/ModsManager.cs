@@ -89,4 +89,12 @@ public static class ModsManager
 	public static bool Trolling;
 
 	public static bool Nightmare;
+
+	public static bool ContentExtension;
+
+	public static bool Jumpscares;
+
+	public static bool Websites;
+
+	public static readonly string ModVersion = "1.23";
 }

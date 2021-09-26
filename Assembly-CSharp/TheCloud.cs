@@ -363,6 +363,17 @@ public class TheCloud : MonoBehaviour
 			this.myWikiSiteData.WikiSites = new List<List<int>>(3);
 			List<WebSiteDefinition> list = new List<WebSiteDefinition>(this.Websites);
 			List<int> list2 = new List<int>(this.fakeDomains);
+			list2.Remove(17);
+			list2.Remove(18);
+			list2.Remove(20);
+			list2.Remove(21);
+			list2.Remove(22);
+			list2.Remove(23);
+			list2.Remove(25);
+			list2.Remove(26);
+			list2.Remove(27);
+			list2.Remove(28);
+			list2.Remove(37);
 			for (int i = 0; i < this.wikis.Count; i++)
 			{
 				WebSiteData webSiteData = new WebSiteData();
@@ -380,7 +391,7 @@ public class TheCloud : MonoBehaviour
 			{
 				Dictionary<int, string> dictionary = new Dictionary<int, string>(20);
 				List<int> list3 = new List<int>(20);
-				int num = 15;
+				int num = 20;
 				if (k != 0)
 				{
 					if (k != 1)
@@ -489,56 +500,51 @@ public class TheCloud : MonoBehaviour
 
 	private void prepWebsites()
 	{
+		for (int i = 0; i < this.Websites.Count; i++)
+		{
+			if (this.Websites[i].PageTitle == "Chosen Awake")
+			{
+				this.Websites[i].PageDesc = "How would you tell the world?";
+			}
+			if (this.Websites[i].PageTitle == "Illumanti")
+			{
+				this.Websites[i].PageTitle = "Illumination";
+				this.Websites[i].PageDesc = "Website dedicated to showing people's \"bright\" future.";
+			}
+			if (this.Websites[i].PageTitle == "Roses Destruction")
+			{
+				this.Websites[i].PageTitle = "Rotten Meal";
+				this.Websites[i].PageDesc = "Weird ass people selling meal for canniballs.";
+			}
+			if (this.Websites[i].PageTitle.ToLower() == "vacation")
+			{
+				LookUp.SoundLookUp.vacationRinging = this.Websites[i].HomePage.AudioFile;
+				if (!TheCloud.VacationFIX)
+				{
+					TheCloud.VacationFIX = true;
+					TheCloud.VacationSound = this.Websites[i].HomePage.AudioFile.AudioClip;
+				}
+			}
+		}
+		new WebsiteExtension().ExtendWebsites(this.Websites);
 		this.myWebSitesData = DataManager.Load<WebSitesData>(2020);
 		if (this.myWebSitesData == null)
 		{
 			this.myWebSitesData = new WebSitesData(2020);
 			this.myWebSitesData.Sites = new List<WebSiteData>(this.Websites.Count);
-			for (int i = 0; i < this.Websites.Count; i++)
+			for (int j = 0; j < this.Websites.Count; j++)
 			{
 				WebSiteData webSiteData = new WebSiteData();
 				webSiteData.Pages = new List<WebPageData>();
-				if (!this.Websites[i].isStatic)
+				if (!this.Websites[j].isStatic)
 				{
-					webSiteData.PageURL = MagicSlinger.MD5It(this.Websites[i].PageTitle + Time.time.ToString() + UnityEngine.Random.Range(0, 9999).ToString());
+					webSiteData.PageURL = MagicSlinger.MD5It(this.Websites[j].PageTitle + Time.time.ToString() + UnityEngine.Random.Range(0, 9999).ToString());
 				}
 				else
 				{
-					webSiteData.PageURL = this.Websites[i].PageURL;
+					webSiteData.PageURL = this.Websites[j].PageURL;
 				}
-				if (this.Websites[i].PageTitle.ToLower() == "vacation")
-				{
-					LookUp.SoundLookUp.vacationRinging = this.Websites[i].HomePage.AudioFile;
-				}
-				if (this.Websites[i].PageTitle.ToLower() == "thehall" || this.Websites[i].PageTitle.ToLower() == "the hall")
-				{
-					LookUp.SoundLookUp.theHall = this.Websites[i].HomePage.AudioFile;
-				}
-				if (this.Websites[i].PageTitle.ToLower() == "isevil" || this.Websites[i].PageTitle.ToLower() == "is evil")
-				{
-					LookUp.SoundLookUp.isEvil = this.Websites[i].HomePage.AudioFile;
-				}
-				if (this.Websites[i].PageTitle.ToLower() == "oneless")
-				{
-					LookUp.SoundLookUp.oneless = this.Websites[i].HomePage.AudioFile;
-				}
-				if (this.Websites[i].PageTitle.ToLower() == "thedollmaker" || this.Websites[i].PageTitle.ToLower() == "the doll maker")
-				{
-					LookUp.SoundLookUp.dollMusics = this.Websites[i].HomePage.AudioFile;
-				}
-				if (this.Websites[i].PageTitle.ToLower() == "thanksforvisiting" || this.Websites[i].PageTitle.ToLower() == "thanks for visiting")
-				{
-					LookUp.SoundLookUp.creepy = this.Websites[i].SubPages[3].AudioFile;
-				}
-				if (this.Websites[i].PageTitle.ToLower() == "evilcollection" || this.Websites[i].PageTitle.ToLower() == "evil collection")
-				{
-					LookUp.SoundLookUp.babyTime = this.Websites[i].SubPages[2].AudioFile;
-				}
-				if (this.Websites[i].PageTitle.ToLower() == "numberstation" || this.Websites[i].PageTitle.ToLower() == "number station")
-				{
-					LookUp.SoundLookUp.numberStationScare = this.Websites[i].HomePage.AudioFile;
-				}
-				webSiteData.Fake = this.Websites[i].isFake;
+				webSiteData.Fake = this.Websites[j].isFake;
 				webSiteData.Visted = false;
 				webSiteData.IsTapped = false;
 				WebPageData webPageData = new WebPageData();
@@ -547,9 +553,9 @@ public class TheCloud : MonoBehaviour
 				webPageData.HashIndex = 0;
 				webPageData.HashValue = string.Empty;
 				webSiteData.Pages.Add(webPageData);
-				if (this.Websites[i].SubPages != null)
+				if (this.Websites[j].SubPages != null)
 				{
-					for (int j = 0; j < this.Websites[i].SubPages.Count; j++)
+					for (int k = 0; k < this.Websites[j].SubPages.Count; k++)
 					{
 						WebPageData webPageData2 = new WebPageData();
 						webPageData2.KeyDiscoveryMode = UnityEngine.Random.Range(0, 4);
@@ -564,33 +570,33 @@ public class TheCloud : MonoBehaviour
 			this.itsNewATap = true;
 		}
 		this.websiteLookUp = new Dictionary<string, int>(this.myWebSitesData.Sites.Count);
-		for (int k = 0; k < this.myWebSitesData.Sites.Count; k++)
+		for (int l = 0; l < this.myWebSitesData.Sites.Count; l++)
 		{
-			this.Websites[k].PageURL = this.myWebSitesData.Sites[k].PageURL;
-			this.Websites[k].WasVisted = this.myWebSitesData.Sites[k].Visted;
-			this.Websites[k].IsTapped = this.myWebSitesData.Sites[k].IsTapped;
-			if (this.myWebSitesData.Sites[k].Fake)
+			this.Websites[l].PageURL = this.myWebSitesData.Sites[l].PageURL;
+			this.Websites[l].WasVisted = this.myWebSitesData.Sites[l].Visted;
+			this.Websites[l].IsTapped = this.myWebSitesData.Sites[l].IsTapped;
+			if (this.myWebSitesData.Sites[l].Fake)
 			{
-				this.fakeDomains.Add(k);
+				this.fakeDomains.Add(l);
 			}
-			else if (this.myWebSitesData.Sites[k].Pages != null)
+			else if (this.myWebSitesData.Sites[l].Pages != null)
 			{
-				this.Websites[k].HomePage.KeyDiscoverMode = (KEY_DISCOVERY_MODES)this.myWebSitesData.Sites[k].Pages[0].KeyDiscoveryMode;
-				this.Websites[k].HomePage.IsTapped = this.myWebSitesData.Sites[k].Pages[0].IsTapped;
-				this.Websites[k].HomePage.HashIndex = this.myWebSitesData.Sites[k].Pages[0].HashIndex;
-				this.Websites[k].HomePage.HashValue = this.myWebSitesData.Sites[k].Pages[0].HashValue;
-				for (int l = 0; l < this.Websites[k].SubPages.Count; l++)
+				this.Websites[l].HomePage.KeyDiscoverMode = (KEY_DISCOVERY_MODES)this.myWebSitesData.Sites[l].Pages[0].KeyDiscoveryMode;
+				this.Websites[l].HomePage.IsTapped = this.myWebSitesData.Sites[l].Pages[0].IsTapped;
+				this.Websites[l].HomePage.HashIndex = this.myWebSitesData.Sites[l].Pages[0].HashIndex;
+				this.Websites[l].HomePage.HashValue = this.myWebSitesData.Sites[l].Pages[0].HashValue;
+				for (int m = 0; m < this.Websites[l].SubPages.Count; m++)
 				{
-					if (this.myWebSitesData.Sites[k].Pages[l + 1] != null)
+					if (this.myWebSitesData.Sites[l].Pages[m + 1] != null)
 					{
-						this.Websites[k].SubPages[l].KeyDiscoverMode = (KEY_DISCOVERY_MODES)this.myWebSitesData.Sites[k].Pages[l + 1].KeyDiscoveryMode;
-						this.Websites[k].SubPages[l].IsTapped = this.myWebSitesData.Sites[k].Pages[l + 1].IsTapped;
-						this.Websites[k].SubPages[l].HashIndex = this.myWebSitesData.Sites[k].Pages[l + 1].HashIndex;
-						this.Websites[k].SubPages[l].HashValue = this.myWebSitesData.Sites[k].Pages[l + 1].HashValue;
+						this.Websites[l].SubPages[m].KeyDiscoverMode = (KEY_DISCOVERY_MODES)this.myWebSitesData.Sites[l].Pages[m + 1].KeyDiscoveryMode;
+						this.Websites[l].SubPages[m].IsTapped = this.myWebSitesData.Sites[l].Pages[m + 1].IsTapped;
+						this.Websites[l].SubPages[m].HashIndex = this.myWebSitesData.Sites[l].Pages[m + 1].HashIndex;
+						this.Websites[l].SubPages[m].HashValue = this.myWebSitesData.Sites[l].Pages[m + 1].HashValue;
 					}
 				}
 			}
-			this.websiteLookUp.Add(this.myWebSitesData.Sites[k].PageURL, k);
+			this.websiteLookUp.Add(this.myWebSitesData.Sites[l].PageURL, l);
 		}
 		DataManager.Save<WebSitesData>(this.myWebSitesData);
 	}
@@ -602,10 +608,6 @@ public class TheCloud : MonoBehaviour
 		{
 			this.myBookMarksData = new BookMarksData(2021);
 			this.myBookMarksData.BookMarks = new Dictionary<int, BookmarkData>();
-			BookmarkData value = new BookmarkData("Adam's Twitter", "http://www.twitter.com/thewebpro");
-			BookmarkData value2 = new BookmarkData("Adam's YouTube", "http://www.youtube.com/c/ReflectStudios");
-			this.myBookMarksData.BookMarks.Add(14, value);
-			this.myBookMarksData.BookMarks.Add(15, value2);
 		}
 		this.bookmarks = new Dictionary<int, BookmarkData>(this.myBookMarksData.BookMarks.Count);
 		foreach (KeyValuePair<int, BookmarkData> keyValuePair in this.myBookMarksData.BookMarks)
@@ -698,7 +700,7 @@ public class TheCloud : MonoBehaviour
 						int hashIndex2 = dictionary[text2];
 						if (webSiteDefinition2.SubPages.Count > 0)
 						{
-							if (UnityEngine.Random.Range(0, 10) == 3)
+							if (UnityEngine.Random.Range(0, 4) == 3)
 							{
 								webSiteDefinition2.HomePage.IsTapped = true;
 								webSiteDefinition2.HomePage.HashIndex = hashIndex2;
@@ -748,6 +750,7 @@ public class TheCloud : MonoBehaviour
 		this.prepBookmarks();
 		this.prepTheMasterKey();
 		this.tapSites();
+		this.challenge = -1;
 		if (ModsManager.DevToolsActive)
 		{
 			this.myDevTools = new DevTools();
@@ -765,7 +768,6 @@ public class TheCloud : MonoBehaviour
 			Debug.Log("Twitch integration is active");
 			return;
 		}
-		this.challenge = -1;
 		Debug.Log("DOSTwitch is disabled");
 	}
 
@@ -776,10 +778,10 @@ public class TheCloud : MonoBehaviour
 		if (!TheCloud.vpnFIX)
 		{
 			GameManager.ManagerSlinger.ProductsManager.ZeroDayProducts[6].isDiscounted = false;
-			GameManager.ManagerSlinger.ProductsManager.ZeroDayProducts[2].productToOwn = GameManager.ManagerSlinger.ProductsManager.ZeroDayProducts[1];
 			GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 2].deliveryTimeMax = GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 2].deliveryTimeMin;
 			TheCloud.vpnFIX = true;
 		}
+		GameManager.ManagerSlinger.ProductsManager.ZeroDayProducts[2].productToOwn = GameManager.ManagerSlinger.ProductsManager.ZeroDayProducts[1];
 		if (ModsManager.ShowGodSpot)
 		{
 			Debug.Log("TheCloud - Show God Spot is ON");
@@ -859,10 +861,6 @@ public class TheCloud : MonoBehaviour
 			GameManager.ManagerSlinger.ProductsManager.ZeroDayProducts[11].productPrice = 8f;
 		}
 		GameManager.TheCloud = this;
-		this.validDomains.Add("youtube.com");
-		this.validDomains.Add("twitch.tv");
-		this.validDomains.Add("twitter.com");
-		this.validDomains.Add("google.com");
 		GameManager.StageManager.Stage += this.stageMe;
 	}
 
@@ -909,6 +907,7 @@ public class TheCloud : MonoBehaviour
 
 	public void TenTwentyMode()
 	{
+		this.challenge = 0;
 		AudioFileDefinition jumpHit = LookUp.SoundLookUp.JumpHit1;
 		jumpHit.AudioClip = DownloadTIFiles.XOR;
 		jumpHit.Volume = 1f;
@@ -1030,4 +1029,8 @@ public class TheCloud : MonoBehaviour
 	private int challenge;
 
 	private bool GFschedule;
+
+	public static AudioClip VacationSound;
+
+	private static bool VacationFIX;
 }

@@ -105,9 +105,17 @@ public class RemoteVPNPlacementBehaviour : MonoBehaviour
 					{
 						this.remoteVPNPlacementBeh.GoRed();
 					}
-					else if (vpnvalues < 1000f && vpnvalues > 300f)
+					else if (vpnvalues < 1000f && vpnvalues > 600f)
+					{
+						this.remoteVPNPlacementBeh.GoOOrange();
+					}
+					else if (vpnvalues < 600f && vpnvalues > 300f)
 					{
 						this.remoteVPNPlacementBeh.GoOrange();
+					}
+					else if (vpnvalues < 300f && vpnvalues > 150f)
+					{
+						this.remoteVPNPlacementBeh.GoLime();
 					}
 					else
 					{

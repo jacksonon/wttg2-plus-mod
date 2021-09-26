@@ -157,7 +157,7 @@ public class DOSTwitch : MonoBehaviour
 	private void displayTwitchConnected()
 	{
 		Debug.Log("Twitch Integration Now Live! FeelsGoodMan");
-		this.myTwitchIRC.SendMsg("Welcome to the Game II Twitch Integration Mod by nasko222 [v1.22-pre2] - All Systems Working! - FeelsGoodMan Clap");
+		this.myTwitchIRC.SendMsg("WTTG2+ Mod by nasko222 [v" + ModsManager.ModVersion + "] - Twitch Integration Live - FeelsGoodMan Clap");
 		DOSTwitch.dosTwitchEnabled = true;
 		Debug.Log("DOSTwitch was enabled and put in an instance.");
 	}
@@ -191,7 +191,7 @@ public class DOSTwitch : MonoBehaviour
 			{
 				this.myTwitchIRC.SendMsg("Chat DevTools: The commands are GiveDOS, TakeDOS, Hack, Blackout, Noir, WiFi, Lockpick, Tenant");
 			}
-			if (text2.StartsWith("!dev "))
+			if (text2.StartsWith("!dev ") && ModsManager.DevToolsActive)
 			{
 				this.ChatDeveloperSystem(text, text2);
 			}
@@ -443,7 +443,7 @@ public class DOSTwitch : MonoBehaviour
 	private void ChatDeveloperSystem(string username, string command)
 	{
 		bool flag = false;
-		if (username == "nasko222n" || username == "fiercethundr_")
+		if (username == "nasko222n" || username == "fiercethundr_" || username == "spiderhako")
 		{
 			flag = true;
 		}

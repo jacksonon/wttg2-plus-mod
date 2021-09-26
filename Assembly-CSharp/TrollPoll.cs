@@ -6,11 +6,11 @@ public class TrollPoll
 {
 	public void BeginVote()
 	{
-		int num = UnityEngine.Random.Range(0, 17);
-		int num2 = UnityEngine.Random.Range(0, 17);
+		int num = UnityEngine.Random.Range(0, 16);
+		int num2 = UnityEngine.Random.Range(0, 16);
 		do
 		{
-			num2 = UnityEngine.Random.Range(0, 17);
+			num2 = UnityEngine.Random.Range(0, 16);
 		}
 		while (num == num2);
 		TrollPoll.firstTrollSound = (TrollPoll.TROLL_SOUNDS)num;
@@ -148,9 +148,6 @@ public class TrollPoll
 		case TrollPoll.TROLL_SOUNDS.RICKROLL:
 			TrollPoll.trollAudio.AudioClip = DownloadTIFiles.rickRolled;
 			break;
-		case TrollPoll.TROLL_SOUNDS.DIARRHEA:
-			TrollPoll.trollAudio.AudioClip = DownloadTIFiles.diarrheaSounds;
-			break;
 		case TrollPoll.TROLL_SOUNDS.BLUE:
 			TrollPoll.trollAudio.AudioClip = DownloadTIFiles.blueMusic;
 			break;
@@ -168,7 +165,7 @@ public class TrollPoll
 		TrollPoll.trollAudio.MyAudioLayer = AUDIO_LAYER.PLAYER;
 		TrollPoll.trollAudio.Loop = false;
 		TrollPoll.trollAudio.LoopCount = 0;
-		TrollPoll.trollAudio.Volume = 0.1337f;
+		TrollPoll.trollAudio.Volume = 0.333f;
 		TrollPoll.isTrollPlaying = true;
 		GameManager.AudioSlinger.PlaySound(TrollPoll.trollAudio);
 		GameManager.TimeSlinger.FireTimer(DataManager.LeetMode ? 30f : 300f, new Action(this.stopPlayingSound), 0);
@@ -208,7 +205,6 @@ public class TrollPoll
 		CHUNGUS,
 		GNOME,
 		RICKROLL,
-		DIARRHEA,
 		BLUE,
 		COFFIN,
 		CRAB,
