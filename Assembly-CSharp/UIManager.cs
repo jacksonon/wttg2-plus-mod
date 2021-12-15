@@ -2,6 +2,8 @@
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
+using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public static class UIManager
@@ -87,14 +89,12 @@ public static class UIManager
 		MainCameraHook.Ins.ClearARF(4f);
 		GameManager.TimeSlinger.FireTimer(5f, delegate()
 		{
-			if (DataManager.LeetMode)
+			if (DataManager.LeetMode || ModsManager.Nightmare)
 			{
 				SceneManager.LoadScene(7);
+				return;
 			}
-			else
-			{
-				SceneManager.LoadScene(5);
-			}
+			SceneManager.LoadScene(5);
 		}, 0);
 	}
 
@@ -105,5 +105,13 @@ public static class UIManager
 		{
 			LookUp.PlayerUI.FlashScreenCG.alpha = x;
 		}, 0f, 1.2f).SetEase(Ease.Linear).SetDelay(3.5f);
+	}
+
+	public static void ShowDebug(string text)
+	{
+		LookUp.PlayerUI.GameOverReasonText.SetText(text);
+		LookUp.PlayerUI.GameOverReasonText.alignment = TextAlignmentOptions.BottomLeft;
+		LookUp.PlayerUI.GameOverReasonCG.alpha = 1f;
+		LookUp.PlayerUI.GameOverReasonCG.transform.position = new Vector3((float)Screen.currentResolution.width / 2f, 20f, 0f);
 	}
 }

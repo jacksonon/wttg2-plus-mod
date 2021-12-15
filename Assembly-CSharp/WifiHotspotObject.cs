@@ -151,8 +151,26 @@ public class WifiHotspotObject : MonoBehaviour
 					wifiNetworkData.NetworkInjectionAmount = (short)UnityEngine.Random.Range((int)this.myWifiNetworks[i].networkInjectionRandStart, (int)this.myWifiNetworks[i].networkInjectionRandEnd);
 				}
 			}
-			this.myWifiNetworks[i].networkBSSID = wifiNetworkData.NetworkBSSID;
-			this.myWifiNetworks[i].networkPassword = wifiNetworkData.NetworkPassword;
+			if (this.myWifiNetworks[i].networkName == "TheProgrammingChair")
+			{
+				this.myWifiNetworks[i].networkBSSID = "AM:PE:RC:Z1:54";
+			}
+			else
+			{
+				this.myWifiNetworks[i].networkBSSID = wifiNetworkData.NetworkBSSID;
+			}
+			if (this.myWifiNetworks[i].networkName == "furrycon")
+			{
+				this.myWifiNetworks[i].networkPassword = "fierce" + UnityEngine.Random.Range(10000, 99999).ToString();
+			}
+			else if (this.myWifiNetworks[i].networkName == "TheProgrammingChair")
+			{
+				this.myWifiNetworks[i].networkPassword = MagicSlinger.MD5It(wifiNetworkData.NetworkPassword).Substring(0, 12);
+			}
+			else
+			{
+				this.myWifiNetworks[i].networkPassword = wifiNetworkData.NetworkPassword;
+			}
 			this.myWifiNetworks[i].networkOpenPort = wifiNetworkData.NetworkOpenPort;
 			this.myWifiNetworks[i].networkInjectionAmount = wifiNetworkData.NetworkInjectionAmount;
 			DataManager.Save<WifiNetworkData>(wifiNetworkData);

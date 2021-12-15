@@ -124,13 +124,9 @@ public class HackerManager : MonoBehaviour
 
 	public void RollHack()
 	{
-		if (!ModsManager.ForceHackingEnabled)
-		{
-			return;
-		}
 		if (UnityEngine.Random.Range(0f, 100f) <= 10f && !this.rollHackFroze)
 		{
-			if (!DataManager.LeetMode)
+			if (!DataManager.LeetMode || !ModsManager.Nightmare)
 			{
 				this.rollCount++;
 				if (this.rollCount >= 3)
@@ -141,7 +137,7 @@ public class HackerManager : MonoBehaviour
 			}
 			this.triggerHack();
 			this.rollHackFroze = true;
-			GameManager.TimeSlinger.FireTimer(180f, delegate()
+			GameManager.TimeSlinger.FireTimer(240f, delegate()
 			{
 				this.rollHackFroze = false;
 			}, 0);
@@ -166,6 +162,11 @@ public class HackerManager : MonoBehaviour
 
 	private void presentHackAni()
 	{
+		if (ModsManager.Nightmare)
+		{
+			this.godHack = true;
+			this.twitchGodHack = true;
+		}
 		CursorManager.Ins.SwitchToHackerCursor();
 		GameManager.AudioSlinger.MuteAudioLayer(AUDIO_LAYER.WEBSITE);
 		LookUp.DesktopUI.DesktopGraphicRaycaster.enabled = false;
@@ -259,7 +260,7 @@ public class HackerManager : MonoBehaviour
 
 	private void presentHacked()
 	{
-		if (this.twitchGodHack && DataManager.LeetMode)
+		if (this.twitchGodHack && (DataManager.LeetMode || ModsManager.Nightmare))
 		{
 			EnvironmentManager.PowerBehaviour.ForcePowerOff();
 			EnvironmentManager.PowerBehaviour.ResetPowerTripTime();
@@ -322,7 +323,7 @@ public class HackerManager : MonoBehaviour
 	private void generateFireWindow()
 	{
 		this.freezeAddTime = 0f;
-		this.freezeTimeStamp = 0f;
+		this.freezeTimeStamp = (GameManager.ManagerSlinger.WifiManager.IsOnline ? 0f : Time.time);
 		this.fireWindow = UnityEngine.Random.Range(this.fireWindowMin, this.fireWindowMax);
 		this.fireWindowTimeStamp = Time.time;
 		this.fireWindowActive = true;
@@ -435,6 +436,10 @@ public class HackerManager : MonoBehaviour
 				if (DataManager.LeetMode)
 				{
 					num = 33.37f;
+				}
+				else if (ModsManager.Nightmare)
+				{
+					num = 50.2f;
 				}
 				else
 				{
@@ -603,7 +608,7 @@ public class HackerManager : MonoBehaviour
 	private void Start()
 	{
 		this.myComputerCameraManager = ComputerCameraManager.Ins;
-		this.HackingIntroBedSFX.AudioClip = DownloadTIFiles.hackermansAudio;
+		this.HackingIntroBedSFX.AudioClip = CustomSoundLookUp.hackermans;
 	}
 
 	private void Update()
@@ -622,7 +627,7 @@ public class HackerManager : MonoBehaviour
 
 	public void ForceTwitchHack()
 	{
-		if (StateManager.BeingHacked || !ComputerPowerHook.Ins.PowerOn || EnvironmentManager.PowerState == POWER_STATE.OFF || EnemyManager.State == ENEMY_STATE.BREATHER || EnemyManager.State == ENEMY_STATE.CULT || EnemyManager.State == ENEMY_STATE.DOLL_MAKER || EnemyManager.State == ENEMY_STATE.HITMAN || EnemyManager.State == ENEMY_STATE.POILCE)
+		if (StateManager.BeingHacked || !ComputerPowerHook.Ins.PowerOn || EnvironmentManager.PowerState == POWER_STATE.OFF || EnemyManager.State == ENEMY_STATE.BREATHER || EnemyManager.State == ENEMY_STATE.CULT || EnemyManager.State == ENEMY_STATE.DOLL_MAKER || EnemyManager.State == ENEMY_STATE.HITMAN || EnemyManager.State == ENEMY_STATE.POILCE || EnemyManager.State == ENEMY_STATE.BOMB_MAKER)
 		{
 			GameManager.TimeSlinger.FireTimer(20f, new Action(this.ForceTwitchHack), 0);
 			return;
@@ -635,7 +640,7 @@ public class HackerManager : MonoBehaviour
 
 	public void ForceNormalHack()
 	{
-		if (StateManager.BeingHacked || !ComputerPowerHook.Ins.PowerOn || EnvironmentManager.PowerState == POWER_STATE.OFF || EnemyManager.State == ENEMY_STATE.BREATHER || EnemyManager.State == ENEMY_STATE.CULT || EnemyManager.State == ENEMY_STATE.DOLL_MAKER || EnemyManager.State == ENEMY_STATE.HITMAN || EnemyManager.State == ENEMY_STATE.POILCE)
+		if (StateManager.BeingHacked || !ComputerPowerHook.Ins.PowerOn || EnvironmentManager.PowerState == POWER_STATE.OFF || EnemyManager.State == ENEMY_STATE.BREATHER || EnemyManager.State == ENEMY_STATE.CULT || EnemyManager.State == ENEMY_STATE.DOLL_MAKER || EnemyManager.State == ENEMY_STATE.HITMAN || EnemyManager.State == ENEMY_STATE.POILCE || EnemyManager.State == ENEMY_STATE.BOMB_MAKER)
 		{
 			GameManager.TimeSlinger.FireTimer(20f, new Action(this.ForceNormalHack), 0);
 			return;
@@ -656,7 +661,7 @@ public class HackerManager : MonoBehaviour
 
 	public void ForcePogHack()
 	{
-		if (StateManager.BeingHacked || !ComputerPowerHook.Ins.PowerOn || EnvironmentManager.PowerState == POWER_STATE.OFF || EnemyManager.State == ENEMY_STATE.BREATHER || EnemyManager.State == ENEMY_STATE.CULT || EnemyManager.State == ENEMY_STATE.DOLL_MAKER || EnemyManager.State == ENEMY_STATE.HITMAN || EnemyManager.State == ENEMY_STATE.POILCE)
+		if (StateManager.BeingHacked || !ComputerPowerHook.Ins.PowerOn || EnvironmentManager.PowerState == POWER_STATE.OFF || EnemyManager.State == ENEMY_STATE.BREATHER || EnemyManager.State == ENEMY_STATE.CULT || EnemyManager.State == ENEMY_STATE.DOLL_MAKER || EnemyManager.State == ENEMY_STATE.HITMAN || EnemyManager.State == ENEMY_STATE.POILCE || EnemyManager.State == ENEMY_STATE.BOMB_MAKER)
 		{
 			GameManager.TimeSlinger.FireTimer(20f, new Action(this.ForcePogHack), 0);
 			return;
@@ -682,6 +687,26 @@ public class HackerManager : MonoBehaviour
 		{
 			GameManager.AudioSlinger.KillSound(this.HackedSFX);
 		}, 0);
+	}
+
+	public string HackDebug
+	{
+		get
+		{
+			if (this.fireWindow - (Time.time - this.freezeAddTime - this.fireWindowTimeStamp) > 0f)
+			{
+				return ((int)(this.fireWindow - (Time.time - this.freezeAddTime - this.fireWindowTimeStamp))).ToString();
+			}
+			return 0.ToString();
+		}
+	}
+
+	public string HackFreezeDebug
+	{
+		get
+		{
+			return this.freezeAddTime.ToString() + " : " + this.freezeTimeStamp.ToString();
+		}
 	}
 
 	public Canvas DesktopCanvas;

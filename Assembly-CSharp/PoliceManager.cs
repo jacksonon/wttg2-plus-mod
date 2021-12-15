@@ -243,6 +243,32 @@ public class PoliceManager : MonoBehaviour
 		{
 			this.triggerTimeWindow *= 0.7f;
 		}
+		else if (ModsManager.Nightmare && this.triggerTimeWindow > 333f)
+		{
+			this.triggerTimeWindow = 333f;
+		}
+		else if (RouterBehaviour.Ins.Owned && RouterBehaviour.Ins.RouterIsActive && this.triggerTimeWindow > 120f)
+		{
+			this.triggerTimeWindow = TheNetwork.networkTrackRate;
+			switch (RouterBehaviour.Ins.routerHubSwitch)
+			{
+			case 1:
+				this.triggerTimeWindow = (ModsManager.Nightmare ? 666f : (this.triggerTimeWindow * 2f));
+				break;
+			case 2:
+				this.triggerTimeWindow = (ModsManager.Nightmare ? 500f : (this.triggerTimeWindow * 1.5f));
+				break;
+			case 3:
+				this.triggerTimeWindow = (ModsManager.Nightmare ? 333f : (this.triggerTimeWindow * 1f));
+				break;
+			case 4:
+				this.triggerTimeWindow = (ModsManager.Nightmare ? 166f : (this.triggerTimeWindow * 0.5f));
+				break;
+			default:
+				this.triggerTimeWindow = (ModsManager.Nightmare ? 166f : (this.triggerTimeWindow * 0.5f));
+				break;
+			}
+		}
 		this.triggerTimeStamp = Time.time;
 		this.triggerActive = true;
 		this.warningActive = true;
@@ -255,6 +281,10 @@ public class PoliceManager : MonoBehaviour
 		float setTimeLeft = this.triggerTimeWindow - (Time.time - this.triggerTimeStamp);
 		if (this.currentActiveWifiNetwork != null)
 		{
+			if (ModsManager.Nightmare && RouterBehaviour.Ins.Owned && RouterBehaviour.Ins.RouterIsActive)
+			{
+				EnemyManager.PoliceManager.networkHotTime = 450f;
+			}
 			HotWifiNetwork value = new HotWifiNetwork(this.currentActiveWifiNetwork.GetHashCode(), this.networkHotTime, Time.time, setTimeLeft);
 			this.hotNetworks.Remove(this.currentActiveWifiNetwork);
 			this.hotNetworks.Add(this.currentActiveWifiNetwork, value);
@@ -265,6 +295,36 @@ public class PoliceManager : MonoBehaviour
 	{
 		int num = UnityEngine.Random.Range(0, 101);
 		int num2 = Mathf.RoundToInt(this.currentActiveWifiNetwork.networkTrackProbability * 100f);
+		float num3 = 0f;
+		if (RouterBehaviour.Ins.Owned && RouterBehaviour.Ins.RouterIsActive)
+		{
+			switch (RouterBehaviour.Ins.routerHubSwitch)
+			{
+			case 1:
+				num3 = 40f;
+				break;
+			case 2:
+				num3 = 30f;
+				break;
+			case 3:
+				num3 = 20f;
+				break;
+			case 4:
+				num3 = 10f;
+				break;
+			default:
+				num3 = 4f;
+				break;
+			}
+		}
+		if (RouterBehaviour.Ins.Owned && RouterBehaviour.Ins.RouterIsActive && !DataManager.LeetMode && !ModsManager.Nightmare && this.currentActiveWifiNetwork.networkTrackProbability * 100f < num3)
+		{
+			this.triggerTimeWindow = this.currentActiveWifiNetwork.networkTrackRate / 2f;
+			this.triggerTimeStamp = Time.time;
+			this.triggerActive = true;
+			this.warningActive = true;
+			return;
+		}
 		if (num < num2)
 		{
 			this.triggerAttack();
@@ -275,7 +335,7 @@ public class PoliceManager : MonoBehaviour
 			this.triggerAttack();
 			return;
 		}
-		this.triggerTimeWindow = this.currentActiveWifiNetwork.networkTrackRate;
+		this.triggerTimeWindow = this.currentActiveWifiNetwork.networkTrackRate / 2f;
 		this.triggerTimeStamp = Time.time;
 		this.triggerActive = true;
 		this.warningActive = true;
@@ -434,6 +494,31 @@ public class PoliceManager : MonoBehaviour
 	private void Awake()
 	{
 		EnemyManager.PoliceManager = this;
+		if (ModsManager.EasyModeActive && !DataManager.LeetMode && !ModsManager.Nightmare)
+		{
+			this.networkHotTime = 60f;
+			UnityEngine.Debug.Log("Playing Easy Mode, WiFi De-Track time changed to: " + this.networkHotTime);
+		}
+		else if (!ModsManager.EasyModeActive && !DataManager.LeetMode && !ModsManager.Nightmare)
+		{
+			this.networkHotTime = 120f;
+			UnityEngine.Debug.Log("Playing Normal Mode, WiFi De-Track time changed to: " + this.networkHotTime);
+		}
+		else if (ModsManager.EasyModeActive && DataManager.LeetMode && !ModsManager.Nightmare)
+		{
+			this.networkHotTime = 180f;
+			UnityEngine.Debug.Log("Playing Easy 1337 Mode, WiFi De-Track time changed to: " + this.networkHotTime);
+		}
+		else if (!ModsManager.EasyModeActive && DataManager.LeetMode && !ModsManager.Nightmare)
+		{
+			this.networkHotTime = 300f;
+			UnityEngine.Debug.Log("Playing 1337 Mode, WiFi De-Track time changed to: " + this.networkHotTime);
+		}
+		else if (ModsManager.Nightmare)
+		{
+			this.networkHotTime = 900f;
+			UnityEngine.Debug.Log("Playing Nightmare Mode, WiFi De-Track time changed to: " + this.networkHotTime);
+		}
 		this.swatManPool = new PooledStack<SwatManBehaviour>(delegate()
 		{
 			SwatManBehaviour component = UnityEngine.Object.Instantiate<GameObject>(this.swatManObject, this.swatParent).GetComponent<SwatManBehaviour>();
@@ -509,6 +594,18 @@ public class PoliceManager : MonoBehaviour
 		if (this.FireWarning != null)
 		{
 			this.FireWarning();
+		}
+	}
+
+	public string PoliceDebug
+	{
+		get
+		{
+			if (this.triggerTimeWindow - (Time.time - this.triggerTimeStamp) > 0f)
+			{
+				return ((int)(this.triggerTimeWindow - (Time.time - this.triggerTimeStamp))).ToString();
+			}
+			return 0.ToString();
 		}
 	}
 

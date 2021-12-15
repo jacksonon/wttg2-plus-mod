@@ -90,6 +90,8 @@ public class ShadowMarketBehaviour : WindowBehaviour
 		base.Start();
 		this.addRemoteVPNLevel2();
 		this.addRemoteVPNLevel3();
+		this.addSulphurToMarket();
+		this.addDWR921Router();
 	}
 
 	protected new void OnDestroy()
@@ -110,7 +112,7 @@ public class ShadowMarketBehaviour : WindowBehaviour
 		shadowMarketProductDefinition.productMaxPurchaseAmount = 1;
 		shadowMarketProductDefinition.productName = "Remote VPN Level 2";
 		shadowMarketProductDefinition.productRequiresOtherProduct = false;
-		shadowMarketProductDefinition.productSprite = DownloadTIFiles.RemoteVPNLevel2;
+		shadowMarketProductDefinition.productSprite = CustomSpriteLookUp.remoteVPNlvl2;
 		if (ModsManager.EasyModeActive)
 		{
 			shadowMarketProductDefinition.productPrice = 50f;
@@ -137,7 +139,7 @@ public class ShadowMarketBehaviour : WindowBehaviour
 		shadowMarketProductDefinition.productName = "Remote VPN Level 3";
 		shadowMarketProductDefinition.productRequiresOtherProduct = true;
 		shadowMarketProductDefinition.productToOwn = ShadowMarketBehaviour.vpn2;
-		shadowMarketProductDefinition.productSprite = DownloadTIFiles.RemoteVPNLevel3;
+		shadowMarketProductDefinition.productSprite = CustomSpriteLookUp.remoteVPNlvl3;
 		if (ModsManager.EasyModeActive)
 		{
 			shadowMarketProductDefinition.productPrice = 80f;
@@ -145,6 +147,56 @@ public class ShadowMarketBehaviour : WindowBehaviour
 		else
 		{
 			shadowMarketProductDefinition.productPrice = 120f;
+		}
+		this.myProducts.Add(shadowMarketProductDefinition);
+	}
+
+	private void addSulphurToMarket()
+	{
+		ShadowMarketProductDefinition shadowMarketProductDefinition = new ShadowMarketProductDefinition();
+		shadowMarketProductDefinition.deliveryTimeMin = 15f;
+		shadowMarketProductDefinition.deliveryTimeMax = 25f;
+		shadowMarketProductDefinition.id = 6303;
+		shadowMarketProductDefinition.isDiscounted = false;
+		shadowMarketProductDefinition.productDesc = "Have you ever wanted to make a bomb? Does the thrill of destruction and smoking death of lives unworthy your concern move you? Look no further! With this package of basic sulphur you will get started!";
+		shadowMarketProductDefinition.productHasLimitPurchases = true;
+		shadowMarketProductDefinition.productID = HARDWARE_PRODUCTS.SULPHUR;
+		shadowMarketProductDefinition.productMaxPurchaseAmount = 8;
+		shadowMarketProductDefinition.productName = "Sulphur";
+		shadowMarketProductDefinition.productRequiresOtherProduct = false;
+		shadowMarketProductDefinition.productSprite = CustomSpriteLookUp.sulphur;
+		if (ModsManager.EasyModeActive)
+		{
+			shadowMarketProductDefinition.productPrice = 15f;
+		}
+		else
+		{
+			shadowMarketProductDefinition.productPrice = 40f;
+		}
+		this.myProducts.Add(shadowMarketProductDefinition);
+	}
+
+	private void addDWR921Router()
+	{
+		ShadowMarketProductDefinition shadowMarketProductDefinition = new ShadowMarketProductDefinition();
+		shadowMarketProductDefinition.deliveryTimeMin = 150f;
+		shadowMarketProductDefinition.deliveryTimeMax = 180f;
+		shadowMarketProductDefinition.id = 6304;
+		shadowMarketProductDefinition.isDiscounted = false;
+		shadowMarketProductDefinition.productDesc = "Are you getting IP tracked by hackers? Do you have issues with your internet speed? This router guarantees secure untraceable connection and fast Automatic VPN. Look no further to get this device!";
+		shadowMarketProductDefinition.productHasLimitPurchases = true;
+		shadowMarketProductDefinition.productID = HARDWARE_PRODUCTS.ROUTER;
+		shadowMarketProductDefinition.productMaxPurchaseAmount = 1;
+		shadowMarketProductDefinition.productName = "DWR-921 Router";
+		shadowMarketProductDefinition.productRequiresOtherProduct = false;
+		shadowMarketProductDefinition.productSprite = CustomSpriteLookUp.router;
+		if (ModsManager.EasyModeActive)
+		{
+			shadowMarketProductDefinition.productPrice = 70f;
+		}
+		else
+		{
+			shadowMarketProductDefinition.productPrice = 140f;
 		}
 		this.myProducts.Add(shadowMarketProductDefinition);
 	}

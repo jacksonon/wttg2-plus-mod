@@ -47,6 +47,35 @@ public class AnnBehaviour : WindowBehaviour
 				GameManager.TheCloud.ValidateURL(out callBackValue, setURL);
 				num = GameManager.ManagerSlinger.WifiManager.GenereatePageLoadingTime();
 			}
+			if (RouterBehaviour.Ins.Owned && RouterBehaviour.Ins.RouterIsActive)
+			{
+				if (UnityEngine.Random.Range(0, 1000) > 993)
+				{
+					GameManager.TimeSlinger.FireTimer(3f, new Action(RouterBehaviour.Ins.JamTheRouter), 0);
+				}
+				switch (RouterBehaviour.Ins.routerHubSwitch)
+				{
+				case 1:
+					num /= 0.5f;
+					break;
+				case 2:
+					num /= 1f;
+					break;
+				case 3:
+					num /= 1.5f;
+					break;
+				case 4:
+					num /= 2f;
+					break;
+				default:
+					num /= 0.1f;
+					break;
+				}
+				if (RouterBehaviour.Ins.IsJammed)
+				{
+					num = 45f;
+				}
+			}
 			LookUp.DesktopUI.ANN_WINDOW_HOME_BTN.setLock(true);
 			LookUp.DesktopUI.ANN_WINDOW_BACK_BTN.setLock(true);
 			LookUp.DesktopUI.ANN_WINDOW_FORWARD_BTN.setLock(true);
@@ -254,7 +283,6 @@ public class AnnBehaviour : WindowBehaviour
 	{
 		if (GameManager.TheCloud.GetCurrentWebPageDef() != null && GameManager.TheCloud.GetCurrentWebPageDef().HasMusic)
 		{
-			this.checkCustomMusicAudio(GameManager.TheCloud.GetCurrentWebPageDef().PageName.ToLower(), GameManager.TheCloud.GetCurrentWebPageDef(), GameManager.TheCloud.GetCurrentWebPageDef().FileName.ToLower());
 			GameManager.AudioSlinger.PlaySound(GameManager.TheCloud.GetCurrentWebPageDef().AudioFile);
 		}
 	}
@@ -704,104 +732,9 @@ public class AnnBehaviour : WindowBehaviour
 		{
 			EnemyManager.CultManager.attemptSpawn();
 		}
-	}
-
-	private void checkCustomMusicAudio(string pagename, WebPageDefinition definition, string htmlFile)
-	{
-		if (pagename == "vacation" && htmlFile == "index.html")
+		if ((GameManager.TheCloud.GetCurrentWebPageDef() != null && GameManager.TheCloud.GetCurrentWebPageDef().PageName.ToLower() == "the bomb maker") || (GameManager.TheCloud.GetCurrentWebPageDef() != null && GameManager.TheCloud.GetCurrentWebPageDef().PageName.ToLower() == "thebombmaker"))
 		{
-			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
-			definition.AudioFile.AudioClip = TheCloud.VacationSound;
-			definition.AudioFile.Loop = true;
-			return;
-		}
-		if (pagename == "legion" && htmlFile == "index.html")
-		{
-			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
-			definition.AudioFile.AudioClip = DownloadTIFiles.Legion;
-			definition.AudioFile.Loop = false;
-			return;
-		}
-		if (pagename == "forsaken gifts" && htmlFile == "index.html")
-		{
-			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
-			definition.AudioFile.AudioClip = DownloadTIFiles.ForsakenGifts;
-			definition.AudioFile.Loop = true;
-			return;
-		}
-		if (pagename == "takedownman" && htmlFile == "index.html")
-		{
-			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
-			definition.AudioFile.AudioClip = DownloadTIFiles.TakedownMan;
-			definition.AudioFile.Loop = true;
-			return;
-		}
-		if (pagename == "tango down" && htmlFile == "index.html")
-		{
-			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
-			definition.AudioFile.AudioClip = DownloadTIFiles.TangoDown;
-			definition.AudioFile.Loop = true;
-			return;
-		}
-		if (pagename == "testical mutilation" && htmlFile == "index.html")
-		{
-			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
-			definition.AudioFile.AudioClip = DownloadTIFiles.TesticalMutilation;
-			definition.AudioFile.Loop = false;
-		}
-		if (pagename == "hail satan" && htmlFile == "index.html")
-		{
-			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
-			definition.AudioFile.AudioClip = DownloadTIFiles.HailSatan;
-			definition.AudioFile.Loop = true;
-		}
-		if (pagename == "illuminati" && htmlFile == "index.html")
-		{
-			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
-			definition.AudioFile.AudioClip = DownloadTIFiles.Illuminati;
-			definition.AudioFile.Loop = false;
-		}
-		if (pagename == "enigma" && htmlFile == "index.html")
-		{
-			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
-			definition.AudioFile.AudioClip = DownloadTIFiles.Enigma;
-			definition.AudioFile.Loop = false;
-		}
-		if (pagename == "cannabisworld" && htmlFile == "index.html")
-		{
-			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
-			definition.AudioFile.AudioClip = DownloadTIFiles.Cannabisworld;
-			definition.AudioFile.Loop = true;
-		}
-		if (pagename == "the art" && htmlFile == "index.html")
-		{
-			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
-			definition.AudioFile.AudioClip = DownloadTIFiles.TheArt;
-			definition.AudioFile.Loop = false;
-		}
-		if (pagename == "nuclear dream" && htmlFile == "index.html")
-		{
-			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
-			definition.AudioFile.AudioClip = DownloadTIFiles.NuclearDream;
-			definition.AudioFile.Loop = false;
-		}
-		if (pagename == "roses destruction" && htmlFile == "index.html")
-		{
-			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
-			definition.AudioFile.AudioClip = DownloadTIFiles.RosesDestruction;
-			definition.AudioFile.Loop = false;
-		}
-		if (pagename == "vengeance angel" && htmlFile == "freedom.html")
-		{
-			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
-			definition.AudioFile.AudioClip = DownloadTIFiles.Freedom;
-			definition.AudioFile.Loop = false;
-		}
-		if (pagename == "funny monke" && htmlFile == "index.html")
-		{
-			definition.AudioFile = LookUp.SoundLookUp.vacationRinging;
-			definition.AudioFile.AudioClip = DownloadTIFiles.Funky;
-			definition.AudioFile.Loop = true;
+			EnemyManager.BombMakerManager.ReleaseTheBombMaker();
 		}
 	}
 

@@ -243,7 +243,7 @@ public class HitManManager : MonoBehaviour
 	private void generateFireWindow()
 	{
 		this.fireWindow = UnityEngine.Random.Range(this.data.FireWindowMin, this.data.FireWindowMax);
-		if (DataManager.LeetMode)
+		if (DataManager.LeetMode || ModsManager.Nightmare)
 		{
 			this.fireWindow *= 0.4f;
 		}
@@ -424,6 +424,25 @@ public class HitManManager : MonoBehaviour
 			this.hitmanActivated = true;
 			this.myHitmanData.IsActivated = true;
 			this.generateFireWindow();
+		}
+	}
+
+	public void LucassedJump()
+	{
+		EnemyManager.State = ENEMY_STATE.HITMAN;
+		LookUp.Doors.MainDoor.DoorOpenEvent.AddListener(new UnityAction(this.mainDoorOutsideJump.Stage));
+		LookUp.Doors.MainDoor.DoorWasOpenedEvent.AddListener(new UnityAction(this.mainDoorOutsideJump.Execute));
+	}
+
+	public string LucasDebug
+	{
+		get
+		{
+			if (this.fireWindow - (Time.time - this.fireTimeStamp) > 0f)
+			{
+				return ((int)(this.fireWindow - (Time.time - this.fireTimeStamp))).ToString();
+			}
+			return 0.ToString();
 		}
 	}
 

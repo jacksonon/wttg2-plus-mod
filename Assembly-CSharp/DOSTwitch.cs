@@ -16,7 +16,14 @@ public class DOSTwitch : MonoBehaviour
 		if (this.EarlyGamePollWindowActive && Time.time - this.EarlyGamePollTimeStamp >= this.EarlyGamePollTimeWindow)
 		{
 			this.EarlyGamePollWindowActive = false;
-			this.triggerEarlyGamePoll();
+			if (ModsManager.Nightmare)
+			{
+				this.triggerDiscountPoll();
+			}
+			else
+			{
+				this.triggerEarlyGamePoll();
+			}
 			this.generateVirusPollWindow();
 		}
 		if (this.discountPollWindowActive && Time.time - this.discountPollTimeStamp >= this.discountPollTimeWindow)
@@ -204,7 +211,7 @@ public class DOSTwitch : MonoBehaviour
 
 	private void generateDOSCoinPollWindow()
 	{
-		if (DataManager.LeetMode)
+		if (DataManager.LeetMode || ModsManager.Nightmare)
 		{
 			this.DOSCoinPollTimeWindow = UnityEngine.Random.RandomRange(90f, 120f);
 		}
@@ -237,7 +244,7 @@ public class DOSTwitch : MonoBehaviour
 			this.myDOSCoinPoll.BeginVote();
 			return;
 		}
-		if (DataManager.LeetMode)
+		if (DataManager.LeetMode || ModsManager.Nightmare)
 		{
 			GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(28f, 69f), new Action(this.triggerDOSCoinPoll), 0);
 			return;
@@ -259,7 +266,7 @@ public class DOSTwitch : MonoBehaviour
 
 	private void generateVirusPollWindow()
 	{
-		if (DataManager.LeetMode)
+		if (DataManager.LeetMode || ModsManager.Nightmare)
 		{
 			this.VirusPollTimeWindow = UnityEngine.Random.RandomRange(90f, 120f);
 		}
@@ -280,7 +287,7 @@ public class DOSTwitch : MonoBehaviour
 			this.myVirusPoll.BeginVote();
 			return;
 		}
-		if (DataManager.LeetMode)
+		if (DataManager.LeetMode || ModsManager.Nightmare)
 		{
 			GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(25f, 69f), new Action(this.triggerVirusPoll), 0);
 			return;
@@ -290,7 +297,7 @@ public class DOSTwitch : MonoBehaviour
 
 	private void generateHackerPollWindow()
 	{
-		if (DataManager.LeetMode)
+		if (DataManager.LeetMode || ModsManager.Nightmare)
 		{
 			this.hackerPollTimeWindow = UnityEngine.Random.RandomRange(90f, 120f);
 		}
@@ -311,7 +318,7 @@ public class DOSTwitch : MonoBehaviour
 			this.myHackerPoll.BeginVote();
 			return;
 		}
-		if (DataManager.LeetMode)
+		if (DataManager.LeetMode || ModsManager.Nightmare)
 		{
 			GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(25f, 69f), new Action(this.triggerHackerPoll), 0);
 			return;
@@ -321,7 +328,7 @@ public class DOSTwitch : MonoBehaviour
 
 	private void generateTrollPollWindow()
 	{
-		if (DataManager.LeetMode)
+		if (DataManager.LeetMode || ModsManager.Nightmare)
 		{
 			this.trollPollTimeWindow = UnityEngine.Random.RandomRange(90f, 120f);
 		}
@@ -347,19 +354,26 @@ public class DOSTwitch : MonoBehaviour
 
 	private void triggerDiscountPoll()
 	{
-		if (!this.pollActive)
+		if (this.pollActive)
 		{
-			this.currentPollAction = new Action<string, string>(this.myDiscountPoll.CastVote);
-			this.pollActive = true;
-			this.myDiscountPoll.BeginVote();
+			GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(32f, 81f), new Action(this.triggerDiscountPoll), 0);
 			return;
 		}
-		GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(32f, 81f), new Action(this.triggerDiscountPoll), 0);
+		if (ModsManager.Nightmare)
+		{
+			this.currentPollAction = new Action<string, string>(this.myDiscountPoll.CastVoteNightmare);
+			this.pollActive = true;
+			this.myDiscountPoll.BeginVoteNightmare();
+			return;
+		}
+		this.currentPollAction = new Action<string, string>(this.myDiscountPoll.CastVote);
+		this.pollActive = true;
+		this.myDiscountPoll.BeginVote();
 	}
 
 	private void generateDiscountPollWindow()
 	{
-		if (DataManager.LeetMode)
+		if (DataManager.LeetMode || ModsManager.Nightmare)
 		{
 			this.discountPollTimeWindow = UnityEngine.Random.RandomRange(90f, 120f);
 		}
@@ -373,7 +387,7 @@ public class DOSTwitch : MonoBehaviour
 
 	private void generateWiFiPollWindow()
 	{
-		if (DataManager.LeetMode)
+		if (DataManager.LeetMode || ModsManager.Nightmare)
 		{
 			this.wifiPollTimeWindow = UnityEngine.Random.RandomRange(90f, 120f);
 		}
@@ -394,7 +408,7 @@ public class DOSTwitch : MonoBehaviour
 			this.myWiFiPoll.BeginVote();
 			return;
 		}
-		if (DataManager.LeetMode)
+		if (DataManager.LeetMode || ModsManager.Nightmare)
 		{
 			GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(25f, 69f), new Action(this.triggerWiFiPoll), 0);
 			return;
@@ -404,7 +418,7 @@ public class DOSTwitch : MonoBehaviour
 
 	private void generateSpeedPollWindow()
 	{
-		if (DataManager.LeetMode)
+		if (DataManager.LeetMode || ModsManager.Nightmare)
 		{
 			this.speedPollTimeWindow = UnityEngine.Random.RandomRange(90f, 120f);
 		}
@@ -425,7 +439,7 @@ public class DOSTwitch : MonoBehaviour
 			this.mySpeedPoll.BeginVote();
 			return;
 		}
-		if (DataManager.LeetMode)
+		if (DataManager.LeetMode || ModsManager.Nightmare)
 		{
 			GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(25f, 69f), new Action(this.triggerSpeedPoll), 0);
 			return;
@@ -515,7 +529,7 @@ public class DOSTwitch : MonoBehaviour
 		if (array[0] == "hack")
 		{
 			GameManager.HackerManager.ForceNormalHack();
-			if (DataManager.LeetMode)
+			if (DataManager.LeetMode || ModsManager.Nightmare)
 			{
 				this.myTwitchIRC.SendMsg("Chat DevTools: Forcing 1337 hack! HA HA HA HAAA");
 			}
@@ -558,24 +572,24 @@ public class DOSTwitch : MonoBehaviour
 		}
 		if (array[0] == "tenant")
 		{
-			TenantDefinition tenantDefinition;
+			TenantData tenantData;
 			do
 			{
-				int num = UnityEngine.Random.Range(0, GameManager.ManagerSlinger.TenantTrackManager.Tenants.Length);
-				tenantDefinition = GameManager.ManagerSlinger.TenantTrackManager.Tenants[num];
+				int num = UnityEngine.Random.Range(0, GameManager.ManagerSlinger.TenantTrackManager.TenantDatas.Length);
+				tenantData = GameManager.ManagerSlinger.TenantTrackManager.TenantDatas[num];
 			}
-			while (tenantDefinition.tenantUnit == 0);
+			while (tenantData.tenantUnit == 0);
 			GameManager.AudioSlinger.PlaySound(LookUp.SoundLookUp.KeyFound);
-			GameManager.ManagerSlinger.TextDocManager.CreateTextDoc(tenantDefinition.tenantUnit.ToString(), string.Concat(new object[]
+			GameManager.ManagerSlinger.TextDocManager.CreateTextDoc(tenantData.tenantUnit.ToString(), string.Concat(new object[]
 			{
-				tenantDefinition.tenantName,
+				tenantData.tenantName,
 				Environment.NewLine,
 				Environment.NewLine,
 				"Age: ",
-				tenantDefinition.tenantAge,
+				tenantData.tenantAge,
 				Environment.NewLine,
 				Environment.NewLine,
-				tenantDefinition.tenantNotes
+				tenantData.tenantNotes
 			}));
 			this.myTwitchIRC.SendMsg("Chat DevTools: Spawning random tenant to the player.");
 		}
@@ -584,7 +598,7 @@ public class DOSTwitch : MonoBehaviour
 
 	private void generateKeyPollWindow()
 	{
-		if (DataManager.LeetMode)
+		if (DataManager.LeetMode || ModsManager.Nightmare)
 		{
 			this.keyPollTimeWindow = UnityEngine.Random.RandomRange(90f, 120f);
 		}
@@ -605,7 +619,7 @@ public class DOSTwitch : MonoBehaviour
 			this.myKeyPoll.BeginVote();
 			return;
 		}
-		if (DataManager.LeetMode)
+		if (DataManager.LeetMode || ModsManager.Nightmare)
 		{
 			GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(25f, 69f), new Action(this.triggerKeyPoll), 0);
 			return;

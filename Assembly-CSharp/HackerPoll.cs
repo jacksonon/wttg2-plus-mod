@@ -61,29 +61,36 @@ public class HackerPoll
 			{
 				this.myDOSTwitch.myTwitchIRC.SendMsg("Whitehats won! The player does not have a backdoor hack, no DOS Coins earned.");
 			}
-			else if (UnityEngine.Random.Range(0, 100) > 90)
+			else if (UnityEngine.Random.Range(0, 100) > ((DataManager.LeetMode || ModsManager.Nightmare) ? 90 : 75))
 			{
 				InventoryManager.RemoveProduct(SOFTWARE_PRODUCTS.BACKDOOR);
-				if (!ProductsManager.ownsWhitehatScanner && !PoliceScannerBehaviour.Ins.ownPoliceScanner)
+				if (!ProductsManager.ownsWhitehatScanner && !PoliceScannerBehaviour.Ins.ownPoliceScanner && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 7].myProductObject.myProduct.productIsPending && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 7].myProductObject.myProduct.productIsShipped)
 				{
 					WindowManager.Get(SOFTWARE_PRODUCTS.SHADOW_MARKET).Launch();
 					ProductsManager.ownsWhitehatScanner = true;
-					GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 5].myProductObject.shipItem();
+					GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 7].myProductObject.shipItem();
 					this.myDOSTwitch.myTwitchIRC.SendMsg("Whitehats won! The player just unlocked POLICE SCANNER.");
 				}
-				else if (!ProductsManager.ownsWhitehatDongle2 && InventoryManager.WifiDongleLevel == WIFI_DONGLE_LEVEL.LEVEL1)
+				else if (!ProductsManager.ownsWhitehatRemoteVPN2 && RemoteVPNObject.RemoteVPNLevel == 1 && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 4].myProductObject.myProduct.productIsPending && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 4].myProductObject.myProduct.productIsShipped)
+				{
+					WindowManager.Get(SOFTWARE_PRODUCTS.SHADOW_MARKET).Launch();
+					ProductsManager.ownsWhitehatRemoteVPN2 = true;
+					GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 4].myProductObject.shipItem();
+					this.myDOSTwitch.myTwitchIRC.SendMsg("Whitehats won! The player just unlocked REMOTE VPN LEVEL 2.");
+				}
+				else if (!ProductsManager.ownsWhitehatRouter && !RouterBehaviour.Ins.Owned && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 1].myProductObject.myProduct.productIsPending && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 1].myProductObject.myProduct.productIsShipped)
+				{
+					WindowManager.Get(SOFTWARE_PRODUCTS.SHADOW_MARKET).Launch();
+					ProductsManager.ownsWhitehatRouter = true;
+					GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 1].myProductObject.shipItem();
+					this.myDOSTwitch.myTwitchIRC.SendMsg("Whitehats won! The player just unlocked ROUTER.");
+				}
+				else if (!ProductsManager.ownsWhitehatDongle2 && InventoryManager.WifiDongleLevel == WIFI_DONGLE_LEVEL.LEVEL1 && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 11].myProductObject.myProduct.productIsPending && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 11].myProductObject.myProduct.productIsShipped)
 				{
 					WindowManager.Get(SOFTWARE_PRODUCTS.SHADOW_MARKET).Launch();
 					ProductsManager.ownsWhitehatDongle2 = true;
-					GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 9].myProductObject.shipItem();
-					this.myDOSTwitch.myTwitchIRC.SendMsg("Whitehats won! The player just unlocked WIFI DONGLE 2.");
-				}
-				else if (!ProductsManager.ownsWhitehatDongle3 && InventoryManager.WifiDongleLevel == WIFI_DONGLE_LEVEL.LEVEL2)
-				{
-					WindowManager.Get(SOFTWARE_PRODUCTS.SHADOW_MARKET).Launch();
-					ProductsManager.ownsWhitehatDongle3 = true;
-					GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 8].myProductObject.shipItem();
-					this.myDOSTwitch.myTwitchIRC.SendMsg("Whitehats won! The player just unlocked WIFI DONGLE 3.");
+					GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 11].myProductObject.shipItem();
+					this.myDOSTwitch.myTwitchIRC.SendMsg("Whitehats won! The player just unlocked WIFI DONGLE LEVEL 2.");
 				}
 				else
 				{

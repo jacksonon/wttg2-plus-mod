@@ -107,11 +107,68 @@ public class ZeroDayBehaviour : WindowBehaviour
 	protected new void Start()
 	{
 		base.Start();
+		this.SpeedItem();
 	}
 
 	protected new void OnDestroy()
 	{
 		base.OnDestroy();
+	}
+
+	private void SpeedItem()
+	{
+		ZeroDayProductDefinition zeroDayProductDefinition = new ZeroDayProductDefinition();
+		zeroDayProductDefinition.id = 6303;
+		zeroDayProductDefinition.installTime = 8f;
+		zeroDayProductDefinition.isDiscounted = false;
+		zeroDayProductDefinition.productDesc = "Do you have really high ping? This script may help you boost up your internet speed by 3 times. Does not apply if you have active speed powerup.";
+		zeroDayProductDefinition.productID = SOFTWARE_PRODUCTS.SPEED_POWERUP;
+		zeroDayProductDefinition.productName = "P1NG_B005T.EXE";
+		zeroDayProductDefinition.productSprite = CustomSpriteLookUp.speeditem;
+		zeroDayProductDefinition.productRequiresOtherProduct = false;
+		zeroDayProductDefinition.productToOwn = null;
+		zeroDayProductDefinition.unlimtedUse = true;
+		if (ModsManager.EasyModeActive)
+		{
+			zeroDayProductDefinition.productPrice = 30f;
+			this.myProducts.Add(zeroDayProductDefinition);
+			return;
+		}
+		if (ModsManager.DOSTwitchActive)
+		{
+			zeroDayProductDefinition.productRequiresOtherProduct = true;
+			zeroDayProductDefinition.productToOwn = GameManager.ManagerSlinger.ProductsManager.ZeroDayProducts[3];
+		}
+		zeroDayProductDefinition.productPrice = 50f;
+		this.myProducts.Add(zeroDayProductDefinition);
+	}
+
+	private void KeyItem()
+	{
+		ZeroDayProductDefinition zeroDayProductDefinition = new ZeroDayProductDefinition();
+		zeroDayProductDefinition.id = 6304;
+		zeroDayProductDefinition.installTime = 24f;
+		zeroDayProductDefinition.isDiscounted = false;
+		zeroDayProductDefinition.productDesc = "You want a key cue, but you don't wanna spend a lot money on? This is a demo version active for 10 minutes, to try in A.N.N. Does not apply if you have active key cue powerup.";
+		zeroDayProductDefinition.productID = SOFTWARE_PRODUCTS.KEY_POWERUP;
+		zeroDayProductDefinition.productName = "Temporary Key Cue";
+		zeroDayProductDefinition.productSprite = CustomSpriteLookUp.keyitem;
+		zeroDayProductDefinition.productRequiresOtherProduct = false;
+		zeroDayProductDefinition.productToOwn = null;
+		zeroDayProductDefinition.unlimtedUse = true;
+		if (ModsManager.EasyModeActive)
+		{
+			zeroDayProductDefinition.productPrice = 80f;
+			this.myProducts.Add(zeroDayProductDefinition);
+			return;
+		}
+		if (ModsManager.DOSTwitchActive)
+		{
+			zeroDayProductDefinition.productRequiresOtherProduct = true;
+			zeroDayProductDefinition.productToOwn = GameManager.ManagerSlinger.ProductsManager.ZeroDayProducts[3];
+		}
+		zeroDayProductDefinition.productPrice = 145f;
+		this.myProducts.Add(zeroDayProductDefinition);
 	}
 
 	private GameObject productsHolder;

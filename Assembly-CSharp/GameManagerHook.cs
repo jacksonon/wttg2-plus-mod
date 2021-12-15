@@ -1,11 +1,15 @@
 ﻿using System;
+using ASoft.WTTG2;
 using UnityEngine;
 
 public class GameManagerHook : MonoBehaviour
 {
 	private void Awake()
 	{
-		DownloadTIFiles.startDownloadingFiles();
+		if (AFDManager.Ins == null)
+		{
+			new GameObject("AFDManager").AddComponent<AFDManager>();
+		}
 		ModsManager.ApplyMods();
 		GameManager.Instance.Init();
 	}

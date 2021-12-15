@@ -19,7 +19,7 @@ public class WiFiPoll
 		}
 		if (DataManager.LeetMode)
 		{
-			this.myDOSTwitch.myTwitchIRC.SendMsg("Oops, Auto WiFi Crack is enabled, WiFi poll will have 25% chance of infecting the WiFi with D05_DR41N3R!");
+			this.myDOSTwitch.myTwitchIRC.SendMsg("Oops, Probe/Inject Skip is enabled, WiFi poll will have 25% chance of infecting the WiFi with D05_DR41N3R!");
 			if (UnityEngine.Random.Range(0, 100) > 75)
 			{
 				if (GameManager.ManagerSlinger.WifiManager.getCurrentWiFi() == null || GameManager.ManagerSlinger.WifiManager.getCurrentWiFi().affectedByDosDrainer)
@@ -39,7 +39,7 @@ public class WiFiPoll
 			this.myDOSTwitch.setPollInactive();
 			return;
 		}
-		this.myDOSTwitch.myTwitchIRC.SendMsg("Oops, Auto WiFi Crack is enabled, WiFi poll will always yield infecting the WiFi with D05_DR41N3R!");
+		this.myDOSTwitch.myTwitchIRC.SendMsg("Oops, Probe/Inject Skip is enabled, WiFi poll will always yield infecting the WiFi with D05_DR41N3R!");
 		if (GameManager.ManagerSlinger.WifiManager.getCurrentWiFi() == null)
 		{
 			this.myDOSTwitch.myTwitchIRC.SendMsg("Cannot infect WiFi at the moment, thread queued.");
@@ -132,7 +132,7 @@ public class WiFiPoll
 			WiFiPoll.interactedWiFiNetworkSecurity = GameManager.ManagerSlinger.WifiManager.GetCurrentWifiNetworks()[index].networkSecurity;
 			GameManager.ManagerSlinger.WifiManager.GetCurrentWifiNetworks()[index].networkSecurity = WIFI_SECURITY.NONE;
 			this.myDOSTwitch.myTwitchIRC.SendMsg("Unlocking " + GameManager.ManagerSlinger.WifiManager.GetCurrentWifiNetworks()[index].networkName + "...");
-			GameManager.ManagerSlinger.WifiManager.DisconnectFromWifi();
+			WifiMenuBehaviour.Ins.refreshNetworks();
 			WiFiPoll.interactedWiFiType = WiFiPoll.WiFiInteractionType.UNLOCKED;
 		}
 		else
@@ -154,7 +154,14 @@ public class WiFiPoll
 		WiFiPoll.interactedWiFiDefinition = GameManager.ManagerSlinger.WifiManager.getCurrentWiFi();
 		GameManager.ManagerSlinger.WifiManager.getCurrentWiFi().networkStrength = -3;
 		this.myDOSTwitch.myTwitchIRC.SendMsg("Locking " + GameManager.ManagerSlinger.WifiManager.getCurrentWiFi().networkName + "...");
-		GameManager.ManagerSlinger.WifiManager.DisconnectFromWifi();
+		if (GameManager.ManagerSlinger.WifiManager.IsOnline)
+		{
+			GameManager.ManagerSlinger.WifiManager.DisconnectFromWifi();
+		}
+		else
+		{
+			WifiMenuBehaviour.Ins.refreshNetworks();
+		}
 		WiFiPoll.interactedWiFiType = WiFiPoll.WiFiInteractionType.LOCKED;
 	}
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using ASoft.WTTG2;
 using DG.Tweening;
 using DG.Tweening.Core;
@@ -6,6 +7,7 @@ using DG.Tweening.Plugins.Options;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TitleManager : MonoBehaviour
 {
@@ -76,6 +78,7 @@ public class TitleManager : MonoBehaviour
 
 	private void Start()
 	{
+		this.prepMod();
 		GameManager.AudioSlinger.PlaySound(this.titleMusic);
 		this.TitleStaging.Execute();
 		this.startTimeStamp = Time.time;
@@ -109,13 +112,13 @@ public class TitleManager : MonoBehaviour
 		gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(225f, 40f);
 		gameObject.transform.SetParent(transform2);
 		OptionsUtil.BuildOptionsButton("Twitch Integration:", "[MOD]TTVInt", 1, 50f, null, null);
-		OptionsUtil.BuildOptionsButton("Troll Poll:", "[MOD]TrolloPollo", 1, 100f, null, null);
+		OptionsUtil.BuildOptionsButton("Memes and Music:", "[MOD]TrolloPollo", 1, 100f, null, null);
 		OptionsUtil.BuildOptionsButton("DevTools:", "[MOD]DevTools", 1, 150f, null, null);
 		OptionsUtil.BuildOptionsButton("Easy Mode:", "[MOD]EasyMode", 0, 200f, null, null);
 		OptionsUtil.BuildOptionsButton2("Show God Spot:", "[MOD]GODSpot", 0, 50f, null, null);
-		OptionsUtil.BuildOptionsButton2("Force Hacks:", "[MOD]ForceHack", 0, 100f, null, null);
-		OptionsUtil.BuildOptionsButton2("Unlimited Stamina:", "[MOD]UnlimitedStamina", 0, 150f, null, null);
-		OptionsUtil.BuildOptionsButton2("Auto WiFi Crack:", "[MOD]SkybreakGlitch", 0, 200f, null, null);
+		OptionsUtil.BuildOptionsButton2("Unlimited Stamina:", "[MOD]UnlimitedStamina", 0, 100f, null, null);
+		OptionsUtil.BuildOptionsButton2("Probe/Inject Skip:", "[MOD]SkybreakGlitch", 0, 150f, null, null);
+		OptionsUtil.BuildOptionsButton2("No Swan Parameter:", "[MOD]AntiSwanParameters", 0, 200f, null, null);
 	}
 
 	private void ShowModMenu()
@@ -154,7 +157,7 @@ public class TitleManager : MonoBehaviour
 		GameObject gameObject2 = UnityEngine.Object.Instantiate<GameObject>(GameObject.Find("NuidtyTitle"));
 		gameObject2.name = "modmenu2";
 		gameObject2.transform.position = new Vector2(transform.position.x - num, transform.position.y - num2 - 50f);
-		gameObject2.GetComponent<TextMeshProUGUI>().text = "Troll Poll - " + ((PlayerPrefs.GetInt("[MOD]TrolloPollo") == 1) ? "ON" : "OFF");
+		gameObject2.GetComponent<TextMeshProUGUI>().text = "Memes and Music - " + ((PlayerPrefs.GetInt("[MOD]TrolloPollo") == 1) ? "ON" : "OFF");
 		gameObject2.GetComponent<RectTransform>().sizeDelta = new Vector2(225f, 40f);
 		gameObject2.transform.SetParent(transform3);
 		GameObject gameObject3 = UnityEngine.Object.Instantiate<GameObject>(GameObject.Find("NuidtyTitle"));
@@ -176,23 +179,82 @@ public class TitleManager : MonoBehaviour
 		gameObject5.GetComponent<RectTransform>().sizeDelta = new Vector2(225f, 40f);
 		gameObject5.transform.SetParent(transform3);
 		GameObject gameObject6 = UnityEngine.Object.Instantiate<GameObject>(GameObject.Find("NuidtyTitle"));
-		gameObject6.name = "modmenu6";
+		gameObject6.name = "modmenu7";
 		gameObject6.transform.position = new Vector2(transform.position.x - num, transform.position.y - num2 - 250f);
-		gameObject6.GetComponent<TextMeshProUGUI>().text = "Force Hacks - " + ((PlayerPrefs.GetInt("[MOD]ForceHack") == 1) ? "ON" : "OFF");
+		gameObject6.GetComponent<TextMeshProUGUI>().text = "Unlimited Stamina - " + ((PlayerPrefs.GetInt("[MOD]UnlimitedStamina") == 1) ? "ON" : "OFF");
 		gameObject6.GetComponent<RectTransform>().sizeDelta = new Vector2(225f, 40f);
 		gameObject6.transform.SetParent(transform3);
 		GameObject gameObject7 = UnityEngine.Object.Instantiate<GameObject>(GameObject.Find("NuidtyTitle"));
-		gameObject7.name = "modmenu7";
+		gameObject7.name = "modmenu8";
 		gameObject7.transform.position = new Vector2(transform.position.x - num, transform.position.y - num2 - 300f);
-		gameObject7.GetComponent<TextMeshProUGUI>().text = "Unlimited Stamina - " + ((PlayerPrefs.GetInt("[MOD]UnlimitedStamina") == 1) ? "ON" : "OFF");
+		gameObject7.GetComponent<TextMeshProUGUI>().text = "Probe/Inject Skip - " + ((PlayerPrefs.GetInt("[MOD]SkybreakGlitch") == 1) ? "ON" : "OFF");
 		gameObject7.GetComponent<RectTransform>().sizeDelta = new Vector2(225f, 40f);
 		gameObject7.transform.SetParent(transform3);
 		GameObject gameObject8 = UnityEngine.Object.Instantiate<GameObject>(GameObject.Find("NuidtyTitle"));
-		gameObject8.name = "modmenu8";
+		gameObject8.name = "modmenu6";
 		gameObject8.transform.position = new Vector2(transform.position.x - num, transform.position.y - num2 - 350f);
-		gameObject8.GetComponent<TextMeshProUGUI>().text = "Auto WiFi Crack - " + ((PlayerPrefs.GetInt("[MOD]SkybreakGlitch") == 1) ? "ON" : "OFF");
+		gameObject8.GetComponent<TextMeshProUGUI>().text = "No Swan Parameter - " + ((PlayerPrefs.GetInt("[MOD]AntiSwanParameters") == 1) ? "ON" : "OFF");
 		gameObject8.GetComponent<RectTransform>().sizeDelta = new Vector2(225f, 40f);
 		gameObject8.transform.SetParent(transform3);
+	}
+
+	private void prepMod()
+	{
+		if (AssetBundleManager.loaded)
+		{
+			return;
+		}
+		AssetBundleManager.PrepAssetBundles();
+		base.StartCoroutine(this.warmMod());
+	}
+
+	public static void UnloadBox()
+	{
+		TitleManager.wttg2plus_modLoad.SetActive(false);
+		TitleManager.wttg2plus_modText.gameObject.SetActive(false);
+		GameObject.Find("Logo").GetComponent<Image>().sprite = CustomSpriteLookUp.logo;
+	}
+
+	public static void AddTextHook()
+	{
+		GameObject.Find("HelpMeVideoPlayer").GetComponent<TitleHelpMeHook>().enabled = false;
+		TitleManager.wttg2plus_modLoad = new GameObject();
+		TitleManager.wttg2plus_modLoad.transform.SetParent(GameObject.Find("MainCanvas").transform);
+		TitleManager.wttg2plus_modLoad.AddComponent<Image>().color = new Color(0f, 0f, 0f, 255f);
+		RectTransform component = TitleManager.wttg2plus_modLoad.GetComponent<RectTransform>();
+		component.transform.localPosition = Vector2.zero;
+		component.anchorMin = new Vector2(0f, 0f);
+		component.anchorMax = new Vector2(1f, 1f);
+		component.pivot = new Vector2(0.5f, 0.5f);
+		GameObject gameObject = new GameObject();
+		gameObject.transform.SetParent(GameObject.Find("MainCanvas").transform);
+		CanvasGroup canvasGroup = gameObject.AddComponent<CanvasGroup>();
+		canvasGroup.alpha = 1f;
+		canvasGroup.interactable = false;
+		canvasGroup.blocksRaycasts = false;
+		canvasGroup.ignoreParentGroups = false;
+		TitleManager.wttg2plus_modText = gameObject.AddComponent<TextMeshProUGUI>();
+		TitleManager.wttg2plus_modText.text = "Loading WTTG2+ Assets";
+		TitleManager.wttg2plus_modText.fontSize = 25f;
+		TitleManager.wttg2plus_modText.characterSpacing = 25f;
+		TitleManager.wttg2plus_modText.alignment = TextAlignmentOptions.Center;
+		RectTransform component2 = gameObject.GetComponent<RectTransform>();
+		component2.transform.localPosition = Vector2.zero;
+		component2.anchorMin = new Vector2(0f, 0.5f);
+		component2.anchorMax = new Vector2(1f, 0.5f);
+		component2.pivot = new Vector2(0.5f, 0.5f);
+	}
+
+	private IEnumerator warmMod()
+	{
+		yield return new WaitForSeconds(1f);
+		if (!AssetDownloader.CheckFiles())
+		{
+			TitleManager.wttg2plus_modText.GetComponent<TextMeshProUGUI>().text = "Downloading WTTG2+ Assets";
+		}
+		yield return new WaitForSeconds(1f);
+		AssetBundleManager.LoadAssetBundles();
+		yield break;
 	}
 
 	public CustomEvent TitleStaging = new CustomEvent(5);
@@ -234,4 +296,8 @@ public class TitleManager : MonoBehaviour
 	private bool loadGameActive;
 
 	private TitleMainMenuHook mainMenu;
+
+	public static GameObject wttg2plus_modLoad;
+
+	public static TMP_Text wttg2plus_modText;
 }

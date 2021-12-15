@@ -96,7 +96,13 @@ public class skyBreakWPABehavior : MonoBehaviour
 			}), 0.3f, 0f);
 			for (int i = 0; i < secureNetworks.Count; i++)
 			{
-				int num2 = (int)(secureNetworks[i].networkMaxInjectionAmount - 1);
+				string theString = ((int)(secureNetworks[i].networkMaxInjectionAmount - 1)).ToString();
+				string theString2 = ((int)(secureNetworks[i].networkInjectionCoolOffTime - 1f)).ToString();
+				if (ModsManager.Nightmare)
+				{
+					theString = "ERR";
+					theString2 = "ERR";
+				}
 				this.myTerminalHelper.AddLine(TERMINAL_LINE_TYPE.FADE, string.Concat(new string[]
 				{
 					MagicSlinger.FluffString(secureNetworks[i].networkName, " ", 20),
@@ -105,9 +111,9 @@ public class skyBreakWPABehavior : MonoBehaviour
 					"  ",
 					MagicSlinger.FluffString(secureNetworks[i].networkChannel.ToString(), " ", 10),
 					"  ",
-					MagicSlinger.FluffString(num2.ToString(), " ", 10),
+					MagicSlinger.FluffString(theString, " ", 10),
 					"  ",
-					MagicSlinger.FluffString(secureNetworks[i].networkInjectionCoolOffTime.ToString(), " ", 10),
+					MagicSlinger.FluffString(theString2, " ", 10),
 					"  ",
 					MagicSlinger.FluffString(secureNetworks[i].networkPower.ToString(), " ", 10),
 					"  ",
@@ -133,7 +139,7 @@ public class skyBreakWPABehavior : MonoBehaviour
 		if (ModsManager.SBGlitch)
 		{
 			flag = false;
-			setLine = "Auto WiFi Crack is enabled. Inject is disabled.";
+			setLine = "Warning! Inject Skip is enabled. Instead of injecting, use crack <BSSID> <CH>";
 		}
 		if (array.Length < 4 && !ModsManager.SBGlitch)
 		{

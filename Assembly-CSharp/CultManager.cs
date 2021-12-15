@@ -165,7 +165,7 @@ public class CultManager : MonoBehaviour
 				flag = (num < 3);
 				break;
 			}
-			if (flag)
+			if (flag || ModsManager.Nightmare)
 			{
 				EnemyManager.State = ENEMY_STATE.CULT;
 				EnvironmentManager.PowerBehaviour.LockedOut = true;
@@ -393,6 +393,18 @@ public class CultManager : MonoBehaviour
 		{
 			this.lightsToCheck[i].LightsWentOnEvent.Event -= this.lightsWentOn;
 			this.lightsToCheck[i].LightsWentOffEvent.Event -= this.lightsWentOff;
+		}
+	}
+
+	public string NoirDebug
+	{
+		get
+		{
+			if (this.normalSpawnFireWindow - (Time.time - this.normalSpawnTimeStamp) > 0f)
+			{
+				return ((int)(this.normalSpawnFireWindow - (Time.time - this.normalSpawnTimeStamp))).ToString();
+			}
+			return 0.ToString();
 		}
 	}
 

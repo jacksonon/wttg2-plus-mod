@@ -101,8 +101,16 @@ public class skyBreakWEPBehavior : MonoBehaviour
 				{
 					num2 *= 0.7f;
 				}
-				int num3 = (int)num2;
-				int num4 = Mathf.RoundToInt(secureNetworks[i].networkTrackProbability * 100f);
+				string theString = ((int)num2).ToString();
+				if (ModsManager.Nightmare)
+				{
+					theString = "ERR";
+				}
+				string theString2 = Mathf.RoundToInt(secureNetworks[i].networkTrackProbability * 100f).ToString() + "%";
+				if (ModsManager.Nightmare || DataManager.LeetMode)
+				{
+					theString2 = "ERR";
+				}
 				string setLine2 = string.Concat(new string[]
 				{
 					MagicSlinger.FluffString(secureNetworks[i].networkName, " ", 20),
@@ -111,9 +119,9 @@ public class skyBreakWEPBehavior : MonoBehaviour
 					"  ",
 					MagicSlinger.FluffString(secureNetworks[i].networkChannel.ToString(), " ", 10),
 					"  ",
-					MagicSlinger.FluffString(num3.ToString(), " ", 10),
+					MagicSlinger.FluffString(theString, " ", 10),
 					"  ",
-					MagicSlinger.FluffString(num4.ToString() + "%", " ", 10),
+					MagicSlinger.FluffString(theString2, " ", 10),
 					"  ",
 					MagicSlinger.FluffString(secureNetworks[i].networkPower.ToString(), " ", 10),
 					"  ",
@@ -140,7 +148,7 @@ public class skyBreakWEPBehavior : MonoBehaviour
 		if (ModsManager.SBGlitch)
 		{
 			flag = false;
-			setLine = "Auto WiFi Crack is enabled. Probe is disabled.";
+			setLine = "Warning! Probe Skip is enabled. Instead of probing, use crack <BSSID> <CH>";
 		}
 		if (array.Length < 4 && !ModsManager.SBGlitch)
 		{

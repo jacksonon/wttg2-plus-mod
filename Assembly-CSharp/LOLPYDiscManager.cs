@@ -35,6 +35,11 @@ public class LOLPYDiscManager : MonoBehaviour
 		if (productID == HARDWARE_PRODUCTS.FLOPPY_DISK)
 		{
 			this.spawnLOLPYDisc();
+			return;
+		}
+		if (productID == HARDWARE_PRODUCTS.SULPHUR)
+		{
+			SulphurInventory.AddSulphur(1);
 		}
 	}
 
@@ -66,6 +71,7 @@ public class LOLPYDiscManager : MonoBehaviour
 		GameManager.ManagerSlinger.ProductsManager.ShadowMarketProductWasActivated.Event += this.productWasPickedUp;
 		this.lolpyDiscIns = UnityEngine.Object.Instantiate<GameObject>(this.lolpyDiscObject, this.lolpyDiscParent).GetComponent<LOLPYDiscBehaviour>();
 		this.lolpyDiscIns.SoftBuild();
+		new GameObject("SulphurPackageObject").AddComponent<SulphurPackageObject>();
 	}
 
 	private void OnDestroy()

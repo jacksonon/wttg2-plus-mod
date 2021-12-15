@@ -10,10 +10,22 @@ public class TimeKeeper : MonoBehaviour
 		if (this.gameHour > 11)
 		{
 			text += " AM";
+			if (this.gameHour < 16 && (this.gameMin == 0 || this.gameMin == 30) && UnityEngine.Random.Range(0, 100) <= 5)
+			{
+				GameManager.HackerManager.theSwan.ActivateTheSwan();
+			}
 		}
 		else
 		{
 			text += " PM";
+			if (ModsManager.Nightmare && UnityEngine.Random.Range(0, 1000) < 5 && GameManager.ManagerSlinger.WifiManager != null && GameManager.ManagerSlinger.WifiManager.getCurrentWiFi() != null)
+			{
+				if (RouterBehaviour.Ins.Owned && RouterBehaviour.Ins.RouterIsActive)
+				{
+					return text;
+				}
+				GameManager.ManagerSlinger.WifiManager.getCurrentWiFi().affectedByDosDrainer = true;
+			}
 		}
 		return text;
 	}

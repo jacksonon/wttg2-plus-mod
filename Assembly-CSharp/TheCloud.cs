@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using ZenFulcrum.EmbeddedBrowser;
 
 public class TheCloud : MonoBehaviour
@@ -516,14 +517,10 @@ public class TheCloud : MonoBehaviour
 				this.Websites[i].PageTitle = "Rotten Meal";
 				this.Websites[i].PageDesc = "Weird ass people selling meal for canniballs.";
 			}
-			if (this.Websites[i].PageTitle.ToLower() == "vacation")
+			if (this.Websites[i].PageTitle == "The Doll Maker" || this.Websites[i].PageTitle == "The Bomb Maker")
 			{
-				LookUp.SoundLookUp.vacationRinging = this.Websites[i].HomePage.AudioFile;
-				if (!TheCloud.VacationFIX)
-				{
-					TheCloud.VacationFIX = true;
-					TheCloud.VacationSound = this.Websites[i].HomePage.AudioFile.AudioClip;
-				}
+				this.Websites[i].WikiSpecific = true;
+				this.Websites[i].WikiIndex = 2;
 			}
 		}
 		new WebsiteExtension().ExtendWebsites(this.Websites);
@@ -766,19 +763,28 @@ public class TheCloud : MonoBehaviour
 			this.myDOSTwitch = new DOSTwitch();
 			this.PrepTwitchIntegration(this.myDOSTwitch);
 			Debug.Log("Twitch integration is active");
-			return;
 		}
-		Debug.Log("DOSTwitch is disabled");
+		else
+		{
+			Debug.Log("DOSTwitch is disabled");
+		}
+		this.nightmarePossible = true;
+		GameManager.TimeSlinger.FireTimer(120f, delegate()
+		{
+			this.nightmarePossible = false;
+		}, 0);
+		this.LoadMods();
 	}
 
 	private void Awake()
 	{
+		this.GFschedule = false;
 		ZeroDayProductObject.isDiscountOn = false;
 		ShadowProductObject.isDiscountOn = false;
 		if (!TheCloud.vpnFIX)
 		{
 			GameManager.ManagerSlinger.ProductsManager.ZeroDayProducts[6].isDiscounted = false;
-			GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 2].deliveryTimeMax = GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 2].deliveryTimeMin;
+			GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 6].deliveryTimeMax = GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 6].deliveryTimeMin;
 			TheCloud.vpnFIX = true;
 		}
 		GameManager.ManagerSlinger.ProductsManager.ZeroDayProducts[2].productToOwn = GameManager.ManagerSlinger.ProductsManager.ZeroDayProducts[1];
@@ -789,14 +795,6 @@ public class TheCloud : MonoBehaviour
 		else
 		{
 			Debug.Log("TheCloud - Show God Spot is OFF");
-		}
-		if (ModsManager.ForceHackingEnabled)
-		{
-			Debug.Log("TheCloud - Force Hacking is ON");
-		}
-		else
-		{
-			Debug.Log("TheCloud - Force Hacking is OFF");
 		}
 		if (ModsManager.UnlimitedStamina)
 		{
@@ -871,6 +869,32 @@ public class TheCloud : MonoBehaviour
 			this.myDOSTwitch.Update();
 			this.myDOSTwitch.myTwitchIRC.Update();
 		}
+		if (ModsManager.DebugEnabled)
+		{
+			UIManager.ShowDebug(string.Concat(new string[]
+			{
+				"POILCE: ",
+				EnemyManager.PoliceManager.PoliceDebug,
+				" | CULT: ",
+				EnemyManager.CultManager.NoirDebug,
+				" | HITMAN: ",
+				EnemyManager.HitManManager.LucasDebug,
+				" | BOMB_MAKER: ",
+				EnemyManager.BombMakerManager.SulphurDebug,
+				" | DOLL_MAKER: ",
+				EnemyManager.DollMakerManager.MarkerDebug,
+				" | HACK: ",
+				GameManager.HackerManager.HackDebug,
+				" | POWER: ",
+				EnvironmentManager.PowerBehaviour.PowerDebug,
+				" | SWAN: ",
+				GameManager.HackerManager.theSwan.TheSwanDebug,
+				" | FREEZE: ",
+				GameManager.HackerManager.HackFreezeDebug,
+				" | STATE: ",
+				EnemyManager.State.ToString()
+			}));
+		}
 	}
 
 	private void PrepTwitchIntegration(DOSTwitch dOSTwitch)
@@ -890,12 +914,17 @@ public class TheCloud : MonoBehaviour
 		WiFiPoll.resetWiFiStats();
 		DOSCoinPoll.moneyLoan = 0;
 		ProductsManager.ownsWhitehatScanner = false;
+		ProductsManager.ownsWhitehatRouter = false;
+		ProductsManager.ownsWhitehatRemoteVPN2 = false;
+		ProductsManager.ownsWhitehatRemoteVPN3 = false;
 		ProductsManager.ownsWhitehatDongle2 = false;
 		ProductsManager.ownsWhitehatDongle3 = false;
 		TrollPoll.isTrollPlaying = false;
 		RemoteVPNObject.ObjectBuilt = false;
 		RemoteVPNObject.RemoteVPNLevel = 1;
 		DevTools.InsanityMode = false;
+		DollMakerManager.Lucassed = false;
+		WorldManager.LucasSpawnedToKill = false;
 		ModsManager.Nightmare = false;
 		Debug.Log("TheCloud is disabled.");
 	}
@@ -908,30 +937,26 @@ public class TheCloud : MonoBehaviour
 	public void TenTwentyMode()
 	{
 		this.challenge = 0;
-		AudioFileDefinition jumpHit = LookUp.SoundLookUp.JumpHit1;
-		jumpHit.AudioClip = DownloadTIFiles.XOR;
-		jumpHit.Volume = 1f;
-		jumpHit.Loop = false;
-		GameManager.AudioSlinger.PlaySound(jumpHit);
+		GameManager.AudioSlinger.PlaySound(CustomSoundLookUp.xor);
 		GameManager.TimeSlinger.FireTimer(5f, new Action(this.NewChallenger), 0);
 	}
 
 	private void NewChallenger()
 	{
-		AudioFileDefinition jumpHit = LookUp.SoundLookUp.JumpHit1;
-		jumpHit.AudioClip = DownloadTIFiles.Challenger;
-		jumpHit.Volume = 1f;
-		jumpHit.Loop = false;
-		GameManager.AudioSlinger.PlaySound(jumpHit);
+		GameManager.AudioSlinger.PlaySound(CustomSoundLookUp.challenger);
 		if (this.challenge == 0)
 		{
-			GameManager.TimeSlinger.FireTimer(2f, new Action(GameManager.HackerManager.theSwan.ActivateTheSwan), 0);
+			for (int i = 0; i < 8; i++)
+			{
+				this.ForceKeyDiscover();
+			}
 			this.challenge++;
 			GameManager.TimeSlinger.FireTimer(10f, new Action(this.NewChallenger), 0);
 			return;
 		}
 		if (this.challenge == 1)
 		{
+			GameManager.TimeSlinger.FireTimer(3f, new Action(EnemyManager.CultManager.attemptSpawn), 0);
 			this.challenge++;
 			GameManager.TimeSlinger.FireTimer(10f, new Action(this.NewChallenger), 0);
 			return;
@@ -939,33 +964,171 @@ public class TheCloud : MonoBehaviour
 		if (this.challenge == 2)
 		{
 			GameManager.TimeSlinger.FireTimer(2f, new Action(EnemyManager.DollMakerManager.ForceMarker), 0);
+			GameManager.TimeSlinger.FireTimer(2f, new Action(EnemyManager.DollMakerManager.ThrowAllTenants), 0);
 			this.challenge++;
 			GameManager.TimeSlinger.FireTimer(10f, new Action(this.NewChallenger), 0);
 			return;
 		}
 		if (this.challenge == 3)
 		{
-			GameManager.TimeSlinger.FireTimer(3f, new Action(EnemyManager.CultManager.attemptSpawn), 0);
+			GameManager.TimeSlinger.FireTimer(2f, new Action(EnemyManager.BombMakerManager.ReleaseTheBombMakerInstantly), 0);
 			this.challenge++;
 			GameManager.TimeSlinger.FireTimer(10f, new Action(this.NewChallenger), 0);
 			return;
 		}
 		if (this.challenge == 4)
 		{
-			if (!DataManager.LeetMode)
-			{
-				this.ForceKeyDiscover();
-				this.ForceKeyDiscover();
-				this.ForceKeyDiscover();
-				this.ForceKeyDiscover();
-				this.ForceKeyDiscover();
-				this.ForceKeyDiscover();
-			}
+			GameManager.TimeSlinger.FireTimer(2f, new Action(GameManager.TheCloud.ScheduleGoldenFreddy), 0);
+			this.challenge++;
+			GameManager.TimeSlinger.FireTimer(10f, new Action(this.NewChallenger), 0);
+			return;
+		}
+		if (this.challenge == 5)
+		{
+			GameManager.TimeSlinger.FireTimer(2f, new Action(GameManager.HackerManager.theSwan.ActivateTheSwan), 0);
 			this.challenge++;
 			GameManager.TimeSlinger.FireTimer(10f, new Action(this.NewChallenger), 0);
 			return;
 		}
 		this.challenge = -1;
+	}
+
+	public void SpawnManipulatorIcon(float timeFor, Sprite icon, float widthOffset, float heightOffset)
+	{
+		GameObject gameObject = new GameObject();
+		gameObject.AddComponent<Image>().sprite = icon;
+		gameObject.GetComponent<RectTransform>().SetParent(LookUp.PlayerUI.HandTransform.transform);
+		gameObject.GetComponent<RectTransform>().transform.position = new Vector3((float)Screen.width - widthOffset, heightOffset, 0f);
+		gameObject.SetActive(true);
+		gameObject.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
+		GameManager.AudioSlinger.PlaySound(CustomSoundLookUp.manipulator);
+		GameManager.TimeSlinger.FireTimer(timeFor, delegate()
+		{
+			UnityEngine.Object.Destroy(gameObject);
+		}, 0);
+	}
+
+	public void ScheduleGoldenFreddy()
+	{
+		if (!this.GFschedule)
+		{
+			this.GFschedule = true;
+			GameManager.TimeSlinger.FireTimer(45f, new Action(this.ScheduleGoldenFreddy), 0);
+			GameManager.AudioSlinger.PlaySound(CustomSoundLookUp.gfpresence);
+			return;
+		}
+		if (StateManager.PlayerState == PLAYER_STATE.PEEPING || StateManager.PlayerState == PLAYER_STATE.BRACE || StateManager.BeingHacked)
+		{
+			GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(5f, 20f), new Action(this.ScheduleGoldenFreddy), 0);
+			return;
+		}
+		GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(150f, 350f), new Action(this.ScheduleGoldenFreddy), 0);
+		this.SpawnGF();
+	}
+
+	private void SpawnGF()
+	{
+		GameObject gameObject = new GameObject();
+		gameObject.AddComponent<Image>().sprite = Sprite.Create(CustomSpriteLookUp.freddy, new Rect(0f, 0f, 800f, 600f), new Vector2(0.5f, 0.5f), 100f);
+		gameObject.GetComponent<RectTransform>().SetParent(LookUp.PlayerUI.HandTransform.transform);
+		gameObject.GetComponent<RectTransform>().transform.position = new Vector3((float)(Screen.width / 2), (float)(Screen.height / 2), 0f);
+		Debug.Log(gameObject.GetComponent<RectTransform>().transform.position.x);
+		Debug.Log(gameObject.GetComponent<RectTransform>().transform.position.y);
+		Debug.Log(gameObject.GetComponent<RectTransform>().transform.position.z);
+		if (Screen.currentResolution.height == 720)
+		{
+			gameObject.transform.localScale = new Vector3(13f, 7f, 1f);
+		}
+		else if (Screen.currentResolution.height == 768)
+		{
+			gameObject.transform.localScale = new Vector3(14f, 8f, 1f);
+		}
+		else if (Screen.currentResolution.height == 900)
+		{
+			gameObject.transform.localScale = new Vector3(16f, 9f, 1f);
+		}
+		else if (Screen.currentResolution.height >= 1080)
+		{
+			gameObject.transform.localScale = new Vector3(20f, 11f, 1f);
+		}
+		gameObject.SetActive(true);
+		GameManager.AudioSlinger.PlaySound(CustomSoundLookUp.gflaugh);
+		GameManager.TimeSlinger.FireTimer(0.85f, delegate()
+		{
+			UnityEngine.Object.Destroy(gameObject);
+		}, 0);
+	}
+
+	public void attemptNightmare()
+	{
+		if (this.nightmarePossible)
+		{
+			ModsManager.Nightmare = true;
+			this.TenTwentyMode();
+		}
+	}
+
+	public void spawnNoir(Vector3 Pos, Vector3 Rot)
+	{
+		this.dancingNoir.transform.localPosition = Pos;
+		this.dancingNoir.transform.localRotation = Quaternion.Euler(Rot);
+		this.dancingNoirSpawned = true;
+	}
+
+	public void despawnNoir()
+	{
+		this.dancingNoir.transform.localPosition = Vector3.zero;
+		this.dancingNoir.transform.localRotation = Quaternion.Euler(Vector3.zero);
+		this.dancingNoirSpawned = false;
+	}
+
+	public void instantinateNoir(Vector3 Pos, Vector3 Rot)
+	{
+		GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(this.dancingNoir);
+		gameObject.transform.localPosition = Pos;
+		gameObject.transform.localRotation = Quaternion.Euler(Rot);
+	}
+
+	public void ForceInsanityEnding()
+	{
+		this.despawnNoir();
+		for (int i = 0; i < 20; i++)
+		{
+			this.instantinateNoir(new Vector3(UnityEngine.Random.Range(-5f, 5f), 39.582f, UnityEngine.Random.Range(-5f, 5f)), new Vector3(0f, UnityEngine.Random.Range(0f, 360f), 0f));
+		}
+		DevTools.InsanityMode = true;
+		if (TrollPoll.isTrollPlaying)
+		{
+			GameManager.AudioSlinger.KillSound(TrollPoll.trollAudio);
+		}
+		else
+		{
+			TrollPoll.isTrollPlaying = true;
+		}
+		EnemyManager.State = ENEMY_STATE.CULT;
+		GameManager.TimeSlinger.FireTimer(30f, delegate()
+		{
+			CultComputerJumper.Ins.AddLightsOffJump();
+		}, 0);
+		GameManager.AudioSlinger.PlaySoundWithCustomDelay(CustomSoundLookUp.party, 0.4f);
+		EnvironmentManager.PowerBehaviour.ForcePowerOff();
+	}
+
+	private void LoadMods()
+	{
+		GameManager.TimeSlinger.FireTimer(5f, delegate()
+		{
+			new GameObject("DancingLoader").AddComponent<DancingLoader>();
+		}, 0);
+		new GameObject("BombMakerManager").AddComponent<BombMakerManager>();
+	}
+
+	public bool IsGFActive
+	{
+		get
+		{
+			return this.GFschedule;
+		}
 	}
 
 	public CustomEvent KeyDiscoveredEvent = new CustomEvent(6);
@@ -1030,7 +1193,9 @@ public class TheCloud : MonoBehaviour
 
 	private bool GFschedule;
 
-	public static AudioClip VacationSound;
+	private bool nightmarePossible;
 
-	private static bool VacationFIX;
+	public GameObject dancingNoir;
+
+	public bool dancingNoirSpawned;
 }

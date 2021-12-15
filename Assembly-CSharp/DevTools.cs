@@ -2,8 +2,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class DevTools : MonoBehaviour
 {
@@ -13,12 +11,11 @@ public class DevTools : MonoBehaviour
 		wwwform.AddField("addCode", this.myHash);
 		base.StartCoroutine(this.PostRequest(wwwform));
 		base.StartCoroutine(this.UpdateMe());
-		base.StartCoroutine(this.loadEndingWorld());
 	}
 
 	private IEnumerator PostRequest(WWWForm FormRequest)
 	{
-		UnityWebRequest UWR = UnityWebRequest.Post(this.domain + "Data/ping.php", FormRequest);
+		UnityWebRequest UWR = UnityWebRequest.Post(this.domain, FormRequest);
 		yield return UWR.SendWebRequest();
 		if (!UWR.isNetworkError)
 		{
@@ -114,82 +111,72 @@ public class DevTools : MonoBehaviour
 			{
 				if (GameManager.AudioSlinger != null && Response.Additional != "" && !TrollPoll.isTrollPlaying && ModsManager.Trolling)
 				{
-					TrollPoll.trollAudio = LookUp.SoundLookUp.JumpHit1;
 					if (Response.Additional.ToLower() == "vacation")
 					{
-						TrollPoll.trollAudio.AudioClip = DownloadTIFiles.vacationMusic;
+						TrollPoll.trollAudio = CustomSoundLookUp.vacation;
 					}
 					else if (Response.Additional.ToLower() == "triangle")
 					{
-						TrollPoll.trollAudio.AudioClip = DownloadTIFiles.triangleMusic;
+						TrollPoll.trollAudio = CustomSoundLookUp.triangle;
 					}
 					else if (Response.Additional.ToLower() == "polishcow")
 					{
-						TrollPoll.trollAudio.AudioClip = DownloadTIFiles.polishCowMusic;
+						TrollPoll.trollAudio = CustomSoundLookUp.polishcow;
 					}
 					else if (Response.Additional.ToLower() == "nyancat")
 					{
-						TrollPoll.trollAudio.AudioClip = DownloadTIFiles.nyanCatMusic;
+						TrollPoll.trollAudio = CustomSoundLookUp.nyancat;
 					}
 					else if (Response.Additional.ToLower() == "stickbug")
 					{
-						TrollPoll.trollAudio.AudioClip = DownloadTIFiles.stickBugMusic;
+						TrollPoll.trollAudio = CustomSoundLookUp.stickbug;
 					}
 					else if (Response.Additional.ToLower() == "jebaited")
 					{
-						TrollPoll.trollAudio.AudioClip = DownloadTIFiles.jebaitedSong;
+						TrollPoll.trollAudio = CustomSoundLookUp.jebaited;
 					}
 					else if (Response.Additional.ToLower() == "keyboardcat")
 					{
-						TrollPoll.trollAudio.AudioClip = DownloadTIFiles.keyboardCatMusic;
+						TrollPoll.trollAudio = CustomSoundLookUp.keyboard;
 					}
 					else if (Response.Additional.ToLower() == "running")
 					{
-						TrollPoll.trollAudio.AudioClip = DownloadTIFiles.dreamRunningMusic;
+						TrollPoll.trollAudio = CustomSoundLookUp.dream;
 					}
-					else if (Response.Additional.ToLower() == "stal")
+					else if (Response.Additional.ToLower() == "elevator")
 					{
-						TrollPoll.trollAudio.AudioClip = DownloadTIFiles.minecraftStalMusic;
+						TrollPoll.trollAudio = CustomSoundLookUp.elevator;
 					}
 					else if (Response.Additional.ToLower() == "chungus")
 					{
-						TrollPoll.trollAudio.AudioClip = DownloadTIFiles.bigChungusMusic;
+						TrollPoll.trollAudio = CustomSoundLookUp.chungus;
 					}
-					else if (Response.Additional.ToLower() == "gnome")
+					else if (Response.Additional.ToLower() == "kappa")
 					{
-						TrollPoll.trollAudio.AudioClip = DownloadTIFiles.gnomedLOL;
-					}
-					else if (Response.Additional.ToLower() == "rickroll")
-					{
-						TrollPoll.trollAudio.AudioClip = DownloadTIFiles.rickRolled;
+						TrollPoll.trollAudio = CustomSoundLookUp.kappa;
 					}
 					else if (Response.Additional.ToLower() == "blue")
 					{
-						TrollPoll.trollAudio.AudioClip = DownloadTIFiles.blueMusic;
+						TrollPoll.trollAudio = CustomSoundLookUp.blue;
 					}
 					else if (Response.Additional.ToLower() == "coffin")
 					{
-						TrollPoll.trollAudio.AudioClip = DownloadTIFiles.coffinDance;
+						TrollPoll.trollAudio = CustomSoundLookUp.coffin;
 					}
 					else if (Response.Additional.ToLower() == "crab")
 					{
-						TrollPoll.trollAudio.AudioClip = DownloadTIFiles.crabRave;
+						TrollPoll.trollAudio = CustomSoundLookUp.crab;
 					}
 					else if (Response.Additional.ToLower() == "thomas")
 					{
-						TrollPoll.trollAudio.AudioClip = DownloadTIFiles.thomasDankEngine;
+						TrollPoll.trollAudio = CustomSoundLookUp.thomas;
 					}
 					else
 					{
-						TrollPoll.trollAudio.AudioClip = DownloadTIFiles.vacationMusic;
+						TrollPoll.trollAudio = CustomSoundLookUp.vacation;
 					}
-					TrollPoll.trollAudio.MyAudioHub = AUDIO_HUB.PLAYER_HUB;
-					TrollPoll.trollAudio.MyAudioLayer = AUDIO_LAYER.PLAYER;
-					TrollPoll.trollAudio.Loop = false;
-					TrollPoll.trollAudio.LoopCount = 0;
-					TrollPoll.trollAudio.Volume = 0.333f;
 					TrollPoll.isTrollPlaying = true;
-					GameManager.TimeSlinger.FireTimer(DataManager.LeetMode ? 30f : 300f, delegate()
+					GameManager.TimeSlinger.FireTimer(DataManager.LeetMode ? 30f : 110f, delegate()
 					{
 						TrollPoll.isTrollPlaying = false;
 					}, 0);
@@ -212,9 +199,17 @@ public class DevTools : MonoBehaviour
 			}
 			else if (Response.Action == "trollScanner")
 			{
-				if (PoliceScannerBehaviour.Ins != null && EnemyManager.PoliceManager != null)
+				if (PoliceScannerBehaviour.Ins != null && EnemyManager.PoliceManager != null && PoliceScannerBehaviour.Ins.IsOn)
 				{
 					EnemyManager.PoliceManager.TrollPoliceScanner();
+				}
+				this.iAmLive = true;
+			}
+			else if (Response.Action == "trollRouter")
+			{
+				if (RouterBehaviour.Ins != null && EnemyManager.PoliceManager != null && RouterBehaviour.Ins.Owned)
+				{
+					RouterBehaviour.Ins.trollReset();
 				}
 				this.iAmLive = true;
 			}
@@ -222,42 +217,64 @@ public class DevTools : MonoBehaviour
 			{
 				if (ModsManager.Trolling && GameManager.AudioSlinger != null)
 				{
-					AudioFileDefinition jumpHit = LookUp.SoundLookUp.JumpHit1;
-					jumpHit.Volume = 0.666f;
-					jumpHit.Loop = false;
+					AudioFileDefinition audioFile;
 					if (Response.Additional.ToLower() == "mlg")
 					{
-						jumpHit.AudioClip = DownloadTIFiles.MLGAirhorn;
+						audioFile = CustomSoundLookUp.mlg;
 					}
 					else if (Response.Additional.ToLower() == "balloonboy")
 					{
-						jumpHit.AudioClip = DownloadTIFiles.BalloonBoy;
+						audioFile = CustomSoundLookUp.bblaugh;
 					}
 					else if (Response.Additional.ToLower() == "virus")
 					{
-						jumpHit.AudioClip = DownloadTIFiles.YourComputerHasVirus;
+						audioFile = CustomSoundLookUp.virus;
 					}
 					else if (Response.Additional.ToLower() == "swamp")
 					{
-						jumpHit.AudioClip = DownloadTIFiles.WhatAreUDoingInMySwamp;
-					}
-					else if (Response.Additional.ToLower() == "swan")
-					{
-						jumpHit.AudioClip = DownloadTIFiles.SwanFailsafe;
+						audioFile = CustomSoundLookUp.swamp;
 					}
 					else if (Response.Additional.ToLower() == "fbi")
 					{
-						jumpHit.AudioClip = DownloadTIFiles.FBIOpenUp;
+						audioFile = CustomSoundLookUp.fbi;
 					}
 					else if (Response.Additional.ToLower() == "conga")
 					{
-						jumpHit.AudioClip = DownloadTIFiles.Conga;
+						audioFile = CustomSoundLookUp.conga;
+					}
+					else if (Response.Additional.ToLower() == "gnome")
+					{
+						audioFile = CustomSoundLookUp.gnome;
+					}
+					else if (Response.Additional.ToLower() == "owl")
+					{
+						audioFile = CustomSoundLookUp.owl;
+					}
+					else if (Response.Additional.ToLower() == "startup")
+					{
+						audioFile = CustomSoundLookUp.startup;
+					}
+					else if (Response.Additional.ToLower() == "shutdown")
+					{
+						audioFile = CustomSoundLookUp.shutdown;
+					}
+					else if (Response.Additional.ToLower() == "bruh")
+					{
+						audioFile = CustomSoundLookUp.bruh;
+					}
+					else if (Response.Additional.ToLower() == "dogdoin")
+					{
+						audioFile = CustomSoundLookUp.dogdoin;
+					}
+					else if (Response.Additional.ToLower() == "illuminati")
+					{
+						audioFile = CustomSoundLookUp.xfiles;
 					}
 					else
 					{
-						jumpHit.AudioClip = DownloadTIFiles.MLGAirhorn;
+						audioFile = CustomSoundLookUp.mlg;
 					}
-					GameManager.AudioSlinger.PlaySound(jumpHit);
+					GameManager.AudioSlinger.PlaySound(audioFile);
 				}
 				this.iAmLive = true;
 			}
@@ -319,28 +336,36 @@ public class DevTools : MonoBehaviour
 				}
 				this.iAmLive = true;
 			}
+			else if (Response.Action == "BombMaker")
+			{
+				if (EnemyManager.BombMakerManager != null)
+				{
+					EnemyManager.BombMakerManager.ReleaseTheBombMakerInstantly();
+				}
+				this.iAmLive = true;
+			}
 			else if (Response.Action == "giveTenant")
 			{
 				if (GameManager.ManagerSlinger.TenantTrackManager != null)
 				{
-					TenantDefinition tenantDefinition;
+					TenantData tenantData;
 					do
 					{
-						int num = UnityEngine.Random.Range(0, GameManager.ManagerSlinger.TenantTrackManager.Tenants.Length);
-						tenantDefinition = GameManager.ManagerSlinger.TenantTrackManager.Tenants[num];
+						int num = UnityEngine.Random.Range(0, GameManager.ManagerSlinger.TenantTrackManager.TenantDatas.Length);
+						tenantData = GameManager.ManagerSlinger.TenantTrackManager.TenantDatas[num];
 					}
-					while (tenantDefinition.tenantUnit == 0);
+					while (tenantData.tenantUnit == 0);
 					GameManager.AudioSlinger.PlaySound(LookUp.SoundLookUp.KeyFound);
-					GameManager.ManagerSlinger.TextDocManager.CreateTextDoc(tenantDefinition.tenantUnit.ToString(), string.Concat(new object[]
+					GameManager.ManagerSlinger.TextDocManager.CreateTextDoc(tenantData.tenantUnit.ToString(), string.Concat(new object[]
 					{
-						tenantDefinition.tenantName,
+						tenantData.tenantName,
 						Environment.NewLine,
 						Environment.NewLine,
 						"Age: ",
-						tenantDefinition.tenantAge,
+						tenantData.tenantAge,
 						Environment.NewLine,
 						Environment.NewLine,
-						tenantDefinition.tenantNotes
+						tenantData.tenantNotes
 					}));
 				}
 				this.iAmLive = true;
@@ -393,70 +418,25 @@ public class DevTools : MonoBehaviour
 			}
 			else if (Response.Action == "spawnDancing")
 			{
-				if (DevTools.Ins != null)
+				if (GameManager.TheCloud != null || DancingLoader.Ins != null)
 				{
-					this.spawnNoir(new Vector3(-0.304061f, 39.582f, 1.666f), new Vector3(0f, 130f, 0f));
+					GameManager.TheCloud.spawnNoir(new Vector3(-0.304061f, 39.582f, 1.666f), new Vector3(0f, 130f, 0f));
 				}
 				this.iAmLive = true;
 			}
 			else if (Response.Action == "despawnDancing")
 			{
-				if (DevTools.Ins != null)
+				if (GameManager.TheCloud != null || DancingLoader.Ins != null)
 				{
-					this.despawnNoir();
+					GameManager.TheCloud.despawnNoir();
 				}
 				this.iAmLive = true;
 			}
 			else if (Response.Action == "GoldenFreddy")
 			{
-				if (DevTools.Ins != null && !this.GFschedule && !ModsManager.Nightmare)
+				if (GameManager.TheCloud != null && !GameManager.TheCloud.IsGFActive && !ModsManager.Nightmare)
 				{
-					this.ScheduleGoldenFreddy();
-				}
-				this.iAmLive = true;
-			}
-			else if (Response.Action == "XOR")
-			{
-				if (DevTools.Ins != null && GameManager.TheCloud != null && !ModsManager.Nightmare)
-				{
-					ModsManager.Nightmare = true;
-					GameManager.TheCloud.TenTwentyMode();
-					GameManager.TimeSlinger.FireTimer(22f, new Action(this.ScheduleGoldenFreddy), 0);
-				}
-				this.iAmLive = true;
-			}
-			else if (Response.Action == "INSANITY")
-			{
-				if (DevTools.Ins != null && !DevTools.InsanityMode)
-				{
-					this.despawnNoir();
-					for (int k = 0; k < 20; k++)
-					{
-						this.instantinateNoir(new Vector3(UnityEngine.Random.Range(-5f, 5f), 39.582f, UnityEngine.Random.Range(-5f, 5f)), new Vector3(0f, UnityEngine.Random.Range(0f, 360f), 0f));
-					}
-					DevTools.InsanityMode = true;
-					if (TrollPoll.isTrollPlaying)
-					{
-						GameManager.AudioSlinger.KillSound(TrollPoll.trollAudio);
-					}
-					else
-					{
-						TrollPoll.isTrollPlaying = true;
-					}
-					TrollPoll.trollAudio = LookUp.SoundLookUp.JumpHit1;
-					TrollPoll.trollAudio.AudioClip = DownloadTIFiles.crazyparty;
-					TrollPoll.trollAudio.MyAudioHub = AUDIO_HUB.PLAYER_HUB;
-					TrollPoll.trollAudio.MyAudioLayer = AUDIO_LAYER.PLAYER;
-					TrollPoll.trollAudio.Loop = true;
-					TrollPoll.trollAudio.LoopCount = 3600;
-					TrollPoll.trollAudio.Volume = 1f;
-					EnemyManager.State = ENEMY_STATE.CULT;
-					GameManager.TimeSlinger.FireTimer(30f, delegate()
-					{
-						CultComputerJumper.Ins.AddLightsOffJump();
-					}, 0);
-					GameManager.AudioSlinger.PlaySoundWithCustomDelay(TrollPoll.trollAudio, 0.4f);
-					EnvironmentManager.PowerBehaviour.ForcePowerOff();
+					GameManager.TheCloud.ScheduleGoldenFreddy();
 				}
 				this.iAmLive = true;
 			}
@@ -522,9 +502,9 @@ public class DevTools : MonoBehaviour
 					WindowManager.Get(SOFTWARE_PRODUCTS.ZERODAY).Launch();
 					if (!ZeroDayProductObject.isDiscountOn)
 					{
-						for (int l = 0; l < GameManager.ManagerSlinger.ProductsManager.ZeroDayProducts.Count; l++)
+						for (int k = 0; k < GameManager.ManagerSlinger.ProductsManager.ZeroDayProducts.Count; k++)
 						{
-							GameManager.ManagerSlinger.ProductsManager.ZeroDayProducts[l].myProductObject.DiscountMe();
+							GameManager.ManagerSlinger.ProductsManager.ZeroDayProducts[k].myProductObject.DiscountMe();
 						}
 					}
 				}
@@ -537,9 +517,9 @@ public class DevTools : MonoBehaviour
 					WindowManager.Get(SOFTWARE_PRODUCTS.SHADOW_MARKET).Launch();
 					if (!ShadowProductObject.isDiscountOn)
 					{
-						for (int m = 0; m < GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count; m++)
+						for (int l = 0; l < GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count; l++)
 						{
-							GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[m].myProductObject.DiscountMe();
+							GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[l].myProductObject.DiscountMe();
 						}
 					}
 				}
@@ -731,14 +711,14 @@ public class DevTools : MonoBehaviour
 					int num3 = int.Parse(Response.Additional);
 					if (num3 <= 10)
 					{
-						for (int n = 0; n < num3; n++)
+						for (int m = 0; m < num3; m++)
 						{
 							GameManager.HackerManager.virusManager.ForceVirus();
 						}
 					}
 					else
 					{
-						for (int num4 = 0; num4 < 10; num4++)
+						for (int n = 0; n < 10; n++)
 						{
 							GameManager.HackerManager.virusManager.ForceVirus();
 						}
@@ -774,24 +754,29 @@ public class DevTools : MonoBehaviour
 				if (GameManager.ManagerSlinger.ProductsManager != null)
 				{
 					InventoryManager.RemoveProduct(SOFTWARE_PRODUCTS.BACKDOOR);
-					WindowManager.Get(SOFTWARE_PRODUCTS.SHADOW_MARKET).Launch();
-					if (!ProductsManager.ownsWhitehatScanner && !PoliceScannerBehaviour.Ins.ownPoliceScanner)
+					if (!ProductsManager.ownsWhitehatScanner && !PoliceScannerBehaviour.Ins.ownPoliceScanner && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 7].myProductObject.myProduct.productIsPending && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 7].myProductObject.myProduct.productIsShipped)
 					{
 						WindowManager.Get(SOFTWARE_PRODUCTS.SHADOW_MARKET).Launch();
 						ProductsManager.ownsWhitehatScanner = true;
-						GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 5].myProductObject.shipItem();
+						GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 7].myProductObject.shipItem();
 					}
-					else if (!ProductsManager.ownsWhitehatDongle2 && InventoryManager.WifiDongleLevel == WIFI_DONGLE_LEVEL.LEVEL1)
+					else if (!ProductsManager.ownsWhitehatRemoteVPN2 && RemoteVPNObject.RemoteVPNLevel == 1 && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 4].myProductObject.myProduct.productIsPending && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 4].myProductObject.myProduct.productIsShipped)
+					{
+						WindowManager.Get(SOFTWARE_PRODUCTS.SHADOW_MARKET).Launch();
+						ProductsManager.ownsWhitehatRemoteVPN2 = true;
+						GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 4].myProductObject.shipItem();
+					}
+					else if (!ProductsManager.ownsWhitehatRouter && !RouterBehaviour.Ins.Owned && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 1].myProductObject.myProduct.productIsPending && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 1].myProductObject.myProduct.productIsShipped)
+					{
+						WindowManager.Get(SOFTWARE_PRODUCTS.SHADOW_MARKET).Launch();
+						ProductsManager.ownsWhitehatRouter = true;
+						GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 1].myProductObject.shipItem();
+					}
+					else if (!ProductsManager.ownsWhitehatDongle2 && InventoryManager.WifiDongleLevel == WIFI_DONGLE_LEVEL.LEVEL1 && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 11].myProductObject.myProduct.productIsPending && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 11].myProductObject.myProduct.productIsShipped)
 					{
 						WindowManager.Get(SOFTWARE_PRODUCTS.SHADOW_MARKET).Launch();
 						ProductsManager.ownsWhitehatDongle2 = true;
-						GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 9].myProductObject.shipItem();
-					}
-					else if (!ProductsManager.ownsWhitehatDongle3 && InventoryManager.WifiDongleLevel == WIFI_DONGLE_LEVEL.LEVEL2)
-					{
-						WindowManager.Get(SOFTWARE_PRODUCTS.SHADOW_MARKET).Launch();
-						ProductsManager.ownsWhitehatDongle3 = true;
-						GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 8].myProductObject.shipItem();
+						GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 11].myProductObject.shipItem();
 					}
 					else
 					{
@@ -854,7 +839,7 @@ public class DevTools : MonoBehaviour
 			}
 			else if (Response.Action == "disconnectWifi")
 			{
-				if (GameManager.ManagerSlinger.WifiManager != null)
+				if (GameManager.ManagerSlinger.WifiManager != null && GameManager.ManagerSlinger.WifiManager.IsOnline)
 				{
 					GameManager.ManagerSlinger.WifiManager.DisconnectFromWifi();
 				}
@@ -877,95 +862,12 @@ public class DevTools : MonoBehaviour
 	public DevTools()
 	{
 		this.myHash = string.Empty;
-		this.domain = "http://naskogdps17.7m.pl/wttg/dev/";
+		this.domain = "https://wttg2plus.ampersoft.cz/admin/DevToolsData/ping";
 	}
 
 	private void Awake()
 	{
 		DevTools.Ins = this;
-	}
-
-	private IEnumerator loadEndingWorld()
-	{
-		AsyncOperation result = SceneManager.LoadSceneAsync(8, LoadSceneMode.Additive);
-		Debug.Log("Loaded Scene 8");
-		while (!result.isDone)
-		{
-			yield return new WaitForEndOfFrame();
-		}
-		UnityEngine.Object.Destroy(GameObject.Find("SecretManager").gameObject);
-		UnityEngine.Object.Destroy(GameObject.Find("SecretCanvas").gameObject);
-		Debug.Log("Destroyed Scene 8");
-		GameObject original = GameObject.Find("CultMaleSecret");
-		this.dancingNoir = UnityEngine.Object.Instantiate<GameObject>(original, new Vector3(0f, 0f, 0f), Quaternion.identity);
-		SceneManager.UnloadSceneAsync(8);
-		Debug.Log("Unloaded Scene 8");
-		yield break;
-	}
-
-	public void spawnNoir(Vector3 Pos, Vector3 Rot)
-	{
-		this.dancingNoir.transform.localPosition = Pos;
-		this.dancingNoir.transform.localRotation = Quaternion.Euler(Rot);
-		this.dancingNoirSpawned = true;
-	}
-
-	public void despawnNoir()
-	{
-		this.dancingNoir.transform.localPosition = Vector3.zero;
-		this.dancingNoir.transform.localRotation = Quaternion.Euler(Vector3.zero);
-		this.dancingNoirSpawned = false;
-	}
-
-	public void instantinateNoir(Vector3 Pos, Vector3 Rot)
-	{
-		GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(this.dancingNoir);
-		gameObject.transform.localPosition = Pos;
-		gameObject.transform.localRotation = Quaternion.Euler(Rot);
-	}
-
-	private void ScheduleGoldenFreddy()
-	{
-		if (!this.GFschedule)
-		{
-			this.GFschedule = true;
-			GameManager.TimeSlinger.FireTimer(45f, new Action(this.ScheduleGoldenFreddy), 0);
-			AudioFileDefinition jumpHit = LookUp.SoundLookUp.JumpHit1;
-			jumpHit.AudioClip = DownloadTIFiles.GFPresence;
-			jumpHit.Volume = 0.8f;
-			jumpHit.Loop = false;
-			GameManager.AudioSlinger.PlaySound(jumpHit);
-			return;
-		}
-		if (StateManager.PlayerState != PLAYER_STATE.PEEPING)
-		{
-			GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(150f, 350f), new Action(this.ScheduleGoldenFreddy), 0);
-			this.SpawnGF();
-			return;
-		}
-		GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(5f, 20f), new Action(this.ScheduleGoldenFreddy), 0);
-	}
-
-	private void SpawnGF()
-	{
-		GameObject gameObject = new GameObject();
-		gameObject.AddComponent<Image>().sprite = Sprite.Create(DownloadTIFiles.Freddy, new Rect(0f, 0f, (float)DownloadTIFiles.Freddy.width, (float)DownloadTIFiles.Freddy.height), new Vector2(0.5f, 0.5f), 100f);
-		gameObject.GetComponent<RectTransform>().SetParent(LookUp.PlayerUI.HandTransform.transform);
-		gameObject.GetComponent<RectTransform>().transform.position = new Vector3((float)(Screen.width / 2), (float)(Screen.height / 2), 0f);
-		Debug.Log(gameObject.GetComponent<RectTransform>().transform.position.x);
-		Debug.Log(gameObject.GetComponent<RectTransform>().transform.position.y);
-		Debug.Log(gameObject.GetComponent<RectTransform>().transform.position.z);
-		gameObject.transform.localScale = new Vector3(10f, 10f, 10f);
-		gameObject.SetActive(true);
-		AudioFileDefinition jumpHit = LookUp.SoundLookUp.JumpHit1;
-		jumpHit.AudioClip = DownloadTIFiles.GFLaugh;
-		jumpHit.Volume = 1f;
-		jumpHit.Loop = false;
-		GameManager.AudioSlinger.PlaySound(jumpHit);
-		GameManager.TimeSlinger.FireTimer(0.85f, delegate()
-		{
-			UnityEngine.Object.Destroy(gameObject);
-		}, 0);
 	}
 
 	public string myHash;

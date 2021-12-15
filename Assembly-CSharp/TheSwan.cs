@@ -9,14 +9,16 @@ public class TheSwan
 		{
 			return;
 		}
-		this.SwanSFX.MyAudioHub = AUDIO_HUB.COMPUTER_HUB;
-		this.SwanSFX.AudioClip = DownloadTIFiles.SwanFailsafe;
-		GameManager.AudioSlinger.PlaySound(this.SwanSFX);
+		GameManager.AudioSlinger.PlaySound(CustomSoundLookUp.failsafe);
 		this.isActivatedBefore = true;
 		this._108 = (float)UnityEngine.Random.Range(108, 324);
 		this.SwanClock = (ModsManager.Nightmare ? 0.5f : 1.5f);
 		GameManager.TimeSlinger.FireTimer(18f, new Action(this.StartCountdown), 0);
 		GameManager.ManagerSlinger.TextDocManager.CreateTextDoc("swan", "THE CODE IS LOST: 4 8 15 16 23 42");
+		if (ModsManager.NoParameter)
+		{
+			return;
+		}
 		GameManager.ManagerSlinger.TextDocManager.CreateTextDoc("swan", "THE CODE IS LOST: SW4N");
 		GameManager.ManagerSlinger.TextDocManager.CreateTextDoc("swan", "THE CODE IS LOST: DH4RMA");
 		GameManager.ManagerSlinger.TextDocManager.CreateTextDoc("swan", "THE CODE IS LOST: H4TCH");
@@ -26,8 +28,7 @@ public class TheSwan
 	{
 		if (this.firstTIME)
 		{
-			this.SwanSFX.AudioClip = DownloadTIFiles.SwanReset;
-			GameManager.AudioSlinger.PlaySound(this.SwanSFX);
+			GameManager.AudioSlinger.PlaySound(CustomSoundLookUp.reset);
 			this.firstTIME = false;
 			skyBreakBehavior.SwanNumbers[0] = 4;
 			skyBreakBehavior.SwanNumbers[1] = 8;
@@ -41,7 +42,14 @@ public class TheSwan
 			GameManager.TimeSlinger.FireTimer(1f, new Action(this.StartCountdown), 0);
 			return;
 		}
-		GameManager.TimeSlinger.FireTimer(this.SwanClock, new Action(this.StartCountdown), 0);
+		if (RouterBehaviour.Ins.Owned && RouterBehaviour.Ins.RouterIsActive)
+		{
+			GameManager.TimeSlinger.FireTimer(1f, new Action(this.StartCountdown), 0);
+		}
+		else
+		{
+			GameManager.TimeSlinger.FireTimer((this._108 >= 108f) ? 1f : this.SwanClock, new Action(this.StartCountdown), 0);
+		}
 		if (this._108 > 0f)
 		{
 			this._108 -= 1f;
@@ -56,21 +64,18 @@ public class TheSwan
 	{
 		if (this._108 < 10f && this._108 > 0f)
 		{
-			this.SwanSFX.AudioClip = DownloadTIFiles.SwanAlarm;
-			GameManager.AudioSlinger.PlaySound(this.SwanSFX);
-			GameManager.AudioSlinger.PlaySoundWithCustomDelay(this.SwanSFX, 0.5f);
+			GameManager.AudioSlinger.PlaySound(CustomSoundLookUp.alarm);
+			GameManager.AudioSlinger.PlaySoundWithCustomDelay(CustomSoundLookUp.alarm, 0.5f);
 			return;
 		}
 		if (this._108 >= 10f && this._108 <= 20f)
 		{
-			this.SwanSFX.AudioClip = DownloadTIFiles.SwanAlarm;
-			GameManager.AudioSlinger.PlaySound(this.SwanSFX);
+			GameManager.AudioSlinger.PlaySound(CustomSoundLookUp.alarm);
 			return;
 		}
 		if (this._108 > 20f && this._108 <= 60f)
 		{
-			this.SwanSFX.AudioClip = DownloadTIFiles.SwanBeep;
-			GameManager.AudioSlinger.PlaySound(this.SwanSFX);
+			GameManager.AudioSlinger.PlaySound(CustomSoundLookUp.beep);
 		}
 	}
 
@@ -78,7 +83,6 @@ public class TheSwan
 	{
 		TheSwan.extOn = false;
 		this._108 = (float)UnityEngine.Random.Range(108, 324);
-		this.SwanSFX.AudioClip = DownloadTIFiles.SwanFailure;
 		skyBreakBehavior.SwanNumbers[0] = 4;
 		skyBreakBehavior.SwanNumbers[1] = 8;
 		skyBreakBehavior.SwanNumbers[2] = 15;
@@ -97,7 +101,8 @@ public class TheSwan
 		{
 			this.skyBreak.CauseSystemFailure();
 		}
-		GameManager.AudioSlinger.PlaySound(this.SwanSFX);
+		GameManager.AudioSlinger.PlaySound(CustomSoundLookUp.systemFailure);
+		this.TakeSwanDOSB4();
 		GameManager.TimeSlinger.FireTimer(11f, delegate()
 		{
 			this.TakeSwanDOS();
@@ -111,11 +116,17 @@ public class TheSwan
 		{
 			return;
 		}
-		this.SwanSFX.AudioClip = DownloadTIFiles.SwanReset;
-		GameManager.AudioSlinger.PlaySound(this.SwanSFX);
-		this._108 = (float)UnityEngine.Random.Range(108, 324);
-		CurrencyManager.AddCurrency(UnityEngine.Random.Range(3.82f, 9.15f));
-		if (UnityEngine.Random.Range(0, 100) < (DataManager.LeetMode ? 60 : 90) || ModsManager.EasyModeActive || TheSwan.extOn)
+		GameManager.AudioSlinger.PlaySound(CustomSoundLookUp.reset);
+		if (RouterBehaviour.Ins.Owned && RouterBehaviour.Ins.RouterIsActive)
+		{
+			this._108 = (float)UnityEngine.Random.Range(540, 864);
+		}
+		else
+		{
+			this._108 = (float)UnityEngine.Random.Range(108, 324);
+		}
+		CurrencyManager.AddCurrency(UnityEngine.Random.Range(2.5f * this.SwanClock * this.SwanClock, 3.5f * this.SwanClock * this.SwanClock));
+		if (UnityEngine.Random.Range(0, 100) < ((DataManager.LeetMode || ModsManager.Nightmare) ? 60 : 90) || ModsManager.NoParameter || TheSwan.extOn)
 		{
 			TheSwan.extOn = false;
 			return;
@@ -138,9 +149,6 @@ public class TheSwan
 	private void TakeSwanDOS()
 	{
 		GameManager.BehaviourManager.NotesBehaviour.ClearNotes();
-		double num = (double)CurrencyManager.CurrentCurrency;
-		float num2 = UnityEngine.Random.Range(0.5f, 0.9f);
-		CurrencyManager.RemoveCurrency((float)Math.Round(num * (double)num2, 3));
 		if (ComputerPowerHook.Ins.PowerOn)
 		{
 			ComputerPowerHook.Ins.ShutDownComputerInsantly();
@@ -155,7 +163,34 @@ public class TheSwan
 		}
 	}
 
-	public AudioFileDefinition SwanSFX = LookUp.SoundLookUp.LoudDoorBang;
+	public void TakeSwanDOSB4()
+	{
+		GameManager.BehaviourManager.NotesBehaviour.ClearNotes();
+		double num = (double)CurrencyManager.CurrentCurrency;
+		float num2 = UnityEngine.Random.Range(0.5f, 0.9f);
+		if (ModsManager.Nightmare)
+		{
+			CurrencyManager.RemoveCurrency(CurrencyManager.CurrentCurrency);
+			return;
+		}
+		CurrencyManager.RemoveCurrency((float)Math.Round(num * (double)num2, 3));
+	}
+
+	public string TheSwanDebug
+	{
+		get
+		{
+			if (!this.isActivatedBefore)
+			{
+				return 0.ToString();
+			}
+			if (this._108 > 0f)
+			{
+				return this._108.ToString();
+			}
+			return 0.ToString();
+		}
+	}
 
 	public bool isActivatedBefore;
 

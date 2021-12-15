@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D977CE1B-D72D-4380-8857-0F099994F805}</ProjectGuid>
+    <ProjectGuid>{75F11E60-11D2-423E-B9FB-E341F641E0A6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Assembly-CSharp</RootNamespace>
@@ -63,6 +63,9 @@
     </Reference>
     <Reference Include="UnityEngine.AnimationModule">
       <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Welcome to the Game II all mods\Welcome to the Game II - TI 1.2\WTTG2_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Welcome to the Game II all mods\Welcome to the Game II - TI 1.2\WTTG2_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AudioModule">
       <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Welcome to the Game II all mods\Welcome to the Game II - TI 1.2\WTTG2_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
@@ -129,7 +132,11 @@
     <Compile Include="AnnURLInputBehaviour.cs" />
     <Compile Include="ANN_BTN_ACTIONS.cs" />
     <Compile Include="AppManager.cs" />
+    <Compile Include="ASoft\WTTG2\AFDManager.cs" />
     <Compile Include="ASoft\WTTG2\OptionsUtil.cs" />
+    <Compile Include="AssetBundleManager.cs" />
+    <Compile Include="AssetDownloader.cs" />
+    <Compile Include="AssetFile.cs" />
     <Compile Include="AudioBehaviour.cs" />
     <Compile Include="AudioClipComparer.cs" />
     <Compile Include="AudioFileDefinition.cs" />
@@ -152,6 +159,22 @@
     <Compile Include="BlueWhisperBehaviour.cs" />
     <Compile Include="BlueWhisperData.cs" />
     <Compile Include="BlueWhisperManager.cs" />
+    <Compile Include="BombMakerApartmentJump.cs" />
+    <Compile Include="BombMakerBehaviour.cs" />
+    <Compile Include="BombMakerBehindJump.cs" />
+    <Compile Include="BombMakerDataDefinition.cs" />
+    <Compile Include="BombMakerDeskJumper.cs" />
+    <Compile Include="BombMakerDeskPresence.cs" />
+    <Compile Include="BombMakerFloor10Jump.cs" />
+    <Compile Include="BombMakerFloor1Jump.cs" />
+    <Compile Include="BombMakerFloor3Jump.cs" />
+    <Compile Include="BombMakerFloor5Jump.cs" />
+    <Compile Include="BombMakerFloor6Jump.cs" />
+    <Compile Include="BombMakerFloor8Jump.cs" />
+    <Compile Include="BombMakerMainDoorJump.cs" />
+    <Compile Include="BombMakerManager.cs" />
+    <Compile Include="BombMakerPresenceGunJump.cs" />
+    <Compile Include="BombMakerYoureUseless.cs" />
     <Compile Include="BookmarkData.cs" />
     <Compile Include="BookMarksData.cs" />
     <Compile Include="BookmarkTABObject.cs" />
@@ -286,6 +309,10 @@
     <Compile Include="CursorManager.cs" />
     <Compile Include="CustomEvent.2.cs" />
     <Compile Include="CustomEvent.cs" />
+    <Compile Include="CustomObjectLookUp.cs" />
+    <Compile Include="CustomSoundLookUp.cs" />
+    <Compile Include="CustomSpriteLookUp.cs" />
+    <Compile Include="DancingLoader.cs" />
     <Compile Include="DataContainer.cs" />
     <Compile Include="DataLookUp.cs" />
     <Compile Include="DataManager.cs" />
@@ -328,7 +355,6 @@
     <Compile Include="DOSDrainer.cs" />
     <Compile Include="DOSTween.cs" />
     <Compile Include="DOSTwitch.cs" />
-    <Compile Include="DownloadTIFiles.cs" />
     <Compile Include="DragUniWindowBehaviour.cs" />
     <Compile Include="DragWindowBehaviour.cs" />
     <Compile Include="DroneBehaviour.cs" />
@@ -606,6 +632,7 @@
     <Compile Include="roamController.cs" />
     <Compile Include="RotateAround.cs" />
     <Compile Include="RotateWardrobeDoorScrub.cs" />
+    <Compile Include="RouterBehaviour.cs" />
     <Compile Include="ScreenShot.cs" />
     <Compile Include="SecretController.cs" />
     <Compile Include="SecretLoader.cs" />
@@ -665,6 +692,8 @@
     <Compile Include="SteamStatsAndAchievements.cs" />
     <Compile Include="STEAM_ACHIEVEMENT.cs" />
     <Compile Include="StickySurface.cs" />
+    <Compile Include="SulphurInventory.cs" />
+    <Compile Include="SulphurPackageObject.cs" />
     <Compile Include="SurfaceFootStepSFXDefinition.cs" />
     <Compile Include="SurfaceTypeObject.cs" />
     <Compile Include="SURFACE_TYPE.cs" />
