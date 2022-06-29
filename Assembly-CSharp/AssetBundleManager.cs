@@ -1,5 +1,6 @@
 ﻿using System;
 using ASoft.WTTG2;
+using TMPro;
 using UnityEngine;
 
 public static class AssetBundleManager
@@ -8,6 +9,14 @@ public static class AssetBundleManager
 	{
 		if (AssetBundleManager.loaded)
 		{
+			return;
+		}
+		if ((int)DateTime.Now.Subtract(new DateTime(1970, 1, 1)).TotalSeconds > 2147483646)
+		{
+			TitleManager.wttg2plus_modText.GetComponent<TextMeshProUGUI>().text = string.Concat(new object[]
+			{
+				"This beta version of WTTG2+ has expired. Please update to the latest version of WTTG2+"
+			});
 			return;
 		}
 		AssetDownloader.Exec();
@@ -27,6 +36,7 @@ public static class AssetBundleManager
 		CustomObjectLookUp.BombMakerPresence = AssetBundleManager.WTTG2PlusProps.LoadAsset<GameObject>("BombMakerPresence.prefab");
 		CustomObjectLookUp.PackageBox = AssetBundleManager.WTTG2PlusProps.LoadAsset<GameObject>("PackageBox.prefab");
 		CustomObjectLookUp.Router = AssetBundleManager.WTTG2PlusProps.LoadAsset<GameObject>("Router.prefab");
+		CustomObjectLookUp.TarotCards = AssetBundleManager.WTTG2PlusProps.LoadAsset<GameObject>("TarotCards.prefab");
 	}
 
 	public static void ProceedLoadingSprites()
@@ -43,6 +53,7 @@ public static class AssetBundleManager
 		CustomSpriteLookUp.sulphur = AssetBundleManager.WTTG2PlusProps.LoadAsset<Sprite>("sulphur.png");
 		CustomSpriteLookUp.router = AssetBundleManager.WTTG2PlusProps.LoadAsset<Sprite>("router.png");
 		CustomSpriteLookUp.logo = AssetBundleManager.WTTG2PlusProps.LoadAsset<Sprite>("logo.png");
+		CustomSpriteLookUp.tarotcard = AssetBundleManager.WTTG2PlusProps.LoadAsset<Sprite>("tarotcard.png");
 	}
 
 	public static void ProceedLoadingAFD()
@@ -114,13 +125,40 @@ public static class AssetBundleManager
 		CustomSoundLookUp.xfiles = AFDManager.Ins.AddPlayerAFD("xfiles", AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("xfiles.wav"), 0.5f);
 		CustomSoundLookUp.xor = AFDManager.Ins.AddPlayerAFD("xor", AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("xor.wav"), 1f);
 		CustomSoundLookUp.youreuseless = AFDManager.Ins.AddPlayerAFD("youreuseless", AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("youreuseless.wav"), 1f);
+		CustomSoundLookUp.encrypta = AFDManager.Ins.AddWebsiteAFD("encrypta", AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("encrypta.wav"), false);
+		CustomSoundLookUp.envision = AFDManager.Ins.AddWebsiteAFD("envision", AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("envision.wav"), false);
+		CustomSoundLookUp.enigmaold = AFDManager.Ins.AddWebsiteAFD("enigmaold", AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("enigmaold.wav"), false);
+		CustomSoundLookUp.morse = AFDManager.Ins.AddWebsiteAFD("morse", AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("morse.wav"), false);
+		CustomSoundLookUp.existance = AFDManager.Ins.AddWebsiteAFD("existance", AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("existance.wav"), true);
+		CustomSoundLookUp.leettf = AFDManager.Ins.AddWebsiteAFD("leettf", AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("leettf.wav"), false);
+		CustomSoundLookUp.theend = AFDManager.Ins.AddWebsiteAFD("theend", AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("theend.wav"), true);
+		CustomSoundLookUp.imaginary = AFDManager.Ins.AddWebsiteAFD("imaginary", AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("imaginary.wav"), true);
+		CustomSoundLookUp.idiot = AFDManager.Ins.AddWebsiteAFD("idiot", AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("idiot.wav"), true);
+		CustomSoundLookUp.livehere = AFDManager.Ins.AddWebsiteAFD("livehere", AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("livehere.wav"), false);
+		CustomSoundLookUp.timechange = AFDManager.Ins.AddPlayerAFD("timechange", AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("timechange.wav"), 1f);
+		CustomSoundLookUp.pull = AFDManager.Ins.AddPlayerAFD("pull", AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("pull.wav"), 1f);
+		CustomSoundLookUp.disappear = AFDManager.Ins.AddPlayerAFD("disappear", AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("disappear.wav"), 1f);
+		CustomSoundLookUp._static = AFDManager.Ins.AddPlayerAFD("_static", AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("static.wav"), 0.6f);
+		CustomSoundLookUp.fool = AFDManager.Ins.AddPlayerAFD("fool", AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("fool.wav"), 1f);
+		CustomSoundLookUp.fool2 = AFDManager.Ins.AddPlayerAFD("fool2", AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("thefool2.wav"), 1f);
+		CustomSoundLookUp.fool3 = AFDManager.Ins.AddPlayerAFD("fool3", AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("thefool3.wav"), 1f);
+		CustomSoundLookUp.trolled = AFDManager.Ins.AddPlayerAFD("trolled", AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("trolled.wav"), 0.5f);
 		CustomSoundLookUp.hackermans = AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>("hackermans.wav");
+		AssetBundleManager.LoadDeepWebRadioSamples();
 	}
 
 	public static void PrepAssetBundles()
 	{
 		AssetDownloader.Init();
 		TitleManager.AddTextHook();
+	}
+
+	private static void LoadDeepWebRadioSamples()
+	{
+		for (int i = 1; i <= CustomRadioLookUp.tracks.Length; i++)
+		{
+			CustomRadioLookUp.tracks[i - 1] = AssetBundleManager.WTTG2PlusProps.LoadAsset<AudioClip>(i.ToString() + ".ogg");
+		}
 	}
 
 	public static bool loaded;

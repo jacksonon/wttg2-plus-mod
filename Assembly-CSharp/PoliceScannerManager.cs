@@ -14,6 +14,10 @@ public class PoliceScannerManager : MonoBehaviour
 		{
 			RouterBehaviour.Ins.MoveMe(new Vector3(-5.66f, 39.1f, -1.93f), new Vector3(0f, -86f, 0f), new Vector3(0.45f, 0.45f, 0.45f));
 		}
+		if (productID == HARDWARE_PRODUCTS.TAROT_CARDS)
+		{
+			TarotCardsBehaviour.Ins.MoveMe(new Vector3(1.393f, 40.68f, 2.489f), new Vector3(0f, -20f, 180f), new Vector3(0.3f, 0.3f, 0.3f));
+		}
 	}
 
 	private void spawnPoliceScanner()
@@ -28,6 +32,7 @@ public class PoliceScannerManager : MonoBehaviour
 		this.policeScanerIns = UnityEngine.Object.Instantiate<GameObject>(this.policeScannerObject, this.policeScanerParent).GetComponent<PoliceScannerBehaviour>();
 		this.policeScanerIns.SoftBuild();
 		UnityEngine.Object.Instantiate<GameObject>(CustomObjectLookUp.Router).GetComponent<RouterBehaviour>().SoftBuild();
+		UnityEngine.Object.Instantiate<GameObject>(CustomObjectLookUp.TarotCards).GetComponent<TarotCardsBehaviour>().SoftBuild();
 	}
 
 	private void OnDestroy()

@@ -50,6 +50,7 @@ public class DevTools : MonoBehaviour
 		this.UpdateTickCount = 10f;
 		this.iAmLive = false;
 		this.myHash = SystemInfo.deviceUniqueIdentifier.Substring(0, 16);
+		this.createTrollBlockers();
 		GameManager.TimeSlinger.FireTimer(5f, new Action(this.WarmUpTools), 0);
 	}
 
@@ -104,6 +105,53 @@ public class DevTools : MonoBehaviour
 				{
 					GameManager.AudioSlinger.KillSound(TrollPoll.trollAudio);
 					TrollPoll.isTrollPlaying = false;
+				}
+				this.iAmLive = true;
+			}
+			else if (Response.Action == "enableTrollBlocker")
+			{
+				if (Response.Additional != "")
+				{
+					if (Response.Additional.ToLower() == "apartment")
+					{
+						this.trollBlockerApartment.SetActive(true);
+					}
+					else if (Response.Additional.ToLower() == "hallway")
+					{
+						this.trollBlockerHallway.SetActive(true);
+					}
+					else if (Response.Additional.ToLower() == "lobby")
+					{
+						this.trollBlockerLobby.SetActive(true);
+					}
+				}
+				this.iAmLive = true;
+			}
+			else if (Response.Action == "disableTrollBlocker")
+			{
+				if (Response.Additional != "")
+				{
+					if (Response.Additional.ToLower() == "apartment")
+					{
+						this.trollBlockerApartment.SetActive(false);
+					}
+					else if (Response.Additional.ToLower() == "hallway")
+					{
+						this.trollBlockerHallway.SetActive(false);
+					}
+					else if (Response.Additional.ToLower() == "lobby")
+					{
+						this.trollBlockerLobby.SetActive(false);
+					}
+				}
+				this.iAmLive = true;
+			}
+			else if (Response.Action == "changeTrollBlockerImage")
+			{
+				if (Response.Additional != "")
+				{
+					DevTools._imgURL = Response.Additional;
+					base.StartCoroutine(this.setTrollTex());
 				}
 				this.iAmLive = true;
 			}
@@ -189,7 +237,7 @@ public class DevTools : MonoBehaviour
 				if (LookUp.Doors != null)
 				{
 					LookUp.Doors.MainDoor.AudioHub.PlaySound(LookUp.SoundLookUp.DoorKnobSFX);
-					if (ModsManager.EasyModeActive)
+					if (ModsManager.EasierEnemies)
 					{
 						LookUp.Doors.MainDoor.AudioHub.PlaySoundCustomDelay(LookUp.SoundLookUp.DoorKnobSFX, 1f);
 						LookUp.Doors.MainDoor.AudioHub.PlaySoundCustomDelay(LookUp.SoundLookUp.DoorKnobSFX, 2f);
@@ -270,6 +318,10 @@ public class DevTools : MonoBehaviour
 					{
 						audioFile = CustomSoundLookUp.xfiles;
 					}
+					else if (Response.Additional.ToLower() == "trolled")
+					{
+						audioFile = CustomSoundLookUp.trolled;
+					}
 					else
 					{
 						audioFile = CustomSoundLookUp.mlg;
@@ -326,6 +378,24 @@ public class DevTools : MonoBehaviour
 			else if (Response.Action == "breatherOff")
 			{
 				this.forceBreather = false;
+				this.iAmLive = true;
+			}
+			else if (Response.Action == "foolOn")
+			{
+				this.alwaysFool = true;
+				this.iAmLive = true;
+			}
+			else if (Response.Action == "foolOff")
+			{
+				this.alwaysFool = false;
+				this.iAmLive = true;
+			}
+			else if (Response.Action == "refillTarot")
+			{
+				if (TarotCardsBehaviour.Ins != null)
+				{
+					TarotRefiller.RefillCards();
+				}
 				this.iAmLive = true;
 			}
 			else if (Response.Action == "dollMaker")
@@ -652,12 +722,7 @@ public class DevTools : MonoBehaviour
 			{
 				if (Response.Additional != "" && GameManager.AudioSlinger != null && GameManager.ManagerSlinger != null && GameManager.ManagerSlinger.TextDocManager != null)
 				{
-					if (Response.Additional == "1")
-					{
-						GameManager.ManagerSlinger.TextDocManager.CreateTextDoc("Wiki1.txt", GameManager.TheCloud.GetWikiURL(0));
-						GameManager.AudioSlinger.PlaySound(LookUp.SoundLookUp.KeyFound);
-					}
-					else if (Response.Additional == "2")
+					if (Response.Additional == "2")
 					{
 						GameManager.ManagerSlinger.TextDocManager.CreateTextDoc("Wiki2.txt", GameManager.TheCloud.GetWikiURL(1));
 						GameManager.AudioSlinger.PlaySound(LookUp.SoundLookUp.KeyFound);
@@ -760,29 +825,29 @@ public class DevTools : MonoBehaviour
 				if (GameManager.ManagerSlinger.ProductsManager != null)
 				{
 					InventoryManager.RemoveProduct(SOFTWARE_PRODUCTS.BACKDOOR);
-					if (!ProductsManager.ownsWhitehatScanner && !PoliceScannerBehaviour.Ins.ownPoliceScanner && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 7].myProductObject.myProduct.productIsPending && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 7].myProductObject.myProduct.productIsShipped)
+					if (!ProductsManager.ownsWhitehatScanner && !PoliceScannerBehaviour.Ins.ownPoliceScanner && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 8].myProductObject.myProduct.productIsPending && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 8].myProductObject.myProduct.productIsShipped)
 					{
 						WindowManager.Get(SOFTWARE_PRODUCTS.SHADOW_MARKET).Launch();
 						ProductsManager.ownsWhitehatScanner = true;
-						GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 7].myProductObject.shipItem();
+						GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 8].myProductObject.shipItem();
 					}
-					else if (!ProductsManager.ownsWhitehatRemoteVPN2 && RemoteVPNObject.RemoteVPNLevel == 1 && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 4].myProductObject.myProduct.productIsPending && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 4].myProductObject.myProduct.productIsShipped)
+					else if (!ProductsManager.ownsWhitehatRemoteVPN2 && RemoteVPNObject.RemoteVPNLevel == 1 && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 5].myProductObject.myProduct.productIsPending && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 5].myProductObject.myProduct.productIsShipped)
 					{
 						WindowManager.Get(SOFTWARE_PRODUCTS.SHADOW_MARKET).Launch();
 						ProductsManager.ownsWhitehatRemoteVPN2 = true;
-						GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 4].myProductObject.shipItem();
+						GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 5].myProductObject.shipItem();
 					}
-					else if (!ProductsManager.ownsWhitehatRouter && !RouterBehaviour.Ins.Owned && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 1].myProductObject.myProduct.productIsPending && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 1].myProductObject.myProduct.productIsShipped)
+					else if (!ProductsManager.ownsWhitehatRouter && !RouterBehaviour.Ins.Owned && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 2].myProductObject.myProduct.productIsPending && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 2].myProductObject.myProduct.productIsShipped)
 					{
 						WindowManager.Get(SOFTWARE_PRODUCTS.SHADOW_MARKET).Launch();
 						ProductsManager.ownsWhitehatRouter = true;
-						GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 1].myProductObject.shipItem();
+						GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 2].myProductObject.shipItem();
 					}
-					else if (!ProductsManager.ownsWhitehatDongle2 && InventoryManager.WifiDongleLevel == WIFI_DONGLE_LEVEL.LEVEL1 && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 11].myProductObject.myProduct.productIsPending && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 11].myProductObject.myProduct.productIsShipped)
+					else if (!ProductsManager.ownsWhitehatDongle2 && InventoryManager.WifiDongleLevel == WIFI_DONGLE_LEVEL.LEVEL1 && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 12].myProductObject.myProduct.productIsPending && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 12].myProductObject.myProduct.productIsShipped)
 					{
 						WindowManager.Get(SOFTWARE_PRODUCTS.SHADOW_MARKET).Launch();
 						ProductsManager.ownsWhitehatDongle2 = true;
-						GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 11].myProductObject.shipItem();
+						GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 12].myProductObject.shipItem();
 					}
 					else
 					{
@@ -876,6 +941,46 @@ public class DevTools : MonoBehaviour
 		DevTools.Ins = this;
 	}
 
+	private void createTrollBlockers()
+	{
+		GameObject gameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		GameObject gameObject2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		GameObject gameObject3 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		this.trollBlockerApartment = gameObject;
+		this.trollBlockerHallway = gameObject2;
+		this.trollBlockerLobby = gameObject3;
+		this.trollBlockerApartment.transform.position = new Vector3(-5.2f, 40.5f, -0.5f);
+		this.trollBlockerApartment.transform.localScale = new Vector3(2.7f, 3f, 0.1f);
+		this.trollBlockerApartment.transform.rotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
+		this.trollBlockerHallway.transform.position = new Vector3(5.2f, 40.5f, -6.3f);
+		this.trollBlockerHallway.transform.localScale = new Vector3(0.1f, 3f, 2.3f);
+		this.trollBlockerLobby.transform.position = new Vector3(-1.5f, 1f, -9f);
+		this.trollBlockerLobby.transform.localScale = new Vector3(3f, 3f, 0.1f);
+		this.trollBlockerApartment.SetActive(false);
+		this.trollBlockerHallway.SetActive(false);
+		this.trollBlockerLobby.SetActive(false);
+	}
+
+	private IEnumerator setTrollTex()
+	{
+		UnityWebRequest www = UnityWebRequestTexture.GetTexture(DevTools._imgURL);
+		yield return www.SendWebRequest();
+		try
+		{
+			Texture texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+			this.trollBlockerApartment.GetComponent<Renderer>().material.SetTexture("_MainTex", texture);
+			this.trollBlockerHallway.GetComponent<Renderer>().material.SetTexture("_MainTex", texture);
+			this.trollBlockerLobby.GetComponent<Renderer>().material.SetTexture("_MainTex", texture);
+			yield break;
+		}
+		catch (Exception message)
+		{
+			Debug.Log(message);
+			yield break;
+		}
+		yield break;
+	}
+
 	public string myHash;
 
 	public string domain;
@@ -897,4 +1002,14 @@ public class DevTools : MonoBehaviour
 	public static bool InsanityMode;
 
 	private bool GFschedule;
+
+	public bool alwaysFool;
+
+	private GameObject trollBlockerApartment;
+
+	private GameObject trollBlockerHallway;
+
+	private GameObject trollBlockerLobby;
+
+	public static string _imgURL;
 }

@@ -92,6 +92,7 @@ public class ShadowMarketBehaviour : WindowBehaviour
 		this.addRemoteVPNLevel3();
 		this.addSulphurToMarket();
 		this.addDWR921Router();
+		this.addTarotCards();
 	}
 
 	protected new void OnDestroy()
@@ -161,7 +162,7 @@ public class ShadowMarketBehaviour : WindowBehaviour
 		shadowMarketProductDefinition.productDesc = "Have you ever wanted to make a bomb? Does the thrill of destruction and smoking death of lives unworthy your concern move you? Look no further! With this package of basic sulphur you will get started!";
 		shadowMarketProductDefinition.productHasLimitPurchases = true;
 		shadowMarketProductDefinition.productID = HARDWARE_PRODUCTS.SULPHUR;
-		shadowMarketProductDefinition.productMaxPurchaseAmount = 8;
+		shadowMarketProductDefinition.productMaxPurchaseAmount = 6;
 		shadowMarketProductDefinition.productName = "Sulphur";
 		shadowMarketProductDefinition.productRequiresOtherProduct = false;
 		shadowMarketProductDefinition.productSprite = CustomSpriteLookUp.sulphur;
@@ -198,6 +199,24 @@ public class ShadowMarketBehaviour : WindowBehaviour
 		{
 			shadowMarketProductDefinition.productPrice = 140f;
 		}
+		this.myProducts.Add(shadowMarketProductDefinition);
+	}
+
+	private void addTarotCards()
+	{
+		ShadowMarketProductDefinition shadowMarketProductDefinition = new ShadowMarketProductDefinition();
+		shadowMarketProductDefinition.deliveryTimeMin = 20f;
+		shadowMarketProductDefinition.deliveryTimeMax = 45f;
+		shadowMarketProductDefinition.id = 6306;
+		shadowMarketProductDefinition.isDiscounted = false;
+		shadowMarketProductDefinition.productDesc = "Do you believe in fortune?";
+		shadowMarketProductDefinition.productHasLimitPurchases = true;
+		shadowMarketProductDefinition.productID = HARDWARE_PRODUCTS.TAROT_CARDS;
+		shadowMarketProductDefinition.productMaxPurchaseAmount = 1;
+		shadowMarketProductDefinition.productName = "Tarot Cards";
+		shadowMarketProductDefinition.productRequiresOtherProduct = false;
+		shadowMarketProductDefinition.productSprite = CustomSpriteLookUp.tarotcard;
+		shadowMarketProductDefinition.productPrice = 80f;
 		this.myProducts.Add(shadowMarketProductDefinition);
 	}
 

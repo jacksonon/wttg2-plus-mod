@@ -99,7 +99,7 @@ public static class AssetDownloader
 
 	private static readonly long[] _size = new long[]
 	{
-		142692836L,
-		280756713L
+		250815671L,
+		284103065L
 	};
 }

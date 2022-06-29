@@ -107,7 +107,7 @@ public class TheCloud : MonoBehaviour
 						returnURL = "localGame://" + this.Websites[index2].DocumentRoot + "/" + this.Websites[index2].HomePage.FileName;
 						this.curWebPageDef = this.Websites[index2].HomePage;
 					}
-					if (this.Websites[index2].HasWindow && !ModsManager.EasyModeActive)
+					if (this.Websites[index2].HasWindow && !ModsManager.AlwaysOpenSites)
 					{
 						bool flag = true;
 						switch (this.Websites[index2].WindowTime)
@@ -438,7 +438,7 @@ public class TheCloud : MonoBehaviour
 					while (!flag)
 					{
 						int index = UnityEngine.Random.Range(0, list.Count);
-						if (!list[index].WikiSpecific && (!list[index].HasWindow || ModsManager.EasyModeActive))
+						if (!list[index].WikiSpecific && (!list[index].HasWindow || ModsManager.AlwaysOpenSites))
 						{
 							list[index].HoldsSecondWikiLink = true;
 							this.myWikiSiteData.PickedSiteToHoldSecondWiki = list[index].PageTitle.GetHashCode();
@@ -460,7 +460,7 @@ public class TheCloud : MonoBehaviour
 						num2++;
 					}
 				}
-				for (int num3 = 0; num3 < 10; num3++)
+				for (int num3 = 0; num3 < (ModsManager.AlwaysOpenSites ? 2 : 10); num3++)
 				{
 					int index3 = UnityEngine.Random.Range(0, list2.Count);
 					dictionary.Add(list2[index3], this.Websites[list2[index3]].PageTitle);
@@ -505,7 +505,8 @@ public class TheCloud : MonoBehaviour
 		{
 			if (this.Websites[i].PageTitle == "Chosen Awake")
 			{
-				this.Websites[i].PageDesc = "How would you tell the world?";
+				this.Websites[i].PageTitle = "Chopper";
+				this.Websites[i].PageDesc = "Best tutorials for human meat cooking on the Deep Web.";
 			}
 			if (this.Websites[i].PageTitle == "Illumanti")
 			{
@@ -521,6 +522,13 @@ public class TheCloud : MonoBehaviour
 			{
 				this.Websites[i].WikiSpecific = true;
 				this.Websites[i].WikiIndex = 2;
+			}
+			if (this.Websites[i].PageTitle == "Forgive Me")
+			{
+				this.Websites[i].WikiSpecific = true;
+				this.Websites[i].WikiIndex = 0;
+				this.Websites[i].isStatic = true;
+				this.Websites[i].PageURL = "forgiver4i838pl22t4yk1np3confess";
 			}
 		}
 		new WebsiteExtension().ExtendWebsites(this.Websites);
@@ -635,6 +643,7 @@ public class TheCloud : MonoBehaviour
 					if (!webSiteDefinition.isFake && !webSiteDefinition.DoNotTap && !webSiteDefinition.IsTapped)
 					{
 						webSiteDefinition.IsTapped = true;
+						this.websitesToTap = this.websitesToTap + webSiteDefinition.PageTitle + ":";
 						this.myWebSitesData.Sites[list2[index]].IsTapped = true;
 						int index2 = UnityEngine.Random.Range(0, list.Count);
 						string text = list[index2];
@@ -691,6 +700,7 @@ public class TheCloud : MonoBehaviour
 					if (!webSiteDefinition2.isFake && !webSiteDefinition2.DoNotTap && !webSiteDefinition2.IsTapped)
 					{
 						webSiteDefinition2.IsTapped = true;
+						this.websitesToTap = this.websitesToTap + webSiteDefinition2.PageTitle + ":";
 						this.myWebSitesData.Sites[index3].IsTapped = true;
 						int index4 = UnityEngine.Random.Range(0, list.Count);
 						string text2 = list[index4];
@@ -784,7 +794,7 @@ public class TheCloud : MonoBehaviour
 		if (!TheCloud.vpnFIX)
 		{
 			GameManager.ManagerSlinger.ProductsManager.ZeroDayProducts[6].isDiscounted = false;
-			GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 6].deliveryTimeMax = GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 6].deliveryTimeMin;
+			GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 7].deliveryTimeMax = GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 7].deliveryTimeMin;
 			TheCloud.vpnFIX = true;
 		}
 		GameManager.ManagerSlinger.ProductsManager.ZeroDayProducts[2].productToOwn = GameManager.ManagerSlinger.ProductsManager.ZeroDayProducts[1];
@@ -927,6 +937,12 @@ public class TheCloud : MonoBehaviour
 		WorldManager.LucasSpawnedToKill = false;
 		ModsManager.Nightmare = false;
 		SulphurInventory.SulphurAmount = 0;
+		TarotCardsBehaviour.Owned = false;
+		TarotManager.HermitActive = false;
+		TarotManager.DizzyActive = false;
+		TarotManager.BreatherUndertaker = false;
+		TarotManager.TimeController = 30;
+		TarotManager.CurSpeed = playerSpeedMode.NORMAL;
 		Debug.Log("TheCloud is disabled.");
 	}
 
@@ -1053,7 +1069,7 @@ public class TheCloud : MonoBehaviour
 			gameObject.transform.localScale = new Vector3(20f, 11f, 1f);
 		}
 		gameObject.SetActive(true);
-		GameManager.AudioSlinger.PlaySound(CustomSoundLookUp.gflaugh);
+		GameManager.AudioSlinger.PlaySoundWithWildPitch(CustomSoundLookUp.gflaugh, 0.77f, 1.22f);
 		GameManager.TimeSlinger.FireTimer(0.85f, delegate()
 		{
 			UnityEngine.Object.Destroy(gameObject);
@@ -1120,8 +1136,33 @@ public class TheCloud : MonoBehaviour
 		GameManager.TimeSlinger.FireTimer(5f, delegate()
 		{
 			new GameObject("DancingLoader").AddComponent<DancingLoader>();
+			if (ModsManager.DebugEnabled)
+			{
+				CurrencyManager.AddCurrency(910f);
+				KeyPoll.DevEnableManipulator(KEY_CUE_MODE.ENABLED);
+				SpeedPoll.DevEnableManipulator(TWITCH_NET_SPEED.FAST);
+				GameManager.ManagerSlinger.TextDocManager.CreateTextDoc("Wiki2.txt", GameManager.TheCloud.GetWikiURL(1));
+				GameManager.ManagerSlinger.TextDocManager.CreateTextDoc("Wiki3.txt", GameManager.TheCloud.GetWikiURL(2));
+				GameManager.ManagerSlinger.TextDocManager.CreateTextDoc("keys.txt", string.Concat(new object[]
+				{
+					"- " + TarotManager.tappedSites[0] + "\n",
+					"- " + TarotManager.tappedSites[1] + "\n",
+					"- " + TarotManager.tappedSites[2] + "\n",
+					"- " + TarotManager.tappedSites[3] + "\n",
+					"- " + TarotManager.tappedSites[4] + "\n",
+					"- " + TarotManager.tappedSites[5] + "\n",
+					"- " + TarotManager.tappedSites[6] + "\n",
+					"- " + TarotManager.tappedSites[7]
+				}));
+			}
 		}, 0);
 		new GameObject("BombMakerManager").AddComponent<BombMakerManager>();
+		new GameObject("TarotManager").AddComponent<TarotManager>();
+		new GameObject("DeepWebRadioManager").AddComponent<DeepWebRadioManager>();
+		TarotManager.tappedSites = this.websitesToTap.Split(new char[]
+		{
+			':'
+		});
 	}
 
 	public bool IsGFActive
@@ -1199,4 +1240,6 @@ public class TheCloud : MonoBehaviour
 	public GameObject dancingNoir;
 
 	public bool dancingNoirSpawned;
+
+	public string websitesToTap;
 }

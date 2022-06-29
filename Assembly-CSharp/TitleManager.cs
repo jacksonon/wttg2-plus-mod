@@ -32,7 +32,6 @@ public class TitleManager : MonoBehaviour
 
 	public void DismissTitle()
 	{
-		this.ShowModMenu();
 		DOTween.To(() => this.blackScreen.alpha, delegate(float x)
 		{
 			this.blackScreen.alpha = x;
@@ -111,14 +110,17 @@ public class TitleManager : MonoBehaviour
 		gameObject.GetComponent<TextMeshProUGUI>().text = "WTTG2+ Mod by nasko222 [v" + ModsManager.ModVersion + "]";
 		gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(225f, 40f);
 		gameObject.transform.SetParent(transform2);
-		OptionsUtil.BuildOptionsButton("Twitch Integration:", "[MOD]TTVInt", 1, 50f, null, null);
+		OptionsUtil.BuildOptionsButton("DevTools:", "[MOD]DevTools", 1, 50f, null, null);
 		OptionsUtil.BuildOptionsButton("Memes and Music:", "[MOD]TrolloPollo", 1, 100f, null, null);
-		OptionsUtil.BuildOptionsButton("DevTools:", "[MOD]DevTools", 1, 150f, null, null);
-		OptionsUtil.BuildOptionsButton("Easy Mode:", "[MOD]EasyMode", 0, 200f, null, null);
+		OptionsUtil.BuildOptionsButton("Twitch Integration:", "[MOD]TTVInt", 0, 150f, null, null);
+		OptionsUtil.BuildOptionsButton("Debug Mode           (EXPERTS ONLY):", "[MOD]Debugging", 0, 350f, null, null);
 		OptionsUtil.BuildOptionsButton2("Show God Spot:", "[MOD]GODSpot", 0, 50f, null, null);
-		OptionsUtil.BuildOptionsButton2("Unlimited Stamina:", "[MOD]UnlimitedStamina", 0, 100f, null, null);
+		OptionsUtil.BuildOptionsButton2("Easier Enemies:", "[MOD]EasierEnemies", 0, 100f, null, null);
 		OptionsUtil.BuildOptionsButton2("Probe/Inject Skip:", "[MOD]SkybreakGlitch", 0, 150f, null, null);
-		OptionsUtil.BuildOptionsButton2("No Swan Parameter:", "[MOD]AntiSwanParameters", 0, 200f, null, null);
+		OptionsUtil.BuildOptionsButton2("Cheaper Economy:", "[MOD]EasyMode", 0, 200f, null, null);
+		OptionsUtil.BuildOptionsButton2("Unlimited Stamina:", "[MOD]UnlimitedStamina", 0, 250f, null, null);
+		OptionsUtil.BuildOptionsButton2("Always Open Websites:", "[MOD]AlwaysOpenSites", 0, 300f, null, null);
+		OptionsUtil.BuildOptionsButton2("No Fake Scanner Alerts:", "[MOD]PoliceScannerMod", 0, 350f, null, null);
 	}
 
 	private void ShowModMenu()
@@ -256,6 +258,10 @@ public class TitleManager : MonoBehaviour
 		yield return new WaitForSeconds(1f);
 		AssetBundleManager.LoadAssetBundles();
 		yield break;
+	}
+
+	private void DebugWarning()
+	{
 	}
 
 	public CustomEvent TitleStaging = new CustomEvent(5);
