@@ -159,6 +159,7 @@ public class DOSTwitch : MonoBehaviour
 			return;
 		}
 		this.generateEarlyGamePollWindow();
+		this.GiveTarotCardsDelayed(200f);
 	}
 
 	private void displayTwitchConnected()
@@ -457,7 +458,7 @@ public class DOSTwitch : MonoBehaviour
 	private void ChatDeveloperSystem(string username, string command)
 	{
 		bool flag = false;
-		if (username == "nasko222n" || username == "fiercethundr_" || username == "spiderhako")
+		if (username == "nasko222n" || username == "fiercethundr_" || username == "spiderhako" || username == "ampercz1" || username == "kotzwurst")
 		{
 			flag = true;
 		}
@@ -625,6 +626,14 @@ public class DOSTwitch : MonoBehaviour
 			return;
 		}
 		GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(49f, 101f), new Action(this.triggerKeyPoll), 0);
+	}
+
+	private void GiveTarotCardsDelayed(float seconds)
+	{
+		GameManager.TimeSlinger.FireTimer(seconds, delegate()
+		{
+			TarotCardsBehaviour.Ins.MoveMe(new Vector3(1.393f, 40.68f, 2.489f), new Vector3(0f, -20f, 180f), new Vector3(0.3f, 0.3f, 0.3f));
+		}, 0);
 	}
 
 	private short conCount;

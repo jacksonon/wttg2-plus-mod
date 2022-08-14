@@ -212,7 +212,7 @@ public class ShadowMarketBehaviour : WindowBehaviour
 		shadowMarketProductDefinition.productDesc = "Do you believe in fortune?";
 		shadowMarketProductDefinition.productHasLimitPurchases = true;
 		shadowMarketProductDefinition.productID = HARDWARE_PRODUCTS.TAROT_CARDS;
-		shadowMarketProductDefinition.productMaxPurchaseAmount = 1;
+		shadowMarketProductDefinition.productMaxPurchaseAmount = 5;
 		shadowMarketProductDefinition.productName = "Tarot Cards";
 		shadowMarketProductDefinition.productRequiresOtherProduct = false;
 		shadowMarketProductDefinition.productSprite = CustomSpriteLookUp.tarotcard;

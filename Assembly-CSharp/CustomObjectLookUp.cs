@@ -16,4 +16,6 @@ public static class CustomObjectLookUp
 	public static GameObject BombMakerPresence;
 
 	public static GameObject TarotCards;
+
+	public static GameObject Endo;
 }

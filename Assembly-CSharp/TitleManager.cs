@@ -113,7 +113,6 @@ public class TitleManager : MonoBehaviour
 		OptionsUtil.BuildOptionsButton("DevTools:", "[MOD]DevTools", 1, 50f, null, null);
 		OptionsUtil.BuildOptionsButton("Memes and Music:", "[MOD]TrolloPollo", 1, 100f, null, null);
 		OptionsUtil.BuildOptionsButton("Twitch Integration:", "[MOD]TTVInt", 0, 150f, null, null);
-		OptionsUtil.BuildOptionsButton("Debug Mode           (EXPERTS ONLY):", "[MOD]Debugging", 0, 350f, null, null);
 		OptionsUtil.BuildOptionsButton2("Show God Spot:", "[MOD]GODSpot", 0, 50f, null, null);
 		OptionsUtil.BuildOptionsButton2("Easier Enemies:", "[MOD]EasierEnemies", 0, 100f, null, null);
 		OptionsUtil.BuildOptionsButton2("Probe/Inject Skip:", "[MOD]SkybreakGlitch", 0, 150f, null, null);

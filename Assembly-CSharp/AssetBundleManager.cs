@@ -37,6 +37,7 @@ public static class AssetBundleManager
 		CustomObjectLookUp.PackageBox = AssetBundleManager.WTTG2PlusProps.LoadAsset<GameObject>("PackageBox.prefab");
 		CustomObjectLookUp.Router = AssetBundleManager.WTTG2PlusProps.LoadAsset<GameObject>("Router.prefab");
 		CustomObjectLookUp.TarotCards = AssetBundleManager.WTTG2PlusProps.LoadAsset<GameObject>("TarotCards.prefab");
+		CustomObjectLookUp.Endo = AssetBundleManager.WTTG2PlusProps.LoadAsset<GameObject>("Endo.prefab");
 	}
 
 	public static void ProceedLoadingSprites()

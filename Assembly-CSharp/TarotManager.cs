@@ -289,6 +289,41 @@ public class TarotManager : MonoBehaviour
 		case TAROT_CARDS.THE_DEAD:
 			EnemyManager.CultManager.triggerCloseJump();
 			return;
+		case TAROT_CARDS.THE_CALLER:
+			EnemyManager.HitManManager.stageHitmanPatrol();
+			return;
+		case TAROT_CARDS.THE_INVISIBLE:
+			BreatherManager.InvisiblePerson = true;
+			return;
+		case TAROT_CARDS.THE_PROSPERITY:
+			GameManager.ManagerSlinger.WifiManager.DisconnectFromWifi();
+			EnemyManager.PoliceManager.hotNetworks.Clear();
+			return;
+		case TAROT_CARDS.THE_DENIAL:
+			GameManager.HackerManager.ForceTwitchHack();
+			CurrencyManager.AddCurrency(UnityEngine.Random.Range(33.37f, 133.7f));
+			InventoryManager.RemoveProduct(SOFTWARE_PRODUCTS.BACKDOOR);
+			return;
+		case TAROT_CARDS.THE_OUTLAW:
+			EnemyManager.State = ENEMY_STATE.LOCKED;
+			EnvironmentManager.PowerBehaviour.LockedOut = true;
+			GameManager.TimeSlinger.FireTimer(1800f, new Action(this.RemoveOutlaw), 0);
+			return;
+		case TAROT_CARDS.THE_EMPRESS:
+			GameManager.TimeSlinger.FireTimer(2f, new Action(EnemyManager.DollMakerManager.ForceMarker), 0);
+			GameManager.TimeSlinger.FireTimer(2f, new Action(EnemyManager.DollMakerManager.ThrowAllTenants), 0);
+			GameManager.TimeSlinger.FireTimer(2f, new Action(EnemyManager.BombMakerManager.ReleaseTheBombMakerInstantly), 0);
+			WindowManager.Get(SOFTWARE_PRODUCTS.SHADOW_MARKET).Launch();
+			GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 3].myProductObject.shipItem();
+			GameManager.TheCloud.ForceKeyDiscover();
+			GameManager.TheCloud.ForceKeyDiscover();
+			GameManager.TheCloud.ForceKeyDiscover();
+			GameManager.TheCloud.ForceKeyDiscover();
+			GameManager.TheCloud.ForceKeyDiscover();
+			GameManager.TheCloud.ForceKeyDiscover();
+			GameManager.TheCloud.ForceKeyDiscover();
+			GameManager.TheCloud.ForceKeyDiscover();
+			return;
 		default:
 			return;
 		}
@@ -305,6 +340,12 @@ public class TarotManager : MonoBehaviour
 		{
 			this.HermitTrap();
 		}
+	}
+
+	private void RemoveOutlaw()
+	{
+		EnemyManager.State = ENEMY_STATE.IDLE;
+		EnvironmentManager.PowerBehaviour.LockedOut = false;
 	}
 
 	public static bool HermitActive;

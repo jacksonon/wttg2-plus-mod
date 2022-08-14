@@ -22,6 +22,11 @@ public class BreatherManager : MonoBehaviour
 			}
 			else
 			{
+				if (BreatherManager.InvisiblePerson)
+				{
+					BreatherManager.InvisiblePerson = false;
+					return;
+				}
 				int num = UnityEngine.Random.Range(0, 100);
 				if (ModsManager.UnlimitedStamina)
 				{
@@ -443,4 +448,6 @@ public class BreatherManager : MonoBehaviour
 	private bool breatherIsActive;
 
 	private bool firstProductWasPickedUp;
+
+	public static bool InvisiblePerson;
 }

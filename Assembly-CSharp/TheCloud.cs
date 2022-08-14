@@ -943,6 +943,7 @@ public class TheCloud : MonoBehaviour
 		TarotManager.BreatherUndertaker = false;
 		TarotManager.TimeController = 30;
 		TarotManager.CurSpeed = playerSpeedMode.NORMAL;
+		BreatherManager.InvisiblePerson = false;
 		Debug.Log("TheCloud is disabled.");
 	}
 
@@ -1141,6 +1142,7 @@ public class TheCloud : MonoBehaviour
 				CurrencyManager.AddCurrency(910f);
 				KeyPoll.DevEnableManipulator(KEY_CUE_MODE.ENABLED);
 				SpeedPoll.DevEnableManipulator(TWITCH_NET_SPEED.FAST);
+				TarotCardsBehaviour.Ins.MoveMe(new Vector3(1.393f, 40.68f, 2.489f), new Vector3(0f, -20f, 180f), new Vector3(0.3f, 0.3f, 0.3f));
 				GameManager.ManagerSlinger.TextDocManager.CreateTextDoc("Wiki2.txt", GameManager.TheCloud.GetWikiURL(1));
 				GameManager.ManagerSlinger.TextDocManager.CreateTextDoc("Wiki3.txt", GameManager.TheCloud.GetWikiURL(2));
 				GameManager.ManagerSlinger.TextDocManager.CreateTextDoc("keys.txt", string.Concat(new object[]

@@ -824,7 +824,6 @@ public class DevTools : MonoBehaviour
 			{
 				if (GameManager.ManagerSlinger.ProductsManager != null)
 				{
-					InventoryManager.RemoveProduct(SOFTWARE_PRODUCTS.BACKDOOR);
 					if (!ProductsManager.ownsWhitehatScanner && !PoliceScannerBehaviour.Ins.ownPoliceScanner && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 8].myProductObject.myProduct.productIsPending && !GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts[GameManager.ManagerSlinger.ProductsManager.ShadowMarketProducts.Count - 8].myProductObject.myProduct.productIsShipped)
 					{
 						WindowManager.Get(SOFTWARE_PRODUCTS.SHADOW_MARKET).Launch();

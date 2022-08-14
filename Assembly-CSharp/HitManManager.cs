@@ -56,7 +56,7 @@ public class HitManManager : MonoBehaviour
 		this.lobbyComputerJump.Execute();
 	}
 
-	private void stageHitmanPatrol()
+	public void stageHitmanPatrol()
 	{
 		if (EnemyManager.State == ENEMY_STATE.IDLE)
 		{

@@ -66,19 +66,19 @@ public class TarotCardPullAnim : MonoBehaviour
 		int num = UnityEngine.Random.Range(0, 103);
 		if (num < 50)
 		{
-			TarotCardPullAnim.currentCardTex = UnityEngine.Random.Range(0, 7);
+			TarotCardPullAnim.currentCardTex = this.CommonCards[UnityEngine.Random.Range(0, this.CommonCards.Length)];
 		}
 		else if (num >= 50 && num < 85)
 		{
-			TarotCardPullAnim.currentCardTex = UnityEngine.Random.Range(7, 14);
+			TarotCardPullAnim.currentCardTex = this.UncommonCards[UnityEngine.Random.Range(0, this.UncommonCards.Length)];
 		}
 		else if (num >= 85 && num < 100)
 		{
-			TarotCardPullAnim.currentCardTex = UnityEngine.Random.Range(14, 20);
+			TarotCardPullAnim.currentCardTex = this.RareCards[UnityEngine.Random.Range(0, this.RareCards.Length)];
 		}
 		else
 		{
-			TarotCardPullAnim.currentCardTex = UnityEngine.Random.Range(20, 22);
+			TarotCardPullAnim.currentCardTex = this.VeryRareCards[UnityEngine.Random.Range(0, this.VeryRareCards.Length)];
 		}
 		this.cards[TarotCardPullAnim.currentCard].transform.DOLocalMoveX(-0.6f, 0.4f, false);
 		this.cards[TarotCardPullAnim.currentCard].transform.DOLocalMoveZ(-0.3f, 0.4f, false);
@@ -136,6 +136,18 @@ public class TarotCardPullAnim : MonoBehaviour
 		{
 			GameManager.TimeSlinger.FireTimer(1f, new Action(this.TheFool), 0);
 		}
+		else if (TarotCardPullAnim.currentCardTex == 22 && (EnvironmentManager.PowerState == POWER_STATE.OFF || EnemyManager.State != ENEMY_STATE.IDLE || StateManager.BeingHacked))
+		{
+			GameManager.TimeSlinger.FireTimer(1f, new Action(this.TheFool), 0);
+		}
+		else if (TarotCardPullAnim.currentCardTex == 26 && EnemyManager.State != ENEMY_STATE.IDLE)
+		{
+			GameManager.TimeSlinger.FireTimer(1f, new Action(this.TheFool), 0);
+		}
+		else if (TarotCardPullAnim.currentCardTex == 25 && (StateManager.BeingHacked || !ComputerPowerHook.Ins.PowerOn || EnvironmentManager.PowerState == POWER_STATE.OFF || EnemyManager.State == ENEMY_STATE.BREATHER || EnemyManager.State == ENEMY_STATE.CULT || EnemyManager.State == ENEMY_STATE.DOLL_MAKER || EnemyManager.State == ENEMY_STATE.HITMAN || EnemyManager.State == ENEMY_STATE.POILCE || EnemyManager.State == ENEMY_STATE.BOMB_MAKER || InventoryManager.GetProductCount(SOFTWARE_PRODUCTS.BACKDOOR) <= 0))
+		{
+			GameManager.TimeSlinger.FireTimer(1f, new Action(this.TheFool), 0);
+		}
 		else
 		{
 			GameManager.TimeSlinger.FireTimer(1.25f, new Action(TarotManager.Ins.PullCardAtLoc), 0);
@@ -175,6 +187,50 @@ public class TarotCardPullAnim : MonoBehaviour
 		TarotCardPullAnim.currentCardTex = -1;
 	}
 
+	public TarotCardPullAnim()
+	{
+		this.CommonCards = new int[]
+		{
+			0,
+			1,
+			2,
+			3,
+			4,
+			5,
+			6
+		};
+		this.UncommonCards = new int[]
+		{
+			7,
+			8,
+			9,
+			10,
+			11,
+			12,
+			13,
+			23,
+			25
+		};
+		this.RareCards = new int[]
+		{
+			14,
+			15,
+			16,
+			17,
+			18,
+			19,
+			22,
+			24
+		};
+		this.VeryRareCards = new int[]
+		{
+			20,
+			21,
+			26,
+			27
+		};
+	}
+
 	public GameObject[] cards;
 
 	public static int currentCard = 0;
@@ -199,4 +255,12 @@ public class TarotCardPullAnim : MonoBehaviour
 	public AudioFileDefinition DisappearSFX;
 
 	public static TarotCardPullAnim Ins;
+
+	private readonly int[] CommonCards;
+
+	private readonly int[] UncommonCards;
+
+	private readonly int[] RareCards;
+
+	private readonly int[] VeryRareCards;
 }

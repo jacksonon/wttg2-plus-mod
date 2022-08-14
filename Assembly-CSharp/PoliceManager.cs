@@ -666,7 +666,7 @@ public class PoliceManager : MonoBehaviour
 
 	private WifiNetworkDefinition currentActiveWifiNetwork;
 
-	private Dictionary<WifiNetworkDefinition, HotWifiNetwork> hotNetworks = new Dictionary<WifiNetworkDefinition, HotWifiNetwork>(10);
+	public Dictionary<WifiNetworkDefinition, HotWifiNetwork> hotNetworks = new Dictionary<WifiNetworkDefinition, HotWifiNetwork>(10);
 
 	private Queue<WifiNetworkDefinition> hotNetworksToRemove = new Queue<WifiNetworkDefinition>(10);
 
