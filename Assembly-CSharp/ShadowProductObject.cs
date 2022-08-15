@@ -55,6 +55,11 @@ public class ShadowProductObject : MonoBehaviour
 		{
 			this.productsBTN.SetToDisabled();
 		}
+		if (ModsManager.DOSTwitchActive && this.myProduct.productName == "Tarot Cards")
+		{
+			this.productsBTN.SetToDisabled();
+			Debug.Log("Disabled Tarot Cards (because DOSTwitch) - quick patch");
+		}
 		this.productsBTN.BuyItem += this.buyItem;
 		this.productsBTN.CantBuy += this.cantBuyItem;
 		this.productsBTN.ShipItem += this.shipItem;

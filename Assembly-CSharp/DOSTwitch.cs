@@ -48,6 +48,12 @@ public class DOSTwitch : MonoBehaviour
 		{
 			this.keyPollWindowActive = false;
 			this.triggerKeyPoll();
+			this.generateTarotPollWindow();
+		}
+		if (this.tarotPollWindowActive && Time.time - this.tarotPollTimeStamp >= this.tarotPollTimeWindow)
+		{
+			this.tarotPollWindowActive = false;
+			this.triggerTarotPoll();
 			this.generateVirusPollWindow();
 		}
 		if (this.VirusPollWindowActive && Time.time - this.VirusPollTimeStamp >= this.VirusPollTimeWindow)
@@ -96,6 +102,8 @@ public class DOSTwitch : MonoBehaviour
 		this.speedPollMaxWindow = 240f;
 		this.keyPollMinWindow = 120f;
 		this.keyPollMaxWindow = 240f;
+		this.tarotPollMinWindow = 180f;
+		this.tarotPollMaxWindow = 300f;
 	}
 
 	private void prepDOSTwitch()
@@ -146,6 +154,8 @@ public class DOSTwitch : MonoBehaviour
 		this.myDiscountPoll.myDOSTwitch = this;
 		this.myKeyPoll = new KeyPoll();
 		this.myKeyPoll.myDOSTwitch = this;
+		this.myTarotPoll = new TarotPoll();
+		this.myTarotPoll.myDOSTwitch = this;
 		if (!this.myTwitchIRC.isConnected)
 		{
 			GameManager.TimeSlinger.FireTimer(30f, new Action(this.checkCon), 0);
@@ -188,6 +198,7 @@ public class DOSTwitch : MonoBehaviour
 			}, StringSplitOptions.None);
 			string text = array2[0].Replace(":", string.Empty);
 			string text2 = array3[1];
+			string command = text2;
 			text2 = text2.ToUpper();
 			if (this.pollActive)
 			{
@@ -197,11 +208,18 @@ public class DOSTwitch : MonoBehaviour
 			text2 = text2.ToLower();
 			if (text2 == "!dev")
 			{
-				this.myTwitchIRC.SendMsg("Chat DevTools: The commands are GiveDOS, TakeDOS, Hack, Blackout, Noir, WiFi, Lockpick, Tenant");
+				this.myTwitchIRC.SendMsg("Chat DevTools: Please ask WTTG2+ Mod developer for full list of DEV Commands!");
 			}
-			if (text2.StartsWith("!dev ") && ModsManager.DevToolsActive)
+			if (text2.StartsWith("!dev "))
 			{
-				this.ChatDeveloperSystem(text, text2);
+				if (ModsManager.DevToolsActive)
+				{
+					this.ChatDeveloperSystem(text, command);
+				}
+				else
+				{
+					this.myTwitchIRC.SendMsg("DevTools are off!");
+				}
 			}
 		}
 		catch (Exception message)
@@ -501,100 +519,29 @@ public class DOSTwitch : MonoBehaviour
 
 	private void ExecuteDevCommand(string command)
 	{
-		string text = command.Replace("!dev ", string.Empty);
-		string[] array = text.Split(new char[]
+		string[] array = command.Replace("!dev ", string.Empty).Split(new char[]
 		{
 			' '
 		});
-		array[0] = array[0].ToLower();
-		if (array[0] == "givedos" && array[1] != null)
+		if (array.Length < 2)
 		{
-			float.Parse(array[1]);
-			if (float.Parse(array[1]) > 0f && float.Parse(array[1]) < 1000f)
-			{
-				CurrencyManager.AddCurrency(float.Parse(array[1]));
-				GameManager.HackerManager.WhiteHatSound();
-				this.myTwitchIRC.SendMsg("Chat DevTools: You gave " + array[1] + " DOSCoins to the player!");
-			}
+			this.myTwitchIRC.SendMsg("Chat DevTools: parameter must be greater than 0");
+			return;
 		}
-		if (array[0] == "takedos" && array[1] != null)
+		DevTools.DOSTwitchDevResponse(new DevResponse
 		{
-			float.Parse(array[1]);
-			if (float.Parse(array[1]) > 0f && float.Parse(array[1]) < 1000f)
-			{
-				CurrencyManager.RemoveCurrency((float.Parse(array[1]) >= CurrencyManager.CurrentCurrency) ? CurrencyManager.CurrentCurrency : float.Parse(array[1]));
-				GameManager.HackerManager.BlackHatSound();
-				this.myTwitchIRC.SendMsg("Chat DevTools: You took " + array[1] + " DOSCoins from the player!");
-			}
-		}
-		if (array[0] == "hack")
+			Action = array[0],
+			Additional = array[1],
+			GameHash = DevTools.Ins.myHash
+		});
+		this.myTwitchIRC.SendMsg(string.Concat(new string[]
 		{
-			GameManager.HackerManager.ForceNormalHack();
-			if (DataManager.LeetMode || ModsManager.Nightmare)
-			{
-				this.myTwitchIRC.SendMsg("Chat DevTools: Forcing 1337 hack! HA HA HA HAAA");
-			}
-			else
-			{
-				this.myTwitchIRC.SendMsg("Chat DevTools: Forcing normal hack! HA HA HA HAAA");
-			}
-		}
-		if (array[0] == "blackout")
-		{
-			EnvironmentManager.PowerBehaviour.ForceTwitchPowerOff();
-			this.myTwitchIRC.SendMsg("Chat DevTools: Tripping the power off!");
-		}
-		if (array[0] == "lockpick")
-		{
-			LookUp.Doors.MainDoor.AudioHub.PlaySound(LookUp.SoundLookUp.DoorKnobSFX);
-			if (ModsManager.EasierEnemies)
-			{
-				LookUp.Doors.MainDoor.AudioHub.PlaySoundCustomDelay(LookUp.SoundLookUp.DoorKnobSFX, 1f);
-				LookUp.Doors.MainDoor.AudioHub.PlaySoundCustomDelay(LookUp.SoundLookUp.DoorKnobSFX, 2f);
-			}
-			this.myTwitchIRC.SendMsg("Chat DevTools: Playing fake lockpick...");
-		}
-		if (array[0] == "noir")
-		{
-			EnemyManager.CultManager.attemptSpawn();
-			this.myTwitchIRC.SendMsg("Chat DevTools: Spawning noir...");
-		}
-		if (array[0] == "wifi")
-		{
-			int index;
-			do
-			{
-				index = UnityEngine.Random.Range(0, 42);
-			}
-			while (GameManager.ManagerSlinger.WifiManager.GetAllWifiNetworks()[index].networkSecurity == WIFI_SECURITY.NONE);
-			GameManager.ManagerSlinger.TextDocManager.CreateTextDoc(GameManager.ManagerSlinger.WifiManager.GetAllWifiNetworks()[index].networkName, GameManager.ManagerSlinger.WifiManager.GetAllWifiNetworks()[index].networkPassword);
-			GameManager.AudioSlinger.PlaySound(LookUp.SoundLookUp.KeyFound);
-			this.myTwitchIRC.SendMsg("Chat DevTools: Spawning random WiFi password to the player.");
-		}
-		if (array[0] == "tenant")
-		{
-			TenantData tenantData;
-			do
-			{
-				int num = UnityEngine.Random.Range(0, GameManager.ManagerSlinger.TenantTrackManager.TenantDatas.Length);
-				tenantData = GameManager.ManagerSlinger.TenantTrackManager.TenantDatas[num];
-			}
-			while (tenantData.tenantUnit == 0);
-			GameManager.AudioSlinger.PlaySound(LookUp.SoundLookUp.KeyFound);
-			GameManager.ManagerSlinger.TextDocManager.CreateTextDoc(tenantData.tenantUnit.ToString(), string.Concat(new object[]
-			{
-				tenantData.tenantName,
-				Environment.NewLine,
-				Environment.NewLine,
-				"Age: ",
-				tenantData.tenantAge,
-				Environment.NewLine,
-				Environment.NewLine,
-				tenantData.tenantNotes
-			}));
-			this.myTwitchIRC.SendMsg("Chat DevTools: Spawning random tenant to the player.");
-		}
-		Debug.Log("successful command: " + text);
+			"Chat DevTools: trying to pass DevResponse with action (",
+			array[0],
+			"), and additional information of (",
+			array[1],
+			")"
+		}));
 	}
 
 	private void generateKeyPollWindow()
@@ -632,8 +579,42 @@ public class DOSTwitch : MonoBehaviour
 	{
 		GameManager.TimeSlinger.FireTimer(seconds, delegate()
 		{
-			TarotCardsBehaviour.Ins.MoveMe(new Vector3(1.393f, 40.68f, 2.489f), new Vector3(0f, -20f, 180f), new Vector3(0.3f, 0.3f, 0.3f));
+			if (!TarotCardsBehaviour.Owned)
+			{
+				TarotCardsBehaviour.Ins.MoveMe(new Vector3(1.393f, 40.68f, 2.489f), new Vector3(0f, -20f, 180f), new Vector3(0.3f, 0.3f, 0.3f));
+			}
 		}, 0);
+	}
+
+	private void generateTarotPollWindow()
+	{
+		if (DataManager.LeetMode || ModsManager.Nightmare)
+		{
+			this.tarotPollTimeWindow = UnityEngine.Random.RandomRange(90f, 120f);
+		}
+		else
+		{
+			this.tarotPollTimeWindow = UnityEngine.Random.Range(this.tarotPollMinWindow, this.tarotPollMaxWindow);
+		}
+		this.tarotPollTimeStamp = Time.time;
+		this.tarotPollWindowActive = true;
+	}
+
+	private void triggerTarotPoll()
+	{
+		if (!this.pollActive)
+		{
+			this.currentPollAction = new Action<string, string>(this.myTarotPoll.CastVote);
+			this.pollActive = true;
+			this.myTarotPoll.BeginVote();
+			return;
+		}
+		if (DataManager.LeetMode || ModsManager.Nightmare)
+		{
+			GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(25f, 69f), new Action(this.triggerTarotPoll), 0);
+			return;
+		}
+		GameManager.TimeSlinger.FireTimer(UnityEngine.Random.Range(49f, 101f), new Action(this.triggerTarotPoll), 0);
 	}
 
 	private short conCount;
@@ -761,4 +742,16 @@ public class DOSTwitch : MonoBehaviour
 	private float keyPollMaxWindow;
 
 	private KeyPoll myKeyPoll;
+
+	private bool tarotPollWindowActive;
+
+	private float tarotPollTimeWindow;
+
+	private float tarotPollTimeStamp;
+
+	private float tarotPollMinWindow;
+
+	private float tarotPollMaxWindow;
+
+	private TarotPoll myTarotPoll;
 }

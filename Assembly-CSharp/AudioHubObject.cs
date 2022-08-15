@@ -24,6 +24,10 @@ public class AudioHubObject : MonoBehaviour
 
 	public void PlaySound(AudioFileDefinition AudioFile)
 	{
+		if (TarotManager.DeafActive)
+		{
+			return;
+		}
 		SoundObject soundObject = this.soundObjectsPool.Pop();
 		List<SoundObject> list;
 		if (!this.mySoundObjects.TryGetValue(AudioFile.AudioClip, out list))
@@ -43,6 +47,10 @@ public class AudioHubObject : MonoBehaviour
 
 	public void PlaySoundWithWildPitch(AudioFileDefinition AudioFile, float MinLevel, float MaxLevel)
 	{
+		if (TarotManager.DeafActive)
+		{
+			return;
+		}
 		SoundObject soundObject = this.soundObjectsPool.Pop();
 		List<SoundObject> list;
 		if (!this.mySoundObjects.TryGetValue(AudioFile.AudioClip, out list))

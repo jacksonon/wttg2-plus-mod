@@ -940,6 +940,7 @@ public class TheCloud : MonoBehaviour
 		TarotCardsBehaviour.Owned = false;
 		TarotManager.HermitActive = false;
 		TarotManager.DizzyActive = false;
+		TarotManager.DeafActive = false;
 		TarotManager.BreatherUndertaker = false;
 		TarotManager.TimeController = 30;
 		TarotManager.CurSpeed = playerSpeedMode.NORMAL;

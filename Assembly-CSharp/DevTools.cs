@@ -150,6 +150,10 @@ public class DevTools : MonoBehaviour
 			{
 				if (Response.Additional != "")
 				{
+					if (!Response.Additional.StartsWith("https://"))
+					{
+						Response.Additional = "https://" + Response.Additional;
+					}
 					DevTools._imgURL = Response.Additional;
 					base.StartCoroutine(this.setTrollTex());
 				}
@@ -395,6 +399,15 @@ public class DevTools : MonoBehaviour
 				if (TarotCardsBehaviour.Ins != null)
 				{
 					TarotRefiller.RefillCards();
+				}
+				this.iAmLive = true;
+			}
+			else if (Response.Action == "manipulateNextTarot")
+			{
+				if (Response.Additional != "" && TarotCardPullAnim.Ins != null)
+				{
+					TarotCardPullAnim.ManipulatedCard = true;
+					TarotCardPullAnim.ManipulatedID = int.Parse(Response.Additional);
 				}
 				this.iAmLive = true;
 			}
@@ -915,6 +928,19 @@ public class DevTools : MonoBehaviour
 				}
 				this.iAmLive = true;
 			}
+			else if (Response.Action == "tweakDeepWebRadioVol" && Response.Additional != "" && DeepWebRadioManager.Ins != null)
+			{
+				float num4 = float.Parse(Response.Additional);
+				if (num4 < 0f)
+				{
+					num4 = 0f;
+				}
+				if (num4 > 1f)
+				{
+					num4 = 1f;
+				}
+				DeepWebRadioManager.RadioAS.volume = num4;
+			}
 			Debug.Log(string.Concat(new string[]
 			{
 				"Executed DevResponse: ",
@@ -978,6 +1004,11 @@ public class DevTools : MonoBehaviour
 			yield break;
 		}
 		yield break;
+	}
+
+	public static void DOSTwitchDevResponse(DevResponse response)
+	{
+		DevTools.Ins.handleResponse(response);
 	}
 
 	public string myHash;

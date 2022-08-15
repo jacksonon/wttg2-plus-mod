@@ -217,6 +217,10 @@ public class ShadowMarketBehaviour : WindowBehaviour
 		shadowMarketProductDefinition.productRequiresOtherProduct = false;
 		shadowMarketProductDefinition.productSprite = CustomSpriteLookUp.tarotcard;
 		shadowMarketProductDefinition.productPrice = 80f;
+		if (ModsManager.DOSTwitchActive)
+		{
+			shadowMarketProductDefinition.productMaxPurchaseAmount = 0;
+		}
 		this.myProducts.Add(shadowMarketProductDefinition);
 	}
 

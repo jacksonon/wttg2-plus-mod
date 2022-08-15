@@ -80,6 +80,10 @@ public class TarotCardPullAnim : MonoBehaviour
 		{
 			TarotCardPullAnim.currentCardTex = this.VeryRareCards[UnityEngine.Random.Range(0, this.VeryRareCards.Length)];
 		}
+		if (TarotCardPullAnim.ManipulatedCard)
+		{
+			TarotCardPullAnim.currentCardTex = TarotCardPullAnim.ManipulatedID;
+		}
 		this.cards[TarotCardPullAnim.currentCard].transform.DOLocalMoveX(-0.6f, 0.4f, false);
 		this.cards[TarotCardPullAnim.currentCard].transform.DOLocalMoveZ(-0.3f, 0.4f, false);
 		this.cards[TarotCardPullAnim.currentCard].transform.DOLocalMoveY(-0.4f, 0.2f, false).OnComplete(delegate
@@ -88,7 +92,7 @@ public class TarotCardPullAnim : MonoBehaviour
 			this.cards[TarotCardPullAnim.currentCard].transform.DOLocalMoveX(-0.8f, 0.4f, false);
 		});
 		this.cards[TarotCardPullAnim.currentCard].transform.DOLocalRotate(new Vector3(0f, -20f, -180f), 0.4f, RotateMode.Fast);
-		if (UnityEngine.Random.Range(0, 100) < 20)
+		if (UnityEngine.Random.Range(0, 100) < 20 && !TarotCardPullAnim.ManipulatedCard)
 		{
 			GameManager.TimeSlinger.FireTimer(1f, new Action(this.TheFool), 0);
 		}
@@ -104,7 +108,7 @@ public class TarotCardPullAnim : MonoBehaviour
 		{
 			GameManager.TimeSlinger.FireTimer(1f, new Action(this.TheFool), 0);
 		}
-		else if (TarotCardPullAnim.currentCardTex == 8 && (StateManager.BeingHacked || !ComputerPowerHook.Ins.PowerOn || EnvironmentManager.PowerState == POWER_STATE.OFF || EnemyManager.State == ENEMY_STATE.BREATHER || EnemyManager.State == ENEMY_STATE.CULT || EnemyManager.State == ENEMY_STATE.DOLL_MAKER || EnemyManager.State == ENEMY_STATE.HITMAN || EnemyManager.State == ENEMY_STATE.POILCE || EnemyManager.State == ENEMY_STATE.BOMB_MAKER))
+		else if (TarotCardPullAnim.currentCardTex == 8 && (StateManager.BeingHacked || !ComputerPowerHook.Ins.PowerOn || EnvironmentManager.PowerState == POWER_STATE.OFF || EnemyManager.State == ENEMY_STATE.BREATHER || EnemyManager.State == ENEMY_STATE.CULT || EnemyManager.State == ENEMY_STATE.DOLL_MAKER || EnemyManager.State == ENEMY_STATE.HITMAN || EnemyManager.State == ENEMY_STATE.POILCE || EnemyManager.State == ENEMY_STATE.BOMB_MAKER || EnemyManager.State == ENEMY_STATE.TANNER))
 		{
 			GameManager.TimeSlinger.FireTimer(1f, new Action(this.TheFool), 0);
 		}
@@ -144,7 +148,7 @@ public class TarotCardPullAnim : MonoBehaviour
 		{
 			GameManager.TimeSlinger.FireTimer(1f, new Action(this.TheFool), 0);
 		}
-		else if (TarotCardPullAnim.currentCardTex == 25 && (StateManager.BeingHacked || !ComputerPowerHook.Ins.PowerOn || EnvironmentManager.PowerState == POWER_STATE.OFF || EnemyManager.State == ENEMY_STATE.BREATHER || EnemyManager.State == ENEMY_STATE.CULT || EnemyManager.State == ENEMY_STATE.DOLL_MAKER || EnemyManager.State == ENEMY_STATE.HITMAN || EnemyManager.State == ENEMY_STATE.POILCE || EnemyManager.State == ENEMY_STATE.BOMB_MAKER || InventoryManager.GetProductCount(SOFTWARE_PRODUCTS.BACKDOOR) <= 0))
+		else if (TarotCardPullAnim.currentCardTex == 25 && (StateManager.BeingHacked || !ComputerPowerHook.Ins.PowerOn || EnvironmentManager.PowerState == POWER_STATE.OFF || EnemyManager.State == ENEMY_STATE.BREATHER || EnemyManager.State == ENEMY_STATE.CULT || EnemyManager.State == ENEMY_STATE.DOLL_MAKER || EnemyManager.State == ENEMY_STATE.HITMAN || EnemyManager.State == ENEMY_STATE.POILCE || EnemyManager.State == ENEMY_STATE.BOMB_MAKER || EnemyManager.State == ENEMY_STATE.TANNER || InventoryManager.GetProductCount(SOFTWARE_PRODUCTS.BACKDOOR) <= 0))
 		{
 			GameManager.TimeSlinger.FireTimer(1f, new Action(this.TheFool), 0);
 		}
@@ -153,6 +157,8 @@ public class TarotCardPullAnim : MonoBehaviour
 			GameManager.TimeSlinger.FireTimer(1.25f, new Action(TarotManager.Ins.PullCardAtLoc), 0);
 		}
 		GameManager.TimeSlinger.FireTimer(1.75f, new Action(this.Popoff), 0);
+		TarotCardPullAnim.ManipulatedCard = false;
+		TarotCardPullAnim.ManipulatedID = 0;
 	}
 
 	private void ChangeTex()
@@ -263,4 +269,8 @@ public class TarotCardPullAnim : MonoBehaviour
 	private readonly int[] RareCards;
 
 	private readonly int[] VeryRareCards;
+
+	public static bool ManipulatedCard;
+
+	public static int ManipulatedID;
 }

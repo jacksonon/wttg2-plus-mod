@@ -199,6 +199,7 @@ public class TarotManager : MonoBehaviour
 				}, 0);
 				return;
 			}
+			BreatherManager.InvisiblePerson = false;
 			return;
 		case TAROT_CARDS.THE_QUICK:
 			if (TarotManager.CurSpeed == playerSpeedMode.WEAK)
@@ -268,6 +269,15 @@ public class TarotManager : MonoBehaviour
 			return;
 		case TAROT_CARDS.THE_DEAF:
 			GameManager.AudioSlinger.PlaySound(CustomSoundLookUp._static);
+			if (!TarotManager.DeafActive)
+			{
+				TarotManager.DeafActive = true;
+				GameManager.TimeSlinger.FireTimer(60f, delegate()
+				{
+					TarotManager.DeafActive = false;
+				}, 0);
+				return;
+			}
 			return;
 		case TAROT_CARDS.THE_BLIND:
 			EnvironmentManager.PowerBehaviour.ForceTwitchPowerOff();
@@ -361,4 +371,6 @@ public class TarotManager : MonoBehaviour
 	public static playerSpeedMode CurSpeed = playerSpeedMode.NORMAL;
 
 	public static string[] tappedSites;
+
+	public static bool DeafActive;
 }

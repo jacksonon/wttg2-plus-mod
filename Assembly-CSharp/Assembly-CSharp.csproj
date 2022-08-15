@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9AFDAEFC-1977-4B93-BC6D-C8E197F69286}</ProjectGuid>
+    <ProjectGuid>{2444CD87-A1A4-4626-941B-2FAF257E74D1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Assembly-CSharp</RootNamespace>
@@ -731,6 +731,7 @@
     <Compile Include="TarotCardPullAnim.cs" />
     <Compile Include="TarotCardsBehaviour.cs" />
     <Compile Include="TarotManager.cs" />
+    <Compile Include="TarotPoll.cs" />
     <Compile Include="TarotRefiller.cs" />
     <Compile Include="TAROT_CARDS.cs" />
     <Compile Include="TenantData.cs" />
